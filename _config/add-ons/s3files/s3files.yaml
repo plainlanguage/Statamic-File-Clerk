@@ -1,0 +1,20 @@
+# Your AWS Access Key
+aws_access_key:
+
+# Your AWS Secret Key
+aws_secret_key:
+
+# Custom AWS Domain? (CNAME). Leave this empty if you are not using a custom domain.
+custom_domain:
+
+# The name of the S3 Bucket
+bucket:
+
+# The folder/path to upload the file. Leave empty if uploading into bucket root.
+folder:
+
+# Define the file types that can be uploaded. [array] Not required.
+content_type:
+
+# Access for the uploaded file. Either 'private' or 'public-read'. Required.
+access:
