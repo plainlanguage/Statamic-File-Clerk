@@ -1,8 +1,8 @@
 # Your AWS Access Key
-aws_access_key:
+aws_access_key: 1
 
 # Your AWS Secret Key
-aws_secret_key:
+aws_secret_key: 2
 
 # Custom AWS Domain? (CNAME). Leave this empty if you are not using a custom domain.
 custom_domain:
