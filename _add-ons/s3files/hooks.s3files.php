@@ -64,19 +64,17 @@ class Hooks_s3files extends Hooks
 			$filesize	= $file['size'];
 			$fileError	= $file['error'];
 
-			// Set the full path of the uploaded file to use in setSource
-			$handle = $tmp_name;
+			$handle = $tmp_name; // Set the full path of the uploaded file to use in setSource
+			$filename = File::cleanFilename($filename); // Clean Filename
 
-			// Clean Filename
-			$filename = File::cleanFilename($filename);
-
+			// Add-on settings
 			$bucket = $this->config['bucket'];
 			$directory = $this->config['folder'];
-
 			$customDomain = $this->config['custom_domain'];
+			$setAcl = $this->config['permissions'];
 
 			// Is a custom domain set in the config?
-			if(!$customDomain)
+			if(isset($customDomain))
 			{
 				$fullPath = URL::tidy('http://'.$bucket.'.s3.amazonaws.com'.'/'.$directory.'/'.$filename);
 			}
@@ -91,7 +89,7 @@ class Hooks_s3files extends Hooks
 				->setBucket($bucket)
 				->setKey(URL::tidy('/'.$directory.'/'.$filename))
 				->setOption('CacheControl', 'max-age=3600')
-				->setOption('ACL', CannedAcl::PUBLIC_READ)
+				->setOption('ACL', isset($setAcl) ? $setAcl : CannedAcl::PUBLIC_READ)
 				->setOption('ContentType', $filetype)
 				->setConcurrency(3)
 				->build();

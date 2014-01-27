@@ -16,5 +16,10 @@ folder:
 # Define the file types that can be uploaded. [array] Not required.
 content_type:
 
-# Access for the uploaded file. Either 'private' or 'public-read'. Required.
-access:
+# Access for the uploaded file. Required.
+# Options include:
+# - private
+# - public-read
+# - public-read-write
+# - authenticated-read
+permissions:
