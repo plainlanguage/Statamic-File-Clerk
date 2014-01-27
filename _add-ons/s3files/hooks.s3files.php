@@ -30,7 +30,7 @@ class Hooks_s3files extends Hooks
 		// Get the necessary support .js
 		if (URL::getCurrent(false) == '/publish') {
 			$html = $this->js->link(array(
-				's3files.js'
+				's3files.min.js'
 			));
 			return $html;
 		}
@@ -70,11 +70,20 @@ class Hooks_s3files extends Hooks
 			// Clean Filename
 			$filename = File::cleanFilename($filename);
 
-			$bucket = $this->config['bucket'];
-			$directory = $this->config['folder'];
+			$bucket = URL::tidy($this->config['bucket']);
+			$directory = URL::tidy($this->config['folder']);
+
+			$customDomain = $this->config['custom_domain'];
 
 			// Is a custom domain set in the config?
-			$fullPath = 'http://'.$bucket.'.s3.amazonaws.com'.$directory.$filename;
+			if(!$customDomain)
+			{
+				$fullPath = 'http://'.$bucket.'.s3.amazonaws.com'.$directory.$filename;
+			}
+			else
+			{
+				$fullPath = 'http://'.$bucket.'.s3.amazonaws.com'.$directory.$filename;
+			}
 
 			$uploader = UploadBuilder::newInstance()
 				->setClient($this->client)
@@ -119,7 +128,7 @@ class Hooks_s3files extends Hooks
 	// -------------------------------------------------------------------------------
 	// Function - s3files Ajax Upload
 	// -------------------------------------------------------------------------------
-	public function s3files__ajaxupload()
+	public function s3files__ajaxupload() //This can be accessed as a URL via /TRIGGER/s3files/ajaxupload
 	{
 		$this->tasks->ajaxUpload();
 	}

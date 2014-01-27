@@ -26,13 +26,23 @@ class Fieldtype_s3files extends Fieldtype {
 		);
 
 		$html = "<div class='s3files file-field-container'>";
+			if ($this->field_data)
+			{
+			$html .= "<div class='result'>";
+				$html .= "<p><span class='filename-display'>".basename($attributes['value'])."</span></p>";
+				$html .= "<a class='btn btn-small btn-remove-s3file' href='#'>Remove</a>";
+				$html .= "<input type='hidden' id='successful-upload' name='{$attributes['name']}' type='text' value='{$attributes['value']}'>";
+			$html .= "</div>";
+			}
+			else
+			{
 			$html .= "<input id='postUrl' name='postUrl' type='hidden' value='{$attributes['action']}'>";
-			$html .= "<div class='fileinput clearfix'>";
-				$html .= "<input id='fileupload' type='file' name='files'>";
-				$html .= "<button class='btn' id='doit'>Upload</button>";
+			$html .= "<div class='fileinput'>";
+				$html .= "<p><input id='fileupload' type='file' name='files' tabindex='{$this->tabindex}'></p>";
+				$html .= "<button class='btn btn-small is-hidden' id='doit'>Upload</button>";
 			$html .= "</div>";
 			$html .= "<div class='progress is-hidden'>";
-				$html .= "<div class='progress-filename'>";
+				$html .= "<div class='progress-filename clearfix'>";
 					$html .= "<p>Uploading&hellip;</p>";
 				$html .= "</div>";
 				$html .= "<div class='progress-bar clearfix'>";
@@ -41,8 +51,9 @@ class Fieldtype_s3files extends Fieldtype {
 				$html .= "</div>";
 			$html .= "</div>";
 			$html .= "<div class='result'>";
-				$html .= "<input id='successful-upload' name='{$attributes['name']}' type='text' value='{$attributes['value']}'>";
+				$html .= "<input type='hidden' id='successful-upload' name='{$attributes['name']}' type='text' value=''>";
 			$html .= "</div>";
+			}
 		$html .= "</div>";
 
 		return $html;

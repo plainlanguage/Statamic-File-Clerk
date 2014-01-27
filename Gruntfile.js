@@ -21,7 +21,6 @@ module.exports = function(grunt) {
 			},
 			dist: {
 				src: [
-				//'_add-ons/s3files/js/vendor/*.js',
 				'_add-ons/s3files/js/s3files.js'
 				],
 				dest: '_add-ons/s3files/js/s3files.min.js'
@@ -80,30 +79,43 @@ module.exports = function(grunt) {
 			}
 		},
 		watch: {
-			options: { livereload: true },
-			css: {
-				files: ['_add-ons/s3files/scss/**'],
-				tasks: ['sass']
+			options: {
+				livereload: true
 			},
 			scripts: {
-				files: ['!_add-ons/s3files/js/s3files.min.js', '_add-ons/s3files/js/**'],
-				tasks: ['jshint', 'concat', 'uglify']
+				files: ['!_add-ons/s3files/js/s3files.min.js', '_add-ons/s3files/js/**/*.js'],
+				tasks: ['jshint', 'concat', 'uglify', 'sync'],
+				options: {
+					spawn: false
+				}
+			},
+			scss: {
+				files: ['_add-ons/s3files/scss/**/*.scss'],
+				tasks: ['sass', 'sync'],
+				options: {
+					livereload: false
+				}
+			},
+			css: {
+				files: ['_add-ons/s3files/css/**/*.css'],
+				tasks: ['sync']
 			},
 			php: {
-				files: ['_add-ons/s3files/**/*.*'],
+				files: ['_add-ons/s3files/**/*.php'],
 				tasks: ['sync']
 			}
 		}
 	});
 
+grunt.loadNpmTasks('grunt-contrib-watch');
 grunt.loadNpmTasks('grunt-contrib-concat');
 grunt.loadNpmTasks('grunt-contrib-uglify');
 grunt.loadNpmTasks('grunt-contrib-jshint');
 grunt.loadNpmTasks('grunt-contrib-sass');
-grunt.loadNpmTasks('grunt-contrib-watch');
 grunt.loadNpmTasks('grunt-sync');
 
 // Default task.
+grunt.registerTask('dev', ['watch']);
 grunt.registerTask('default', ['jshint', 'concat', 'sass', 'uglify', 'sync']);
 
 };

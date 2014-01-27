@@ -11,6 +11,7 @@ $(function () {
 	{
 		files = event.target.files;
 		console.log(files);
+		$('#doit').removeClass('is-hidden');
 	}
 
 	// Run uploadFiles on click
@@ -94,5 +95,14 @@ $(function () {
 		event.wrap('<form>').parent('form').trigger('reset');
 		event.unwrap();
 	}
+
+	// Funciton - removeFileReference
+	function removeFileReference (event) {
+		event.preventDefault();
+		$('#successful-upload').val(''); // Empty out hidden field w/ url
+		$('.filename-display').html(''); // Empty display filename
+	}
+
+	$('.btn-remove-s3file').click(removeFileReference);
 
 });

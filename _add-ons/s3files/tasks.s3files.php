@@ -21,11 +21,6 @@ class Tasks_s3files extends Tasks
 			return true;
 			Log::info('Boom');
 		}
-		else
-		{
-			return false;
-			echo 'Nah, son.';
-		}
 	}
 
 }
