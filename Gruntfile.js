@@ -29,7 +29,7 @@ module.exports = function(grunt) {
 		},
 		uglify: {
 			options: {
-				banner: '<%= banner %>',
+				//banner: '<%= banner %>',
 				preserveComments: 'some'
 			},
 			dist: {
@@ -68,6 +68,17 @@ module.exports = function(grunt) {
 				}
 			}
 		},
+		sync: {
+			main: {
+				files: [
+					{
+						cwd: '_add-ons/s3files/',
+						src: '**',
+						dest: '/Users/chad/Sites/personal/sandbox.statamic.dev/httpdocs/_add-ons/s3files/'
+					}
+				]
+			}
+		},
 		watch: {
 			options: { livereload: true },
 			css: {
@@ -77,6 +88,10 @@ module.exports = function(grunt) {
 			scripts: {
 				files: ['!_add-ons/s3files/js/s3files.min.js', '_add-ons/s3files/js/**'],
 				tasks: ['jshint', 'concat', 'uglify']
+			},
+			php: {
+				files: ['_add-ons/s3files/**/*.*'],
+				tasks: ['sync']
 			}
 		}
 	});
@@ -86,8 +101,9 @@ grunt.loadNpmTasks('grunt-contrib-uglify');
 grunt.loadNpmTasks('grunt-contrib-jshint');
 grunt.loadNpmTasks('grunt-contrib-sass');
 grunt.loadNpmTasks('grunt-contrib-watch');
+grunt.loadNpmTasks('grunt-sync');
 
-  // Default task.
-  grunt.registerTask('default', ['jshint', 'concat', 'sass', 'uglify']);
+// Default task.
+grunt.registerTask('default', ['jshint', 'concat', 'sass', 'uglify', 'sync']);
 
 };

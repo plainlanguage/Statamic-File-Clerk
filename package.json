@@ -1,24 +1,17 @@
 {
-  "name": "S3-files",
-  "version": "0.0.1",
-  "description": "Simple Amazon S3 file upload for Statamic",
-  "author": "Chad Clark",
-  "homepage": "http://chadjclark.com",
-  "main": "Gruntfile.js",
-  "devDependencies": {
-    "grunt": "~0.4.1",
-    "grunt-contrib-concat": "~0.3.0",
-    "grunt-contrib-uglify": "~0.2.2",
-    "grunt-contrib-jshint": "~0.6.0",
-    "grunt-contrib-watch": "~0.4.4",
-    "grunt-contrib-sass": "~0.5.0"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "ssh://git@bitbucket.org/chadclark/s3-files.git"
-  },
-  "license": "ISC"
+	"name": "s3-files",
+	"version": "0.0.1",
+	"description": "A simple Amazon S3 add-on for Statamic",
+	"main": "Gruntfile.js",
+	"author": "Chad Clark",
+	"homepage": "http://chadjclark.com",
+	"devDependencies": {
+		"grunt": "~0.4.1",
+		"grunt-contrib-concat": "~0.3.0",
+		"grunt-contrib-uglify": "~0.2.2",
+		"grunt-contrib-jshint": "~0.6.0",
+		"grunt-contrib-watch": "~0.4.4",
+		"grunt-contrib-sass": "~0.5.0",
+		"grunt-sync": "~0.0.5"
+	}
 }

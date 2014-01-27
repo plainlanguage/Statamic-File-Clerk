@@ -1,4 +1,4 @@
 # S3 Files
-## Simple Amazon S3 file upload for Statamic
+## A simple Amazon S3 add-on for Statamic
 
 Documentation: Coming soon.
