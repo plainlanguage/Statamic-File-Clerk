@@ -70,26 +70,26 @@ class Hooks_s3files extends Hooks
 			// Clean Filename
 			$filename = File::cleanFilename($filename);
 
-			$bucket = URL::tidy($this->config['bucket']);
-			$directory = URL::tidy($this->config['folder']);
+			$bucket = $this->config['bucket'];
+			$directory = $this->config['folder'];
 
 			$customDomain = $this->config['custom_domain'];
 
 			// Is a custom domain set in the config?
 			if(!$customDomain)
 			{
-				$fullPath = 'http://'.$bucket.'.s3.amazonaws.com'.$directory.$filename;
+				$fullPath = URL::tidy('http://'.$bucket.'.s3.amazonaws.com'.'/'.$directory.'/'.$filename);
 			}
 			else
 			{
-				$fullPath = 'http://'.$bucket.'.s3.amazonaws.com'.$directory.$filename;
+				$fullPath = URL::tidy('http://'.$customDomain.'/'.$directory.'/'.$filename);
 			}
 
 			$uploader = UploadBuilder::newInstance()
 				->setClient($this->client)
 				->setSource($handle)
 				->setBucket($bucket)
-				->setKey($directory.$filename)
+				->setKey(URL::tidy('/'.$directory.'/'.$filename))
 				->setOption('CacheControl', 'max-age=3600')
 				->setOption('ACL', CannedAcl::PUBLIC_READ)
 				->setOption('ContentType', $filetype)

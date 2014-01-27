@@ -4,10 +4,10 @@ aws_access_key:
 # Your AWS Secret Key
 aws_secret_key:
 
-# Custom AWS Domain? (CNAME). Leave this empty if you are not using a custom domain.
+# Custom AWS Domain? (CNAME). Leave this empty if you are not using a custom domain. Do not include http:// or trailing slash.
 custom_domain:
 
-# The name of the S3 Bucket
+# The name of the S3 Bucket. Do not include trailing slash.
 bucket:
 
 # The folder/path to upload the file. Leave empty if uploading into bucket root.
