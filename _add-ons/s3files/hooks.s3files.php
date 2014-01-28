@@ -74,13 +74,13 @@ class Hooks_s3files extends Hooks
 			$setAcl = $this->config['permissions'];
 
 			// Is a custom domain set in the config?
-			if(isset(!$customDomain))
+			if(isset($customDomain))
 			{
-				$fullPath = URL::tidy('http://'.$bucket.'.s3.amazonaws.com'.'/'.$directory.'/'.$filename);
+				$fullPath = URL::tidy('http://'.$customDomain.'/'.$directory.'/'.$filename);
 			}
 			else
 			{
-				$fullPath = URL::tidy('http://'.$customDomain.'/'.$directory.'/'.$filename);
+				$fullPath = URL::tidy('http://'.$bucket.'.s3.amazonaws.com'.'/'.$directory.'/'.$filename);
 			}
 
 			$uploader = UploadBuilder::newInstance()
