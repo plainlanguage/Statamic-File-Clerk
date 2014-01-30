@@ -29,17 +29,17 @@ $(function () {
 	// Variable to store files
 	var files;
 
-	$('.s3files #fileupload').on('change', prepareUpload);
+	$('.s3files .fileupload').on('change', prepareUpload);
 
 	function prepareUpload(event)
 	{
 		files = event.target.files;
 		console.log(files);
-		$('#doit').removeClass('is-hidden');
+		$('.do-upload').removeClass('is-hidden');
 	}
 
 	// Run uploadFiles on click
-	$('.s3files #doit').click(uploadFiles);
+	$('.s3files .do-upload').click(uploadFiles);
 
 	// Function - uploadFiles
 	function uploadFiles(event)
@@ -56,7 +56,7 @@ $(function () {
 		});
 
 		$.ajax({
-			url: $('.s3files #postUrl').val(),
+			url: $('.s3files .postUrl').val(),
 			type: 'POST',
 			data: data,
 			cache: false,
@@ -83,11 +83,11 @@ $(function () {
 					//submitForm(event, data);
 					console.log(data.success);
 					console.log('URL: ' + data.fullpath);
-					resetFormElement( $('#fileupload') ); // run the reset_form_element function to empty out the initial file upload so it doesn't run again on the actual form submit
+					resetFormElement( $('.fileupload') ); // run the reset_form_element function to empty out the initial file upload so it doesn't run again on the actual form submit
 					$('progress').removeClass('uploading');
 					$('.progress-filename p').html('Upload complete. <strong>' + data.filename +'</strong> was uploaded successfully.'); // Change uploading text to success
 					$('.progress-bar').addClass('is-hidden'); //Hide progress bar when a file is succesfully uploaded.
-					$('.result input#successful-upload').val(data.fullpath);
+					$('.result input.successful-upload').val(data.fullpath);
 				}
 				else
 				{

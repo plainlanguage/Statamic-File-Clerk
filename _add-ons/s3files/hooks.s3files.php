@@ -74,7 +74,7 @@ class Hooks_s3files extends Hooks
 			$setAcl = $this->config['permissions'];
 
 			// Is a custom domain set in the config?
-			if(isset($customDomain))
+			if($customDomain)
 			{
 				$fullPath = URL::tidy('http://'.$customDomain.'/'.$directory.'/'.$filename);
 			}
@@ -89,7 +89,7 @@ class Hooks_s3files extends Hooks
 				->setBucket($bucket)
 				->setKey(URL::tidy('/'.$directory.'/'.$filename))
 				->setOption('CacheControl', 'max-age=3600')
-				->setOption('ACL', isset($setAcl) ? $setAcl : CannedAcl::PUBLIC_READ)
+				->setOption('ACL', $setAcl ? $setAcl : CannedAcl::PUBLIC_READ)
 				->setOption('ContentType', $filetype)
 				->setConcurrency(3)
 				->build();
