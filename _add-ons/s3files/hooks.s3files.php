@@ -30,7 +30,7 @@ class Hooks_s3files extends Hooks
 		// Get the necessary support .js
 		if (URL::getCurrent(false) == '/publish') {
 			$html = $this->js->link(array(
-				's3files.min.js'
+				's3files.js'
 			));
 			return $html;
 		}
