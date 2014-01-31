@@ -67,11 +67,65 @@ $(function () {
 			event.stopPropagation(); // Stop stuff from happening
 			event.preventDefault(); // Really make sure stuff isn't happening
 
+			var files;
+
 			var input = $(this).closest('.s3files').find('.file-upload');
 			var postUrl = $(this).closest('.s3files').find('.postUrl').val();
 
 			// Create a formdata object and add the file
-			var data = new FormData(files);
+			var data = new FormData();
+			$.each(files, function(key, value)
+			{
+				data.append(key, value);
+			});
+
+			$.ajax({
+				url: 'postUrl',
+				type: 'POST',
+				data: data,
+				cache: false,
+				dataType: 'JSON',
+				xhr: function() {
+					var myXhr = $.ajaxSettings.xhr();
+					if(myXhr.upload) { // check if upload property exists
+						myXhr.upload.addEventListener('progress',progressHandling, false); // for handling the progress of the upload
+					}
+					return myXhr;
+				},
+				processData: false, // Don't process the files
+				contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+				beforeSend: function(data) {
+					console.log(data);
+					$('.fileinput').addClass('is-hidden'); // Hide file inputs
+					$('.progress').removeClass('is-hidden').addClass('is-visible'); // Show progress
+				},
+				success: function(data, textStatus, jqXHR)
+				{
+					if (typeof data.error === 'undefined')
+					{
+						// Success, so call function to process the form
+						//submitForm(event, data);
+						console.log(data.success);
+						console.log('URL: ' + data.fullpath);
+						resetFormElement( $('.fileupload') ); // run the reset_form_element function to empty out the initial file upload so it doesn't run again on the actual form submit
+						$('progress').removeClass('uploading');
+						$('.progress-filename p').html('Upload complete. <strong>' + data.filename +'</strong> was uploaded successfully.'); // Change uploading text to success
+						$('.progress-bar').addClass('is-hidden'); //Hide progress bar when a file is succesfully uploaded.
+						$('.result input.successful-upload').val(data.fullpath);
+					}
+					else
+					{
+						// Handle errors here
+						console.log('ERRORS: ' + data.error);
+					}
+				},
+				error: function(jqXHR, textStatus, errorThrown)
+				{
+					// Handle Errors here
+					console.log('ERRORS: ' + textStatus);
+					// STOP LOADING SPINNER
+				}
+			});
 
 			s3upload.resetFormElement(input);
 

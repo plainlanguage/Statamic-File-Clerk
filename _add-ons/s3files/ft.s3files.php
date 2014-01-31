@@ -38,7 +38,7 @@ class Fieldtype_s3files extends Fieldtype {
 			{
 			$html .= "<input class='postUrl' name='postUrl' type='hidden' value='{$attributes['action']}'>";
 			$html .= "<div class='fileinput'>";
-				$html .= "<p><input class='file-upload' type='file' name='files' tabindex='{$this->tabindex}'></p>";
+				$html .= "<p><input class='file-upload' id='s3files-upload-{$attributes['id']}' type='file' name='s3files[]' tabindex='{$this->tabindex}'></p>";
 				$html .= "<button class='btn-upload btn btn-small is-hidden'>Upload</button>";
 			$html .= "</div>";
 			$html .= "<div class='progress is-hidden'>";
