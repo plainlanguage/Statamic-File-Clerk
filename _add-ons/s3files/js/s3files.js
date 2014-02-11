@@ -67,20 +67,16 @@ $(function () {
 			event.stopPropagation(); // Stop stuff from happening
 			event.preventDefault(); // Really make sure stuff isn't happening
 
-			var files;
-
-			var input = $(this).closest('.s3files').find('.file-upload');
+			var postInput = $(this).closest('.s3files').find('.file-upload');
 			var postUrl = $(this).closest('.s3files').find('.postUrl').val();
-
 			// Create a formdata object and add the file
-			var data = new FormData();
-			$.each(files, function(key, value)
-			{
-				data.append(key, value);
+			var data = new FormData(this);
+			$.each(postInput[0].files, function(i, file) {
+				data.append('file-'+i, file);
 			});
 
 			$.ajax({
-				url: 'postUrl',
+				url: postUrl,
 				type: 'POST',
 				data: data,
 				cache: false,
@@ -127,9 +123,9 @@ $(function () {
 				}
 			});
 
-			s3upload.resetFormElement(input);
+			s3upload.resetFormElement(postInput);
 
-			console.log( 'Uploading...' + input.attr('id') );
+			console.log( 'Uploading...' + postInput.attr('id') );
 		},
 
 		// Progress Handling
