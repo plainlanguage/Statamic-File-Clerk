@@ -8,6 +8,7 @@ use Aws\S3\Enum\CannedAcl;
 use Aws\Common\Enum\Size;
 use Aws\Common\Exception\MultipartUploadException;
 use Aws\S3\Model\MultipartUpload\UploadBuilder;
+use Symfony\Component\Finder\Finder;
 
 class Hooks_s3files extends Hooks
 {
@@ -128,6 +129,35 @@ class Hooks_s3files extends Hooks
 	public function s3files__ajaxupload() //This can be accessed as a URL via /TRIGGER/s3files/ajaxupload
 	{
 		$this->tasks->ajaxUpload();
+	}
+
+	// -------------------------------------------------------------------------------
+	// Function - selectS3File
+	// -------------------------------------------------------------------------------
+	public function selectS3File()
+	{
+
+		// -------------------------------------------------------------------------------
+		// Set S3 Credentials
+		// -------------------------------------------------------------------------------
+
+		$this->client = S3Client::factory(array(
+			'key'		=> $this->config['aws_access_key'],
+			'secret'	=> $this->config['aws_secret_key']
+		));
+
+		$s3 = $this->client->registerStreamWrapper();
+
+		$finder = new Finder();
+
+		$bucket = $this->config['bucket'];
+		$directory = $this->config['folder'];
+
+		$finder->in('s3://'.$bucket.$directory);
+
+		foreach ($finder as $file) {
+			echo $file->getType() . ": {$file}\n";
+		}
 	}
 
 }

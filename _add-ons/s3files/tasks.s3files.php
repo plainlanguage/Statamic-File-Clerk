@@ -6,10 +6,26 @@ class Tasks_s3files extends Tasks
 {
 
 	// -------------------------------------------------------------------------------
+	// Amazon S3 Authorization
+	// -------------------------------------------------------------------------------
+
+	function s3Auth()
+	{
+
+		$s3config = array(
+			'key'		=> $this->config['aws_access_key'],
+			'secret'	=> $this->config['aws_secret_key']
+		);
+
+		$this->tasks->ajaxUpload($s3config);
+	}
+
+	// -------------------------------------------------------------------------------
 	// Response for AJAX upload
 	// -------------------------------------------------------------------------------
 
-	function ajaxUpload() {
+	function ajaxUpload()
+	{
 
 		if(Request::isAjax())
 		{
