@@ -29,7 +29,7 @@ $(function () {
 		// Variables
 		fileInput: $('.file-upload'),
 		btnUpload: $('.btn-upload'),
-		btnRemove: $('.btn-removal'),
+		btnRemove: $('.btn-remove'),
 
 		// Initialize
 		init: function() {
@@ -100,7 +100,7 @@ $(function () {
 				processData: false, // Don't process the files
 				contentType: false, // Set content type to false as jQuery will tell the server its a query string request
 				beforeSend: function(data) {
-					//fileInput.addClass('is-hidden'); // Hide file inputs
+					fileInput.addClass('is-hidden'); // Hide file inputs
 					progress.removeClass('is-hidden').addClass('is-visible'); // Show progress
 				},
 				success: function(data, textStatus, jqXHR)
@@ -154,8 +154,12 @@ $(function () {
 		// Remove File Reference
 		removeFileReference: function( event ) {
 
-			event.preventDefault();
+			var successfullUpload = $(this).closest('.s3files').find('.result input.successful-upload');
+			var filenameDisplay = $(this).closest('.s3files').find('.result .filename-display');
 
+			event.preventDefault();
+			successfullUpload.val(''); // Empty out hidden field w/ url
+			filenameDisplay.html(''); // Empty display filename
 
 		}
 	}
