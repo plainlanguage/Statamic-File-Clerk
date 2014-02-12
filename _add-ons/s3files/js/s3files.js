@@ -87,16 +87,16 @@ $(function () {
 				data: data,
 				cache: false,
 				dataType: 'JSON',
-				/*
 				// This is screwing things up. Need to figure this jimmy-jam out.
 				xhr: function() {
 					var myXhr = $.ajaxSettings.xhr();
+
 					if(myXhr.upload) { // check if upload property exists
-						myXhr.upload.addEventListener('progress',progressHandling, false); // for handling the progress of the upload
+						myXhr.upload.addEventListener('progress',this.progressHandling, false); // for handling the progress of the upload
 					}
+
 					return myXhr;
 				},
-				*/
 				processData: false, // Don't process the files
 				contentType: false, // Set content type to false as jQuery will tell the server its a query string request
 				beforeSend: function(data) {
