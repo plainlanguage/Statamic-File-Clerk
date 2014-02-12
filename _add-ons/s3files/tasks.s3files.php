@@ -21,6 +21,10 @@ class Tasks_s3files extends Tasks
 			return true;
 			Log::info('Boom');
 		}
+		else
+		{
+			echo 'AJAX only, son.';
+		}
 	}
 
 }

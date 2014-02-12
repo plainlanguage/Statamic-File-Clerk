@@ -69,8 +69,14 @@ $(function () {
 
 			var postInput = $(this).closest('.s3files').find('.file-upload');
 			var postUrl = $(this).closest('.s3files').find('.postUrl').val();
+			var fileInput = $(this).closest('.s3files').find('.fileinput');
+			var progress = $(this).closest('.s3files').find('.progress');
+			var progressFilename = $(this).closest('.s3files').find('.progress-filename p');
+			var progressBar = $(this).closest('.s3files').find('.progress-bar');
+			var successfullUpload = $(this).closest('.s3files').find('.result input.successful-upload');
+
 			// Create a formdata object and add the file
-			var data = new FormData(this);
+			var data = new FormData();
 			$.each(postInput[0].files, function(i, file) {
 				data.append('file-'+i, file);
 			});
@@ -81,6 +87,8 @@ $(function () {
 				data: data,
 				cache: false,
 				dataType: 'JSON',
+				/*
+				// This is screwing things up. Need to figure this jimmy-jam out.
 				xhr: function() {
 					var myXhr = $.ajaxSettings.xhr();
 					if(myXhr.upload) { // check if upload property exists
@@ -88,26 +96,24 @@ $(function () {
 					}
 					return myXhr;
 				},
+				*/
 				processData: false, // Don't process the files
 				contentType: false, // Set content type to false as jQuery will tell the server its a query string request
 				beforeSend: function(data) {
-					console.log(data);
-					$('.fileinput').addClass('is-hidden'); // Hide file inputs
-					$('.progress').removeClass('is-hidden').addClass('is-visible'); // Show progress
+					//fileInput.addClass('is-hidden'); // Hide file inputs
+					progress.removeClass('is-hidden').addClass('is-visible'); // Show progress
 				},
 				success: function(data, textStatus, jqXHR)
 				{
 					if (typeof data.error === 'undefined')
 					{
 						// Success, so call function to process the form
-						//submitForm(event, data);
 						console.log(data.success);
 						console.log('URL: ' + data.fullpath);
-						resetFormElement( $('.fileupload') ); // run the reset_form_element function to empty out the initial file upload so it doesn't run again on the actual form submit
-						$('progress').removeClass('uploading');
-						$('.progress-filename p').html('Upload complete. <strong>' + data.filename +'</strong> was uploaded successfully.'); // Change uploading text to success
-						$('.progress-bar').addClass('is-hidden'); //Hide progress bar when a file is succesfully uploaded.
-						$('.result input.successful-upload').val(data.fullpath);
+						progress.removeClass('uploading');
+						progressFilename.html('Upload complete. <strong>' + data.filename +'</strong> was uploaded successfully.'); // Change uploading text to success
+						progressBar.addClass('is-hidden'); //Hide progress bar when a file is succesfully uploaded.
+						successfullUpload.val(data.fullpath);
 					}
 					else
 					{
@@ -119,7 +125,6 @@ $(function () {
 				{
 					// Handle Errors here
 					console.log('ERRORS: ' + textStatus);
-					// STOP LOADING SPINNER
 				}
 			});
 
@@ -134,8 +139,8 @@ $(function () {
 			if(event.lengthComputable) {
 				var progress = parseInt(event.loaded / event.total * 100, 10);
 				console.log(progress + '%');
-				$('progress').attr({value:event.loaded,max:event.total});
-				$('.prc').html(progress + '%');
+				$(this).closest('.s3files').find('progress').attr({value:event.loaded,max:event.total});
+				$(this).closest('.s3files').find('.prc').html(progress + '%');
 			}
 		},
 
