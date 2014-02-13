@@ -17,7 +17,7 @@ class Tasks_s3files extends Tasks
 			'secret'	=> $this->config['aws_secret_key']
 		);
 
-		$this->tasks->ajaxUpload($s3config);
+		return $s3config;
 	}
 
 	// -------------------------------------------------------------------------------
@@ -41,6 +41,17 @@ class Tasks_s3files extends Tasks
 		{
 			echo 'AJAX only, son.';
 		}
+	}
+
+	// -------------------------------------------------------------------------------
+	// S3 View
+	// -------------------------------------------------------------------------------
+
+	function s3View()
+	{
+		$instance = new Hooks_s3files();
+		$instance->selectS3File();
+		return true;
 	}
 
 }

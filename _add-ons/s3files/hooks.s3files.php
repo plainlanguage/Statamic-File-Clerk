@@ -141,23 +141,39 @@ class Hooks_s3files extends Hooks
 		// Set S3 Credentials
 		// -------------------------------------------------------------------------------
 
-		$this->client = S3Client::factory(array(
+		$aws = Aws\Common\Aws::factory(array(
 			'key'		=> $this->config['aws_access_key'],
 			'secret'	=> $this->config['aws_secret_key']
 		));
 
-		$s3 = $this->client->registerStreamWrapper();
+		$s3 = $aws->get('s3')->registerStreamWrapper();
 
 		$finder = new Finder();
 
 		$bucket = $this->config['bucket'];
 		$directory = $this->config['folder'];
 
-		$finder->in('s3://'.$bucket.$directory);
+		$finder->in(URL::tidy('s3://'.$bucket.'/'.rtrim($directory, '/'))); // So you can't have a trailing slash and yeah. rtrim.
 
+		//$data = array();
 		foreach ($finder as $file) {
-			echo $file->getType() . ": {$file}\n";
+			//$files = $file->getType() . ": {$file}\n";
+			$filename = $file->name();
+			$boobs = 'Boobs';
 		}
+
+
+
+		return print_r( $file->getFilename() );
+
+	}
+
+	// -------------------------------------------------------------------------------
+	// Function - s3files Directory View
+	// -------------------------------------------------------------------------------
+	public function s3files__view() //This can be accessed as a URL via /TRIGGER/s3files/view
+	{
+		$this->tasks->s3View();
 	}
 
 }

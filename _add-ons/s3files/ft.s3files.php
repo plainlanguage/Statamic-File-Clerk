@@ -25,8 +25,6 @@ class Fieldtype_s3files extends Fieldtype {
 			'action'	=> Config::getSiteRoot() . 'TRIGGER/s3files/ajaxupload' // this is the file the AJAX needs to hit on POST. Created in hooks -> function s3files__ajaxupload
 		);
 
-		$instance = new Hooks_s3files();
-
 		$html = "<div class='s3files file-field-container'>";
 			if ($this->field_data)
 			{
@@ -56,7 +54,7 @@ class Fieldtype_s3files extends Fieldtype {
 				$html .= "<input class='successful-upload' id='{$attributes['name']}' name='{$attributes['name']}' type='text' value=''>";
 			$html .= "</div>";
 			}
-			//$html .= var_dump($instance->selectS3File());
+
 		$html .= "</div>";
 
 		return $html;
