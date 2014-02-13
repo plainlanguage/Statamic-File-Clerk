@@ -73,6 +73,8 @@ $(function () {
 			var progress = $(this).closest('.s3files').find('.progress');
 			var progressFilename = $(this).closest('.s3files').find('.progress-filename p');
 			var progressBar = $(this).closest('.s3files').find('.progress-bar');
+			var progressUploading = $(this).closest('.s3files').find('.progress-bar progress.uploading');
+			var progressPrc = $(this).closest('.s3files').find('.progress-bar .prc');
 			var successfullUpload = $(this).closest('.s3files').find('.result input.successful-upload');
 
 			// Create a formdata object and add the file
@@ -90,9 +92,16 @@ $(function () {
 				// This is screwing things up. Need to figure this jimmy-jam out.
 				xhr: function() {
 					var myXhr = $.ajaxSettings.xhr();
-
 					if(myXhr.upload) { // check if upload property exists
-						myXhr.upload.addEventListener('progress',this.progressHandling, false); // for handling the progress of the upload
+						console.log('Xhr');
+						myXhr.upload.addEventListener('progress', function(event) {
+							if(event.lengthComputable) {
+								var progress = parseInt(event.loaded / event.total * 100, 10);
+								console.log(progress + '%');
+								progressUploading.attr({value:event.loaded,max:event.total});
+								progressPrc.html(progress + '%');
+							}
+						}, false); // for handling the progress of the upload
 					}
 
 					return myXhr;
@@ -111,7 +120,7 @@ $(function () {
 						console.log(data.success);
 						console.log('URL: ' + data.fullpath);
 						progress.removeClass('uploading');
-						progressFilename.html('Upload complete. <strong>' + data.filename +'</strong> was uploaded successfully.'); // Change uploading text to success
+						progressFilename.html('<strong>' + data.filename +'</strong> was uploaded successfully.'); // Change uploading text to success
 						progressBar.addClass('is-hidden'); //Hide progress bar when a file is succesfully uploaded.
 						successfullUpload.val(data.fullpath);
 					}
@@ -131,17 +140,6 @@ $(function () {
 			s3upload.resetFormElement(postInput);
 
 			console.log( 'Uploading...' + postInput.attr('id') );
-		},
-
-		// Progress Handling
-		progressHandling: function( event ) {
-
-			if(event.lengthComputable) {
-				var progress = parseInt(event.loaded / event.total * 100, 10);
-				console.log(progress + '%');
-				$(this).closest('.s3files').find('progress').attr({value:event.loaded,max:event.total});
-				$(this).closest('.s3files').find('.prc').html(progress + '%');
-			}
 		},
 
 		// Reset File Input

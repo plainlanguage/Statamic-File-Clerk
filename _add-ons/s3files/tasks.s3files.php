@@ -30,8 +30,8 @@ class Tasks_s3files extends Tasks
 		if(Request::isAjax())
 		{
 			ob_start();
-			$instance = new Hooks_s3files();
-			$instance->uploadFile();
+			$object = new Hooks_s3files();
+			$object->uploadFile();
 			header('Content-Type: application/json');
 			ob_flush();
 			return true;
@@ -49,8 +49,10 @@ class Tasks_s3files extends Tasks
 
 	function s3View()
 	{
-		$instance = new Hooks_s3files();
-		$instance->selectS3File();
+		ob_start();
+		$object = new Hooks_s3files();
+		$object->selectS3File();
+		ob_flush();
 		return true;
 	}
 

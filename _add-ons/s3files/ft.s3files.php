@@ -31,7 +31,7 @@ class Fieldtype_s3files extends Fieldtype {
 			$html .= "<div class='result'>";
 				$html .= "<p><span class='filename-display'>".basename($attributes['value'])."</span></p>";
 				$html .= "<a class='btn btn-small btn-remove' href='#'>Remove</a>";
-				$html .= "<input class='successful-upload' name='{$attributes['name']}' type='text' value='{$attributes['value']}'>";
+				$html .= "<input class='successful-upload' name='{$attributes['name']}' type='hidden' value='{$attributes['value']}'>";
 			$html .= "</div>";
 			}
 			else
@@ -51,7 +51,7 @@ class Fieldtype_s3files extends Fieldtype {
 				$html .= "</div>";
 			$html .= "</div>";
 			$html .= "<div class='result'>";
-				$html .= "<input class='successful-upload' id='{$attributes['name']}' name='{$attributes['name']}' type='text' value=''>";
+				$html .= "<input type='hidden' class='successful-upload' id='{$attributes['name']}' name='{$attributes['name']}' type='text' value=''>";
 			$html .= "</div>";
 			}
 
