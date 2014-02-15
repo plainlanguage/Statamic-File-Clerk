@@ -30,16 +30,16 @@ class Fieldtype_s3files extends Fieldtype {
 			{
 			$html .= "<div class='result'>";
 				$html .= "<p><span class='filename-display'>".basename($attributes['value'])."</span></p>";
-				$html .= "<a class='btn btn-small btn-remove-s3file' href='#'>Remove</a>";
-				$html .= "<input type='hidden' id='successful-upload' name='{$attributes['name']}' type='text' value='{$attributes['value']}'>";
+				$html .= "<a class='btn btn-small btn-remove' href='#'>Remove</a>";
+				$html .= "<input class='successful-upload' name='{$attributes['name']}' type='hidden' value='{$attributes['value']}'>";
 			$html .= "</div>";
 			}
 			else
 			{
-			$html .= "<input id='postUrl' name='postUrl' type='hidden' value='{$attributes['action']}'>";
+			$html .= "<input class='postUrl' name='postUrl' type='hidden' value='{$attributes['action']}'>";
 			$html .= "<div class='fileinput'>";
-				$html .= "<p><input id='fileupload' type='file' name='files' tabindex='{$this->tabindex}'></p>";
-				$html .= "<button class='btn btn-small is-hidden' id='doit'>Upload</button>";
+				$html .= "<p><input class='file-upload' id='s3files-upload-{$attributes['id']}' type='file' name='files' tabindex='{$this->tabindex}'></p>";
+				$html .= "<button class='btn-upload btn btn-small is-hidden'>Upload</button>";
 			$html .= "</div>";
 			$html .= "<div class='progress is-hidden'>";
 				$html .= "<div class='progress-filename clearfix'>";
@@ -51,12 +51,14 @@ class Fieldtype_s3files extends Fieldtype {
 				$html .= "</div>";
 			$html .= "</div>";
 			$html .= "<div class='result'>";
-				$html .= "<input type='hidden' id='successful-upload' name='{$attributes['name']}' type='text' value=''>";
+				$html .= "<input type='hidden' class='successful-upload' id='{$attributes['name']}' name='{$attributes['name']}' type='text' value=''>";
 			$html .= "</div>";
 			}
+
 		$html .= "</div>";
 
 		return $html;
+
 	}
 
 	public static function get_field_settings() {

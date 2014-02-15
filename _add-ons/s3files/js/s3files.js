@@ -24,109 +24,145 @@
 // The jQuery
 $(function () {
 
-	// Ref: http://abandon.ie/notebook/simple-file-uploads-using-jquery-ajax
+	var s3upload = {
 
-	// Variable to store files
-	var files;
+		// Variables
+		fileInput: $('.file-upload'),
+		btnUpload: $('.btn-upload'),
+		btnRemove: $('.btn-remove'),
 
-	$('.s3files #fileupload').on('change', prepareUpload);
+		// Initialize
+		init: function() {
 
-	function prepareUpload(event)
-	{
-		files = event.target.files;
-		console.log(files);
-		$('#doit').removeClass('is-hidden');
-	}
+			this.bindUIActions();
+		},
 
-	// Run uploadFiles on click
-	$('.s3files #doit').click(uploadFiles);
+		// Bind UI Actions
+		bindUIActions: function() {
 
-	// Function - uploadFiles
-	function uploadFiles(event)
-	{
-		event.stopPropagation(); // Stop stuff from happening
-		event.preventDefault(); // Totally stop stuff from happening
+			// Prepare upload on file input change event
+			this.fileInput.on( 'change', this.prepareUpload );
 
-		// Create a formdata object and add the file
-		//var data = new FormData(files);
-		var data = new FormData();
-		$.each(files, function(key, value)
-		{
-			data.append(key, value);
-		});
+			// Upload file on click
+			this.btnUpload.on( 'click', this.uploadFiles );
 
-		$.ajax({
-			url: $('.s3files #postUrl').val(),
-			type: 'POST',
-			data: data,
-			cache: false,
-			dataType: 'JSON',
-			xhr: function() {
-				var myXhr = $.ajaxSettings.xhr();
-				if(myXhr.upload) { // check if upload property exists
-					myXhr.upload.addEventListener('progress',progressHandling, false); // for handling the progress of the upload
-				}
-				return myXhr;
-			},
-			processData: false, // Don't process the files
-			contentType: false, // Set content type to false as jQuery will tell the server its a query string request
-			beforeSend: function(data) {
-				console.log(data);
-				$('.fileinput').addClass('is-hidden'); // Hide file inputs
-				$('.progress').removeClass('is-hidden').addClass('is-visible'); // Show progress
-			},
-			success: function(data, textStatus, jqXHR)
-			{
-				if (typeof data.error === 'undefined')
+			// Remove file reference on click
+			this.btnRemove.on( 'click', this.removeFileReference );
+		},
+
+		// Prepare Upload
+		prepareUpload: function( event ) {
+
+			var files = event.target.files;
+			btnUpload = $(this).closest('.s3files').find('.btn-upload');
+
+			btnUpload.removeClass('is-hidden');
+
+			console.log(files);
+		},
+
+		// Upload Files
+		uploadFiles: function( event ) {
+
+			event.stopPropagation(); // Stop stuff from happening
+			event.preventDefault(); // Really make sure stuff isn't happening
+
+			var postInput = $(this).closest('.s3files').find('.file-upload');
+			var postUrl = $(this).closest('.s3files').find('.postUrl').val();
+			var fileInput = $(this).closest('.s3files').find('.fileinput');
+			var progress = $(this).closest('.s3files').find('.progress');
+			var progressFilename = $(this).closest('.s3files').find('.progress-filename p');
+			var progressBar = $(this).closest('.s3files').find('.progress-bar');
+			var progressUploading = $(this).closest('.s3files').find('.progress-bar progress.uploading');
+			var progressPrc = $(this).closest('.s3files').find('.progress-bar .prc');
+			var successfullUpload = $(this).closest('.s3files').find('.result input.successful-upload');
+
+			// Create a formdata object and add the file
+			var data = new FormData();
+			$.each(postInput[0].files, function(i, file) {
+				data.append('file-'+i, file);
+			});
+
+			$.ajax({
+				url: postUrl,
+				type: 'POST',
+				data: data,
+				cache: false,
+				dataType: 'JSON',
+				// This is screwing things up. Need to figure this jimmy-jam out.
+				xhr: function() {
+					var myXhr = $.ajaxSettings.xhr();
+					if(myXhr.upload) { // check if upload property exists
+						console.log('Xhr');
+						myXhr.upload.addEventListener('progress', function(event) {
+							if(event.lengthComputable) {
+								var progress = parseInt(event.loaded / event.total * 100, 10);
+								console.log(progress + '%');
+								progressUploading.attr({value:event.loaded,max:event.total});
+								progressPrc.html(progress + '%');
+							}
+						}, false); // for handling the progress of the upload
+					}
+
+					return myXhr;
+				},
+				processData: false, // Don't process the files
+				contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+				beforeSend: function(data) {
+					fileInput.addClass('is-hidden'); // Hide file inputs
+					progress.removeClass('is-hidden').addClass('is-visible'); // Show progress
+				},
+				success: function(data, textStatus, jqXHR)
 				{
-					// Success, so call function to process the form
-					//submitForm(event, data);
-					console.log(data.success);
-					console.log('URL: ' + data.fullpath);
-					resetFormElement( $('#fileupload') ); // run the reset_form_element function to empty out the initial file upload so it doesn't run again on the actual form submit
-					$('progress').removeClass('uploading');
-					$('.progress-filename p').html('Upload complete. <strong>' + data.filename +'</strong> was uploaded successfully.'); // Change uploading text to success
-					$('.progress-bar').addClass('is-hidden'); //Hide progress bar when a file is succesfully uploaded.
-					$('.result input#successful-upload').val(data.fullpath);
-				}
-				else
+					if (typeof data.error === 'undefined')
+					{
+						// Success, so call function to process the form
+						console.log(data.success);
+						console.log('URL: ' + data.fullpath);
+						progress.removeClass('uploading');
+						progressFilename.html('<strong>' + data.filename +'</strong> was uploaded successfully.'); // Change uploading text to success
+						progressBar.addClass('is-hidden'); //Hide progress bar when a file is succesfully uploaded.
+						successfullUpload.val(data.fullpath);
+					}
+					else
+					{
+						// Handle errors here
+						console.log('ERRORS: ' + data.error);
+					}
+				},
+				error: function(jqXHR, textStatus, errorThrown)
 				{
-					// Handle errors here
-					console.log('ERRORS: ' + data.error);
+					// Handle Errors here
+					console.log('ERRORS: ' + textStatus);
 				}
-			},
-			error: function(jqXHR, textStatus, errorThrown)
-			{
-				// Handle Errors here
-				console.log('ERRORS: ' + textStatus);
-				// STOP LOADING SPINNER
-			}
-		});
-	}
+			});
 
-	// Function - progressHandling
-	function progressHandling(event){
-		if(event.lengthComputable){
-			var progress = parseInt(event.loaded / event.total * 100, 10);
-			console.log(progress + '%');
-			$('progress').attr({value:event.loaded,max:event.total});
-			$('.prc').html(progress + '%');
+			s3upload.resetFormElement(postInput);
+
+			console.log( 'Uploading...' + postInput.attr('id') );
+		},
+
+		// Reset File Input
+		resetFormElement: function( element ) {
+
+			element.wrap('<form>').parent('form').trigger('reset');
+			element.unwrap();
+		},
+
+		// Remove File Reference
+		removeFileReference: function( event ) {
+
+			var successfullUpload = $(this).closest('.s3files').find('.result input.successful-upload');
+			var filenameDisplay = $(this).closest('.s3files').find('.result .filename-display');
+
+			event.preventDefault();
+			successfullUpload.val(''); // Empty out hidden field w/ url
+			filenameDisplay.html(''); // Empty display filename
+
 		}
 	}
 
-	// Funciton - resetFormElement
-	function resetFormElement (event) {
-		event.wrap('<form>').parent('form').trigger('reset');
-		event.unwrap();
-	}
-
-	// Funciton - removeFileReference
-	function removeFileReference (event) {
-		event.preventDefault();
-		$('#successful-upload').val(''); // Empty out hidden field w/ url
-		$('.filename-display').html(''); // Empty display filename
-	}
-
-	$('.btn-remove-s3file').click(removeFileReference);
+	// Run it
+	s3upload.init();
 
 });

@@ -74,13 +74,13 @@ class Hooks_s3files extends Hooks
 			$setAcl = $this->config['permissions'];
 
 			// Is a custom domain set in the config?
-			if(isset(!$customDomain))
+			if($customDomain)
 			{
-				$fullPath = URL::tidy('http://'.$bucket.'.s3.amazonaws.com'.'/'.$directory.'/'.$filename);
+				$fullPath = URL::tidy('http://'.$customDomain.'/'.$directory.'/'.$filename);
 			}
 			else
 			{
-				$fullPath = URL::tidy('http://'.$customDomain.'/'.$directory.'/'.$filename);
+				$fullPath = URL::tidy('http://'.$bucket.'.s3.amazonaws.com'.'/'.$directory.'/'.$filename);
 			}
 
 			$uploader = UploadBuilder::newInstance()
@@ -89,7 +89,7 @@ class Hooks_s3files extends Hooks
 				->setBucket($bucket)
 				->setKey(URL::tidy('/'.$directory.'/'.$filename))
 				->setOption('CacheControl', 'max-age=3600')
-				->setOption('ACL', isset($setAcl) ? $setAcl : CannedAcl::PUBLIC_READ)
+				->setOption('ACL', $setAcl ? $setAcl : CannedAcl::PUBLIC_READ)
 				->setOption('ContentType', $filetype)
 				->setConcurrency(3)
 				->build();
@@ -129,6 +129,62 @@ class Hooks_s3files extends Hooks
 	public function s3files__ajaxupload() //This can be accessed as a URL via /TRIGGER/s3files/ajaxupload
 	{
 		$this->tasks->ajaxUpload();
+	}
+
+	// -------------------------------------------------------------------------------
+	// Function - selectS3File
+	// -------------------------------------------------------------------------------
+	public function selectS3File()
+	{
+
+		// -------------------------------------------------------------------------------
+		// Set S3 Credentials
+		// -------------------------------------------------------------------------------
+
+		$this->client = S3Client::factory(array(
+			'key'		=> $this->config['aws_access_key'],
+			'secret'	=> $this->config['aws_secret_key']
+		));
+
+		$this->client->registerStreamWrapper();
+
+		$bucket = $this->config['bucket'];
+		$directory = $this->config['folder'];
+
+		$error = false;
+		$data = array();
+
+		$finder = new Finder();
+		$iterator = $finder
+			->files()
+			->in(URL::tidy('s3://'.$bucket.'/'.rtrim($directory, '/')));
+
+		foreach ($iterator as $file) {
+			$filename = $file->getFilename();
+		}
+
+		// Return Results
+		$data = ($error) ?
+		array(
+			'error' 	=> 'Nope',
+		) :
+		array(
+			'filename'	=> $iterator,
+			'filename2'	=> $iterator,
+		);
+
+		// JSONify it
+		echo json_encode($data);
+
+	}
+
+
+	// -------------------------------------------------------------------------------
+	// Function - s3files Directory View
+	// -------------------------------------------------------------------------------
+	public function s3files__view() //This can be accessed as a URL via /TRIGGER/s3files/view
+	{
+		$this->tasks->s3View();
 	}
 
 }
