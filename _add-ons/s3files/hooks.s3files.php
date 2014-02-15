@@ -151,9 +151,6 @@ class Hooks_s3files extends Hooks
 		$bucket = $this->config['bucket'];
 		$directory = $this->config['folder'];
 
-		$error = false;
-		$data = array();
-
 		$finder = new Finder();
 		$iterator = $finder
 			->files()
@@ -163,18 +160,7 @@ class Hooks_s3files extends Hooks
 			$filename = $file->getFilename();
 		}
 
-		// Return Results
-		$data = ($error) ?
-		array(
-			'error' 	=> 'Nope',
-		) :
-		array(
-			'filename'	=> $iterator,
-			'filename2'	=> $iterator,
-		);
-
-		// JSONify it
-		echo json_encode($data);
+		return print_r($filename);
 
 	}
 
