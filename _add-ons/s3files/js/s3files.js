@@ -103,7 +103,6 @@ $(function () {
 							}
 						}, false); // for handling the progress of the upload
 					}
-
 					return myXhr;
 				},
 				processData: false, // Don't process the files

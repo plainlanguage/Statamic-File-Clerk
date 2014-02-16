@@ -151,30 +151,16 @@ class Hooks_s3files extends Hooks
 		$bucket = $this->config['bucket'];
 		$directory = $this->config['folder'];
 
-		$error = false;
-		$data = array();
-
 		$finder = new Finder();
-		$iterator = $finder
-			->files()
-			->in(URL::tidy('s3://'.$bucket.'/'.rtrim($directory, '/')));
 
-		foreach ($iterator as $file) {
-			$filename = $file->getFilename();
+		$finder->in(url::Tidy('s3://' . $bucket));
+
+		foreach ($finder as $file) {
+		    echo $file->getType() . ": " . $file . '<br />';
 		}
 
-		// Return Results
-		$data = ($error) ?
-		array(
-			'error' 	=> 'Nope',
-		) :
-		array(
-			'filename'	=> $iterator,
-			'filename2'	=> $iterator,
-		);
-
-		// JSONify it
-		echo json_encode($data);
+		//echo iterator_count($finder);
+		//var_dump(iterator_to_array($finder, true));
 
 	}
 
