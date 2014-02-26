@@ -155,13 +155,19 @@ class Hooks_s3files extends Hooks
 
 		$finder->in(url::Tidy('s3://' . $bucket));
 
+		// Get info about files/directories
+		$data = array();
 		foreach ($finder as $file) {
-		    //echo $file->getType() . ": " . $file . '<br />';
-		    echo $file;
+		    $data[] = array(
+				'filename'		=> $file->getFilename(),
+				'size'			=> $file->getSize(),
+				'extension'		=> $file->getExtension(),
+				'lastmodified'	=> $file->getMTime(),
+				'path'			=> $file->getPath(),
+		    );
 		}
 
-		//echo iterator_count($finder);
-		//var_dump(iterator_to_array($finder, true));
+		print_r($data);
 
 	}
 
