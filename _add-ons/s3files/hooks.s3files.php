@@ -151,9 +151,11 @@ class Hooks_s3files extends Hooks
 		$bucket = $this->config['bucket'];
 		$directory = $this->config['folder'];
 
+		/*
 		$finder = new Finder();
 
-		$finder->in(url::Tidy('s3://' . $bucket));
+		//$finder->in(url::Tidy('s3://' . $bucket));
+		$finder->in('s3://s3filesdev/');
 
 		// Get info about files/directories
 		$data_files = array();
@@ -178,12 +180,23 @@ class Hooks_s3files extends Hooks
 			}
 		}
 
-		//print_r($data_files);
+		print_r($data_files);
 		//print_r($data_dir);
 
 		$data = $data_files;
 
 		echo json_encode($data);
+		*/
+
+		// Using Iterator class -- http://docs.aws.amazon.com/aws-sdk-php/latest/namespace-Aws.S3.Iterator.html
+		$iterator = $this->client->getIterator('ListObjects', array(
+			'Bucket' => $bucket,
+			'Prefix' => $directory,
+		));
+
+		foreach ($iterator as $object) {
+		    echo $object['Key'] . "\n";
+		}
 	}
 
 
