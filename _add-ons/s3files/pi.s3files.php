@@ -46,10 +46,10 @@ class Plugin_s3files extends Plugin
 
 		/*
 		|--------------------------------------------------------------------------
-		| Assemble File Array
+		| Assemble Array
 		|--------------------------------------------------------------------------
 		|
-		| Select the important bits of data on the list of files.
+		| Make that array, son.
 		|
 		*/
 
@@ -63,6 +63,14 @@ class Plugin_s3files extends Plugin
 			'size_megabytes' => number_format($size / 1048576, 2),
 			'size_gigabytes' => number_format($size / 1073741824, 2),
 		);
+
+		/*
+		|--------------------------------------------------------------------------
+		| Return
+		|--------------------------------------------------------------------------
+		|
+		|
+		*/
 
 		return $return_array;
 
