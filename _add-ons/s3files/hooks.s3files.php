@@ -15,32 +15,6 @@ class Hooks_s3files extends Hooks
 
 	protected $client;
 
-	// public function index()
-	// //public function __contr()
-	// {
-	// 	parent::__contr();
-	// 	var_export($this->config);
-
-	// 	$field_settings = Fieldtype_redactor::get_field_settings();
-
-	// 	if( $field_settings )
-	// 	{
-	// 		foreach( $field_settings as $key => $value )
-	// 		{
-	// 			$this->config[$key] = $value;
-	// 		}
-	// 	}
-
-	// 	// -------------------------------------------------------------------------------
-	// 	// Set S3 Credentials
-	// 	// -------------------------------------------------------------------------------
-
-	// 	$this->client = S3Client::factory(array(
-	// 		'key'		=> $this->config['aws_access_key'],
-	// 		'secret'	=> $this->config['aws_secret_key']
-	// 	));
-	// }
-
 	// -------------------------------------------------------------------------------
 	// Add CSS to head
 	// -------------------------------------------------------------------------------
@@ -50,6 +24,7 @@ class Hooks_s3files extends Hooks
 			return $this->css->link('s3files.css');
 		}
 	}
+
 
 	// -------------------------------------------------------------------------------
 	// Load JS in footer
@@ -64,10 +39,6 @@ class Hooks_s3files extends Hooks
 		}
 	}
 
-	private function getS3Directories()
-	{
-
-	}
 
 	// -------------------------------------------------------------------------------
 	// Function - uploadFile
@@ -88,6 +59,11 @@ class Hooks_s3files extends Hooks
 
 		$error = false;
 		$data = array();
+
+		// Get field-specific settings, i.e. bucket and directories
+		if (class_exists('Fieldtype_s3files') && method_exists('Fieldtype_s3files', 'get_field_settings')) {
+			$field_settings = Fieldtype_s3files::get_field_settings();
+		}
 
 		foreach($_FILES as $file)
 		{
