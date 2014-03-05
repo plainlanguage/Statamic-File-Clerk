@@ -1,9 +1,5 @@
 <?php
 
-require_once 'config.php';
-
-use Symfony\Component\Finder\Finder;
-
 /**
  * Plugin_s3files
  * Display infomration about a file on Amazon S3 servers
@@ -45,18 +41,6 @@ class Plugin_s3files extends Plugin
 
 		/*
 		|--------------------------------------------------------------------------
-		| Finder
-		|--------------------------------------------------------------------------
-		|
-		| Get_Files implements most of the Symfony Finder component as a clean
-		| tag wrapper mapped to matched filenames.
-		|
-		*/
-
-		$this->finder = new Finder();
-
-		/*
-		|--------------------------------------------------------------------------
 		| Check for URL
 		|--------------------------------------------------------------------------
 		|
@@ -75,8 +59,6 @@ class Plugin_s3files extends Plugin
 		}
 
 		return File::getHumanSize($this->curlGetFileSize($s3_url));
-		//$s3_file = $this->finder->files()->name($s3_url);
-		//return $s3_file;
 
 	}
 
