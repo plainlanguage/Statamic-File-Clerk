@@ -13,31 +13,20 @@
 
 class Plugin_s3files extends Plugin
 {
-	/**
-	*/
 
 	public function index()
 	{
 
 		/*
 		|--------------------------------------------------------------------------
-		| Paramers
+		| Get the URL
 		|--------------------------------------------------------------------------
 		|
-		| Match overrides Extension. Exclusion applies in both cases.
+		| Tag ex: {{ s3files url="{fieldname}" }}
 		|
 		*/
-		$extension  = $this->fetchParam(array('extension', 'type'), false);
-		$file_size  = $this->fetchParam('file_size', false);
-		$file_date  = $this->fetchParam('file_date', false);
 
-		if ($file_size) {
-			$file_size = Helper::explodeOptions($file_size);
-		}
-
-		if ($extension) {
-			$extension = Helper::explodeOptions($extension);
-		}
+		$s3_url = $this->fetchParam('url', null, false, false, false);
 
 		/*
 		|--------------------------------------------------------------------------
@@ -47,18 +36,35 @@ class Plugin_s3files extends Plugin
 		|
 		*/
 
-		// Get the URL ex: {{ s3files url="{fieldname}" }}
-		$s3_url = $this->fetchParam('url', null, false, false, false);
-
-		// Check to make sure the string is a URL. If it's not, log it.
-		if( ! Url::isValid($s3_url) ) {
+		// Check to make sure the string is a URL and also if it exists. If it's not, log it.
+		if( ! Url::isValid($s3_url) || $this->curlGetFileSize($s3_url) <= "1" ) {
 
 			Log::error("Could not find the requested URL: " . $s3_url, "core", "S3 Files");
 
 			return;
 		}
 
-		return File::getHumanSize($this->curlGetFileSize($s3_url));
+		/*
+		|--------------------------------------------------------------------------
+		| Assemble File Array
+		|--------------------------------------------------------------------------
+		|
+		| Select the important bits of data on the list of files.
+		|
+		*/
+
+		$size = $this->curlGetFileSize($s3_url);
+
+		$return_array = array(
+			'extension' => pathinfo($s3_url, PATHINFO_EXTENSION),
+			'filename' => basename($s3_url),
+			'size' => File::getHumanSize($size),
+			'size_kilobytes' => number_format($size / 1024, 2),
+			'size_megabytes' => number_format($size / 1048576, 2),
+			'size_gigabytes' => number_format($size / 1073741824, 2),
+		);
+
+		return $return_array;
 
 	}
 
@@ -83,7 +89,7 @@ class Plugin_s3files extends Plugin
 		curl_setopt( $curl, CURLOPT_HEADER, true );
 		curl_setopt( $curl, CURLOPT_RETURNTRANSFER, true );
 		curl_setopt( $curl, CURLOPT_FOLLOWLOCATION, true );
-		//curl_setopt( $curl, CURLOPT_USERAGENT, get_user_agent_string() );
+		curl_setopt( $curl, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT'] );
 
 		$data = curl_exec( $curl );
 		curl_close( $curl );
