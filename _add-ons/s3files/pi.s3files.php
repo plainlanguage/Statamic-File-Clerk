@@ -81,46 +81,23 @@ class Plugin_s3files extends Plugin
 	| Check Filesize w cURL
 	|--------------------------------------------------------------------------
 	|
-	| http://stackoverflow.com/questions/2602612/php-remote-file-size-without-downloading-file
+	| http://stackoverflow.com/a/8159439
 	|
 	*/
 
 	private function curlGetFileSize( $url )
 	{
-		// Assume failure. Always assume failure.
-		$result = -1;
+		$ch = curl_init($url);
 
-		$curl = curl_init( $url );
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+		curl_setopt($ch, CURLOPT_HEADER, TRUE);
+		curl_setopt($ch, CURLOPT_NOBODY, TRUE);
 
-	  // Issue a HEAD request and follow any redirects.
-		curl_setopt( $curl, CURLOPT_NOBODY, true );
-		curl_setopt( $curl, CURLOPT_HEADER, true );
-		curl_setopt( $curl, CURLOPT_RETURNTRANSFER, true );
-		curl_setopt( $curl, CURLOPT_FOLLOWLOCATION, true );
-		curl_setopt( $curl, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT'] );
+		$data = curl_exec($ch);
+		$size = curl_getinfo($ch, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
 
-		$data = curl_exec( $curl );
-		curl_close( $curl );
-
-		if( $data ) {
-			$content_length = "unknown";
-			$status = "unknown";
-
-			if( preg_match( "/^HTTP\/1\.[01] (\d\d\d)/", $data, $matches ) ) {
-				$status = (int)$matches[1];
-			}
-
-			if( preg_match( "/Content-Length: (\d+)/", $data, $matches ) ) {
-				$content_length = (int)$matches[1];
-			}
-
-			// http://en.wikipedia.org/wiki/List_of_HTTP_status_codes
-			if( $status == 200 || ($status > 300 && $status <= 308) ) {
-				$result = $content_length;
-			}
-		}
-
-		return $result;
+		curl_close($ch);
+		return $size;
 	}
 
 
