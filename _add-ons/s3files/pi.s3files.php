@@ -24,7 +24,7 @@ class Plugin_s3files extends Plugin
 		| Get the URL
 		|--------------------------------------------------------------------------
 		|
-		| Tag ex: {{ s3files url="{fieldname}" }}
+		| Tag ex: {{ s3files url="{{fieldname}}" }}
 		|
 		*/
 
@@ -57,7 +57,7 @@ class Plugin_s3files extends Plugin
 
 		$size = $this->curlGetFileSize($s3_url);
 
-		$files[] = array(
+		$file_info = array(
 			'extension' => pathinfo($s3_url, PATHINFO_EXTENSION),
 			'filename' => basename($s3_url),
 			'size' => File::getHumanSize($size),
@@ -74,8 +74,7 @@ class Plugin_s3files extends Plugin
 		|
 		*/
 
-		//return Parse::template($this->content, $files);
-		return Parse::tagLoop($this->content, $files);
+		return $file_info;
 
 	}
 
