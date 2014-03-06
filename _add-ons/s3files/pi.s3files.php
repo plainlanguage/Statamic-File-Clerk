@@ -2,9 +2,11 @@
 
 /**
  * Plugin_s3files
- * Display infomration about a file on Amazon S3 servers
+ * Displays infomration about a file on Amazon S3 servers
  *
  * @author  Chad Clark <chad@chadjclark.com>
+ * @author  Brandon Haslip <bhaslip@gmail.com>
+ * @author  Michael Reiner <mreiner77@gmail.com>
  *
  * @copyright  2014
  * @link       Coming Soon
@@ -55,7 +57,7 @@ class Plugin_s3files extends Plugin
 
 		$size = $this->curlGetFileSize($s3_url);
 
-		$return_array = array(
+		$files[] = array(
 			'extension' => pathinfo($s3_url, PATHINFO_EXTENSION),
 			'filename' => basename($s3_url),
 			'size' => File::getHumanSize($size),
@@ -72,9 +74,8 @@ class Plugin_s3files extends Plugin
 		|
 		*/
 
-		//return $return_array;
-		return Parse::template($this->content, $return_array);
-		//return Parse::tagLoop($this->content, $return_array);
+		//return Parse::template($this->content, $files);
+		return Parse::tagLoop($this->content, $files);
 
 	}
 
