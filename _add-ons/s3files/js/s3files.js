@@ -26,11 +26,6 @@ $(function () {
 
 	var s3upload = {
 
-		// Variables
-		fileInput: $('.file-upload'),
-		btnUpload: $('.btn-upload'),
-		btnRemove: $('.btn-remove'),
-
 		// Initialize
 		init: function() {
 
@@ -41,13 +36,13 @@ $(function () {
 		bindUIActions: function() {
 
 			// Prepare upload on file input change event
-			this.fileInput.on( 'change', this.prepareUpload );
+			$('body').on( 'change', '.file-upload', this.prepareUpload );
 
 			// Upload file on click
-			this.btnUpload.on( 'click', this.uploadFiles );
+			$('body').on( 'click', '.btn-upload', this.uploadFiles );
 
 			// Remove file reference on click
-			this.btnRemove.on( 'click', this.removeFileReference );
+			$('body').on( 'click', '.btn-remove', this.removeFileReference );
 		},
 
 		// Prepare Upload

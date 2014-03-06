@@ -3,7 +3,7 @@
 	"version": "0.0.1",
 	"description": "A simple Amazon S3 add-on for Statamic",
 	"main": "Gruntfile.js",
-	"author": "Chad Clark",
+	"author": "Chad Clark, Brandon Haslip, and Michael Reiner",
 	"homepage": "http://chadjclark.com",
 	"devDependencies": {
 		"grunt": "~0.4.1",

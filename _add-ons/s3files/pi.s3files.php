@@ -72,7 +72,9 @@ class Plugin_s3files extends Plugin
 		|
 		*/
 
-		return $return_array;
+		//return $return_array;
+		return Parse::template($this->content, $return_array);
+		//return Parse::tagLoop($this->content, $return_array);
 
 	}
 
