@@ -114,7 +114,7 @@ $(function () {
 						console.log(data.success);
 						console.log('URL: ' + data.fullpath);
 						progress.removeClass('uploading');
-						progressFilename.html('<strong>' + data.filename +'</strong> was uploaded successfully.'); // Change uploading text to success
+						progressFilename.html('<div class="success"><strong>' + data.filename +'</strong><a attr="remove">Remove</a></div>'); // Change uploading text to success
 						progressBar.addClass('is-hidden'); //Hide progress bar when a file is succesfully uploaded.
 						successfullUpload.val(data.fullpath);
 					}

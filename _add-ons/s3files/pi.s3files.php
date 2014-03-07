@@ -74,7 +74,7 @@ class Plugin_s3files extends Plugin
 		|
 		*/
 
-		return $file_info;
+		return Parse::template($this->content, $file_info);
 
 	}
 

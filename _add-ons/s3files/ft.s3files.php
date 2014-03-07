@@ -28,7 +28,7 @@ class Fieldtype_s3files extends Fieldtype {
 		$html = "<div class='s3files file-field-container'>";
 			if ($this->field_data)
 			{
-			$html .= "<div class='result'>";
+			$html .= "<div class='result is-visible'>";
 				$html .= "<p><span class='filename-display'>".basename($attributes['value'])."</span></p>";
 				$html .= "<a class='btn btn-small btn-remove' href='#'>Remove</a>";
 				$html .= "<input class='successful-upload' name='{$attributes['name']}' type='hidden' value='{$attributes['value']}'>";
