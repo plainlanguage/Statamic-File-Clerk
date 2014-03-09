@@ -26,6 +26,7 @@ class Fieldtype_s3files extends Fieldtype {
 		);
 
 		$html = "<div class='s3files file-field-container'>";
+			$html .= "<input class='postUrl' name='postUrl' type='hidden' value='{$attributes['action']}'>";
 			if ($this->field_data)
 			{
 			$html .= "<div class='result is-visible'>";
@@ -36,7 +37,6 @@ class Fieldtype_s3files extends Fieldtype {
 			}
 			else
 			{
-			$html .= "<input class='postUrl' name='postUrl' type='hidden' value='{$attributes['action']}'>";
 			$html .= "<div class='fileinput'>";
 				$html .= "<p><input class='file-upload' id='s3files-upload-{$attributes['id']}' type='file' name='files' tabindex='{$this->tabindex}'></p>";
 				$html .= "<button class='btn-upload btn btn-small is-hidden'>Upload</button>";

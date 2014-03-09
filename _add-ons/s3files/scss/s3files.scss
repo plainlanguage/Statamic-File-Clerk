@@ -95,11 +95,36 @@
 		100% { background-position: -100px 0px; }
 	}
 
+	.success {
+		@extend .clearfix;
+	}
+
 	.filename-display,
 	.success {
 		background: url('../assets/img/icon-success.png') 0 center no-repeat !important;
 		display: block;
-		padding-left: 33px;
+		padding-left: 30px;
+
+		strong,
+		.remove {
+			display: block;
+			float: left;
+		}
+	}
+
+	.remove {
+		$size: 14px;
+		background: url('../assets/img/icon-remove.png') 0 center no-repeat;
+		height: 50px;
+		text-indent: 100%;
+		white-space: nowrap;
+		overflow: hidden;
+		margin-left: 6px;
+		width: $size;
+
+		&:hover {
+			background-position: -14px center;
+		}
 	}
 
 }
