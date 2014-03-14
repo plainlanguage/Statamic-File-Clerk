@@ -29,7 +29,7 @@ class Hooks_s3files extends Hooks
 	// -------------------------------------------------------------------------------
 	// Load JS in footer
 	// -------------------------------------------------------------------------------
-	public function control_panel__add_to_foot() 
+	public function control_panel__add_to_foot()
 	{
 		// Get the necessary support .js
 		if (URL::getCurrent(false) == '/publish') {
@@ -84,7 +84,7 @@ class Hooks_s3files extends Hooks
 
 			// Add-on settings
 			$bucket       = $this->config['bucket'];
-			$directory    = $this->config['folder'];
+			$directory    = $this->config['directory'];
 			$customDomain = $this->config['custom_domain'];
 			$setAcl       = $this->config['permissions'];
 
