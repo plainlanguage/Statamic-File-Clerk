@@ -38,7 +38,11 @@ class Fieldtype_s3files extends Fieldtype {
 		 */
 		if( $destination )
 		{
-			$attributes['action'] .= "?destination={$destination}";
+			$query_data = array(
+				'destination' => $destination,
+			);
+
+			$attributes['action'] .= '?' . http_build_query($query_data);
 		}
 
 		// print_r($attributes);
@@ -46,46 +50,52 @@ class Fieldtype_s3files extends Fieldtype {
 		/**
 		 * @todo Use a parsed template to render field HTML.
 		 */
-		// $data = array(
-		// 	'field_data' => $this->field_data,
-		// 	'attributes' => $attributes,
-		// );
-		// $ft_template = File::get( __DIR__ . '/ft.s3files.html');
-		// return Parse::template($ft_template, $data);
+		$data = array(
+			'field_data'     => $this->field_data,
+			'action'         => $attributes['action'],
+			'basename_value' => basename($attributes['value']),
+			'id'             => $attributes['id'],
+			'name'           => $attributes['name'],
+			'tabindex'       => $this->tabindex,
+			'value'          => $attributes['value'],
+		);
 
-		$html = "<div class='s3files file-field-container'>";
-			$html .= "<input class='postUrl' name='postUrl' type='hidden' value='{$attributes['action']}'>";
-			if ($this->field_data)
-			{
-			$html .= "<div class='result is-visible'>";
-				$html .= "<p><span class='filename-display'>".basename($attributes['value'])."</span></p>";
-				$html .= "<a class='btn btn-small btn-remove' href='#'>Remove</a>";
-				$html .= "<input class='successful-upload' name='{$attributes['name']}' type='hidden' value='{$attributes['value']}'>";
-			$html .= "</div>";
-			}
-			else
-			{
-			$html .= "<div class='fileinput'>";
-				$html .= "<p><input class='file-upload' id='s3files-upload-{$attributes['id']}' type='file' name='files' tabindex='{$this->tabindex}'></p>";
-				$html .= "<button class='btn-upload btn btn-small is-hidden'>Upload</button>";
-			$html .= "</div>";
-			$html .= "<div class='progress is-hidden'>";
-				$html .= "<div class='progress-filename clearfix'>";
-					$html .= "<p>Uploading&hellip;</p>";
-				$html .= "</div>";
-				$html .= "<div class='progress-bar clearfix'>";
-					$html .= "<progress class='uploading' value='0' min='0' max='100'></progress>";
-					$html .= "<div class='prc'></div>";
-				$html .= "</div>";
-			$html .= "</div>";
-			$html .= "<div class='result'>";
-				$html .= "<input type='hidden' class='successful-upload' id='{$attributes['name']}' name='{$attributes['name']}' type='text' value=''>";
-			$html .= "</div>";
-			}
+		$ft_template = File::get( __DIR__ . '/ft.s3files.html');
+		return Content::parse($ft_template, $data);
 
-		$html .= "</div>";
+		// $html = "<div class='s3files file-field-container'>";
+		// 	$html .= "<input class='postUrl' name='postUrl' type='hidden' value='{$attributes['action']}'>";
+		// 	if ($this->field_data)
+		// 	{
+		// 	$html .= "<div class='result is-visible'>";
+		// 		$html .= "<p><span class='filename-display'>".basename($attributes['value'])."</span></p>";
+		// 		$html .= "<a class='btn btn-small btn-remove' href='#'>Remove</a>";
+		// 		$html .= "<input class='successful-upload' name='{$attributes['name']}' type='hidden' value='{$attributes['value']}'>";
+		// 	$html .= "</div>";
+		// 	}
+		// 	else
+		// 	{
+		// 	$html .= "<div class='fileinput'>";
+		// 		$html .= "<p><input class='file-upload' id='s3files-upload-{$attributes['id']}' type='file' name='files' tabindex='{$this->tabindex}'></p>";
+		// 		$html .= "<button class='btn-upload btn btn-small is-hidden'>Upload</button>";
+		// 	$html .= "</div>";
+		// 	$html .= "<div class='progress is-hidden'>";
+		// 		$html .= "<div class='progress-filename clearfix'>";
+		// 			$html .= "<p>Uploading&hellip;</p>";
+		// 		$html .= "</div>";
+		// 		$html .= "<div class='progress-bar clearfix'>";
+		// 			$html .= "<progress class='uploading' value='0' min='0' max='100'></progress>";
+		// 			$html .= "<div class='prc'></div>";
+		// 		$html .= "</div>";
+		// 	$html .= "</div>";
+		// 	$html .= "<div class='result'>";
+		// 		$html .= "<input type='hidden' class='successful-upload' id='{$attributes['name']}' name='{$attributes['name']}' type='text' value=''>";
+		// 	$html .= "</div>";
+		// 	}
 
-		return $html;
+		// $html .= "</div>";
+
+		// return $html;
 
 	}
 
