@@ -13,8 +13,15 @@ class Fieldtype_s3files extends Fieldtype {
 
 	static $field_settings;
 
-	function render() {
+	function render()
+	{
+
 		self::$field_settings = $this->field_config;
+
+		$field_settings = Fieldtype_s3files::get_field_settings();
+		$field_config   = array_get($field_settings, 'field_config', $field_settings);
+		$destination    = isset( $field_settings['destination'] ) ? $field_settings['destination'] : false;
+
 
 		// Set attributes as array
 		$attributes = array(
@@ -24,6 +31,27 @@ class Fieldtype_s3files extends Fieldtype {
 			'value'		=> $this->field_data,
 			'action'	=> Config::getSiteRoot() . 'TRIGGER/s3files/ajaxupload' // this is the file the AJAX needs to hit on POST. Created in hooks -> function s3files__ajaxupload
 		);
+
+		/**
+		 * If there is a destination parameter set in the field,
+		 * let's append it to the action.
+		 */
+		if( $destination )
+		{
+			$attributes['action'] .= "?destination={$destination}";
+		}
+
+		// print_r($attributes);
+
+		/**
+		 * @todo Use a parsed template to render field HTML.
+		 */
+		// $data = array(
+		// 	'field_data' => $this->field_data,
+		// 	'attributes' => $attributes,
+		// );
+		// $ft_template = File::get( __DIR__ . '/ft.s3files.html');
+		// return Parse::template($ft_template, $data);
 
 		$html = "<div class='s3files file-field-container'>";
 			$html .= "<input class='postUrl' name='postUrl' type='hidden' value='{$attributes['action']}'>";
@@ -68,4 +96,7 @@ class Fieldtype_s3files extends Fieldtype {
 	function process() {
 		return trim($this->field_data);
 	}
+
 }
+
+// END ft.s3files.php

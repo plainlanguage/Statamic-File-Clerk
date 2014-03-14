@@ -1,0 +1,27 @@
+<div class="s3files file-field-container">
+ 	<input class="postUrl" name="postUrl" type="hidden" value="{{ action }}">
+ 	{{ if field_data != '' }}
+	<div class="result is-visible">
+		 <p><span class="filename-display">{{ value }}</span></p>
+		 <a class="btn btn-small btn-remove" href="#">Remove</a>
+		 <input class="successful-upload" name="{{ name }}" type="hidden" value="{{ value }}">
+	 </div>
+	{{ elseif }}
+	<div class="fileinput">
+		<p><input class="file-upload" id="s3files-upload-{{ id }}" type="file" name="files" tabindex="{{ index }}"></p>
+	 	<button class="btn-upload btn btn-small is-hidden">Upload</button>
+ 	</div>
+ 	<div class="progress is-hidden">
+		<div class="progress-filename clearfix">
+			<p>Uploading&hellip;</p>
+	 	</div>
+	 	<div class="progress-bar clearfix">
+			<progress class="uploading" value="0" min="0" max="100"></progress>
+			<div class="prc"></div>
+		</div>
+ 	</div>
+	<div class="result">
+		<input type="hidden" class="successful-upload" id="{{ name }}" name="{{ name }}" type="text" value="">
+	</div>
+	{{ /if }}
+</div>

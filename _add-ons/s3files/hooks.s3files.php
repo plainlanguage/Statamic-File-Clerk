@@ -29,7 +29,8 @@ class Hooks_s3files extends Hooks
 	// -------------------------------------------------------------------------------
 	// Load JS in footer
 	// -------------------------------------------------------------------------------
-	public function control_panel__add_to_foot() {
+	public function control_panel__add_to_foot() 
+	{
 		// Get the necessary support .js
 		if (URL::getCurrent(false) == '/publish') {
 			$html = $this->js->link(array(
@@ -46,6 +47,8 @@ class Hooks_s3files extends Hooks
 	public function uploadFile()
 	{
 
+		// Log::info( json_encode($this->mergeConfigs(Request::get('destination'))), '', '' );
+
 		// -------------------------------------------------------------------------------
 		// Set S3 Credentials
 		// -------------------------------------------------------------------------------
@@ -58,12 +61,15 @@ class Hooks_s3files extends Hooks
 		$this->client->registerStreamWrapper();
 
 		$error = false;
-		$data = array();
+		$data  = array();
 
 		// Get field-specific settings, i.e. bucket and directories
-		if (class_exists('Fieldtype_s3files') && method_exists('Fieldtype_s3files', 'get_field_settings')) {
-			$field_settings = Fieldtype_s3files::get_field_settings();
-		}
+		// if (class_exists('Fieldtype_s3files') && method_exists('Fieldtype_s3files', 'get_field_settings')) {
+		// 	$field_settings = Fieldtype_s3files::get_field_settings();
+		// }
+
+		// Merge configs before we proceed
+		$this->config = self::mergeConfigs(Request::get('destination'));
 
 		foreach($_FILES as $file)
 		{
@@ -73,14 +79,14 @@ class Hooks_s3files extends Hooks
 			$filesize	= $file['size'];
 			$fileError	= $file['error'];
 
-			$handle = $tmp_name; // Set the full path of the uploaded file to use in setSource
+			$handle   = $tmp_name; // Set the full path of the uploaded file to use in setSource
 			$filename = File::cleanFilename($filename); // Clean Filename
 
 			// Add-on settings
-			$bucket = $this->config['bucket'];
-			$directory = $this->config['folder'];
+			$bucket       = $this->config['bucket'];
+			$directory    = $this->config['folder'];
 			$customDomain = $this->config['custom_domain'];
-			$setAcl = $this->config['permissions'];
+			$setAcl       = $this->config['permissions'];
 
 			// Is a custom domain set in the config?
 			if($customDomain)
@@ -217,4 +223,63 @@ class Hooks_s3files extends Hooks
 		$this->tasks->s3View();
 	}
 
+	/**
+	 * Merge all configs
+	 *
+	 * @param string  $destination Paramter for destination YAML file to attempt to load.
+	 * @return array
+	 */
+	private function mergeConfigs( $destination = null )
+	{
+
+		// A complete list of all possible config variables
+		$config = array(
+			'aws_access_key' => null,
+			'aws_secret_key' => null,
+			'custom_domain'  => null,
+			'bucket'         => null,
+			'folder'         => null,
+			'permissions'    => 'public-read',
+			'content_types'  => array('jpg', 'jpeg', 'png', 'gif', 'pdf', 'doc'),
+		);
+
+		// Destination config array
+		$destination_config = array();
+
+		// Check that the destination config file exists
+		if( ! is_null($destination) )
+		{
+			// Set the full path for the destination file
+			$destination_file = S3FILES_DESTINATION_PATH . ltrim($destination) . '.yaml';
+
+			if( File::exists($destination_file) )
+			{
+				$destination_config = YAML::parseFile($destination_file);
+
+				foreach( $destination_config as $key => $value )
+				{
+					if( empty($value) || is_null($value) )
+					{
+						unset($destination_config[$key]);
+						continue;
+					}
+				}
+			}
+			else
+			{
+				$this->log->error("Could not use destination `" . $destination . "`, YAML file does not exist.");
+			}
+		}
+
+		// load global config
+		$addon_config = Helper::pick($this->getConfig(), array());
+
+		// merge config variables in order
+		$config = array_merge($config, $addon_config, $destination_config);
+
+		return $config;
+	}
+
 }
+
+// END hooks.s3files.php
