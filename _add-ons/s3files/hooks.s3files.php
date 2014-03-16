@@ -143,7 +143,21 @@ class Hooks_s3files extends Hooks
 	// -------------------------------------------------------------------------------
 	public function s3files__ajaxupload() //This can be accessed as a URL via /TRIGGER/s3files/ajaxupload
 	{
-		$this->tasks->ajaxUpload();
+
+		if(Request::isAjax()) // Make sure request is AJAX
+		{
+			ob_start();
+			$object = new Hooks_s3files();
+			$object->uploadFile();
+			header('Content-Type: application/json');
+			ob_flush();
+			return true;
+			Log::info('Boom');
+		}
+		else
+		{
+			echo 'AJAX only, son.';
+		}
 	}
 
 	// -------------------------------------------------------------------------------
@@ -220,7 +234,12 @@ class Hooks_s3files extends Hooks
 	// -------------------------------------------------------------------------------
 	public function s3files__view() //This can be accessed as a URL via /TRIGGER/s3files/view
 	{
-		$this->tasks->s3View();
+
+		ob_start();
+		$object = new Hooks_s3files();
+		$object->selectS3File();
+		ob_flush();
+		return true;
 	}
 
 	/**
