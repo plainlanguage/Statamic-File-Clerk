@@ -60,7 +60,7 @@ class Fieldtype_s3files extends Fieldtype {
 			'value'          => $attributes['value'],
 		);
 
-		$ft_template = File::get( __DIR__ . '/ft.s3files.html');
+		$ft_template = File::get( __DIR__ . '/views/ft.s3files.html');
 		return Content::parse($ft_template, $data);
 
 		// $html = "<div class='s3files file-field-container'>";
