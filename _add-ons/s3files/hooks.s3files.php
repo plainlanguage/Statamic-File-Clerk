@@ -196,7 +196,7 @@ class Hooks_s3files extends Hooks
 
 		$finder
 			->ignoreUnreadableDirs()
-			->in('s3://' . URL::tidy($bucket . '/'))
+			->in('s3://' . URL::tidy($bucket . '/' . $directory . '/'))
 			->depth('< 0'); // Do not allow access above the starting directory
 
 		/*

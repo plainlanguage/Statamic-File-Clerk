@@ -3,20 +3,20 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "b33414eddc132bfecbc48e86712717d4",
+    "hash": "21f5630e15fc565f58de7f19cc2499a5",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "2.5.3",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "de3dc8b9c7ce8ec70fc6184a8b3b4aff6728ae17"
+                "reference": "6e65c22e9d780d773c284d5ee70dffd4ac66d429"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/de3dc8b9c7ce8ec70fc6184a8b3b4aff6728ae17",
-                "reference": "de3dc8b9c7ce8ec70fc6184a8b3b4aff6728ae17",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/6e65c22e9d780d773c284d5ee70dffd4ac66d429",
+                "reference": "6e65c22e9d780d773c284d5ee70dffd4ac66d429",
                 "shasum": ""
             },
             "require": {
@@ -71,7 +71,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2014-02-27 20:50:34"
+            "time": "2014-03-13 22:11:14"
         },
         {
             "name": "guzzle/guzzle",
@@ -278,9 +278,9 @@
 
     ],
     "minimum-stability": "stable",
-    "stability-flags": [
-
-    ],
+    "stability-flags": {
+        "aws/aws-sdk-php": 20
+    },
     "platform": [
 
     ],

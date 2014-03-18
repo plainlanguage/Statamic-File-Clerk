@@ -39,7 +39,7 @@ class Plugin_s3files extends Plugin
 		*/
 
 		// Check to make sure the string is a URL and also if it exists. If it's not, log it.
-		if( ! Url::isValid($s3_url) || $this->curlGetFileSize($s3_url) <= "1" ) {
+		if( ! Url::isValid($s3_url) || $this->curl_get_file_size($s3_url) <= "1" ) {
 
 			Log::error("Could not find the requested URL: " . $s3_url, "core", "S3 Files");
 
@@ -55,7 +55,7 @@ class Plugin_s3files extends Plugin
 		|
 		*/
 
-		$size = $this->curlGetFileSize($s3_url);
+		$size = $this->curl_get_file_size($s3_url);
 
 		$file_info = array(
 			'extension' => pathinfo($s3_url, PATHINFO_EXTENSION),
@@ -87,7 +87,7 @@ class Plugin_s3files extends Plugin
 	|
 	*/
 
-	private function curlGetFileSize( $url )
+	private function curl_get_file_size( $url )
 	{
 		$ch = curl_init($url);
 
