@@ -217,7 +217,7 @@ class Hooks_s3files extends Hooks
 		| Select the important bits of data on the list of files.
 		|
 		*/
-	
+
 		$data = array(
 			'files'       => array(), // Files array
 			'directories' => array(), // Directories array
@@ -281,35 +281,6 @@ class Hooks_s3files extends Hooks
 
 		dd( $data ); // Just dumping everything to screen and killing the app for now.
 		//echo json_encode($data_files);
-
-		/*
-		// Using Iterator class -- http://docs.aws.amazon.com/aws-sdk-php/latest/namespace-Aws.S3.Iterator.html
-		$iterator = $this->client->getIterator(
-			'ListObjects',
-			array(
-				'Bucket' => $bucket,
-				'Prefix' => $directory,
-			),
-			array(
-				'return_prefixes' => true,
-			)
-		);
-
-		// Convert iterator to an array
-		$objects = $iterator->toArray();
-
-		$data = array();
-		foreach ($objects as $object) {
-			$data[] = array(
-				'key' => $object['Key'],
-				'last_modified' => $object['LastModified'],
-				'size' => File::getHumanSize($object['Size']),
-			);
-		}
-
-		echo json_encode($data);
-		//print_r($objects);
-		*/
 	}
 
 
@@ -395,7 +366,7 @@ class Hooks_s3files extends Hooks
 		if (file_exists($url)) {
 			return true;
 		}
-		
+
 	}
 
 	/**
