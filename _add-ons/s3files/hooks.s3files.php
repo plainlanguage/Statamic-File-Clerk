@@ -180,7 +180,8 @@ class Hooks_s3files extends Hooks
 
 	/**
 	 * Select S3 File
-	 *
+	 * @return [array]
+	 * @todo Need to make sure that when we get a file or dir, we return a fully-qualified URL to save in the field.
 	 */
 	private function select_s3_file()
 	{
@@ -234,6 +235,7 @@ class Hooks_s3files extends Hooks
 					'filename'      => $file->getFilename(),
 					'file'          => $file->getPathname(),
 					'extension'     => $file->getExtension(),
+					'filepath'      => '', // @todo
 					'size'          => File::getHumanSize($file->getSize()),
 					'last_modified' => $file->getMTime(),
 					'is_file'       => $file->isFile(),
