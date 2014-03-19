@@ -169,10 +169,20 @@ class Hooks_s3files extends Hooks
 	}
 
 	/**
+	 * `TRIGGER: Choose files
+	 * @uri /TRIGGER/s3files/choosefile
+	 * @return none
+	 */
+	public function s3files__choosefile()
+	{
+		$this->select_s3_file();
+	}
+
+	/**
 	 * Select S3 File
 	 *
 	 */
-	public function select_s3_file()
+	private function select_s3_file()
 	{
 
 		$this->load_s3(); // Load S3
@@ -180,8 +190,8 @@ class Hooks_s3files extends Hooks
 		// Merge configs before we proceed
 		$this->config = self::merge_configs(Request::get('destination'));
 
-		$bucket = $this->config['bucket'];
-		$directory = $this->config['directory'];
+		$bucket    = $this->config['bucket'];
+		$directory = $this->config['folder'];
 
 		/*
 		|--------------------------------------------------------------------------
@@ -193,7 +203,6 @@ class Hooks_s3files extends Hooks
 		*/
 
 		$finder = new Finder();
-
 		$finder
 			->ignoreUnreadableDirs()
 			->in('s3://' . URL::tidy($bucket . '/' . $directory . '/'))
@@ -207,24 +216,69 @@ class Hooks_s3files extends Hooks
 		| Select the important bits of data on the list of files.
 		|
 		*/
+	
+		$data = array(
+			'files'       => array(), // Files array
+			'directories' => array(), // Directories array
+		);
 
-		$list_files = $finder; // Files
+		/**
+		 * Let's make sure we've got somethin' up in this mutha.
+		 */
+		if( $finder->count() > 0 )
+		{
+			foreach ($finder as $file)
+			{
+				// File / directory attributes
+				$file_data = array(
+					'filename'      => $file->getFilename(),
+					'file'          => $file->getPathname(),
+					'extension'     => $file->getExtension(),
+					'size'          => File::getHumanSize($file->getSize()),
+					'last_modified' => $file->getMTime(),
+					'is_file'       => $file->isFile(),
+					'is_directory'  => $file->isDir(),
+				);
 
-		// Files Array
-		$data_files = array();
-		foreach ($list_files as $file) {
-			$data_files[] = array(
-				'filename' => $file->getFilename(),
-				'file' => $file->getPathname(),
-				'extension' => $file->getExtension(),
-				'size' => File::getHumanSize($file->getSize()),
-				'last_modified' => $file->getMTime(),
-				'is_file' => $file->isFile(),
-				'is_directory' => $file->isDir(),
-			);
+				/**
+				 * Decide where to shove $file_data
+				 */
+				if( $file->isFile() ) // Push to files array
+				{
+					array_push( $data['files'], $file_data );
+				}
+				elseif( $file->isDir() ) // Push to directories array
+				{
+					array_push( $data['directories'], $file_data );
+				}
+				else // Keep on movin' on.
+				{
+					continue;
+				}
+				unset( $file_data );
+			}
+		}
+		else
+		{
+			/**
+			 * Return an error of type dialog that should show a message to the user
+			 * that there are is nothing to see her. Doh!
+			 * @return [array] JSON
+			 * @todo See `self::set_json_return`.
+			 */
+			return json_encode( array(
+				'error' => true,
+				'code'  => 100,
+				'type'  => 'message',
+				'data'  => array(
+					'text' => 'There are no files nor directories here.',
+					'html' => '',
+				),
+			));
 		}
 
-		echo json_encode($data_files);
+		dd( $data ); // Just dumping everything to screen and killing the app for now.
+		//echo json_encode($data_files);
 
 		/*
 		// Using Iterator class -- http://docs.aws.amazon.com/aws-sdk-php/latest/namespace-Aws.S3.Iterator.html
@@ -339,6 +393,20 @@ class Hooks_s3files extends Hooks
 		if (file_exists($url)) {
 			return true;
 		}
+		
+	}
+
+	/**
+	 * Private function to build appropriate JSON messages for AJAX.
+	 * @return [array] JSON.
+	 * @todo Establish set error codes.
+	 * @todo Establish parameters for function.
+	 */
+	private function set_json_return()
+	{
+		$data = array();
+
+		return $data;
 	}
 
 }
