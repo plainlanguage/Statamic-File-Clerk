@@ -1,11 +1,11 @@
 module.exports = {
 
 	scripts: {
-		files: ['_add-ons/s3files/js/**/*.js', '!_add-ons/s3files/js/plugins/*.js', '!_add-ons/s3files/js/vendor/*.js'],
-		tasks: ['newer:bake', 'newer:concat', 'newer:uglify', 'newer:jshint', 'notify:scripts'],
+		files: ['_add-ons/s3files/js/*.js', '!_add-ons/s3files/js/plugins/*.js', '!_add-ons/s3files/js/vendor/*.js'],
+		tasks: ['newer:bake', 'newer:concat', 'uglify', 'newer:jshint', 'notify:scripts'],
 		options: {
 			spawn: false,
-			livereload: true
+			livereload: false
 		}
 	},
 	scss: {
@@ -16,7 +16,7 @@ module.exports = {
 		files: ['_add-ons/s3files/css/s3files.css'],
 		tasks: ['newer:cssmin', 'notify:css'],
 		options: {
-			livereload: true
+			livereload: false
 		}
 	},
 	images: {
