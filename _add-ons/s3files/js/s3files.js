@@ -10,29 +10,6 @@
 //            $$ |
 //            \__|
 
-// Avoid `console` errors in browsers that lack a console.
-(function() {
-	var method;
-	var noop = function () {};
-	var methods = [
-		'assert', 'clear', 'count', 'debug', 'dir', 'dirxml', 'error',
-		'exception', 'group', 'groupCollapsed', 'groupEnd', 'info', 'log',
-		'markTimeline', 'profile', 'profileEnd', 'table', 'time', 'timeEnd',
-		'timeStamp', 'trace', 'warn'
-	];
-	var length = methods.length;
-	var console = (window.console = window.console || {});
-
-	while (length--) {
-		method = methods[length];
-
-		// Only stub undefined methods.
-		if (!console[method]) {
-			console[method] = noop;
-		}
-	}
-}());
-
 // The jQuery
 $(function () {
 
@@ -61,7 +38,7 @@ $(function () {
 		prepareUpload: function( event ) {
 
 			var files = event.target.files;
-			btnUpload = $(this).closest('.s3files').find('.btn-upload');
+			var btnUpload = $(this).closest('.s3files').find('.btn-upload');
 
 			btnUpload.removeClass('is-hidden');
 
@@ -166,9 +143,8 @@ $(function () {
 			filenameDisplay.html(''); // Empty display filename
 
 		}
-	}
+	};
 
 	// Run it
 	s3upload.init();
-
 });

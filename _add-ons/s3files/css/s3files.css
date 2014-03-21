@@ -84,7 +84,7 @@
 }
 .s3files .filename-display,
 .s3files .success {
-  background: url("../assets/img/icon-success.png") 0 center no-repeat !important;
+  background: url("../assets/img/build/icon-success.png") 0 center no-repeat !important;
   display: block;
   padding-left: 30px;
 }
@@ -96,7 +96,7 @@
   float: left;
 }
 .s3files .remove {
-  background: url("../assets/img/icon-remove.png") 0 center no-repeat;
+  background: url("../assets/img/build/icon-remove.png") 0 center no-repeat;
   height: 50px;
   text-indent: 100%;
   white-space: nowrap;
