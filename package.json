@@ -1,17 +1,24 @@
 {
-	"name": "s3-files",
-	"version": "0.0.1",
-	"description": "A simple Amazon S3 add-on for Statamic",
-	"main": "Gruntfile.js",
-	"author": "Chad Clark, Brandon Haslip, and Michael Reiner",
-	"homepage": "http://chadjclark.com",
-	"devDependencies": {
-		"grunt": "~0.4.1",
-		"grunt-contrib-concat": "~0.3.0",
-		"grunt-contrib-uglify": "~0.2.2",
-		"grunt-contrib-jshint": "~0.6.0",
-		"grunt-contrib-watch": "~0.4.4",
-		"grunt-contrib-sass": "~0.5.0",
-		"grunt-sync": "~0.0.5"
-	}
+  "name": "grunt-boilerplate",
+  "version": "1.0.0",
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-bake": "*",
+    "grunt-concurrent": "*",
+    "grunt-contrib-cssmin": "*",
+    "grunt-contrib-concat": "*",
+    "grunt-contrib-connect": "*",
+    "grunt-contrib-imagemin": "0.4.1",
+    "grunt-contrib-jshint": "*",
+    "grunt-notify": "*",
+    "grunt-contrib-sass": "*",
+    "grunt-contrib-uglify": "*",
+    "grunt-contrib-watch": "*",
+    "grunt-newer": "*",
+    "grunt-svgmin": "*",
+    "load-grunt-config": "*"
+  },
+  "dependencies": {
+    "time-grunt": "*"
+  }
 }

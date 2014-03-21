@@ -1,0 +1,6 @@
+default:
+    - 'connect'
+    - 'watch'
+build:
+    - 'concurrent:build_one'
+    - 'concurrent:build_two'
