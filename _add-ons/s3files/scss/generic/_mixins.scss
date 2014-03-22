@@ -1,0 +1,10 @@
+// ---------------------------------------------------------------------------------
+// Background Image
+// ---------------------------------------------------------------------------------
+
+@mixin bg-img($file, $extension, $pos-x: 0, $pos-y: 0, $repeat: no-repeat) {
+	background: url($bg-img-path + $file + '.' + $extension) $pos-x $pos-y $repeat;
+	@include hidpi( 1.3 ) {
+		background: url($bg-img-path + $file + '@2x' + '.' + $extension) $pos-x $pos-y $repeat;
+	}
+}

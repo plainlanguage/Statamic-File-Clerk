@@ -1,36 +1,20 @@
-.clearfix:before, .s3files .success:before,
-.clearfix:after,
-.s3files .success:after {
-  content: "";
-  display: table;
-}
-
-.clearfix:after, .s3files .success:after {
-  clear: both;
-}
-
-.clearfix, .s3files .success {
-  zoom: 1;
-  /* For IE 6/7 (trigger hasLayout) */
-}
-
 .s3files .is-hidden {
+  -webkit-transition: all 0.1s ease-out;
+  -moz-transition: all 0.1s ease-out;
+  transition: all 0.1s ease-out;
   visibility: hidden;
   max-height: 0;
   opacity: 0;
   overflow: hidden;
-  -webkit-transition: all .1s ease-out;
-  -moz-transition: all .1s ease-out;
-  transition: all .1s ease-out;
 }
 .s3files .is-visible {
+  -webkit-transition: all 0.1s ease-out;
+  -moz-transition: all 0.1s ease-out;
+  transition: all 0.1s ease-out;
   visibility: visible;
   max-height: 999px;
   opacity: 1.0;
   overflow: auto;
-  -webkit-transition: all .5s ease-in;
-  -moz-transition: all .5s ease-in;
-  transition: all .5s ease-in;
 }
 .s3files .progress {
   width: 100%;
@@ -47,6 +31,9 @@
 }
 .s3files .progress-bar progress[value] {
   -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  -o-appearance: none;
   appearance: none;
   height: 20px;
 }
@@ -58,7 +45,8 @@
 }
 .s3files .progress-bar progress[value]::-webkit-progress-value {
   background-size: 40px 20px, 100% 100%, 100% 100%;
-  background-image: -webkit-linear-gradient(-45deg, transparent 33%, rgba(0, 0, 0, 0.1) 33%, rgba(0, 0, 0, 0.1) 66%, transparent 66%), -webkit-linear-gradient(left, #4aae4e, #4aae4e);
+  background-image: -webkit-linear-gradient(-225deg, transparent 33%, rgba(0, 0, 0, 0.1) 33%, rgba(0, 0, 0, 0.1) 66%, transparent 66%), -webkit-linear-gradient(left, #4aae4e, #4aae4e);
+  background-image: linear-gradient(-45deg, transparent 33%, rgba(0, 0, 0, 0.1) 33%, rgba(0, 0, 0, 0.1) 66%, transparent 66%), linear-gradient(to right, #4aae4e, #4aae4e);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.2);
 }
 .s3files .progress-bar progress.uploading[value]::-webkit-progress-value {
@@ -76,17 +64,55 @@
   .s3files 100%  {
     background-position: -100px 0px;
   }
+  .s3files 100%  {
+    background-position: -100px 0px;
+  }
+}
+@-moz-keyframes animate-stripes {
+  .s3files 100%  {
+    background-position: -100px 0px;
+  }
+  .s3files 100%  {
+    background-position: -100px 0px;
+  }
+}
+@-o-keyframes animate-stripes {
+  .s3files 100%  {
+    background-position: -100px 0px;
+  }
+  .s3files 100%  {
+    background-position: -100px 0px;
+  }
 }
 @keyframes animate-stripes {
   .s3files 100%  {
     background-position: -100px 0px;
   }
+  .s3files 100%  {
+    background-position: -100px 0px;
+  }
+}
+.s3files .success {
+  *zoom: 1;
+}
+.s3files .success:before, .s3files .success:after {
+  content: " ";
+  display: table;
+}
+.s3files .success:after {
+  clear: both;
 }
 .s3files .filename-display,
 .s3files .success {
-  background: url("../assets/img/build/icon-success.png") 0 center no-repeat !important;
+  background: url("../assets/img/build/icon-success.png") 0 center no-repeat;
   display: block;
   padding-left: 30px;
+}
+@media only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen and (min--moz-device-pixel-ratio: 1.3), only screen and (-o-min-device-pixel-ratio: 1.3 / 1), only screen and (min-resolution: 125dpi), only screen and (min-resolution: 1.3dppx) {
+  .s3files .filename-display,
+  .s3files .success {
+    background: url("../assets/img/build/icon-success@2x.png") 0 center no-repeat;
+  }
 }
 .s3files .filename-display strong,
 .s3files .filename-display .remove,
@@ -96,13 +122,18 @@
   float: left;
 }
 .s3files .remove {
-  background: url("../assets/img/build/icon-remove.png") 0 center no-repeat;
+  color: transparent;
+  font: 0/0 a;
+  text-shadow: none;
+  background: url("../assets/img/build/icon-success.png") 0 center no-repeat;
   height: 50px;
-  text-indent: 100%;
-  white-space: nowrap;
-  overflow: hidden;
   margin-left: 6px;
   width: 14px;
+}
+@media only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen and (min--moz-device-pixel-ratio: 1.3), only screen and (-o-min-device-pixel-ratio: 1.3 / 1), only screen and (min-resolution: 125dpi), only screen and (min-resolution: 1.3dppx) {
+  .s3files .remove {
+    background: url("../assets/img/build/icon-success@2x.png") 0 center no-repeat;
+  }
 }
 .s3files .remove:hover {
   background-position: -14px center;
