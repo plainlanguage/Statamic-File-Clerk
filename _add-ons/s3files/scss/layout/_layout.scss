@@ -83,7 +83,7 @@
 
 	.filename-display,
 	.success {
-		@include bg-img(icon-success, png, 0, center);
+		@include bg-img(icon-success, png, 23px, 0, center);
 		display: block;
 		padding-left: 30px;
 
@@ -97,7 +97,7 @@
 	.remove {
 		$size: 14px;
 		@include hide-text;
-		@include bg-img(icon-success, png, 0, center);
+		@include bg-img(icon-success, png, 28px, 0, center);
 		height: 50px;
 		margin-left: 6px;
 		width: $size;
