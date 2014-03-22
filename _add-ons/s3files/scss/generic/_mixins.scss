@@ -9,3 +9,16 @@
 		background-size: $width auto;
 	}
 }
+
+// ---------------------------------------------------------------------------------
+// Image Replacement
+// ---------------------------------------------------------------------------------
+
+@mixin image-replacement( $width, $height ) {
+	display: block;
+	height: $height;
+	overflow: hidden;
+	text-indent: 100%;
+	white-space: nowrap;
+	width: $width;
+}
