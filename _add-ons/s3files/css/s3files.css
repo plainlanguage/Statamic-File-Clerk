@@ -288,7 +288,30 @@
   line-height: 90%;
   white-space: nowrap;
 }
-.s3files .remote-view .upload-bar {
-  padding: 0.625em 0.3125em;
-  text-align: center;
+.s3files .remote-view .action-bar {
+  background-image: -webkit-linear-gradient( white, #f4f4f0);
+  background-image: linear-gradient( white, #f4f4f0);
+  *zoom: 1;
+  border-top: 1px solid #d7d7ca;
+  padding: 0.9375em;
+}
+.s3files .remote-view .action-bar:before, .s3files .remote-view .action-bar:after {
+  content: " ";
+  display: table;
+}
+.s3files .remote-view .action-bar:after {
+  clear: both;
+}
+.s3files .remote-view .action-bar .upload {
+  float: left;
+  text-align: left;
+  width: 75%;
+}
+.s3files .remote-view .action-bar .select {
+  float: right;
+  text-align: right;
+  width: 25%;
+}
+.s3files .remote-view .action-bar .btn {
+  margin: 0;
 }

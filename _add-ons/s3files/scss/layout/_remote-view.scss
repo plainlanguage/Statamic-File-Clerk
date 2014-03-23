@@ -77,7 +77,6 @@ $control-bar-element-border-radius: em(5);
 		float: right;
 
 		a {
-
 			@include image-replacement( $control-bar-element-size, $control-bar-element-size );
 			border: $border-default;
 			display: block;
@@ -154,11 +153,27 @@ $control-bar-element-border-radius: em(5);
 		}
 	}
 
-	// Upload Bar
-	.upload-bar {
-		//border-top: $border-default;
-		//box-shadow: 0 -1px 6px rgba( $color-black, 0.1 );
-		padding: em(10) em(5);
-		text-align: center;
+	// Action Bar
+	.action-bar {
+		@include background-image(linear-gradient( $color-white, $color-tan-light ));
+		@include clearfix;
+		border-top: $border-default;
+		padding: em(15);
+
+		.upload {
+			float: left;
+			text-align: left;
+			width: 75%;
+		}
+
+		.select {
+			float: right;
+			text-align: right;
+			width: 25%;
+		}
+
+		.btn {
+			margin: 0;
+		}
 	}
 }
