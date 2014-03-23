@@ -73,7 +73,7 @@ $control-bar-element-border-radius: em(5);
 
 		// The visibily 'selected' directory in the drop-down
 		.directory-active {
-			@include bg-img(icon-directory-chooser, png, 8px, right, center);
+			@include bg-img(icon-directory-chooser, png, 26px, right, center);
 			border-radius: $control-bar-element-border-radius;
 			border: $border-default;
 			color: $color-gray-mid;
@@ -127,7 +127,7 @@ $control-bar-element-border-radius: em(5);
 
 	// S3 View
 	.s3-view {
-		max-height: em(200);
+		max-height: em(280);
 		overflow-y: auto;
 	}
 
@@ -157,7 +157,7 @@ $control-bar-element-border-radius: em(5);
 		}
 
 		.head-name {
-			width: 60%;
+			width: 65%;
 		}
 
 		.head-size {
@@ -165,7 +165,7 @@ $control-bar-element-border-radius: em(5);
 		}
 
 		.head-date {
-			width: 25%;
+			width: 20%;
 		}
 
 		span.time {
@@ -181,7 +181,7 @@ $control-bar-element-border-radius: em(5);
 		@include background-image(linear-gradient( $color-white, $color-tan-light ));
 		@include clearfix;
 		border-top: $border-default;
-		padding: em(15);
+		padding: em(8);
 
 		.upload,
 		.select {

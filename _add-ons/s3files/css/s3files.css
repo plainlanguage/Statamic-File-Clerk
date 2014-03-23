@@ -214,7 +214,7 @@
 @media only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen and (min--moz-device-pixel-ratio: 1.3), only screen and (-o-min-device-pixel-ratio: 1.3 / 1), only screen and (min-resolution: 125dpi), only screen and (min-resolution: 1.3dppx) {
   .s3files .remote-view .directory-nav .directory-active {
     background: url("../assets/build/img/icon-directory-chooser@2x.png") right center no-repeat;
-    background-size: 8px auto;
+    background-size: 26px auto;
   }
 }
 .s3files .remote-view .directory-nav .selected-directory {
@@ -280,7 +280,7 @@
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 .s3files .remote-view .s3-view {
-  max-height: 12.5em;
+  max-height: 17.5em;
   overflow-y: auto;
 }
 .s3files .remote-view .s3-view .view-list table {
@@ -301,13 +301,13 @@
   border: 1px solid #f1f1ed;
 }
 .s3files .remote-view .s3-view .view-list .head-name {
-  width: 60%;
+  width: 65%;
 }
 .s3files .remote-view .s3-view .view-list .head-size {
   width: 15%;
 }
 .s3files .remote-view .s3-view .view-list .head-date {
-  width: 25%;
+  width: 20%;
 }
 .s3files .remote-view .s3-view .view-list span.time {
   color: #aaaaaa;
@@ -320,7 +320,7 @@
   background-image: linear-gradient( white, #f4f4f0);
   *zoom: 1;
   border-top: 1px solid #d7d7ca;
-  padding: 0.9375em;
+  padding: 0.5em;
 }
 .s3files .remote-view .action-bar:before, .s3files .remote-view .action-bar:after {
   content: " ";
