@@ -104,14 +104,14 @@
 }
 .s3files .filename-display,
 .s3files .success {
-  background: url("../assets/img/build/icon-success.png") 0 center no-repeat;
+  background: url("../assets/build/img/icon-success.png") 0 center no-repeat;
   display: block;
   padding-left: 30px;
 }
 @media only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen and (min--moz-device-pixel-ratio: 1.3), only screen and (-o-min-device-pixel-ratio: 1.3 / 1), only screen and (min-resolution: 125dpi), only screen and (min-resolution: 1.3dppx) {
   .s3files .filename-display,
   .s3files .success {
-    background: url("../assets/img/build/icon-success@2x.png") 0 center no-repeat;
+    background: url("../assets/build/img/icon-success@2x.png") 0 center no-repeat;
     background-size: 23px auto;
   }
 }
@@ -126,14 +126,14 @@
   color: transparent;
   font: 0/0 a;
   text-shadow: none;
-  background: url("../assets/img/build/icon-success.png") 0 center no-repeat;
+  background: url("../assets/build/img/icon-success.png") 0 center no-repeat;
   height: 50px;
   margin-left: 6px;
   width: 14px;
 }
 @media only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen and (min--moz-device-pixel-ratio: 1.3), only screen and (-o-min-device-pixel-ratio: 1.3 / 1), only screen and (min-resolution: 125dpi), only screen and (min-resolution: 1.3dppx) {
   .s3files .remove {
-    background: url("../assets/img/build/icon-success@2x.png") 0 center no-repeat;
+    background: url("../assets/build/img/icon-success@2x.png") 0 center no-repeat;
     background-size: 28px auto;
   }
 }
@@ -171,14 +171,37 @@
 }
 .s3files .remote-view .directory-nav {
   float: left;
+  width: 85%;
 }
 .s3files .remote-view .directory-nav .directory-active {
+  background: url("../assets/build/img/icon-directory-chooser.png") right center no-repeat;
   border-radius: 0.3125em;
   border: 1px solid #d7d7ca;
+  color: #1e3640;
   display: block;
+  font-weight: bold;
   height: 2em;
   line-height: 2em;
   padding: 0 0.5em;
+}
+@media only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen and (min--moz-device-pixel-ratio: 1.3), only screen and (-o-min-device-pixel-ratio: 1.3 / 1), only screen and (min-resolution: 125dpi), only screen and (min-resolution: 1.3dppx) {
+  .s3files .remote-view .directory-nav .directory-active {
+    background: url("../assets/build/img/icon-directory-chooser@2x.png") right center no-repeat;
+    background-size: 8px auto;
+  }
+}
+.s3files .remote-view .directory-nav .selected-directory {
+  background: url("../assets/build/img/icon-s3-files-directory.png") 0 center no-repeat;
+  display: block;
+  height: 2em;
+  line-height: 2em;
+  padding-left: 2.25em;
+}
+@media only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen and (min--moz-device-pixel-ratio: 1.3), only screen and (-o-min-device-pixel-ratio: 1.3 / 1), only screen and (min-resolution: 125dpi), only screen and (min-resolution: 1.3dppx) {
+  .s3files .remote-view .directory-nav .selected-directory {
+    background: url("../assets/build/img/icon-s3-files-directory@2x.png") 0 center no-repeat;
+    background-size: 28px auto;
+  }
 }
 .s3files .remote-view .option-file-view {
   *zoom: 1;
@@ -205,18 +228,67 @@
   width: 2em;
 }
 .s3files .remote-view .option-file-view a.view-list {
+  background: url("../assets/build/img/icon-view-toggle-list.png") center center no-repeat;
   border-radius: 0.3125em 0 0 0.3125em;
 }
+@media only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen and (min--moz-device-pixel-ratio: 1.3), only screen and (-o-min-device-pixel-ratio: 1.3 / 1), only screen and (min-resolution: 125dpi), only screen and (min-resolution: 1.3dppx) {
+  .s3files .remote-view .option-file-view a.view-list {
+    background: url("../assets/build/img/icon-view-toggle-list@2x.png") center center no-repeat;
+    background-size: 14px auto;
+  }
+}
 .s3files .remote-view .option-file-view a.view-grid {
+  background: url("../assets/build/img/icon-view-toggle-grid.png") center center no-repeat;
   border-radius: 0 0.3125em 0.3125em 0;
   margin-left: -1px;
+}
+@media only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen and (min--moz-device-pixel-ratio: 1.3), only screen and (-o-min-device-pixel-ratio: 1.3 / 1), only screen and (min-resolution: 125dpi), only screen and (min-resolution: 1.3dppx) {
+  .s3files .remote-view .option-file-view a.view-grid {
+    background: url("../assets/build/img/icon-view-toggle-grid@2x.png") center center no-repeat;
+    background-size: 12px auto;
+  }
 }
 .s3files .remote-view .option-file-view a.selected {
   background-color: #edede7;
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
 }
+.s3files .remote-view .s3-view {
+  max-height: 12.5em;
+  overflow-y: auto;
+}
+.s3files .remote-view .s3-view .view-list table {
+  width: 100%;
+}
+.s3files .remote-view .s3-view .view-list th {
+  color: #a0a081;
+  font-size: 80%;
+  text-align: left;
+}
+.s3files .remote-view .s3-view .view-list th,
+.s3files .remote-view .s3-view .view-list td {
+  border: 0;
+  padding: 0.5em;
+  vertical-align: middle;
+}
+.s3files .remote-view .s3-view .view-list tr {
+  border: 1px solid #f1f1ed;
+}
+.s3files .remote-view .s3-view .view-list .head-name {
+  width: 60%;
+}
+.s3files .remote-view .s3-view .view-list .head-size {
+  width: 15%;
+}
+.s3files .remote-view .s3-view .view-list .head-date {
+  width: 25%;
+}
+.s3files .remote-view .s3-view .view-list span.time {
+  color: #aaaaaa;
+  font-size: 80%;
+  line-height: 90%;
+  white-space: nowrap;
+}
 .s3files .remote-view .upload-bar {
-  box-shadow: 0 -1px 6px rgba(0, 0, 0, 0.1);
   padding: 0.625em 0.3125em;
   text-align: center;
 }

@@ -32,7 +32,7 @@
 		<div class="inner">
 			<div class="control-bar">
 				<div class="directory-nav">
-					<a class="directory-active" href="#">Directory</a>
+					<a class="directory-active" href="#"><span class="selected-directory">Directory</span></a>
 				</div>
 				<div class="option-file-view">
 					<a class="view-list selected" href="#">List</a>
@@ -40,9 +40,46 @@
 				</div>
 			</div>
 			<div class="s3-view">
-				<ul>
-					<li></li>
-				</ul>
+				<div class="s3-view-inner">
+					<div class="view-list">
+						<table class="tablesorter">
+							<thead>
+								<tr>
+									<th class="head-name">Name</th>
+									<th class="head-size">Size</th>
+									<th class="head-modifed">Date Modified</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="file">
+									<td class="is-file">Bob-Odenkirk.png</td>
+									<td>46 KB</td>
+									<td>3/22/2014 <span class="time">11:35 AM</span></td>
+								</tr>
+								<tr class="directory">
+									<td class="is-directory">boom</td>
+									<td>--</td>
+									<td></td>
+								</tr>
+								<tr class="file">
+									<td class="is-file">kill-it-with-fire.gif</td>
+									<td>1.1 MB</td>
+									<td>3/22/2014 <span class="time">11:43 AM</span></td>
+								</tr>
+								<tr class="file">
+									<td class="is-file">kurt-rambis-avatar-square.jpg</td>
+									<td>20 KB</td>
+									<td>3/21/2014 <span class="time">4:15 PM</span></td>
+								</tr>
+								<tr class="file">
+									<td class="is-file">Password</td>
+									<td>33 KB</td>
+									<td>3/22/2014 <span class="time">11:48 AM</span></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
 			</div>
 			<div class="upload-bar">
 				<a class="" href="#">Upload New File</a>

@@ -46,15 +46,28 @@ $control-bar-element-border-radius: em(5);
 	// Directory Nav Drop-down
 	.directory-nav {
 		float: left;
+		width: 85%;
 
 		// The visibily 'selected' directory in the drop-down
 		.directory-active {
+			@include bg-img(icon-directory-chooser, png, 8px, right, center);
 			border-radius: $control-bar-element-border-radius;
 			border: $border-default;
+			color: $color-gray-mid;
 			display: block;
+			font-weight: bold;
 			height: em($control-bar-element-size);
 			line-height: em($control-bar-element-size);
 			padding: 0 em(8);
+		}
+
+		// The span inside of a.directory-active w/ the currently selected directory
+		.selected-directory {
+			@include bg-img(icon-s3-files-directory, png, 28px, 0, center);
+			display: block;
+			height: em($control-bar-element-size);
+			line-height: em($control-bar-element-size);
+			padding-left: em(36);
 		}
 	}
 
@@ -73,10 +86,12 @@ $control-bar-element-border-radius: em(5);
 			width: em($control-bar-element-size);
 
 			&.view-list {
+				@include bg-img(icon-view-toggle-list, png, 14px, center, center);
 				border-radius: $control-bar-element-border-radius 0 0 $control-bar-element-border-radius;
 			}
 
 			&.view-grid {
+				@include bg-img(icon-view-toggle-grid, png, 12px, center, center);
 				border-radius: 0 $control-bar-element-border-radius $control-bar-element-border-radius 0;
 				margin-left: -1px;
 			}
@@ -88,10 +103,61 @@ $control-bar-element-border-radius: em(5);
 		}
 	}
 
+	// S3 View
+	.s3-view {
+		max-height: em(200);
+		overflow-y: auto;
+	}
+
+	// Table List View
+	.s3-view .view-list {
+
+		table {
+			width: 100%;
+		}
+
+		th {
+			color: darken( $color-tan-mid, 25 );
+			font-size: 80%;
+			//font-weight: normal;
+			text-align: left;
+		}
+
+		th,
+		td {
+			border: 0;
+			padding: em(8);
+			vertical-align: middle;
+		}
+
+		tr {
+			border: 1px solid lighten( $color-tan-mid, 12 );
+		}
+
+		.head-name {
+			width: 60%;
+		}
+
+		.head-size {
+			width: 15%;
+		}
+
+		.head-date {
+			width: 25%;
+		}
+
+		span.time {
+			color: $color-gray;
+			font-size: 80%;
+			line-height: 90%;
+			white-space: nowrap;
+		}
+	}
+
 	// Upload Bar
 	.upload-bar {
 		//border-top: $border-default;
-		box-shadow: 0 -1px 6px rgba( $color-black, 0.1 );
+		//box-shadow: 0 -1px 6px rgba( $color-black, 0.1 );
 		padding: em(10) em(5);
 		text-align: center;
 	}
