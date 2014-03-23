@@ -28,6 +28,29 @@ $control-bar-element-border-radius: em(5);
 		color: $color-gray-dark;
 	}
 
+	.btn {
+		color: $color-white;
+		float: none;
+		margin: 0;
+	}
+
+	.btn.btn-light {
+		@include background-image(linear-gradient( $color-white, $color-tan-light ));
+		border: $border-default;
+		color: lighten( $color-gray-mid, 15 );
+		text-shadow: none;
+
+		&:hover {
+			@include background-image(linear-gradient( lighten( $color-tan-light, 4 ), darken( $color-tan-light, 3 ) ));
+		}
+	}
+
+	.btn.btn-upload span {
+		@include bg-img(icon-upload, png, 19px, 0, center);
+		display: block;
+		padding-left: em(27);
+	}
+
 	// Inner wrap.
 	.inner {
 		background-color: $color-white;
@@ -160,20 +183,24 @@ $control-bar-element-border-radius: em(5);
 		border-top: $border-default;
 		padding: em(15);
 
+		.upload,
+		.select {
+			width: 50%;
+		}
+
 		.upload {
 			float: left;
 			text-align: left;
-			width: 75%;
 		}
 
 		.select {
 			float: right;
 			text-align: right;
-			width: 25%;
-		}
 
-		.btn {
-			margin: 0;
+			a {
+				display: inline-block;
+				margin-left: em(5);
+			}
 		}
 	}
 }
