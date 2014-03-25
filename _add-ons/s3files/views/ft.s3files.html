@@ -1,4 +1,5 @@
 <div class="s3files file-field-container">
+ 	<!--
  	<input class="postUrl" name="postUrl" type="hidden" value="{{ action }}">
  	{{ if field_data }}
 	<div class="result is-visible">
@@ -24,9 +25,38 @@
 		<input type="hidden" class="successful-upload" id="{{ name }}" name="{{ name }}" type="text" value="">
 	</div>
 	{{ endif }}
+
 	<p>
 		<a href="/TRIGGER/s3files/choosefile">Choose a File &#187;</a>
 	</p>
+	-->
+
+	<div class="s3-add-file">
+		<ul class="tabs">
+			<li class="active"><a href="#" title="Upload New">Upload New</a></li><li><a href="#" title="Choose Existing">Choose Existing</a></li>
+		</ul>
+		<div class="content">
+			<div class="view-upload">
+				<div class="choose-file">
+					<a class="button button-light" href="#"><span>Choose File</span></a>
+				</div>
+				<div class="upload-directory-listing">
+					<div class="directory-default">
+						Destination: <div class="path"><span class="bucket">s3filesdev</span><span class="directory">podcast</span><span class="directory">2014</span></div> <a class="change-upload-destination" href="#">Change</a>
+					</div>
+					<div class="directory-nav is-hidden">
+						<a class="directory-active" href="#"><span class="selected-directory">podcast</span></a>
+					</div>
+				</div>
+				<div class="upload is-hidden">
+					<a class="button button-light" href="#"><span>Upload</span></a>
+				</div>
+			</div>
+			<div class="view-remote">
+
+			</div>
+		</div>
+	</div>
 
 	<div class="remote-view">
 		<div class="inner">

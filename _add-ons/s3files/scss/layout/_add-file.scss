@@ -1,3 +1,157 @@
+//   $$$$$$\        $$\       $$\       $$$$$$$$\ $$\ $$\
+//  $$  __$$\       $$ |      $$ |      $$  _____|\__|$$ |
+//  $$ /  $$ | $$$$$$$ | $$$$$$$ |      $$ |      $$\ $$ | $$$$$$\
+//  $$$$$$$$ |$$  __$$ |$$  __$$ |      $$$$$\    $$ |$$ |$$  __$$\
+//  $$  __$$ |$$ /  $$ |$$ /  $$ |      $$  __|   $$ |$$ |$$$$$$$$ |
+//  $$ |  $$ |$$ |  $$ |$$ |  $$ |      $$ |      $$ |$$ |$$   ____|
+//  $$ |  $$ |\$$$$$$$ |\$$$$$$$ |      $$ |      $$ |$$ |\$$$$$$$\
+//  \__|  \__| \_______| \_______|      \__|      \__|\__| \_______|
+//
+//
+//
+// The Tabbed Upload/Choose interface
+
+// ---------------------------------------------------------------------------------
+// Default Variables
+// ---------------------------------------------------------------------------------
+$border-default: 1px solid $color-tan-mid; // Default Border for elements
+$control-bar-element-size: 32; // Used for element sizes. Height for .directory-nav and .option-file-view a
+$control-bar-element-border-radius: em(5);
+
+.s3files .s3-add-file {
+	@include box-sizing( border-box );
+	clear: both;
+	padding: em(15);
+
+	p {
+		float: none;
+	}
+
+	// Tab Navigation
+	.tabs {
+		list-style-type: none;
+		padding: 0;
+		margin: 0;
+		position: relative;
+		text-align: center;
+		z-index: 2;
+
+		li {
+			border: $border-default;
+			display: inline-block;
+
+			&.active {
+				border-bottom-color: $color-white;
+
+				a,
+				a:hover {
+					background-color: $color-white;
+					color: $color-gray-dark;
+				}
+
+				a {
+					display: block;
+					min-width: em(120);
+				}
+			}
+
+			&:last-child {
+				margin-left: -1px;
+			}
+
+			a {
+				background-color: lighten( $color-tan-mid, 8 );
+				color: darken( $color-tan-mid, 35 );
+				display: block;
+				padding: em(8) em(18);
+
+				&:hover {
+					background-color: $color-tan-mid;
+				}
+			}
+		}
+
+
+	}
+
+	.content {
+		background-color: $color-white;
+		border: $border-default;
+		margin-top: -1px;
+		padding: em(15);
+		text-align: center;
+	}
+
+	// Choose File
+	.choose-file {
+		padding: em(20) 0 em(10) 0;
+	}
+
+	.upload-directory-listing {
+		margin: 0 auto;
+		padding: em(10) 0;
+		@include media(large) {
+
+		}
+	}
+
+	.directory-default {
+		font-size: 88%;
+		text-transform: uppercase;
+
+		span {
+			@include bg-img(icon-breadcrumb-divider, png, 4px, right, center);
+			padding: 0 em(14) 0 em(10);
+			position: relative;
+			text-transform: none;
+
+			&:first-child {
+				padding-left: 0;
+			}
+
+			&:last-child {
+				background: none;
+				padding-right: 0;
+			}
+		}
+
+		.path {
+			background-color: darken( $color-tan-light, 2 );
+			border: $border-default;
+			display: inline-block;
+			padding: em(5) em(8);
+		}
+	}
+
+	// Directory Nav Drop-down
+	.directory-nav {
+
+		// The visibily 'selected' directory in the drop-down
+		.directory-active {
+			@include bg-img(icon-directory-chooser, png, 26px, right, center);
+			border-radius: $control-bar-element-border-radius;
+			border: $border-default;
+			color: $color-gray-mid;
+			display: block;
+			font-weight: bold;
+			height: em($control-bar-element-size);
+			line-height: em($control-bar-element-size);
+			padding: 0 em(8);
+		}
+
+		// The span inside of a.directory-active w/ the currently selected directory
+		.selected-directory {
+			@include bg-img(icon-s3-files-directory, png, 28px, 0, center);
+			display: block;
+			height: em($control-bar-element-size);
+			line-height: em($control-bar-element-size);
+			padding-left: em(36);
+			text-align: left;
+		}
+	}
+}
+
+
 //  $$$$$$$\                                     $$\                     $$\    $$\ $$\
 //  $$  __$$\                                    $$ |                    $$ |   $$ |\__|
 //  $$ |  $$ | $$$$$$\  $$$$$$\$$$$\   $$$$$$\ $$$$$$\    $$$$$$\        $$ |   $$ |$$\  $$$$$$\  $$\  $$\  $$\
@@ -9,24 +163,13 @@
 //
 //
 //
-
-// ---------------------------------------------------------------------------------
-// Default Variables
-// ---------------------------------------------------------------------------------
-$border-default: 1px solid $color-tan-mid; // Default Border for elements
-$control-bar-element-size: 32; // Used for element sizes. Height for .directory-nav and .option-file-view a
-$control-bar-element-border-radius: em(5);
-
 // ---------------------------------------------------------------------------------
 // Layout
 // ---------------------------------------------------------------------------------
 .s3files .remote-view {
 	@include box-sizing( border-box );
 	clear: both;
-
-	a {
-		color: $color-gray-dark;
-	}
+	display: none;
 
 	.btn {
 		color: $color-white;

@@ -22,3 +22,27 @@
 	white-space: nowrap;
 	width: $width;
 }
+
+// ---------------------------------------------------------------------------------
+// Breakpoints
+// ---------------------------------------------------------------------------------
+
+@mixin media($point) {
+
+	$large: "(min-width: 960px)";
+	$medium: "(min-width: 768px, max-width: 959px)";
+	$small: "(max-width: 600px)";
+
+	@if $point == large {
+		@media #{$large} { @content; }
+	}
+
+	@if $point == medium {
+		@media #{$medium} { @content; }
+	}
+
+	@if $point == small {
+		@media #{$small} { @content; }
+	}
+}
+

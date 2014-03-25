@@ -1,0 +1,42 @@
+.button {
+	border-radius: 4px;
+	display: inline-block;
+	font-size: em(16);
+	font-weight: 500;
+	line-height: em(28);
+	padding: em(2) em(15);
+	text-shadow: 0 1px 0 rgba( $color-black, 0.4 );
+	white-space: nowrap;
+
+	&.button-blue {
+		background-color: $color-blue;
+		@include background-image(linear-gradient( $color-blue-light, $color-blue));
+		border: {
+			bottom: 1px solid $color-blue-mid;
+		}
+		color: $color-white;
+	}
+
+	&.button-light {
+		background-color: $color-white;
+		@include background-image(linear-gradient( $color-white, $color-tan-light ));
+		border: {
+			top: 1px solid $color-tan-mid;
+			right: 1px solid $color-tan-mid;
+			bottom: 1px solid darken( $color-tan-mid, 10 );
+			left: 1px solid $color-tan-mid;
+		}
+		color: lighten( $color-gray-mid, 15 );
+		text-shadow: none;
+
+		&:hover {
+			@include background-image(linear-gradient( lighten( $color-tan-light, 4 ), darken( $color-tan-light, 3 ) ));
+		}
+
+		&:active {
+			@include background-image(linear-gradient( lighten( $color-tan-light, 1 ), darken( $color-tan-light, 6 ) ));
+			box-shadow: inset 0 2px 4px rgba( $color-black, 0.2 );
+			color: lighten( $color-gray-mid, 5 );
+		}
+	}
+}
