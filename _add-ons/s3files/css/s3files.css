@@ -226,6 +226,15 @@
 .s3files .s3-add-file .tabs li a:hover {
   background-color: #d7d7ca;
 }
+.s3files .s3-add-file .action-bar {
+  background-image: -webkit-linear-gradient( white, #f4f4f0);
+  background-image: linear-gradient( white, #f4f4f0);
+  border-right: 1px solid #d7d7ca;
+  border-bottom: 1px solid #d7d7ca;
+  border-left: 1px solid #d7d7ca;
+  padding: 0.5em;
+  text-align: right;
+}
 .s3files .s3-add-file .content {
   background-color: white;
   border: 1px solid #d7d7ca;

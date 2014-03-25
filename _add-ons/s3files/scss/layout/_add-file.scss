@@ -74,6 +74,18 @@ $control-bar-element-border-radius: em(5);
 
 	}
 
+	// ACTION bar
+	.action-bar {
+		@include background-image(linear-gradient( $color-white, $color-tan-light ));
+		border: {
+			right: $border-default;
+			bottom: $border-default;
+			left: $border-default;
+		}
+		padding: em(8);
+		text-align: right;
+	}
+
 	.content {
 		background-color: $color-white;
 		border: $border-default;
