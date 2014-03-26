@@ -106,7 +106,7 @@ $control-bar-element-border-radius: em(5);
 
 	// Choose File
 	.choose-file {
-		padding: em(20) 0;
+		padding: em(15) 0;
 	}
 
 	.upload-directory-listing {
@@ -114,61 +114,6 @@ $control-bar-element-border-radius: em(5);
 		padding: em(10) 0;
 		@include media(large) {
 
-		}
-	}
-
-	.directory-default {
-		font-size: 88%;
-		text-transform: uppercase;
-
-		span {
-			@include bg-img(icon-breadcrumb-divider, png, 4px, right, center);
-			padding: 0 em(14) 0 em(10);
-			position: relative;
-			text-transform: none;
-
-			&:first-child {
-				padding-left: 0;
-			}
-
-			&:last-child {
-				background: none;
-				padding-right: 0;
-			}
-		}
-
-		.path {
-			background-color: darken( $color-tan-light, 2 );
-			border: $border-default;
-			display: inline-block;
-			padding: em(5) em(8);
-		}
-	}
-
-	// Directory Nav Drop-down
-	.directory-nav {
-
-		// The visibily 'selected' directory in the drop-down
-		.directory-active {
-			@include bg-img(icon-directory-chooser, png, 26px, right, center);
-			border-radius: $control-bar-element-border-radius;
-			border: $border-default;
-			color: $color-gray-mid;
-			display: block;
-			font-weight: bold;
-			height: em($control-bar-element-size);
-			line-height: em($control-bar-element-size);
-			padding: 0 em(8);
-		}
-
-		// The span inside of a.directory-active w/ the currently selected directory
-		.selected-directory {
-			@include bg-img(icon-s3-files-directory, png, 28px, 0, center);
-			display: block;
-			height: em($control-bar-element-size);
-			line-height: em($control-bar-element-size);
-			padding-left: em(36);
-			text-align: left;
 		}
 	}
 }
@@ -198,7 +143,7 @@ $control-bar-element-border-radius: em(5);
 	.inner {
 		background-color: $color-white;
 		border: $border-default;
-		margin: em(10);
+		//margin: em(5);
 	}
 
 	// Top "control" bar
