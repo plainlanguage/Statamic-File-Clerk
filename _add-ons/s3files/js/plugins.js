@@ -23,3 +23,4 @@
 
 // Place any jQuery/helper plugins in here.
 <!--(bake plugins/tab.js)-->
+<!--(bake plugins/transition.js)-->

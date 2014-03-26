@@ -1,0 +1,192 @@
+//  $$\   $$\           $$\                           $$\       $$\  $$$$$$\  $$\
+//  $$ |  $$ |          $$ |                          $$ |     $$  |$$  __$$\ $$ |
+//  $$ |  $$ | $$$$$$\  $$ | $$$$$$\   $$$$$$\   $$$$$$$ |    $$  / $$ /  \__|$$$$$$$\   $$$$$$\   $$$$$$\   $$$$$$$\  $$$$$$\
+//  $$ |  $$ |$$  __$$\ $$ |$$  __$$\  \____$$\ $$  __$$ |   $$  /  $$ |      $$  __$$\ $$  __$$\ $$  __$$\ $$  _____|$$  __$$\
+//  $$ |  $$ |$$ /  $$ |$$ |$$ /  $$ | $$$$$$$ |$$ /  $$ |  $$  /   $$ |      $$ |  $$ |$$ /  $$ |$$ /  $$ |\$$$$$$\  $$$$$$$$ |
+//  $$ |  $$ |$$ |  $$ |$$ |$$ |  $$ |$$  __$$ |$$ |  $$ | $$  /    $$ |  $$\ $$ |  $$ |$$ |  $$ |$$ |  $$ | \____$$\ $$   ____|
+//  \$$$$$$  |$$$$$$$  |$$ |\$$$$$$  |\$$$$$$$ |\$$$$$$$ |$$  /     \$$$$$$  |$$ |  $$ |\$$$$$$  |\$$$$$$  |$$$$$$$  |\$$$$$$$\
+//   \______/ $$  ____/ \__| \______/  \_______| \_______|\__/       \______/ \__|  \__| \______/  \______/ \_______/  \_______|
+//            $$ |
+//            $$ |
+//            \__|
+// The Tabbed Upload/Choose interface
+
+// ---------------------------------------------------------------------------------
+// Default Variables
+// ---------------------------------------------------------------------------------
+$border-default: 1px solid $color-tan-mid; // Default Border for elements
+$control-bar-element-size: 32; // Used for element sizes. Height for .directory-nav and .option-file-view a
+$control-bar-element-border-radius: em(5);
+
+.s3files .s3-add-file {
+	@include box-sizing( border-box );
+	clear: both;
+	padding: em(15);
+
+	p {
+		float: none;
+	}
+
+	// Tab Navigation
+	.tabs {
+		list-style-type: none;
+		padding: 0;
+		margin: 0;
+		position: relative;
+		text-align: center;
+		z-index: 2;
+
+		li {
+			border: $border-default;
+			display: inline-block;
+
+			&.active {
+				border-bottom-color: $color-white;
+
+				a,
+				a:hover {
+					background-color: $color-white;
+					color: $color-gray-dark;
+				}
+			}
+
+			&:last-child {
+				margin-left: -1px;
+			}
+
+			a {
+				background-color: lighten( $color-tan-mid, 8 );
+				color: darken( $color-tan-mid, 35 );
+				display: block;
+				padding: em(8) em(18);
+				width: em(130);
+
+				&:hover {
+					background-color: $color-tan-mid;
+				}
+			}
+		}
+
+
+	}
+
+	// ACTION bar
+	.action-bar {
+		background-color: $color-white;
+		@include background-image(linear-gradient( $color-white, $color-tan-light ));
+		border: {
+			right: $border-default;
+			bottom: $border-default;
+			left: $border-default;
+		}
+		padding: em(8);
+		text-align: right;
+	}
+
+	// The Content Area
+	.content {
+		background-color: $color-white;
+		border: $border-default;
+		margin-top: -1px;
+		padding: em(15);
+		text-align: center;
+	}
+
+	// ----------------------------------------------------
+	// Upload Tab
+	// ----------------------------------------------------
+
+	// Choose File
+	.choose-file {
+		padding: em(15) 0;
+	}
+
+	// Successfull Upload
+	.upload-success {
+
+		span {
+			@include bg-img(icon-success, png, 23px, 0, center);
+			padding-left: 30px;
+		}
+	}
+
+	// ----------------------------------------------------
+	// Choose Existing
+	// ----------------------------------------------------
+
+	// Wrap for List (Table) View
+	.view-list {
+		border: $border-default;
+		height: em(200);
+		overflow-y: scroll;
+		text-align: left;
+
+		table {
+			width: 100%;
+		}
+
+		thead {
+			background-color: lighten( $color-tan-light, 2 );
+		}
+
+		th,
+		td {
+			border: 0;
+			vertical-align: middle;
+		}
+
+		th {
+			color: darken( $color-tan-mid, 25 );
+			font-size: 80%;
+			//font-weight: normal;
+			text-align: left;
+			padding: {
+				top: em(15);
+				right: em(8);
+				bottom: em(15);
+				left: em(8);
+			}
+		}
+
+		td {
+			padding: em(8);
+		}
+
+		tr {
+			border-bottom: 1px solid lighten( $color-tan-mid, 12 );
+		}
+
+		.head-name {
+			width: 65%;
+		}
+
+		.head-size {
+			width: 15%;
+		}
+
+		.head-date {
+			width: 20%;
+		}
+
+		// Icons
+		.is-file,
+		.is-directory {
+			padding-left: em(35);
+		}
+
+		.is-directory {
+			@include bg-img(icon-view-list-directory, png, 18px, em(8), center);
+		}
+
+		.is-file {
+			@include bg-img(icon-view-list-file, png, 13px, em(12), center);
+		}
+
+		span.time {
+			color: $color-gray;
+			font-size: 80%;
+			line-height: 90%;
+			white-space: nowrap;
+		}
+	}
+}

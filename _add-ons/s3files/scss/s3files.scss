@@ -9,6 +9,7 @@
 //
 //
 //
+
 @import "_libs/bourbon/bourbon"; // Bourbon
 
 //  $$$$$$$\             $$$$$$\                     $$\   $$\
@@ -22,6 +23,7 @@
 //
 //
 //
+
 @import "defaults"; // Basically 'Variables'
 
 //   $$$$$$\                                          $$\
@@ -35,7 +37,9 @@
 //
 //
 //
+
 @import "generic/_mixins";
+@import "generic/_animation";
 
 //   $$$$$$\  $$\                                 $$\
 //  $$  __$$\ $$ |                                $$ |
@@ -48,7 +52,10 @@
 //                $$\   $$ |
 //                \$$$$$$  |
 //                 \______/
+
 @import "objects/_buttons";
+@import "objects/_progress";
+@import "objects/_tabs";
 
 //  $$\                                                $$\
 //  $$ |                                               $$ |
@@ -61,5 +68,5 @@
 //                     $$\   $$ |
 //                     \$$$$$$  |
 //                      \______/
-@import "layout/_layout";
-@import "layout/_add-file"; // Remote File View
+
+@import "layout/_upload-choose"; // Remote File View

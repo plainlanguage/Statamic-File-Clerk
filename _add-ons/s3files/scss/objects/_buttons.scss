@@ -8,6 +8,12 @@
 	text-shadow: 0 1px 0 rgba( $color-black, 0.4 );
 	white-space: nowrap;
 
+	&.large {
+		font-size: em(18);
+		line-height: em(32);
+		padding: em(3) em(17);
+	}
+
 	&.button-blue {
 		background-color: $color-blue;
 		@include background-image(linear-gradient( $color-blue-light, $color-blue));

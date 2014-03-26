@@ -36,68 +36,70 @@
 			<li class="active"><a href="#view-upload-{{ id }}" data-toggle="tab" title="Upload New">Upload New</a></li><li><a href="#view-remote-{{ id }}" data-toggle="tab" title="Choose Existing">Choose Existing</a></li>
 		</ul>
 		<div class="tab-content content">
-			<div class="tab-pane active view-upload" id="view-upload-{{ id }}">
-				<div class="choose-file">
-					<a class="button button-light" href="#"><span class="button-icon-upload">Upload File</span></a>
-					<div class="progress">
-						<div class="progress-bar is-hidden">
-							<progress class="uploading" value="0" min="0" max="100"></progress>
-							<div class="prc"></div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="tab-pane view-remote" id="view-remote-{{ id }}">
-				<div class="inner">
 
-					<div class="s3-view">
-						<div class="s3-view-inner">
-							<div class="view-list">
-								<table class="tablesorter">
-									<thead>
-										<tr>
-											<th class="head-name">Name</th>
-											<th class="head-size">Size</th>
-											<th class="head-modifed">Date Modified</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr class="file">
-											<td class="is-file">Bob-Odenkirk.png</td>
-											<td>46 KB</td>
-											<td>3/22/2014 <span class="time">11:35 AM</span></td>
-										</tr>
-										<tr class="directory">
-											<td class="is-directory">boom</td>
-											<td>--</td>
-											<td></td>
-										</tr>
-										<tr class="file">
-											<td class="is-file">kill-it-with-fire.gif</td>
-											<td>1.1 MB</td>
-											<td>3/22/2014 <span class="time">11:43 AM</span></td>
-										</tr>
-										<tr class="file">
-											<td class="is-file">kurt-rambis-avatar-square.jpg</td>
-											<td>20 KB</td>
-											<td>3/21/2014 <span class="time">4:15 PM</span></td>
-										</tr>
-										<tr class="file">
-											<td class="is-file">Password.png</td>
-											<td>33 KB</td>
-											<td>3/22/2014 <span class="time">11:48 AM</span></td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-						</div>
-						<div class="action-bar">
-							<a class="button button-light" href="#">Cancel</a>
-							<a class="button button-blue" href="#">Select</a>
-						</div>
+			<div class="tab-pane active view-upload fade in" id="view-upload-{{ id }}">
+				<div class="choose-file">
+					<a class="button button-light large" href="#"><span class="button-icon-upload">Upload File</span></a>
+					<div class="progress-bar clearfix is-hidden">
+						<progress class="uploading" value="0" min="0" max="100"></progress>
+						<div class="prc"></div>
+					</div>
+					<div class="upload-success clearfix is-hidden">
+						<span>filename-mcawesome.png</span>
 					</div>
 				</div>
 			</div>
+
+			<div class="tab-pane view-remote fade" id="view-remote-{{ id }}">
+				<div class="view-list">
+					<table class="tablesorter">
+						<thead>
+							<tr>
+								<th class="head-name">Name</th>
+								<th class="head-size">Size</th>
+								<th class="head-modifed">Date Modified</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="file">
+								<td class="is-file" scope="row" data-title="title">Bob-Odenkirk.png</td>
+								<td data-title="Size">46 KB</td>
+								<td data-title="Date Modified">3/22/2014 <span class="time">11:35 AM</span></td>
+							</tr>
+							<tr class="directory">
+								<td class="is-directory" scope="row" data-title="title">boom</td>
+								<td data-title="Size">--</td>
+								<td data-title="Date Modified"></td>
+							</tr>
+							<tr class="file">
+								<td class="is-file" scope="row" data-title="title">kill-it-with-fire.gif</td>
+								<td data-title="Size">1.1 MB</td>
+								<td data-title="Date Modified">3/22/2014 <span class="time">11:43 AM</span></td>
+							</tr>
+							<tr class="file">
+								<td class="is-file" scope="row" data-title="title">kurt-rambis-avatar-square.jpg</td>
+								<td data-title="Size">20 KB</td>
+								<td data-title="Date Modified">3/21/2014 <span class="time">4:15 PM</span></td>
+							</tr>
+							<tr class="file">
+								<td class="is-file" scope="row" data-title="title">Password.png</td>
+								<td data-title="Size">33 KB</td>
+								<td data-title="Date Modified">3/22/2014 <span class="time">11:48 AM</span></td>
+							</tr>
+							<tr class="directory">
+								<td class="is-directory" scope="row" data-title="title">platitudes</td>
+								<td data-title="Size">--</td>
+								<td data-title="Date Modified"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="action-bar">
+					<a class="button button-light" href="#">Cancel</a>
+					<a class="button button-blue" href="#">Select</a>
+				</div>
+			</div>
+
 		</div>
 	</div>
 </div>

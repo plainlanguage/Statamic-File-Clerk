@@ -1,0 +1,41 @@
+//   $$$$$$\            $$\                          $$\     $$\
+//  $$  __$$\           \__|                         $$ |    \__|
+//  $$ /  $$ |$$$$$$$\  $$\ $$$$$$\$$$$\   $$$$$$\ $$$$$$\   $$\  $$$$$$\  $$$$$$$\
+//  $$$$$$$$ |$$  __$$\ $$ |$$  _$$  _$$\  \____$$\\_$$  _|  $$ |$$  __$$\ $$  __$$\
+//  $$  __$$ |$$ |  $$ |$$ |$$ / $$ / $$ | $$$$$$$ | $$ |    $$ |$$ /  $$ |$$ |  $$ |
+//  $$ |  $$ |$$ |  $$ |$$ |$$ | $$ | $$ |$$  __$$ | $$ |$$\ $$ |$$ |  $$ |$$ |  $$ |
+//  $$ |  $$ |$$ |  $$ |$$ |$$ | $$ | $$ |\$$$$$$$ | \$$$$  |$$ |\$$$$$$  |$$ |  $$ |
+//  \__|  \__|\__|  \__|\__|\__| \__| \__| \_______|  \____/ \__| \______/ \__|  \__|
+//
+//
+//
+
+.s3files {
+
+	// Hi, I am hidden
+	.is-hidden {
+		@include transition(all .1s ease-out);
+		visibility: hidden;
+		max-height: 0;
+		opacity: 0;
+		overflow: hidden;
+	}
+
+	// Hi, I am visible
+	.is-visible {
+		@include transition(all .1s ease-out);
+		visibility: visible;
+		max-height: 999px;
+		opacity: 1.0;
+		overflow: auto;
+	}
+
+	.fade {
+		opacity: 0;
+		@include transition(opacity .1s linear);
+		&.in {
+			opacity: 1;
+		}
+	}
+
+}

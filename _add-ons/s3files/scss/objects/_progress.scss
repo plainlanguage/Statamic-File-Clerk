@@ -1,21 +1,5 @@
 .s3files {
 
-	.is-hidden {
-		@include transition(all .1s ease-out);
-		visibility: hidden;
-		max-height: 0;
-		opacity: 0;
-		overflow: hidden;
-	}
-
-	.is-visible {
-		@include transition(all .1s ease-out);
-		visibility: visible;
-		max-height: 999px;
-		opacity: 1.0;
-		overflow: auto;
-	}
-
 	.progress {
 		width: 100%;
 	}
@@ -76,35 +60,4 @@
 			background-position: -100px 0px;
 		}
 	}
-
-	.success {
-		@include clearfix;
-	}
-
-	.filename-display,
-	.success {
-		@include bg-img(icon-success, png, 23px, 0, center);
-		display: block;
-		padding-left: 30px;
-
-		strong,
-		.remove {
-			display: block;
-			float: left;
-		}
-	}
-
-	.remove {
-		$size: 14px;
-		@include hide-text;
-		@include bg-img(icon-success, png, 28px, 0, center);
-		height: 50px;
-		margin-left: 6px;
-		width: $size;
-
-		&:hover {
-			background-position: -14px center;
-		}
-	}
-
 }
