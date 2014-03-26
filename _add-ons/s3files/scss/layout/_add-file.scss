@@ -138,7 +138,7 @@ $control-bar-element-border-radius: em(5);
 	// Inner wrap.
 	.inner {
 		background-color: $color-white;
-		border: $border-default;
+		//border: $border-default;
 		//margin: em(5);
 	}
 
@@ -223,7 +223,7 @@ $control-bar-element-border-radius: em(5);
 		}
 
 		th {
-			color: darken( $color-tan-mid, 25 );
+			color: darken( $color-tan-mid, 35 );
 			font-size: 80%;
 			//font-weight: normal;
 			text-align: left;

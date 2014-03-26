@@ -273,7 +273,6 @@
 }
 .s3files .view-remote .inner {
   background-color: white;
-  border: 1px solid #d7d7ca;
 }
 .s3files .view-remote .control-bar {
   *zoom: 1;
@@ -380,7 +379,7 @@
   width: 100%;
 }
 .s3files .view-remote .s3-view .view-list th {
-  color: #a0a081;
+  color: #888867;
   font-size: 80%;
   text-align: left;
 }
