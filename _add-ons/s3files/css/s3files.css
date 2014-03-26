@@ -226,10 +226,6 @@
   background-color: white;
   color: #222244;
 }
-.s3files .s3-add-file .tabs li.active a {
-  display: block;
-  min-width: 7.5em;
-}
 .s3files .s3-add-file .tabs li:last-child {
   margin-left: -1px;
 }
@@ -238,6 +234,7 @@
   color: #888867;
   display: block;
   padding: 0.5em 1.125em;
+  width: 8.125em;
 }
 .s3files .s3-add-file .tabs li a:hover {
   background-color: #d7d7ca;

@@ -57,11 +57,6 @@ $control-bar-element-border-radius: em(5);
 					background-color: $color-white;
 					color: $color-gray-dark;
 				}
-
-				a {
-					display: block;
-					min-width: em(120);
-				}
 			}
 
 			&:last-child {
@@ -73,6 +68,7 @@ $control-bar-element-border-radius: em(5);
 				color: darken( $color-tan-mid, 35 );
 				display: block;
 				padding: em(8) em(18);
+				width: em(130);
 
 				&:hover {
 					background-color: $color-tan-mid;
