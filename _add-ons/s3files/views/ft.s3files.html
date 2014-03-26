@@ -1,7 +1,7 @@
 <div class="s3files file-field-container">
- 	<!--
- 	<input class="postUrl" name="postUrl" type="hidden" value="{{ action }}">
- 	{{ if field_data }}
+	<!--
+	<input class="postUrl" name="postUrl" type="hidden" value="{{ action }}">
+	{{ if field_data }}
 	<div class="result is-visible">
 		 <p><span class="filename-display">{{ basename_value }}</span></p>
 		 <a class="btn btn-small btn-remove" href="#">Remove</a>
@@ -10,17 +10,17 @@
 	{{ else }}
 	<div class="fileinput">
 		<p><input class="file-upload" id="s3files-upload-{{ id }}" type="file" name="files" tabindex="{{ tabindex }}"></p>
-	 	<button class="btn-upload btn btn-small is-hidden">Upload</button>
- 	</div>
- 	<div class="progress is-hidden">
+		<button class="btn-upload btn btn-small is-hidden">Upload</button>
+	</div>
+	<div class="progress is-hidden">
 		<div class="progress-filename clearfix">
 			<p>Uploading&hellip;</p>
-	 	</div>
-	 	<div class="progress-bar clearfix">
+		</div>
+		<div class="progress-bar clearfix">
 			<progress class="uploading" value="0" min="0" max="100"></progress>
 			<div class="prc"></div>
 		</div>
- 	</div>
+	</div>
 	<div class="result">
 		<input type="hidden" class="successful-upload" id="{{ name }}" name="{{ name }}" type="text" value="">
 	</div>
@@ -32,98 +32,80 @@
 	-->
 
 	<div class="s3-add-file">
-		<ul class="tabs">
-			<li class="active"><a href="#" title="Upload New">Upload New</a></li><li><a href="#" title="Choose Existing">Choose Existing</a></li>
+		<ul class="nav nav-tabs tabs">
+			<li class="active"><a href="#view-upload-{{ id }}" data-toggle="tab" title="Upload New">Upload New</a></li><li><a href="#view-remote-{{ id }}" data-toggle="tab" title="Choose Existing">Choose Existing</a></li>
 		</ul>
-		<div class="content">
-			<div class="view-upload">
+		<div class="tab-content content">
+			<div class="tab-pane active view-upload" id="view-upload-{{ id }}">
 				<div class="choose-file">
-					<a class="button button-light" href="#"><span>Choose File</span></a>
+					<a class="button button-light" href="#"><span class="button-icon-upload">Upload File</span></a>
 				</div>
-				<div class="upload-directory-listing">
-					<div class="directory-default">
-						Destination: <div class="path"><span class="bucket">s3filesdev</span><span class="directory">podcast</span><span class="directory">2014</span></div> <a class="change-upload-destination" href="#">Change</a>
+				<div class="progress">
+					<div class="progress-bar">
+						<progress class="uploading" value="0" min="0" max="100"></progress>
+						<div class="prc"></div>
 					</div>
-					<div class="directory-nav is-hidden">
-						<a class="directory-active" href="#"><span class="selected-directory">podcast</span></a>
-					</div>
-				</div>
-				<div class="upload is-hidden">
-					<a class="button button-light" href="#"><span>Upload</span></a>
 				</div>
 			</div>
-			<div class="view-remote">
-
+			<div class="tab-pane view-remote" id="view-remote-{{ id }}">
+				<div class="inner">
+					<div class="control-bar">
+						<div class="directory-nav">
+							<a class="directory-active" href="#"><span class="selected-directory">podcast</span></a>
+						</div>
+						<div class="option-file-view">
+							<a class="view-list selected" href="#">List</a>
+							<a class="view-grid" href="#">Grid</a>
+						</div>
+					</div>
+					<div class="s3-view">
+						<div class="s3-view-inner">
+							<div class="view-list">
+								<table class="tablesorter">
+									<thead>
+										<tr>
+											<th class="head-name">Name</th>
+											<th class="head-size">Size</th>
+											<th class="head-modifed">Date Modified</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr class="file">
+											<td class="is-file">Bob-Odenkirk.png</td>
+											<td>46 KB</td>
+											<td>3/22/2014 <span class="time">11:35 AM</span></td>
+										</tr>
+										<tr class="directory">
+											<td class="is-directory">boom</td>
+											<td>--</td>
+											<td></td>
+										</tr>
+										<tr class="file">
+											<td class="is-file">kill-it-with-fire.gif</td>
+											<td>1.1 MB</td>
+											<td>3/22/2014 <span class="time">11:43 AM</span></td>
+										</tr>
+										<tr class="file">
+											<td class="is-file">kurt-rambis-avatar-square.jpg</td>
+											<td>20 KB</td>
+											<td>3/21/2014 <span class="time">4:15 PM</span></td>
+										</tr>
+										<tr class="file">
+											<td class="is-file">Password.png</td>
+											<td>33 KB</td>
+											<td>3/22/2014 <span class="time">11:48 AM</span></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 		<div class="action-bar">
 			<a class="button button-light" href="#">Cancel</a>
 			<a class="button button-blue" href="#">Select</a>
-		</div>
-	</div>
-
-	<div class="remote-view">
-		<div class="inner">
-			<div class="control-bar">
-				<div class="directory-nav">
-					<a class="directory-active" href="#"><span class="selected-directory">podcast</span></a>
-				</div>
-				<div class="option-file-view">
-					<a class="view-list selected" href="#">List</a>
-					<a class="view-grid" href="#">Grid</a>
-				</div>
-			</div>
-			<div class="s3-view">
-				<div class="s3-view-inner">
-					<div class="view-list">
-						<table class="tablesorter">
-							<thead>
-								<tr>
-									<th class="head-name">Name</th>
-									<th class="head-size">Size</th>
-									<th class="head-modifed">Date Modified</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr class="file">
-									<td class="is-file">Bob-Odenkirk.png</td>
-									<td>46 KB</td>
-									<td>3/22/2014 <span class="time">11:35 AM</span></td>
-								</tr>
-								<tr class="directory">
-									<td class="is-directory">boom</td>
-									<td>--</td>
-									<td></td>
-								</tr>
-								<tr class="file">
-									<td class="is-file">kill-it-with-fire.gif</td>
-									<td>1.1 MB</td>
-									<td>3/22/2014 <span class="time">11:43 AM</span></td>
-								</tr>
-								<tr class="file">
-									<td class="is-file">kurt-rambis-avatar-square.jpg</td>
-									<td>20 KB</td>
-									<td>3/21/2014 <span class="time">4:15 PM</span></td>
-								</tr>
-								<tr class="file">
-									<td class="is-file">Password.png</td>
-									<td>33 KB</td>
-									<td>3/22/2014 <span class="time">11:48 AM</span></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-			<div class="action-bar">
-				<div class="upload">
-					<a class="btn btn-small btn-light btn-upload" href="#"><span>Upload New File</span></a>
-				</div>
-				<div class="select">
-					<a class="btn btn-small btn-light" href="#">Cancel</a>
-					<a class="btn btn-small" href="#">Select</a>
-				</div>
-			</div>
 		</div>
 	</div>
 </div>

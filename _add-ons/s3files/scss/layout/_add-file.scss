@@ -27,6 +27,15 @@ $control-bar-element-border-radius: em(5);
 		float: none;
 	}
 
+	.tab-content {
+		> .tab-pane {
+			display: none;
+		}
+		> .active {
+			display: block;
+		}
+	}
+
 	// Tab Navigation
 	.tabs {
 		list-style-type: none;
@@ -76,6 +85,7 @@ $control-bar-element-border-radius: em(5);
 
 	// ACTION bar
 	.action-bar {
+		background-color: $color-white;
 		@include background-image(linear-gradient( $color-white, $color-tan-light ));
 		border: {
 			right: $border-default;
@@ -96,7 +106,7 @@ $control-bar-element-border-radius: em(5);
 
 	// Choose File
 	.choose-file {
-		padding: em(20) 0 em(10) 0;
+		padding: em(20) 0;
 	}
 
 	.upload-directory-listing {
@@ -178,33 +188,11 @@ $control-bar-element-border-radius: em(5);
 // ---------------------------------------------------------------------------------
 // Layout
 // ---------------------------------------------------------------------------------
-.s3files .remote-view {
+.s3files .view-remote {
 	@include box-sizing( border-box );
 	clear: both;
-	display: none;
-
-	.btn {
-		color: $color-white;
-		float: none;
-		margin: 0;
-	}
-
-	.btn.btn-light {
-		@include background-image(linear-gradient( $color-white, $color-tan-light ));
-		border: $border-default;
-		color: lighten( $color-gray-mid, 15 );
-		text-shadow: none;
-
-		&:hover {
-			@include background-image(linear-gradient( lighten( $color-tan-light, 4 ), darken( $color-tan-light, 3 ) ));
-		}
-	}
-
-	.btn.btn-upload span {
-		@include bg-img(icon-upload, png, 19px, 0, center);
-		display: block;
-		padding-left: em(27);
-	}
+	text-align: left;
+	//display: none;
 
 	// Inner wrap.
 	.inner {

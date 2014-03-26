@@ -39,4 +39,12 @@
 			color: lighten( $color-gray-mid, 5 );
 		}
 	}
+
+	span {
+
+		&.button-icon-upload {
+			@include bg-img(icon-upload, png, 19px, 0, center);
+			padding-left: em(29);
+		}
+	}
 }

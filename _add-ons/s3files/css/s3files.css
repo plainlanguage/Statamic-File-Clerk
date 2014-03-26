@@ -36,6 +36,16 @@
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
   color: #264551;
 }
+.button span.button-icon-upload {
+  background: url("../assets/build/img/icon-upload.png") 0 center no-repeat;
+  padding-left: 1.8125em;
+}
+@media only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen and (min--moz-device-pixel-ratio: 1.3), only screen and (-o-min-device-pixel-ratio: 1.3 / 1), only screen and (min-resolution: 125dpi), only screen and (min-resolution: 1.3dppx) {
+  .button span.button-icon-upload {
+    background: url("../assets/build/img/icon-upload@2x.png") 0 center no-repeat;
+    background-size: 19px auto;
+  }
+}
 
 .s3files .is-hidden {
   -webkit-transition: all 0.1s ease-out;
@@ -190,6 +200,12 @@
 .s3files .s3-add-file p {
   float: none;
 }
+.s3files .s3-add-file .tab-content > .tab-pane {
+  display: none;
+}
+.s3files .s3-add-file .tab-content > .active {
+  display: block;
+}
 .s3files .s3-add-file .tabs {
   list-style-type: none;
   padding: 0;
@@ -227,6 +243,7 @@
   background-color: #d7d7ca;
 }
 .s3files .s3-add-file .action-bar {
+  background-color: white;
   background-image: -webkit-linear-gradient( white, #f4f4f0);
   background-image: linear-gradient( white, #f4f4f0);
   border-right: 1px solid #d7d7ca;
@@ -243,7 +260,7 @@
   text-align: center;
 }
 .s3files .s3-add-file .choose-file {
-  padding: 1.25em 0 0.625em 0;
+  padding: 1.25em 0;
 }
 .s3files .s3-add-file .upload-directory-listing {
   margin: 0 auto;
@@ -310,64 +327,37 @@
   }
 }
 
-.s3files .remote-view {
+.s3files .view-remote {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   clear: both;
-  display: none;
+  text-align: left;
 }
-.s3files .remote-view .btn {
-  color: white;
-  float: none;
-  margin: 0;
-}
-.s3files .remote-view .btn.btn-light {
-  background-image: -webkit-linear-gradient( white, #f4f4f0);
-  background-image: linear-gradient( white, #f4f4f0);
-  border: 1px solid #d7d7ca;
-  color: #366274;
-  text-shadow: none;
-}
-.s3files .remote-view .btn.btn-light:hover {
-  background-image: -webkit-linear-gradient( #fdfdfc, #eeeee7);
-  background-image: linear-gradient( #fdfdfc, #eeeee7);
-}
-.s3files .remote-view .btn.btn-upload span {
-  background: url("../assets/build/img/icon-upload.png") 0 center no-repeat;
-  display: block;
-  padding-left: 1.6875em;
-}
-@media only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen and (min--moz-device-pixel-ratio: 1.3), only screen and (-o-min-device-pixel-ratio: 1.3 / 1), only screen and (min-resolution: 125dpi), only screen and (min-resolution: 1.3dppx) {
-  .s3files .remote-view .btn.btn-upload span {
-    background: url("../assets/build/img/icon-upload@2x.png") 0 center no-repeat;
-    background-size: 19px auto;
-  }
-}
-.s3files .remote-view .inner {
+.s3files .view-remote .inner {
   background-color: white;
   border: 1px solid #d7d7ca;
   margin: 0.625em;
 }
-.s3files .remote-view .control-bar {
+.s3files .view-remote .control-bar {
   *zoom: 1;
   background-image: -webkit-linear-gradient( white, #f4f4f0);
   background-image: linear-gradient( white, #f4f4f0);
   border-bottom: 1px solid #d7d7ca;
   padding: 0.5em;
 }
-.s3files .remote-view .control-bar:before, .s3files .remote-view .control-bar:after {
+.s3files .view-remote .control-bar:before, .s3files .view-remote .control-bar:after {
   content: " ";
   display: table;
 }
-.s3files .remote-view .control-bar:after {
+.s3files .view-remote .control-bar:after {
   clear: both;
 }
-.s3files .remote-view .directory-nav {
+.s3files .view-remote .directory-nav {
   float: left;
   width: 85%;
 }
-.s3files .remote-view .directory-nav .directory-active {
+.s3files .view-remote .directory-nav .directory-active {
   background: url("../assets/build/img/icon-directory-chooser.png") right center no-repeat;
   border-radius: 0.3125em;
   border: 1px solid #d7d7ca;
@@ -379,12 +369,12 @@
   padding: 0 0.5em;
 }
 @media only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen and (min--moz-device-pixel-ratio: 1.3), only screen and (-o-min-device-pixel-ratio: 1.3 / 1), only screen and (min-resolution: 125dpi), only screen and (min-resolution: 1.3dppx) {
-  .s3files .remote-view .directory-nav .directory-active {
+  .s3files .view-remote .directory-nav .directory-active {
     background: url("../assets/build/img/icon-directory-chooser@2x.png") right center no-repeat;
     background-size: 26px auto;
   }
 }
-.s3files .remote-view .directory-nav .selected-directory {
+.s3files .view-remote .directory-nav .selected-directory {
   background: url("../assets/build/img/icon-s3-files-directory.png") 0 center no-repeat;
   display: block;
   height: 2em;
@@ -392,23 +382,23 @@
   padding-left: 2.25em;
 }
 @media only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen and (min--moz-device-pixel-ratio: 1.3), only screen and (-o-min-device-pixel-ratio: 1.3 / 1), only screen and (min-resolution: 125dpi), only screen and (min-resolution: 1.3dppx) {
-  .s3files .remote-view .directory-nav .selected-directory {
+  .s3files .view-remote .directory-nav .selected-directory {
     background: url("../assets/build/img/icon-s3-files-directory@2x.png") 0 center no-repeat;
     background-size: 28px auto;
   }
 }
-.s3files .remote-view .option-file-view {
+.s3files .view-remote .option-file-view {
   *zoom: 1;
   float: right;
 }
-.s3files .remote-view .option-file-view:before, .s3files .remote-view .option-file-view:after {
+.s3files .view-remote .option-file-view:before, .s3files .view-remote .option-file-view:after {
   content: " ";
   display: table;
 }
-.s3files .remote-view .option-file-view:after {
+.s3files .view-remote .option-file-view:after {
   clear: both;
 }
-.s3files .remote-view .option-file-view a {
+.s3files .view-remote .option-file-view a {
   display: block;
   height: 32;
   overflow: hidden;
@@ -421,94 +411,94 @@
   height: 2em;
   width: 2em;
 }
-.s3files .remote-view .option-file-view a.view-list {
+.s3files .view-remote .option-file-view a.view-list {
   background: url("../assets/build/img/icon-view-toggle-list.png") center center no-repeat;
   border-radius: 0.3125em 0 0 0.3125em;
 }
 @media only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen and (min--moz-device-pixel-ratio: 1.3), only screen and (-o-min-device-pixel-ratio: 1.3 / 1), only screen and (min-resolution: 125dpi), only screen and (min-resolution: 1.3dppx) {
-  .s3files .remote-view .option-file-view a.view-list {
+  .s3files .view-remote .option-file-view a.view-list {
     background: url("../assets/build/img/icon-view-toggle-list@2x.png") center center no-repeat;
     background-size: 14px auto;
   }
 }
-.s3files .remote-view .option-file-view a.view-grid {
+.s3files .view-remote .option-file-view a.view-grid {
   background: url("../assets/build/img/icon-view-toggle-grid.png") center center no-repeat;
   border-radius: 0 0.3125em 0.3125em 0;
   margin-left: -1px;
 }
 @media only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen and (min--moz-device-pixel-ratio: 1.3), only screen and (-o-min-device-pixel-ratio: 1.3 / 1), only screen and (min-resolution: 125dpi), only screen and (min-resolution: 1.3dppx) {
-  .s3files .remote-view .option-file-view a.view-grid {
+  .s3files .view-remote .option-file-view a.view-grid {
     background: url("../assets/build/img/icon-view-toggle-grid@2x.png") center center no-repeat;
     background-size: 12px auto;
   }
 }
-.s3files .remote-view .option-file-view a.selected {
+.s3files .view-remote .option-file-view a.selected {
   background-color: #edede7;
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
 }
-.s3files .remote-view .s3-view {
+.s3files .view-remote .s3-view {
   max-height: 17.5em;
   overflow-y: auto;
 }
-.s3files .remote-view .s3-view .view-list table {
+.s3files .view-remote .s3-view .view-list table {
   width: 100%;
 }
-.s3files .remote-view .s3-view .view-list th {
+.s3files .view-remote .s3-view .view-list th {
   color: #a0a081;
   font-size: 80%;
   text-align: left;
 }
-.s3files .remote-view .s3-view .view-list th,
-.s3files .remote-view .s3-view .view-list td {
+.s3files .view-remote .s3-view .view-list th,
+.s3files .view-remote .s3-view .view-list td {
   border: 0;
   padding: 0.5em;
   vertical-align: middle;
 }
-.s3files .remote-view .s3-view .view-list tr {
+.s3files .view-remote .s3-view .view-list tr {
   border: 1px solid #f1f1ed;
 }
-.s3files .remote-view .s3-view .view-list .head-name {
+.s3files .view-remote .s3-view .view-list .head-name {
   width: 65%;
 }
-.s3files .remote-view .s3-view .view-list .head-size {
+.s3files .view-remote .s3-view .view-list .head-size {
   width: 15%;
 }
-.s3files .remote-view .s3-view .view-list .head-date {
+.s3files .view-remote .s3-view .view-list .head-date {
   width: 20%;
 }
-.s3files .remote-view .s3-view .view-list span.time {
+.s3files .view-remote .s3-view .view-list span.time {
   color: #aaaaaa;
   font-size: 80%;
   line-height: 90%;
   white-space: nowrap;
 }
-.s3files .remote-view .action-bar {
+.s3files .view-remote .action-bar {
   background-image: -webkit-linear-gradient( white, #f4f4f0);
   background-image: linear-gradient( white, #f4f4f0);
   *zoom: 1;
   border-top: 1px solid #d7d7ca;
   padding: 0.5em;
 }
-.s3files .remote-view .action-bar:before, .s3files .remote-view .action-bar:after {
+.s3files .view-remote .action-bar:before, .s3files .view-remote .action-bar:after {
   content: " ";
   display: table;
 }
-.s3files .remote-view .action-bar:after {
+.s3files .view-remote .action-bar:after {
   clear: both;
 }
-.s3files .remote-view .action-bar .upload,
-.s3files .remote-view .action-bar .select {
+.s3files .view-remote .action-bar .upload,
+.s3files .view-remote .action-bar .select {
   width: 50%;
 }
-.s3files .remote-view .action-bar .upload {
+.s3files .view-remote .action-bar .upload {
   float: left;
   text-align: left;
 }
-.s3files .remote-view .action-bar .select {
+.s3files .view-remote .action-bar .select {
   float: right;
   text-align: right;
 }
-.s3files .remote-view .action-bar .select a {
+.s3files .view-remote .action-bar .select a {
   display: inline-block;
   margin-left: 0.3125em;
 }
