@@ -153,17 +153,17 @@
     },
     {
         "name": "aws/aws-sdk-php",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
+        "version": "2.5.4",
+        "version_normalized": "2.5.4.0",
         "source": {
             "type": "git",
             "url": "https://github.com/aws/aws-sdk-php.git",
-            "reference": "6e65c22e9d780d773c284d5ee70dffd4ac66d429"
+            "reference": "dd8f78b8abde74245578dbfb930c29efff20f25a"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/6e65c22e9d780d773c284d5ee70dffd4ac66d429",
-            "reference": "6e65c22e9d780d773c284d5ee70dffd4ac66d429",
+            "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/dd8f78b8abde74245578dbfb930c29efff20f25a",
+            "reference": "dd8f78b8abde74245578dbfb930c29efff20f25a",
             "shasum": ""
         },
         "require": {
@@ -185,7 +185,7 @@
             "monolog/monolog": "Adds support for logging HTTP requests and responses",
             "symfony/yaml": "Eases the ability to write manifests for creating jobs in AWS Import/Export"
         },
-        "time": "2014-03-13 22:11:14",
+        "time": "2014-03-20 20:01:49",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -223,28 +223,28 @@
     },
     {
         "name": "symfony/finder",
-        "version": "v2.3.11",
-        "version_normalized": "2.3.11.0",
+        "version": "v2.4.2",
+        "version_normalized": "2.4.2.0",
         "target-dir": "Symfony/Component/Finder",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/Finder.git",
-            "reference": "df41b68d0795949c6edcf3fb331c8147b7cc4201"
+            "reference": "b6735d1fc16da13c4c7dddfe78366a4a098cf011"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/Finder/zipball/df41b68d0795949c6edcf3fb331c8147b7cc4201",
-            "reference": "df41b68d0795949c6edcf3fb331c8147b7cc4201",
+            "url": "https://api.github.com/repos/symfony/Finder/zipball/b6735d1fc16da13c4c7dddfe78366a4a098cf011",
+            "reference": "b6735d1fc16da13c4c7dddfe78366a4a098cf011",
             "shasum": ""
         },
         "require": {
             "php": ">=5.3.3"
         },
-        "time": "2014-02-20 15:15:12",
+        "time": "2014-01-07 13:28:54",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "2.3-dev"
+                "dev-master": "2.4-dev"
             }
         },
         "installation-source": "source",

@@ -3,20 +3,20 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "21f5630e15fc565f58de7f19cc2499a5",
+    "hash": "1d1e4d234af8274c9410800cb410f5dd",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "dev-master",
+            "version": "2.5.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "6e65c22e9d780d773c284d5ee70dffd4ac66d429"
+                "reference": "dd8f78b8abde74245578dbfb930c29efff20f25a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/6e65c22e9d780d773c284d5ee70dffd4ac66d429",
-                "reference": "6e65c22e9d780d773c284d5ee70dffd4ac66d429",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/dd8f78b8abde74245578dbfb930c29efff20f25a",
+                "reference": "dd8f78b8abde74245578dbfb930c29efff20f25a",
                 "shasum": ""
             },
             "require": {
@@ -71,7 +71,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2014-03-13 22:11:14"
+            "time": "2014-03-20 20:01:49"
         },
         {
             "name": "guzzle/guzzle",
@@ -223,17 +223,17 @@
         },
         {
             "name": "symfony/finder",
-            "version": "v2.3.11",
+            "version": "v2.4.2",
             "target-dir": "Symfony/Component/Finder",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Finder.git",
-                "reference": "df41b68d0795949c6edcf3fb331c8147b7cc4201"
+                "reference": "b6735d1fc16da13c4c7dddfe78366a4a098cf011"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Finder/zipball/df41b68d0795949c6edcf3fb331c8147b7cc4201",
-                "reference": "df41b68d0795949c6edcf3fb331c8147b7cc4201",
+                "url": "https://api.github.com/repos/symfony/Finder/zipball/b6735d1fc16da13c4c7dddfe78366a4a098cf011",
+                "reference": "b6735d1fc16da13c4c7dddfe78366a4a098cf011",
                 "shasum": ""
             },
             "require": {
@@ -242,7 +242,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.3-dev"
+                    "dev-master": "2.4-dev"
                 }
             },
             "autoload": {
@@ -268,7 +268,7 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "http://symfony.com",
-            "time": "2014-02-20 15:15:12"
+            "time": "2014-01-07 13:28:54"
         }
     ],
     "packages-dev": [
@@ -278,9 +278,9 @@
 
     ],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "aws/aws-sdk-php": 20
-    },
+    "stability-flags": [
+
+    ],
     "platform": [
 
     ],
