@@ -239,7 +239,7 @@ class Hooks_s3files extends Hooks
 			*/
 
 			$data = array(
-				'crumbs'      => explode('/', $uri), // Array of the currently request URI.
+				//'crumbs'      => explode('/', $uri), // Array of the currently request URI.
 				'files'       => array(), // Files array
 				'directories' => array(), // Directories array
 			);
@@ -302,8 +302,18 @@ class Hooks_s3files extends Hooks
 			}
 		}
 
-		dd( $data ); // Just dumping everything to screen and killing the app for now.
-		//echo json_encode($data_files);
+		// We're basically parsing template partials here to build out the larger view.
+		$parsed_data = array(
+			'files'       => Parse::template( self::get_view('_list-file'), $data ),
+			'directories' => Parse::template( self::get_view('_list-directories'), $data ),
+		);
+
+		// PUt it all together
+		$ft_template = File::get( __DIR__ . '/views/list.html');
+
+		// Output the final parsed HTML
+		echo Parse::template($ft_template, $parsed_data);
+
 	}
 
 
@@ -427,6 +437,15 @@ class Hooks_s3files extends Hooks
 		{
 			return URL::tidy( 'http://'. $bucket . '.s3.amazonaws.com' . '/' . $uri . '/' . $directory );
 		}
+	}
+
+	private function get_view( $viewname = null )
+	{
+		if( is_null($viewname) ) return false;
+
+		$filepath = __DIR__ . '/views/' . $viewname . '.html';
+
+		return File::get( $filepath );
 	}
 
 }
