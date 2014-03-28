@@ -170,12 +170,12 @@ class Hooks_s3files extends Hooks
 
 	/**
 	 * `TRIGGER: Choose files
-	 * @uri /TRIGGER/s3files/choosefile
+	 * @uri /TRIGGER/s3files/choosefile?uri=/path/to/dir/to/get
 	 * @return none
 	 */
 	public function s3files__choosefile()
 	{
-		$this->select_s3_file();
+		self::s3files__list( Request::get('uri') );
 	}
 
 	/**
@@ -183,16 +183,25 @@ class Hooks_s3files extends Hooks
 	 * @return [array]
 	 * @todo Need to make sure that when we get a file or dir, we return a fully-qualified URL to save in the field.
 	 */
-	private function select_s3_file()
+	public function s3files__list()
 	{
+		// @todo Ensure AJAX requests only!
+		// if( Request::isAjax() );
 
-		$this->load_s3(); // Load S3
+		// Load the S3 client
+		$this->load_s3();
 
 		// Merge configs before we proceed
 		$this->config = self::merge_configs(Request::get('destination'));
 
+		// Set default error to false
+		$error = false;
+
+		// Do some werk to setup paths
 		$bucket    = $this->config['bucket'];
 		$directory = $this->config['folder'];
+		$uri       = Request::get('uri');
+		$url       = Url::tidy( 's3://' . join('/', array($bucket, $directory,$uri)) );
 
 		/*
 		|--------------------------------------------------------------------------
@@ -203,80 +212,94 @@ class Hooks_s3files extends Hooks
 		|
 		*/
 
-		$finder = new Finder();
-		$finder
-			->ignoreUnreadableDirs()
-			->in('s3://' . URL::tidy($bucket . '/' . $directory . '/'))
-			->depth('< 0'); // Do not allow access above the starting directory
-
-		/*
-		|--------------------------------------------------------------------------
-		| Assemble File Array
-		|--------------------------------------------------------------------------
-		|
-		| Select the important bits of data on the list of files.
-		|
-		*/
-
-		$data = array(
-			'files'       => array(), // Files array
-			'directories' => array(), // Directories array
-		);
-
-		/**
-		 * Let's make sure we've got somethin' up in this mutha.
-		 */
-		if( $finder->count() > 0 )
+		// Let's make sure we  have a valid URL before movin' on
+		if( Url::isValid( $url ) )
 		{
-			foreach ($finder as $file)
+			$finder = new Finder();
+
+			try
 			{
-				// File / directory attributes
-				$file_data = array(
-					'filename'      => $file->getFilename(),
-					'file'          => $file->getPathname(),
-					'extension'     => $file->getExtension(),
-					'filepath'      => '', // @todo
-					'size'          => File::getHumanSize($file->getSize()),
-					'last_modified' => $file->getMTime(),
-					'is_file'       => $file->isFile(),
-					'is_directory'  => $file->isDir(),
-				);
-
-				/**
-				 * Decide where to shove $file_data
-				 */
-				if( $file->isFile() ) // Push to files array
-				{
-					array_push( $data['files'], $file_data );
-				}
-				elseif( $file->isDir() ) // Push to directories array
-				{
-					array_push( $data['directories'], $file_data );
-				}
-				else // Keep on movin' on.
-				{
-					continue;
-				}
-				unset( $file_data );
+				$finder
+					->ignoreUnreadableDirs()
+					->in($url)
+					->depth('< 0'); // Do not allow access above the starting directory
 			}
-		}
-		else
-		{
+			catch(Exception $e)
+			{
+				$error = $e->getMessage();
+			}
+
+			/*
+			|--------------------------------------------------------------------------
+			| Assemble File Array
+			|--------------------------------------------------------------------------
+			|
+			| Select the important bits of data on the list of files.
+			|
+			*/
+
+			$data = array(
+				'crumbs'      => explode('/', $uri), // Array of the currently request URI.
+				'files'       => array(), // Files array
+				'directories' => array(), // Directories array
+			);
+
 			/**
-			 * Return an error of type dialog that should show a message to the user
-			 * that there are is nothing to see her. Doh!
-			 * @return [array] JSON
-			 * @todo See `self::set_json_return`.
+			 * Let's make sure we've got somethin' up in this mutha.
 			 */
-			return json_encode( array(
-				'error' => true,
-				'code'  => 100,
-				'type'  => 'message',
-				'data'  => array(
-					'text' => 'There are no files nor directories here.',
-					'html' => '',
-				),
-			));
+			if( ! $error && $finder->count() > 0 )
+			{
+				foreach ($finder as $file)
+				{
+					// File / directory attributes
+					$file_data = array(
+						'filename'      => $file->getFilename(),
+						'file'          => $file->getPathname(),
+						'extension'     => $file->getExtension(),
+						'url'           => Url::tidy( self::get_url_prefix($uri) . '/' . $file->getFilename() ),
+						'size'          => File::getHumanSize($file->getSize()),
+						'last_modified' => $file->getMTime(),
+						'is_file'       => $file->isFile(),
+						'is_directory'  => $file->isDir(),
+					);
+
+					/**
+					 * Decide where to shove $file_data
+					 */
+					if( $file->isFile() ) // Push to files array
+					{
+						array_push( $data['files'], $file_data );
+					}
+					elseif( $file->isDir() ) // Push to directories array
+					{
+						array_push( $data['directories'], $file_data );
+					}
+					else // Keep on movin' on.
+					{
+						continue;
+					}
+					unset( $file_data );
+				}
+			}
+			else
+			{
+				/**
+				 * Return an error of type dialog that should show a message to the user
+				 * that there are is nothing to see her. Doh!
+				 * @return [array] JSON
+				 * @todo See `self::set_json_return`.
+				 */
+				echo json_encode( array(
+					'error'   => true,
+					'message' => $error,
+					'code'    => 100,
+					'type'    => 'message',
+					'data'    => array(
+						'text' => 'There are no files nor directories here.',
+						'html' => '',
+					),
+				));
+			}
 		}
 
 		dd( $data ); // Just dumping everything to screen and killing the app for now.
@@ -380,6 +403,30 @@ class Hooks_s3files extends Hooks
 		$data = array();
 
 		return $data;
+	}
+
+	/**
+	 * Build out the proper URL prefix based on configs
+	 * @param (string) $uri This is the URI passed in on AJAX calls.
+	 * @return (string)
+	 */
+	private function get_url_prefix( $uri = null )
+	{
+		/**
+		 * Get values from the config to build out the proper prefix.
+		 */
+		$custom_domain = array_get($this->config, 'custom_domain');
+		$bucket        = array_get($this->config, 'bucket');
+		$directory     = array_get($this->config, 'directory');
+
+		if( $custom_domain )
+		{
+			return URL::tidy( 'http://'. $custom_domain .'/' . $uri . '/' . $directory . '/' );
+		}
+		else
+		{
+			return URL::tidy( 'http://'. $bucket . '.s3.amazonaws.com' . '/' . $uri . '/' . $directory );
+		}
 	}
 
 }
