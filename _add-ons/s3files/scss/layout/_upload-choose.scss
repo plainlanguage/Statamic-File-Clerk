@@ -101,6 +101,25 @@ $control-bar-element-border-radius: em(5);
 		padding: em(15) 0;
 	}
 
+	// File Wrapper -- http://viget.com/inspire/custom-file-inputs-with-a-bit-of-jquery
+	.file-wrapper {
+		cursor: pointer;
+		display: inline-block;
+		overflow: hidden;
+		position: relative;
+
+		input {
+			cursor: pointer;
+			font-size: em(100);
+			height: 100%;
+			position: absolute;
+			right: 0;
+			top: 0;
+			filter: alpha(opacity=1); // IE
+			opacity: 0.01;
+		}
+	}
+
 	// Successfull Upload
 	.upload-success {
 
@@ -113,6 +132,50 @@ $control-bar-element-border-radius: em(5);
 	// ----------------------------------------------------
 	// Choose Existing
 	// ----------------------------------------------------
+
+	// Breadcrumb Nav
+	.breadcrumb {
+		@include clearfix;
+		list-style-type: none;
+		margin: 0 0 em(15) 0;
+		overflow: hidden;
+		padding: 0;
+		text-align: left;
+		width: 100%;
+
+		li {
+			font-size: 90%;
+			display: block;
+			float: left;
+			margin-left: -1px;
+
+			a {
+				background-color: $color-white;
+				@include background-image(linear-gradient( $color-white, $color-tan-light ));
+				display: block;
+				padding: 6px 12px 6px 22px;
+				position: relative;
+			}
+
+			&.current a {
+				background-color: darken( $color-tan-light, 6 );
+				@include background-image(linear-gradient( darken($color-tan-light, 6), $color-tan-light ));
+				box-shadow: inset 0 1px 1px rgba( $color-black, 0.1 );
+			}
+
+			&:first-child {
+				margin-left: 0;
+
+				a {
+					padding-left: 12px;
+				}
+			}
+
+			&:last-child {
+
+			}
+		}
+	}
 
 	// Wrap for List (Table) View
 	.view-list {

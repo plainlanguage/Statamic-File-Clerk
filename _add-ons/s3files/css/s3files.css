@@ -32,9 +32,13 @@
   font-size: 1em;
   font-weight: 500;
   line-height: 1.75em;
+  overflow: hidden;
   padding: 0.125em 0.9375em;
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
   white-space: nowrap;
+}
+.button:active {
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 .button.large {
   font-size: 1.125em;
@@ -47,6 +51,16 @@
   background-image: linear-gradient( #8ab0bb, #7aa5b2);
   border-bottom: 1px solid #6a9aa8;
   color: white;
+}
+.button.button-blue:hover {
+  background-color: #5b8e9e;
+  background-image: -webkit-linear-gradient( #6a9aa8, #5b8e9e);
+  background-image: linear-gradient( #6a9aa8, #5b8e9e);
+}
+.button.button-blue:active {
+  background-color: #568694;
+  background-image: -webkit-linear-gradient( #6094a3, #568694);
+  background-image: linear-gradient( #6094a3, #568694);
 }
 .button.button-light {
   background-color: white;
@@ -66,7 +80,6 @@
 .button.button-light:active {
   background-image: -webkit-linear-gradient( #f6f6f3, #e7e7de);
   background-image: linear-gradient( #f6f6f3, #e7e7de);
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
   color: #264551;
 }
 .button span.button-icon-upload {
@@ -226,6 +239,22 @@
 .s3files .s3-add-file .choose-file {
   padding: 0.9375em 0;
 }
+.s3files .s3-add-file .file-wrapper {
+  cursor: pointer;
+  display: inline-block;
+  overflow: hidden;
+  position: relative;
+}
+.s3files .s3-add-file .file-wrapper input {
+  cursor: pointer;
+  font-size: 6.25em;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  top: 0;
+  filter: alpha(opacity=1);
+  opacity: 0.01;
+}
 .s3files .s3-add-file .upload-success span {
   background: url("../assets/build/img/icon-success.png") 0 center no-repeat;
   padding-left: 30px;
@@ -235,6 +264,48 @@
     background: url("../assets/build/img/icon-success@2x.png") 0 center no-repeat;
     background-size: 23px auto;
   }
+}
+.s3files .s3-add-file .breadcrumb {
+  *zoom: 1;
+  list-style-type: none;
+  margin: 0 0 0.9375em 0;
+  overflow: hidden;
+  padding: 0;
+  text-align: left;
+  width: 100%;
+}
+.s3files .s3-add-file .breadcrumb:before, .s3files .s3-add-file .breadcrumb:after {
+  content: " ";
+  display: table;
+}
+.s3files .s3-add-file .breadcrumb:after {
+  clear: both;
+}
+.s3files .s3-add-file .breadcrumb li {
+  font-size: 90%;
+  display: block;
+  float: left;
+  margin-left: -1px;
+}
+.s3files .s3-add-file .breadcrumb li a {
+  background-color: white;
+  background-image: -webkit-linear-gradient( white, #f4f4f0);
+  background-image: linear-gradient( white, #f4f4f0);
+  display: block;
+  padding: 6px 12px 6px 22px;
+  position: relative;
+}
+.s3files .s3-add-file .breadcrumb li.current a {
+  background-color: #e7e7de;
+  background-image: -webkit-linear-gradient( #e7e7de, #f4f4f0);
+  background-image: linear-gradient( #e7e7de, #f4f4f0);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+.s3files .s3-add-file .breadcrumb li:first-child {
+  margin-left: 0;
+}
+.s3files .s3-add-file .breadcrumb li:first-child a {
+  padding-left: 12px;
 }
 .s3files .s3-add-file .view-list {
   border: 1px solid #d7d7ca;

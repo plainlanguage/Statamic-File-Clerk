@@ -39,7 +39,10 @@
 
 			<div class="tab-pane active view-upload fade in" id="view-upload-{{ id }}">
 				<div class="choose-file">
-					<a class="button button-light large" href="#"><span class="button-icon-upload">Upload File</span></a>
+					<div class="file-wrapper">
+						<input class="file-upload" type="file" name="files">
+						<span class="button button-light large" href="#"><span class="button-icon-upload">Upload File</span></span>
+					</div>
 					<div class="progress-bar clearfix is-hidden">
 						<progress class="uploading" value="0" min="0" max="100"></progress>
 						<div class="prc"></div>
@@ -47,10 +50,18 @@
 					<div class="upload-success clearfix is-hidden">
 						<span>filename-mcawesome.png</span>
 					</div>
+					<div class="result">
+						<input type="hidden" class="successful-upload" id="{{ name }}" name="{{ name }}" type="text" value="">
+					</div>
 				</div>
 			</div>
 
 			<div class="tab-pane view-remote fade" id="view-remote-{{ id }}">
+				<ul class="breadcrumb">
+					<li class="root"><a href="#">s3files</a></li>
+					<li><a href="#">podcast</a></li>
+					<li class="current"><a href="#">2014</a></li>
+				</ul>
 				<div class="view-list">
 					<table class="tablesorter">
 						<thead>
