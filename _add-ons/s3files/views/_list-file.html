@@ -1,0 +1,9 @@
+{{ if files }}
+{{ files }}
+<tr class="file">
+	<td class="is-file" scope="row" data-title="title">{{ filename }}</td>
+	<td data-title="Size">{{ size }}KB</td>
+	<td data-title="Date Modified">{{ last_modified format="m/j/Y" }} <span class="time">{{ last_modified format="h:i A" }}</span></td>
+</tr>
+{{ /files }}
+{{ endif }}

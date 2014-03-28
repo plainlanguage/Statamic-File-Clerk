@@ -1,0 +1,9 @@
+{{ if directories }}
+{{ directories }}
+<tr class="directory">
+	<td class="is-directory" scope="row" data-title="title">{{ filename }}</td>
+	<td data-title="Size">--</td>
+	<td data-title="Date Modified">{{ last_modified format="m/j/Y" }} <span class="time">{{ last_modified format="h:i A" }}</span></td>
+</tr>
+{{ /directories }}
+{{ endif }}
