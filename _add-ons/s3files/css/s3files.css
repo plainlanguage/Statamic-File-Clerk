@@ -321,7 +321,7 @@
   }
 }
 .s3files .s3-add-file .breadcrumb li a:hover {
-  color: #a0a081;
+  color: #888867;
 }
 .s3files .s3-add-file .breadcrumb li.current a {
   background: url("../assets/build/img/bg-breadcrumb.png") left bottom repeat-x;
