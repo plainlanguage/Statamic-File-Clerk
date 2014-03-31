@@ -153,7 +153,7 @@ $(function () {
 			result_wrapper.toggleClass('is-visible is-hidden');
 			setTimeout(function() {
 				add_file.toggleClass('is-hidden is-visible');
-			}, 500);
+			}, 300);
 		}
 	};
 

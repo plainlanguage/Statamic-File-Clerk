@@ -2,6 +2,16 @@
   -webkit-transition: all 0.25s ease-out;
   -moz-transition: all 0.25s ease-out;
   transition: all 0.25s ease-out;
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  -o-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-perspective: 1000;
+  -moz-perspective: 1000;
+  perspective: 1000;
   visibility: hidden;
   max-height: 0;
   opacity: 0;
@@ -11,6 +21,16 @@
   -webkit-transition: all 0.25s ease-out;
   -moz-transition: all 0.25s ease-out;
   transition: all 0.25s ease-out;
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  -o-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-perspective: 1000;
+  -moz-perspective: 1000;
+  perspective: 1000;
   visibility: visible;
   max-height: 600px;
   opacity: 1.0;
@@ -21,6 +41,16 @@
   -webkit-transition: opacity 0.1s linear;
   -moz-transition: opacity 0.1s linear;
   transition: opacity 0.1s linear;
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  -o-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-perspective: 1000;
+  -moz-perspective: 1000;
+  perspective: 1000;
 }
 .s3files .fade.in {
   opacity: 1;

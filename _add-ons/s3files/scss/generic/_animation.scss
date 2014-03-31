@@ -15,6 +15,9 @@
 	// Hi, I am hidden
 	.is-hidden {
 		@include transition(all .25s ease-out);
+		@include transform(translate3d(0,0,0));
+		@include backface-visibility(hidden);
+		@include perspective(1000);
 		visibility: hidden;
 		max-height: 0;
 		opacity: 0;
@@ -24,6 +27,9 @@
 	// Hi, I am visible
 	.is-visible {
 		@include transition(all .25s ease-out);
+		@include transform(translate3d(0,0,0));
+		@include backface-visibility(hidden);
+		@include perspective(1000);
 		visibility: visible;
 		max-height: 600px;
 		opacity: 1.0;
@@ -33,6 +39,9 @@
 	.fade {
 		opacity: 0;
 		@include transition(opacity .1s linear);
+		@include transform(translate3d(0,0,0));
+		@include backface-visibility(hidden);
+		@include perspective(1000);
 		&.in {
 			opacity: 1;
 		}
