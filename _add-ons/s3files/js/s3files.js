@@ -141,13 +141,19 @@ $(function () {
 		// Remove File Reference
 		removeFileReference: function( event ) {
 
-			var successfullUpload = $(this).closest('.s3files').find('.result input.successful-upload');
-			var filenameDisplay = $(this).closest('.s3files').find('.result .filename-display');
+			var $this = $(this),
+				result_wrapper = $this.closest('.s3files').find('.result'),
+				add_file = $this.closest('.s3files').find('.s3-add-file'),
+				successful_upload = $this.closest('.s3files').find('.result input.successful-upload'),
+				filename_display = $this.closest('.s3files').find('.result .filename-display');
 
 			event.preventDefault();
-			successfullUpload.val(''); // Empty out hidden field w/ url
-			filenameDisplay.html(''); // Empty display filename
-
+			successful_upload.val(''); // Empty out hidden field w/ url
+			filename_display.html(''); // Empty display filename
+			result_wrapper.toggleClass('is-visible is-hidden');
+			setTimeout(function() {
+				add_file.toggleClass('is-hidden is-visible');
+			}, 500);
 		}
 	};
 

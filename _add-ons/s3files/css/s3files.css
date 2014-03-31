@@ -1,18 +1,18 @@
 .s3files .is-hidden {
-  -webkit-transition: all 0.1s ease-out;
-  -moz-transition: all 0.1s ease-out;
-  transition: all 0.1s ease-out;
+  -webkit-transition: all 0.25s ease-out;
+  -moz-transition: all 0.25s ease-out;
+  transition: all 0.25s ease-out;
   visibility: hidden;
   max-height: 0;
   opacity: 0;
   overflow: hidden;
 }
 .s3files .is-visible {
-  -webkit-transition: all 0.1s ease-out;
-  -moz-transition: all 0.1s ease-out;
-  transition: all 0.1s ease-out;
+  -webkit-transition: all 0.25s ease-out;
+  -moz-transition: all 0.25s ease-out;
+  transition: all 0.25s ease-out;
   visibility: visible;
-  max-height: 999px;
+  max-height: 600px;
   opacity: 1.0;
   overflow: auto;
 }
@@ -176,12 +176,20 @@
   display: block;
 }
 
+.s3files {
+  min-height: 52px;
+}
+
 .s3files .s3-add-file {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   clear: both;
   padding: 0.9375em;
+}
+.s3files .s3-add-file.is-hidden {
+  max-height: 0;
+  padding: 0;
 }
 .s3files .s3-add-file p {
   float: none;

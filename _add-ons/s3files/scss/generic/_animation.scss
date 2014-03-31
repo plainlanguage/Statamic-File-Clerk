@@ -14,7 +14,7 @@
 
 	// Hi, I am hidden
 	.is-hidden {
-		@include transition(all .1s ease-out);
+		@include transition(all .25s ease-out);
 		visibility: hidden;
 		max-height: 0;
 		opacity: 0;
@@ -23,9 +23,9 @@
 
 	// Hi, I am visible
 	.is-visible {
-		@include transition(all .1s ease-out);
+		@include transition(all .25s ease-out);
 		visibility: visible;
-		max-height: 999px;
+		max-height: 600px;
 		opacity: 1.0;
 		overflow: auto;
 	}
