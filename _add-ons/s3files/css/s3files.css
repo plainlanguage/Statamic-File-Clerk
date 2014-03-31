@@ -267,12 +267,14 @@
 }
 .s3files .s3-add-file .breadcrumb {
   *zoom: 1;
-  list-style-type: none;
-  margin: 0 0 0.9375em 0;
-  overflow: hidden;
-  padding: 0;
+  background-color: white;
+  background-image: -webkit-linear-gradient( white, #f4f4f0);
+  background-image: linear-gradient( white, #f4f4f0);
+  border: 1px solid #d7d7ca;
+  border-radius: 4px;
   text-align: left;
-  width: 100%;
+  margin: 0 0 0.9375em 0;
+  padding: 0;
 }
 .s3files .s3-add-file .breadcrumb:before, .s3files .s3-add-file .breadcrumb:after {
   content: " ";
@@ -282,73 +284,36 @@
   clear: both;
 }
 .s3files .s3-add-file .breadcrumb li {
+  display: inline-block;
   font-size: 90%;
-  display: block;
-  float: left;
-  margin-left: -1px;
-}
-.s3files .s3-add-file .breadcrumb li a {
-  background: url("../assets/build/img/bg-breadcrumb.png") left top repeat-x;
-  border: 1px solid #d7d7ca;
-  color: #888867;
-  display: block;
-  height: 22px;
-  line-height: 22px;
-  padding: 0 5px 0 20px;
   position: relative;
 }
-@media only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen and (min--moz-device-pixel-ratio: 1.3), only screen and (-o-min-device-pixel-ratio: 1.3 / 1), only screen and (min-resolution: 125dpi), only screen and (min-resolution: 1.3dppx) {
-  .s3files .s3-add-file .breadcrumb li a {
-    background: url("../assets/build/img/bg-breadcrumb@2x.png") left top repeat-x;
-    background-size: 297px auto;
-  }
-}
-.s3files .s3-add-file .breadcrumb li a:after {
-  background: url("../assets/build/img/bg-breadcrumb-tip.png") left center no-repeat;
+.s3files .s3-add-file .breadcrumb li:after {
+  content: '\232A';
   position: absolute;
-  top: 0;
-  right: -15px;
-  content: ' ';
-  display: block;
-  height: 22px;
-  width: 16px;
-  z-index: 2;
+  top: 0.1875em;
+  right: -0.8125em;
+  color: #d4d4c4;
+  font-size: 170%;
 }
-@media only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen and (min--moz-device-pixel-ratio: 1.3), only screen and (-o-min-device-pixel-ratio: 1.3 / 1), only screen and (min-resolution: 125dpi), only screen and (min-resolution: 1.3dppx) {
-  .s3files .s3-add-file .breadcrumb li a:after {
-    background: url("../assets/build/img/bg-breadcrumb-tip@2x.png") left center no-repeat;
-    background-size: 16px auto;
-  }
+.s3files .s3-add-file .breadcrumb li:last-child:after {
+  content: '';
+}
+.s3files .s3-add-file .breadcrumb li.current {
+  background-color: #e6e6de;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.2);
+  color: #68684e;
+  font-weight: 600;
+  margin-left: 0.8125em;
+  padding: 0.125em 0.5em;
+}
+.s3files .s3-add-file .breadcrumb li a {
+  color: #79795c;
+  display: block;
+  padding: 0.625em 0.9375em;
 }
 .s3files .s3-add-file .breadcrumb li a:hover {
-  color: #888867;
-}
-.s3files .s3-add-file .breadcrumb li.current a {
-  background: url("../assets/build/img/bg-breadcrumb.png") left bottom repeat-x;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.1);
-  color: #5c5c46;
-}
-@media only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen and (min--moz-device-pixel-ratio: 1.3), only screen and (-o-min-device-pixel-ratio: 1.3 / 1), only screen and (min-resolution: 125dpi), only screen and (min-resolution: 1.3dppx) {
-  .s3files .s3-add-file .breadcrumb li.current a {
-    background: url("../assets/build/img/bg-breadcrumb@2x.png") left bottom repeat-x;
-    background-size: 297px auto;
-  }
-}
-.s3files .s3-add-file .breadcrumb li:first-child {
-  margin-left: 0;
-}
-.s3files .s3-add-file .breadcrumb li:first-child a {
-  border-radius: 4px 0 0 4px;
-  padding-left: 10px;
-}
-.s3files .s3-add-file .breadcrumb li:last-child a {
-  border-radius: 0 4px 4px 0;
-  padding-right: 10px;
-}
-.s3files .s3-add-file .breadcrumb li:last-child a:after {
-  background-image: none;
-  width: 0;
-  height: 0;
+  color: #3f3f30;
 }
 .s3files .s3-add-file .view-list {
   border: 1px solid #d7d7ca;

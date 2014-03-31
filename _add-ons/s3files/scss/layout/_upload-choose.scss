@@ -136,75 +136,51 @@ $control-bar-element-border-radius: em(5);
 	// Breadcrumb Nav
 	.breadcrumb {
 		@include clearfix;
-		list-style-type: none;
-		margin: 0 0 em(15) 0;
-		overflow: hidden;
-		padding: 0;
+		background-color: $color-white;
+		@include background-image(linear-gradient( $color-white, $color-tan-light ));
+		border: $border-default;
+		border-radius: 4px;
 		text-align: left;
-		width: 100%;
+		margin: 0 0 em(15) 0;
+		padding: 0;
 
 		li {
-			$height: 22px;
-			$radius: 4px;
+			display: inline-block;
 			font-size: 90%;
-			display: block;
-			float: left;
-			margin-left: -1px;
+			position: relative;
 
-			a {
-				@include bg-img(bg-breadcrumb, png, 297px, left, top, repeat-x);
-				border: $border-default;
-				color: darken( $color-tan-mid, 35 );
-				display: block;
-				height: $height;
-				line-height: $height;
-				padding: 0 5px 0 20px;
-				position: relative;
-
-				&:after {
-					@include bg-img(bg-breadcrumb-tip, png, 16px, left, center);
-					position: absolute;
-					top: 0;
-					right: -15px;
-					content: ' ';
-					display: block;
-					height: $height;
-					width: 16px;
-					z-index: 2;
-				}
-
-				&:hover {
-					color: darken( $color-tan-mid, 35 );
-				}
-			}
-
-			&.current a {
-				@include bg-img(bg-breadcrumb, png, 297px, left, bottom, repeat-x);
-				box-shadow: inset 0 1px 1px rgba( $color-black, 0.1 );
-				color: darken( $color-tan-mid, 50 );
-			}
-
-			&:first-child {
-				margin-left: 0;
-
-				a {
-					border-radius: $radius 0 0 $radius;
-					padding-left: 10px;
-				}
+			&:after {
+				content: '\232A';
+				@include position( absolute, em(3) em(-13) 0 0 );
+				color: darken( $color-tan-light, 15 );
+				font-size: 170%;
 			}
 
 			&:last-child {
 
-				a {
-					border-radius: 0 $radius $radius 0;
-					padding-right: 10px;
-
-					&:after {
-						background-image: none;
-						width: 0;
-						height: 0;
-					}
+				&:after {
+					content: '';
 				}
+			}
+
+			// Current directory (not an href)
+			&.current {
+				background-color: lighten( $color-tan-mid, 7 );
+				box-shadow: inset 0 1px 1px rgba( $color-black, 0.2 );
+				color: darken( $color-tan-mid, 46 );
+				font-weight: 600;
+				margin-left: em(13);
+				padding: em(2) em(8);
+			}
+		}
+
+		li a {
+			color: darken( $color-tan-mid, 40 );
+			display: block;
+			padding: em(10) em(15);
+
+			&:hover {
+				color: darken( $color-tan-mid, 60 );
 			}
 		}
 	}
