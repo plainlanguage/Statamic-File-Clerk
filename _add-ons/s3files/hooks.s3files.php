@@ -199,7 +199,7 @@ class Hooks_s3files extends Hooks
 
 		// Do some werk to setup paths
 		$bucket    = $this->config['bucket'];
-		$directory = $this->config['folder'];
+		$directory = $this->config['directory'];
 		$uri       = Request::get('uri');
 		$url       = Url::tidy( 's3://' . join('/', array($bucket, $directory,$uri)) );
 
@@ -346,7 +346,7 @@ class Hooks_s3files extends Hooks
 			'aws_secret_key' => null,
 			'custom_domain'  => null,
 			'bucket'         => null,
-			'folder'         => null,
+			'directory'         => null,
 			'permissions'    => 'public-read',
 			'content_types'  => array('jpg', 'jpeg', 'png', 'gif', 'pdf', 'doc'),
 		);

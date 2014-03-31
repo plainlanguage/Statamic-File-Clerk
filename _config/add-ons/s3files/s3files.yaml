@@ -10,8 +10,8 @@ custom_domain:
 # The name of the S3 Bucket. Do not include trailing slash.
 bucket:
 
-# The folder/path to upload the file. Leave empty if uploading into bucket root.
-folder:
+# The directory to upload the file. Leave empty if uploading into bucket root.
+directory:
 
 # Define the file types that can be uploaded. [array] Not required.
 content_type:
