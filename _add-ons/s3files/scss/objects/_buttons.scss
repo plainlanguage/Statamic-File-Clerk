@@ -1,8 +1,10 @@
 .button {
 	border-radius: 4px;
 	display: inline-block;
-	font-size: em(16);
-	font-weight: 500;
+	font: {
+		size: em(16);
+		weight: 500;
+	}
 	line-height: em(28);
 	overflow: hidden;
 	padding: em(2) em(15);

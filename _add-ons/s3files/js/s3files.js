@@ -58,8 +58,10 @@ $(function () {
 				progressWrapper = uploadTab.find('.progress-bar'),
 				progressBar = progressWrapper.find('progress'),
 				progressPrc = progressWrapper.find('.prc'),
-				uploadSuccess = uploadTab.find('.upload-success'),
-				successfullUpload = uploadTab.find('.result input.successful-upload');
+				uploadSuccess = $this.closest('.s3files').find('.result .filename-display'),
+				successfullUpload = $this.closest('.s3files').find('.result input.successful-upload'),
+				result_wrapper = $this.closest('.s3files').find('.result'),
+				add_file = $this.closest('.s3files').find('.s3-add-file');
 
 			// Do we have a file to work with?
 			if( filename !== '' ) {
@@ -108,8 +110,12 @@ $(function () {
 							console.log(data.success);
 							console.log('URL: ' + data.fullpath);
 							progressWrapper.addClass('is-hidden'); // Hide progress bar when a file is succesfully uploaded.
-							uploadSuccess.removeClass('is-hidden').find('span').html(data.fullpath); // Show filename on successful upload
+							uploadSuccess.append(data.filename); // Show filename on successful upload
 							successfullUpload.val(data.fullpath); // Add full file path to hidden input
+							add_file.toggleClass('is-visible is-hidden');
+							setTimeout(function() {
+								result_wrapper.toggleClass('is-hidden is-visible');
+							}, 300);
 						}
 						else
 						{

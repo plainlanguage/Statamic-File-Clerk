@@ -18,8 +18,8 @@
 		@include transform(translate3d(0,0,0));
 		@include backface-visibility(hidden);
 		@include perspective(1000);
+		height: 0;
 		visibility: hidden;
-		max-height: 0;
 		opacity: 0;
 		overflow: hidden;
 	}
@@ -31,7 +31,6 @@
 		@include backface-visibility(hidden);
 		@include perspective(1000);
 		visibility: visible;
-		max-height: 600px;
 		opacity: 1.0;
 		overflow: auto;
 	}
