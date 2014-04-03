@@ -80,7 +80,7 @@ class Hooks_s3files extends Hooks
 			if( ! in_array($filetype, array_get($this->config, 'content_types')) )
 			{
 				// @todo Return proper JSON.
-				return false;
+				// return false;
 			}
 
 			$handle   = $tmp_name; // Set the full path of the uploaded file to use in setSource
