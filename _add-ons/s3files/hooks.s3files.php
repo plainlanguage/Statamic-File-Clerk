@@ -153,6 +153,16 @@ class Hooks_s3files extends Hooks
 
 	}
 
+
+	/*
+	|--------------------------------------------------------------------------
+	| TRIGGER AJAX methods here.
+	|--------------------------------------------------------------------------
+	| These are accessed by the `/TRIGGER/s3files/{method}` convention.
+	| Return from these methods will be JSON.
+	| 
+	*/
+
 	/**
 	 * AJAX - Run upload_file
 	 *
@@ -196,9 +206,6 @@ class Hooks_s3files extends Hooks
 		// @todo Ensure AJAX requests only!
 		// if( Request::isAjax() );
 
-		// Load the S3 client
-		$this->load_s3();
-
 		// Merge configs before we proceed
 		$this->config = self::merge_configs(Request::get('destination'));
 
@@ -229,8 +236,11 @@ class Hooks_s3files extends Hooks
 			{
 				$finder
 					->ignoreUnreadableDirs()
+					->ignoreDotFiles(true)
+					->sortByName()
 					->in($url)
-					->depth('< 0'); // Do not allow access above the starting directory
+					->depth('< 0') // Do not allow access above the starting directory
+				;
 			}
 			catch(Exception $e)
 			{
@@ -321,7 +331,7 @@ class Hooks_s3files extends Hooks
 
 		// Output the final parsed HTML
 		echo Parse::template($ft_template, $parsed_data);
-
+		//echo self::build_response_json(true, false, 200, '', '', $data, Parse::template($ft_template, $parsed_data));
 	}
 
 
@@ -339,6 +349,137 @@ class Hooks_s3files extends Hooks
 		return true;
 	}
 
+
+	/*
+	|--------------------------------------------------------------------------
+	| Private methods down here.
+	|--------------------------------------------------------------------------
+	*/
+
+	/**
+	 * Listing of files and directories for a given path.
+	 */
+	public function get_list()
+	{
+		// Merge configs before we proceed
+		$this->config = self::merge_configs(Request::get('destination'));
+
+		// Set default error to false
+		$error = false;
+
+		// Do some werk to setup paths
+		$bucket    = $this->config['bucket'];
+		$directory = $this->config['folder'];
+		$uri       = Request::get('uri');
+		$url       = Url::tidy( 's3://' . join('/', array($bucket, $directory,$uri)) );
+
+		/*
+		|--------------------------------------------------------------------------
+		| Finder
+		|--------------------------------------------------------------------------
+		|
+		| Get_Files implements most of the Symfony Finder component
+		|
+		*/
+
+		// Let's make sure we  have a valid URL before movin' on
+		if( Url::isValid( $url ) )
+		{
+			$finder = new Finder();
+
+			try
+			{
+				$finder
+					->ignoreUnreadableDirs()
+					->ignoreDotFiles(true)
+					->sortByName()
+					->in($url)
+					->depth('< 0') // Do not allow access above the starting directory
+				;
+			}
+			catch(Exception $e)
+			{
+				$error = $e->getMessage();
+			}
+
+			/*
+			|--------------------------------------------------------------------------
+			| Assemble File Array
+			|--------------------------------------------------------------------------
+			|
+			| Select the important bits of data on the list of files.
+			|
+			*/
+
+			$data = array(
+				//'crumbs'      => explode('/', $uri), // Array of the currently request URI.
+				'files'       => array(), // Files array
+				'directories' => array(), // Directories array
+			);
+
+			/**
+			 * Let's make sure we've got somethin' up in this mutha.
+			 */
+			if( ! $error && $finder->count() > 0 )
+			{
+				foreach ($finder as $file)
+				{
+					// File / directory attributes
+					$file_data = array(
+						'filename'      => $file->getFilename(),
+						'file'          => $file->getPathname(),
+						'extension'     => $file->getExtension(),
+						'url'           => Url::tidy( self::get_url_prefix($uri) . '/' . $file->getFilename() ),
+						'size'          => File::getHumanSize($file->getSize()),
+						'last_modified' => $file->getMTime(),
+						'is_file'       => $file->isFile(),
+						'is_directory'  => $file->isDir(),
+					);
+
+					/**
+					 * Decide where to shove $file_data
+					 */
+					if( $file->isFile() ) // Push to files array
+					{
+						array_push( $data['files'], $file_data );
+					}
+					elseif( $file->isDir() ) // Push to directories array
+					{
+						array_push( $data['directories'], $file_data );
+					}
+					else // Keep on movin' on.
+					{
+						continue;
+					}
+					unset( $file_data );
+				}
+			}
+			else
+			{
+				// Error
+			}
+		}
+
+		asort($data['files']);
+		asort($data['directories']);
+
+		return $data;
+
+		// We're basically parsing template partials here to build out the larger view.
+		$parsed_data = array(
+			'files'       => Parse::template( self::get_view('_list-file'), $data ),
+			'directories' => Parse::template( self::get_view('_list-directories'), $data ),
+		);
+
+		// PUt it all together
+		$ft_template = File::get( __DIR__ . '/views/list.html');
+
+		// Output the final parsed HTML
+		echo Parse::template($ft_template, $parsed_data);
+		//echo self::build_response_json(true, false, 200, '', '', $data, Parse::template($ft_template, $parsed_data));
+
+	}
+
 	/**
 	 * Merge all configs
 	 *
@@ -347,6 +488,8 @@ class Hooks_s3files extends Hooks
 	 */
 	private function merge_configs( $destination = null )
 	{
+		// Create our S3 client
+		self::load_s3();
 
 		// A complete list of all possible config variables
 		$config = array(
@@ -462,6 +605,19 @@ class Hooks_s3files extends Hooks
 		$filepath = __DIR__ . '/views/' . $viewname . '.html';
 
 		return File::get( $filepath );
+	}
+
+	private function build_response_json( $success = false, $error = true, $code =null, $message = null, $type = null, $data = null, $html = null )
+	{
+		return json_encode( array(
+			'success' => $success,
+			'error'   => $error,
+			'code'    => (int) $code,
+			'message' => $message,
+			'type'    => $type,
+			'data'    => $data,
+			'html'    => $html,
+		) );
 	}
 
 }

@@ -1,12 +1,37 @@
-<div class="s3files file-field-container">
-
-	<div class="result{{ if field_data }} is-visible{{ else }} is-hidden{{ endif }}">
-		<p><span class="filename-display">{{ basename_value }}</span></p>
-		<a class="btn btn-small btn-remove" href="#">Remove</a>
-		<input class="successful-upload" name="{{ name }}" type="hidden" value="{{ value }}">
+	<div class="s3files file-field-container">
+	<!--
+	<input class="postUrl" name="postUrl" type="hidden" value="{{ action }}">
+	{{ if field_data }}
+	<div class="result is-visible">
+		 <p><span class="filename-display">{{ basename_value }}</span></p>
+		 <a class="btn btn-small btn-remove" href="#">Remove</a>
+		 <input class="successful-upload" name="{{ name }}" type="hidden" value="{{ value }}">
 	 </div>
+	{{ else }}
+	<div class="fileinput">
+		<p><input class="file-upload" id="s3files-upload-{{ id }}" type="file" name="files" tabindex="{{ tabindex }}"></p>
+		<button class="btn-upload btn btn-small is-hidden">Upload</button>
+	</div>
+	<div class="progress is-hidden">
+		<div class="progress-filename clearfix">
+			<p>Uploading&hellip;</p>
+		</div>
+		<div class="progress-bar clearfix">
+			<progress class="uploading" value="0" min="0" max="100"></progress>
+			<div class="prc"></div>
+		</div>
+	</div>
+	<div class="result">
+		<input type="hidden" class="successful-upload" id="{{ name }}" name="{{ name }}" type="text" value="">
+	</div>
+	{{ endif }}
 
-	<div class="s3-add-file{{ if ! field_data }} is-visible{{ else }} is-hidden{{ endif }}">
+	<p>
+		<a href="/TRIGGER/s3files/choosefile">Choose a File &#187;</a>
+	</p>
+	-->
+
+	<div class="s3-add-file">
 		<ul class="nav nav-tabs tabs">
 			<li class="active"><a href="#view-upload-{{ id }}" data-toggle="tab" title="Upload New">Upload New</a></li><li><a href="#view-remote-{{ id }}" data-toggle="tab" title="Choose Existing">Choose Existing</a></li>
 		</ul>
@@ -23,6 +48,12 @@
 						<progress class="uploading" value="0" min="0" max="100"></progress>
 						<div class="prc"></div>
 					</div>
+					<div class="upload-success clearfix is-hidden">
+						<span>filename-mcawesome.png</span>
+					</div>
+					<div class="result">
+						<input type="hidden" class="successful-upload" id="{{ name }}" name="{{ name }}" type="text" value="">
+					</div>
 				</div>
 			</div>
 
@@ -30,8 +61,7 @@
 				<ul class="breadcrumb">
 					<li class="root"><a href="#">s3files</a></li>
 					<li><a href="#">podcast</a></li>
-					<li><a href="#">another-directory-name</a></li>
-					<li class="current">2014</li>
+					<li class="current"><a href="#">2014</a></li>
 				</ul>
 				<div class="view-list">
 					<table class="tablesorter">
@@ -43,36 +73,24 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr class="file">
-								<td class="is-file" scope="row" data-title="title">Bob-Odenkirk.png</td>
-								<td data-title="Size">46 KB</td>
-								<td data-title="Date Modified">3/22/2014 <span class="time">11:35 AM</span></td>
-							</tr>
+							{{ if directories }}
+							{{ directories }}
 							<tr class="directory">
-								<td class="is-directory" scope="row" data-title="title">boom</td>
+								<td class="is-directory" scope="row" data-title="title">{{ filename }}</td>
 								<td data-title="Size">--</td>
-								<td data-title="Date Modified"></td>
+								<td data-title="Date Modified">{{ last_modified format="m/j/Y" }} <span class="time">{{ last_modified format="h:i A" }}</span></td>
 							</tr>
+							{{ /directories }}
+							{{ endif }}
+							{{ if files }}
+							{{ files }}
 							<tr class="file">
-								<td class="is-file" scope="row" data-title="title">kill-it-with-fire.gif</td>
-								<td data-title="Size">1.1 MB</td>
-								<td data-title="Date Modified">3/22/2014 <span class="time">11:43 AM</span></td>
+								<td class="is-file" scope="row" data-title="title"><a href="{{ url }}" target="_blank">{{ filename }}</a></td>
+								<td data-title="Size">{{ size }}</td>
+								<td data-title="Date Modified">{{ last_modified format="m/j/Y" }} <span class="time">{{ last_modified format="h:i A" }}</span></td>
 							</tr>
-							<tr class="file">
-								<td class="is-file" scope="row" data-title="title">kurt-rambis-avatar-square.jpg</td>
-								<td data-title="Size">20 KB</td>
-								<td data-title="Date Modified">3/21/2014 <span class="time">4:15 PM</span></td>
-							</tr>
-							<tr class="file">
-								<td class="is-file" scope="row" data-title="title">Password.png</td>
-								<td data-title="Size">33 KB</td>
-								<td data-title="Date Modified">3/22/2014 <span class="time">11:48 AM</span></td>
-							</tr>
-							<tr class="directory">
-								<td class="is-directory" scope="row" data-title="title">platitudes</td>
-								<td data-title="Size">--</td>
-								<td data-title="Date Modified"></td>
-							</tr>
+							{{ /files }}
+							{{ endif }}
 						</tbody>
 					</table>
 				</div>
