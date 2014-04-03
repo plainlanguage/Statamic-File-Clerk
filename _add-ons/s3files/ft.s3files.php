@@ -61,7 +61,8 @@ class Fieldtype_s3files extends Fieldtype {
 		);
 
 		// Get a file listing for the field
-		$listing = Hooks_s3files::get_list();
+		//$listing = Hooks_s3files::get_list();
+		$listing = array();
 
 		// Merge in with the existing data
 		$data = array_merge($data, $listing);

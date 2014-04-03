@@ -2,6 +2,13 @@
 
 require_once 'config.php';
 
+// AJAX Response Codes
+define('S3FILES_FILE_UPLOAD_FAILED', 100);
+define('S3FILES_FILE_UPLOAD_SUCCESS', 200);
+define('S3FILES_ERROR_FILE_EXISTS', 300);
+define('S3FILES_ERROR_FILE_EXISTS_MSG', 'File exists.');
+
+
 use Aws\S3\S3Client;
 use Aws\S3\StreamWrapper;
 use Aws\S3\Enum\CannedAcl;
@@ -61,7 +68,7 @@ class Hooks_s3files extends Hooks
 	public function upload_file()
 	{
 
-		$this->load_s3(); // Load S3
+		//$this->load_s3(); // Load S3
 
 		$error = false;
 		$data  = array();
@@ -102,6 +109,29 @@ class Hooks_s3files extends Hooks
 				$fullPath = URL::tidy('http://'.$bucket.'.s3.amazonaws.com'.'/'.$directory.'/'.$filename);
 			}
 
+			$s3_path = Url::tidy( 's3://' . join('/', array($bucket, $directory)) );
+
+			// Check for file existence
+			if( self::file_exists( $s3_path, $filename ) )
+			{
+				$overwrite = Request::get('overwrite');
+
+				if( is_null($overwrite) )
+				{
+					echo json_encode( array(
+						'error'   => TRUE,
+						'type'    => 'dialog',
+						'code'    => S3FILES_ERROR_FILE_EXISTS,
+						'message' => S3FILES_ERROR_FILE_EXISTS_MSG,
+					));
+					exit;
+				}
+				elseif( $overwrite == 'false' || ! $overwrite || $overwrite == 0 )
+				{
+					$filename = self::increment_filename_unix($filename);
+				}
+			}
+
 			$uploader = UploadBuilder::newInstance()
 				->setClient($this->client)
 				->setSource($handle)
@@ -112,16 +142,6 @@ class Hooks_s3files extends Hooks
 				->setOption('ContentType', $filetype)
 				->setConcurrency(3)
 				->build();
-
-			// If the file doesn't already exist, upload
-			if (!$this->file_exists($bucket . URL::tidy('/'.$directory.'/'.$filename))) {
-
-			}
-			// If the file does already exist, something omething
-			else 
-			{
-
-			}
 
 			// Do it.
 			try
@@ -497,7 +517,7 @@ class Hooks_s3files extends Hooks
 			'aws_secret_key' => null,
 			'custom_domain'  => null,
 			'bucket'         => null,
-			'directory'         => null,
+			'directory'      => null,
 			'permissions'    => 'public-read',
 			'content_types'  => array('jpg', 'jpeg', 'png', 'gif', 'pdf', 'doc'),
 		);
@@ -553,12 +573,39 @@ class Hooks_s3files extends Hooks
 	 * @param
 	 * @return boolean
 	 */
-	private function file_exists( $url )
+	private function file_exists( $path, $filename )
 	{
-		if (file_exists($url)) {
-			return true;
-		}
+		$finder = new Finder();
 
+		$count = $finder
+					->files()
+					->in($path)
+					->name($filename)
+					->count()
+		;
+
+		return $count === 1 ? true : false;
+	}
+
+	/**
+	 * Increment a filename with unix timestamp
+	 * @param (string) Filename.
+	 * @return (mixed)
+	 */
+	private function increment_filename_unix( $filename = null )
+	{
+		if( is_null($filename) )
+		{
+			return false;
+		}
+		
+		$extension = File::getExtension($filename);
+		$file      = str_replace('.' . $extension, '', $filename);
+		$now       = time();
+
+		$fileparts = array( $file, '-', $now, '.', $extension, );
+
+		return implode('', $fileparts);
 	}
 
 	/**
@@ -567,7 +614,7 @@ class Hooks_s3files extends Hooks
 	 * @todo Establish set error codes.
 	 * @todo Establish parameters for function.
 	 */
-	private function set_json_return()
+	private function return_json()
 	{
 		$data = array();
 
