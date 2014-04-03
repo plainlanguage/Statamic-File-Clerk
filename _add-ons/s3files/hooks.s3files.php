@@ -525,6 +525,13 @@ class Hooks_s3files extends Hooks
 		// Destination config array
 		$destination_config = array();
 
+		// Destination config values that even if null should override master config.
+		$allow_override = array( 
+			'custom_domain', 
+			'directory', 
+			'content_types',
+		);
+
 		// Check that the destination config file exists
 		if( ! is_null($destination) )
 		{
@@ -537,18 +544,9 @@ class Hooks_s3files extends Hooks
 
 				foreach( $destination_config as $key => $value )
 				{
-					if( empty($value) || is_null($value) )
+					if( ! in_array($key, $allow_override) && (empty($value) || is_null($value)) )
 					{
-						switch( $value )
-						{
-							case 'directory':
-								continue;
-								break;
-							default:
-								unset($destination_config[$key]);
-								continue;
-								break;
-						}
+						unset( $destination_config[$key]);
 					}
 				}
 			}
@@ -584,7 +582,7 @@ class Hooks_s3files extends Hooks
 					->count()
 		;
 
-		return $count === 1 ? true : false;
+		return $count === 1 ? TRUE : FALSE;
 	}
 
 	/**
@@ -667,6 +665,15 @@ class Hooks_s3files extends Hooks
 		) );
 	}
 
-}
+	/**
+	 * Test method for testing merge_configs()
+	 * @return (array)
+	 */
+	public function s3files__config_dump()
+	{
+		$destination = Request::get('destination');
+		dd(self::merge_configs($destination));
+	}
 
+}
 // END hooks.s3files.php

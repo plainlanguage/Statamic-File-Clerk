@@ -18,7 +18,7 @@ bucket:
 directory:
 
 # Define the file types that can be uploaded. [array] Not required.
-content_type:
+content_types:
 
 # Access for the uploaded file. Required.
 # Options include:
