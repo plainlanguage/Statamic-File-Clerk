@@ -2,6 +2,13 @@
 
 require_once 'config.php';
 
+// AJAX Response Codes
+define('S3FILES_FILE_UPLOAD_FAILED', 100);
+define('S3FILES_FILE_UPLOAD_SUCCESS', 200);
+define('S3FILES_ERROR_FILE_EXISTS', 300);
+define('S3FILES_ERROR_FILE_EXISTS_MSG', 'File exists.');
+
+
 use Aws\S3\S3Client;
 use Aws\S3\StreamWrapper;
 use Aws\S3\Enum\CannedAcl;
@@ -61,7 +68,7 @@ class Hooks_s3files extends Hooks
 	public function upload_file()
 	{
 
-		$this->load_s3(); // Load S3
+		//$this->load_s3(); // Load S3
 
 		$error = false;
 		$data  = array();
@@ -75,6 +82,13 @@ class Hooks_s3files extends Hooks
 			$filetype	= $file['type'];
 			$tmp_name	= $file['tmp_name'];
 			$filesize	= $file['size'];
+
+			// Check if the filetype is allowed in config
+			if( ! in_array($filetype, array_get($this->config, 'content_types')) )
+			{
+				// @todo Return proper JSON.
+				// return false;
+			}
 
 			$handle   = $tmp_name; // Set the full path of the uploaded file to use in setSource
 			$filename = File::cleanFilename($filename); // Clean Filename
@@ -95,6 +109,29 @@ class Hooks_s3files extends Hooks
 				$fullPath = URL::tidy('http://'.$bucket.'.s3.amazonaws.com'.'/'.$directory.'/'.$filename);
 			}
 
+			$s3_path = Url::tidy( 's3://' . join('/', array($bucket, $directory)) );
+
+			// Check for file existence
+			if( self::file_exists( $s3_path, $filename ) )
+			{
+				$overwrite = Request::get('overwrite');
+
+				if( is_null($overwrite) )
+				{
+					echo json_encode( array(
+						'error'   => TRUE,
+						'type'    => 'dialog',
+						'code'    => S3FILES_ERROR_FILE_EXISTS,
+						'message' => S3FILES_ERROR_FILE_EXISTS_MSG,
+					));
+					exit;
+				}
+				elseif( $overwrite == 'false' || ! $overwrite || $overwrite == 0 )
+				{
+					$filename = self::increment_filename_unix($filename);
+				}
+			}
+
 			$uploader = UploadBuilder::newInstance()
 				->setClient($this->client)
 				->setSource($handle)
@@ -105,15 +142,6 @@ class Hooks_s3files extends Hooks
 				->setOption('ContentType', $filetype)
 				->setConcurrency(3)
 				->build();
-
-			// If the file doesn't already exist, upload
-			if (!$this->file_exists($bucket . URL::tidy('/'.$directory.'/'.$filename))) {
-
-			}
-			// If the file does already exist, something omething
-			else {
-
-			}
 
 			// Do it.
 			try
@@ -144,6 +172,16 @@ class Hooks_s3files extends Hooks
 		echo json_encode($data);
 
 	}
+
+
+	/*
+	|--------------------------------------------------------------------------
+	| TRIGGER AJAX methods here.
+	|--------------------------------------------------------------------------
+	| These are accessed by the `/TRIGGER/s3files/{method}` convention.
+	| Return from these methods will be JSON.
+	| 
+	*/
 
 	/**
 	 * AJAX - Run upload_file
@@ -188,9 +226,6 @@ class Hooks_s3files extends Hooks
 		// @todo Ensure AJAX requests only!
 		// if( Request::isAjax() );
 
-		// Load the S3 client
-		$this->load_s3();
-
 		// Merge configs before we proceed
 		$this->config = self::merge_configs(Request::get('destination'));
 
@@ -221,8 +256,11 @@ class Hooks_s3files extends Hooks
 			{
 				$finder
 					->ignoreUnreadableDirs()
+					->ignoreDotFiles(true)
+					->sortByName()
 					->in($url)
-					->depth('< 0'); // Do not allow access above the starting directory
+					->depth('< 0') // Do not allow access above the starting directory
+				;
 			}
 			catch(Exception $e)
 			{
@@ -313,7 +351,7 @@ class Hooks_s3files extends Hooks
 
 		// Output the final parsed HTML
 		echo Parse::template($ft_template, $parsed_data);
-
+		//echo self::build_response_json(true, false, 200, '', '', $data, Parse::template($ft_template, $parsed_data));
 	}
 
 
@@ -331,6 +369,137 @@ class Hooks_s3files extends Hooks
 		return true;
 	}
 
+
+	/*
+	|--------------------------------------------------------------------------
+	| Private methods down here.
+	|--------------------------------------------------------------------------
+	*/
+
+	/**
+	 * Listing of files and directories for a given path.
+	 */
+	public function get_list()
+	{
+		// Merge configs before we proceed
+		$this->config = self::merge_configs(Request::get('destination'));
+
+		// Set default error to false
+		$error = false;
+
+		// Do some werk to setup paths
+		$bucket    = $this->config['bucket'];
+		$directory = $this->config['folder'];
+		$uri       = Request::get('uri');
+		$url       = Url::tidy( 's3://' . join('/', array($bucket, $directory,$uri)) );
+
+		/*
+		|--------------------------------------------------------------------------
+		| Finder
+		|--------------------------------------------------------------------------
+		|
+		| Get_Files implements most of the Symfony Finder component
+		|
+		*/
+
+		// Let's make sure we  have a valid URL before movin' on
+		if( Url::isValid( $url ) )
+		{
+			$finder = new Finder();
+
+			try
+			{
+				$finder
+					->ignoreUnreadableDirs()
+					->ignoreDotFiles(true)
+					->sortByName()
+					->in($url)
+					->depth('< 0') // Do not allow access above the starting directory
+				;
+			}
+			catch(Exception $e)
+			{
+				$error = $e->getMessage();
+			}
+
+			/*
+			|--------------------------------------------------------------------------
+			| Assemble File Array
+			|--------------------------------------------------------------------------
+			|
+			| Select the important bits of data on the list of files.
+			|
+			*/
+
+			$data = array(
+				//'crumbs'      => explode('/', $uri), // Array of the currently request URI.
+				'files'       => array(), // Files array
+				'directories' => array(), // Directories array
+			);
+
+			/**
+			 * Let's make sure we've got somethin' up in this mutha.
+			 */
+			if( ! $error && $finder->count() > 0 )
+			{
+				foreach ($finder as $file)
+				{
+					// File / directory attributes
+					$file_data = array(
+						'filename'      => $file->getFilename(),
+						'file'          => $file->getPathname(),
+						'extension'     => $file->getExtension(),
+						'url'           => Url::tidy( self::get_url_prefix($uri) . '/' . $file->getFilename() ),
+						'size'          => File::getHumanSize($file->getSize()),
+						'last_modified' => $file->getMTime(),
+						'is_file'       => $file->isFile(),
+						'is_directory'  => $file->isDir(),
+					);
+
+					/**
+					 * Decide where to shove $file_data
+					 */
+					if( $file->isFile() ) // Push to files array
+					{
+						array_push( $data['files'], $file_data );
+					}
+					elseif( $file->isDir() ) // Push to directories array
+					{
+						array_push( $data['directories'], $file_data );
+					}
+					else // Keep on movin' on.
+					{
+						continue;
+					}
+					unset( $file_data );
+				}
+			}
+			else
+			{
+				// Error
+			}
+		}
+
+		asort($data['files']);
+		asort($data['directories']);
+
+		return $data;
+
+		// We're basically parsing template partials here to build out the larger view.
+		$parsed_data = array(
+			'files'       => Parse::template( self::get_view('_list-file'), $data ),
+			'directories' => Parse::template( self::get_view('_list-directories'), $data ),
+		);
+
+		// PUt it all together
+		$ft_template = File::get( __DIR__ . '/views/list.html');
+
+		// Output the final parsed HTML
+		echo Parse::template($ft_template, $parsed_data);
+		//echo self::build_response_json(true, false, 200, '', '', $data, Parse::template($ft_template, $parsed_data));
+
+	}
+
 	/**
 	 * Merge all configs
 	 *
@@ -339,6 +508,8 @@ class Hooks_s3files extends Hooks
 	 */
 	private function merge_configs( $destination = null )
 	{
+		// Create our S3 client
+		self::load_s3();
 
 		// A complete list of all possible config variables
 		$config = array(
@@ -346,13 +517,20 @@ class Hooks_s3files extends Hooks
 			'aws_secret_key' => null,
 			'custom_domain'  => null,
 			'bucket'         => null,
-			'directory'         => null,
+			'directory'      => null,
 			'permissions'    => 'public-read',
 			'content_types'  => array('jpg', 'jpeg', 'png', 'gif', 'pdf', 'doc'),
 		);
 
 		// Destination config array
 		$destination_config = array();
+
+		// Destination config values that even if null should override master config.
+		$allow_override = array( 
+			'custom_domain', 
+			'directory', 
+			'content_types',
+		);
 
 		// Check that the destination config file exists
 		if( ! is_null($destination) )
@@ -366,10 +544,9 @@ class Hooks_s3files extends Hooks
 
 				foreach( $destination_config as $key => $value )
 				{
-					if( empty($value) || is_null($value) )
+					if( ! in_array($key, $allow_override) && (empty($value) || is_null($value)) )
 					{
-						unset($destination_config[$key]);
-						continue;
+						unset( $destination_config[$key]);
 					}
 				}
 			}
@@ -394,12 +571,39 @@ class Hooks_s3files extends Hooks
 	 * @param
 	 * @return boolean
 	 */
-	private function file_exists( $url )
+	private function file_exists( $path, $filename )
 	{
-		if (file_exists($url)) {
-			return true;
-		}
+		$finder = new Finder();
 
+		$count = $finder
+					->files()
+					->in($path)
+					->name($filename)
+					->count()
+		;
+
+		return $count === 1 ? TRUE : FALSE;
+	}
+
+	/**
+	 * Increment a filename with unix timestamp
+	 * @param (string) Filename.
+	 * @return (mixed)
+	 */
+	private function increment_filename_unix( $filename = null )
+	{
+		if( is_null($filename) )
+		{
+			return false;
+		}
+		
+		$extension = File::getExtension($filename);
+		$file      = str_replace('.' . $extension, '', $filename);
+		$now       = time();
+
+		$fileparts = array( $file, '-', $now, '.', $extension, );
+
+		return implode('', $fileparts);
 	}
 
 	/**
@@ -408,7 +612,7 @@ class Hooks_s3files extends Hooks
 	 * @todo Establish set error codes.
 	 * @todo Establish parameters for function.
 	 */
-	private function set_json_return()
+	private function return_json()
 	{
 		$data = array();
 
@@ -448,6 +652,28 @@ class Hooks_s3files extends Hooks
 		return File::get( $filepath );
 	}
 
-}
+	private function build_response_json( $success = false, $error = true, $code =null, $message = null, $type = null, $data = null, $html = null )
+	{
+		return json_encode( array(
+			'success' => $success,
+			'error'   => $error,
+			'code'    => (int) $code,
+			'message' => $message,
+			'type'    => $type,
+			'data'    => $data,
+			'html'    => $html,
+		) );
+	}
 
+	/**
+	 * Test method for testing merge_configs()
+	 * @return (array)
+	 */
+	public function s3files__config_dump()
+	{
+		$destination = Request::get('destination');
+		dd(self::merge_configs($destination));
+	}
+
+}
 // END hooks.s3files.php

@@ -60,8 +60,21 @@ class Fieldtype_s3files extends Fieldtype {
 			'value'          => $attributes['value'],
 		);
 
+		// Get a file listing for the field
+		//$listing = Hooks_s3files::get_list();
+		$listing = array();
+
+		// Merge in with the existing data
+		$data = array_merge($data, $listing);
+
+		//dd($data);
+
+		// Get the view file
 		$ft_template = File::get( __DIR__ . '/views/ft.s3files.html');
-		return Content::parse($ft_template, $data);
+
+		// Parse the template with data
+		return Parse::template($ft_template, $data);
+
 
 		// $html = "<div class='s3files file-field-container'>";
 		// 	$html .= "<input class='postUrl' name='postUrl' type='hidden' value='{$attributes['action']}'>";
