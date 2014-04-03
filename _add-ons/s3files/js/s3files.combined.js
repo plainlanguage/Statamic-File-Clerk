@@ -316,6 +316,21 @@ $(function () {
 								result_wrapper.toggleClass('is-hidden is-visible');
 							}, 300);
 						}
+						// Upload was successful
+						else if ( data.code === 100 )
+						{
+
+						}
+						// Upload failed
+						else if ( data.code === 200 )
+						{
+
+						}
+						// File name already exists
+						else if ( data.code === 300 )
+						{
+
+						}
 						else
 						{
 							// Handle errors here
