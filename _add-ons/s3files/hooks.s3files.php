@@ -76,6 +76,13 @@ class Hooks_s3files extends Hooks
 			$tmp_name	= $file['tmp_name'];
 			$filesize	= $file['size'];
 
+			// Check if the filetype is allowed in config
+			if( ! in_array($filetype, array_get($this->config, 'content_types')) )
+			{
+				// @todo Return proper JSON.
+				return false;
+			}
+
 			$handle   = $tmp_name; // Set the full path of the uploaded file to use in setSource
 			$filename = File::cleanFilename($filename); // Clean Filename
 
@@ -111,7 +118,8 @@ class Hooks_s3files extends Hooks
 
 			}
 			// If the file does already exist, something omething
-			else {
+			else 
+			{
 
 			}
 
@@ -368,8 +376,16 @@ class Hooks_s3files extends Hooks
 				{
 					if( empty($value) || is_null($value) )
 					{
-						unset($destination_config[$key]);
-						continue;
+						switch( $value )
+						{
+							case 'directory':
+								continue;
+								break;
+							default:
+								unset($destination_config[$key]);
+								continue;
+								break;
+						}
 					}
 				}
 			}
