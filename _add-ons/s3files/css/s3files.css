@@ -396,10 +396,13 @@
 }
 .s3files .s3-add-file .view-list {
   border: 1px solid #d7d7ca;
-  height: 12.5em;
+  height: 16.875em;
   overflow-y: scroll;
   text-align: left;
   -webkit-overflow-scrolling: touch;
+}
+.s3files .s3-add-file .view-list .ajax-spinner {
+  color: #1e3640;
 }
 .s3files .s3-add-file .view-list table {
   width: 100%;

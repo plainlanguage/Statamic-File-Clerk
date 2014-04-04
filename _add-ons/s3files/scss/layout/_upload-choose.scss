@@ -238,10 +238,14 @@ $control-bar-element-border-radius: em(5);
 	// Wrap for List (Table) View
 	.view-list {
 		border: $border-default;
-		height: em(200);
+		height: em(270);
 		overflow-y: scroll;
 		text-align: left;
 		-webkit-overflow-scrolling: touch;
+
+		.ajax-spinner {
+			color: $color-gray-mid;
+		}
 
 		table {
 			width: 100%;
