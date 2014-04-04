@@ -257,9 +257,9 @@ class Hooks_s3files extends Hooks
 				$finder
 					->ignoreUnreadableDirs()
 					->ignoreDotFiles(true)
-					->sortByName()
 					->in($url)
 					->depth('== 0') // Do not allow access above the starting directory
+					->sortByName()
 				;
 			}
 			catch(Exception $e)
@@ -296,29 +296,40 @@ class Hooks_s3files extends Hooks
 						'file'          => $file->getPathname(),
 						'extension'     => $file->getExtension(),
 						'url'           => Url::tidy( self::get_url_prefix($uri) . '/' . $file->getFilename() ),
-						'size'          => File::getHumanSize($file->getSize()),
-						'last_modified' => $file->getMTime(),
+						'size'          => $file->isDir() ? '--' : File::getHumanSize($file->getSize()),
+						'last_modified' => $file->isDir() ? '--' :$file->getMTime(),
 						'is_file'       => $file->isFile(),
 						'is_directory'  => $file->isDir(),
 					);
-
-					//array_push($file_data['list'], $file_data);
 
 					/**
 					 * Decide where to shove $file_data
 					 */
 					if( $file->isFile() ) // Push to files array
 					{
+						$file_data['uri'] = null;
 						array_push( $data['files'], $file_data );
 					}
 					elseif( $file->isDir() ) // Push to directories array
 					{
+						if( is_null($uri) )
+						{
+							$newuri = Url::tidy( '/' . join('/', array($file_data['filename'])) );
+						}
+						else
+						{
+							$newuri = Url::tidy( '/' . join('/', array($uri,$file_data['filename'])) );
+						}
+
+						$file_data['uri'] = $newuri;
+
 						array_push( $data['directories'], $file_data );
 					}
 					else // Keep on movin' on.
 					{
 						continue;
 					}
+					array_push($data['list'], $file_data);
 					unset( $file_data );
 				}
 			}
@@ -345,7 +356,7 @@ class Hooks_s3files extends Hooks
 
 		// We're basically parsing template partials here to build out the larger view.
 		$parsed_data = array(
-			//'list' => Parse::template( self::get_view('_list', $data),
+			'list'        => Parse::template( self::get_view('_list'), $data ),
 			'files'       => Parse::template( self::get_view('_list-file'), $data ),
 			'directories' => Parse::template( self::get_view('_list-directories'), $data ),
 		);
@@ -467,10 +478,20 @@ class Hooks_s3files extends Hooks
 					 */
 					if( $file->isFile() ) // Push to files array
 					{
+						$file_data['uri'] = null;
 						array_push( $data['files'], $file_data );
 					}
 					elseif( $file->isDir() ) // Push to directories array
 					{
+						if( is_null($uri) )
+						{
+							$newuri = Url::tidy( '/' . join('/', array($bucket,$directory,$file_data['filename'])) );
+						}
+						else
+						{
+							$newuri = Url::tidy( '/' . join('/', array($bucket,$directory,$uri,$file_data['filename'])) );
+						}
+						$file_data['uri'] = $newuri;
 						array_push( $data['directories'], $file_data );
 					}
 					else // Keep on movin' on.

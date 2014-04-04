@@ -230,11 +230,12 @@ class Plugin_s3files extends Plugin
 	 * Attempt to fetch the field
 	 * @return (array) Field data.
 	 */
-	private function get_field()
+	public function get_field( $field = null )
 	{
 
 		$this->field = null;
-		$this->fieldname = $this->fetchParam('field', null, null, false, true);
+
+		$this->fieldname = is_null($field) ? $this->fetchParam('field', null, null, false, true) : $field;
 
 		if( is_null($this->fieldname) )
 		{
