@@ -246,7 +246,7 @@
 .s3files .s3-add-file .tabs li.active a,
 .s3files .s3-add-file .tabs li.active a:hover {
   background-color: white;
-  color: #222244;
+  color: #222222;
 }
 .s3files .s3-add-file .tabs li:first-child.active a {
   margin-right: -1px;
@@ -255,6 +255,9 @@
   margin-left: -1px;
 }
 .s3files .s3-add-file .tabs li a {
+  -webkit-transition: all 0.2s ease-in;
+  -moz-transition: all 0.2s ease-in;
+  transition: all 0.2s ease-in;
   background-color: #e9e9e1;
   border-right: 1px solid #d7d7ca;
   border-bottom: 1px solid #d7d7ca;
@@ -420,6 +423,9 @@
 }
 .s3files .s3-add-file .view-list td {
   padding: 0.5em;
+}
+.s3files .s3-add-file .view-list td a {
+  color: #222222;
 }
 .s3files .s3-add-file .view-list tr {
   border-bottom: 1px solid #f1f1ed;

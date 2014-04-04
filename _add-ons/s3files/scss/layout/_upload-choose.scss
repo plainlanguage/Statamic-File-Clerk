@@ -79,6 +79,7 @@ $control-bar-element-border-radius: em(5);
 			}
 
 			a {
+				@include transition( all 0.2s ease-in );
 				background-color: lighten( $color-tan-mid, 8 );
 				border: {
 					right: $border-default;
@@ -271,6 +272,10 @@ $control-bar-element-border-radius: em(5);
 
 		td {
 			padding: em(8);
+
+			a {
+				color: $color-gray-dark;
+			}
 		}
 
 		tr {
