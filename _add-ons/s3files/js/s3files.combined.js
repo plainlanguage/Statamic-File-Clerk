@@ -228,6 +228,9 @@ $(function () {
 
 			// Remove file reference on click
 			$('body').on( 'click', '.btn-remove', this.removeFileReference );
+
+			// Choose existing file
+			$('body').on( 'click', '.load_existing', this.loadExisting );
 		},
 
 		// Prepare Upload
@@ -374,7 +377,43 @@ $(function () {
 			setTimeout(function() {
 				add_file.toggleClass('is-hidden is-visible');
 			}, 300);
+		},
+
+		// Choose Existing
+		loadExisting: function( event ) {
+
+			var $this = $(this),
+				listURL = $this.data('list'),
+				viewList = $this.closest('.s3-add-file').find('.view-remote .view-list tbody');
+
+			// Load Existing files
+			$.ajax({
+				url: listURL,
+				type: 'GET',
+				cache: false,
+				dataType: 'json',
+				processData: false, // Don't process the files
+				contentType: false, // Set content type to false as jQuery will tell the server it's a query string request
+				beforeSend: function(data) {
+					// Do stuff before sending. Loading Gif? (Chad, that's a soft `G`!)
+				},
+				success: function(data, textStatus, jqXHR)
+				{
+					if (data.error === false)
+					{
+						console.log(data.success);
+						viewList.html(data.html);
+					}
+				},
+				error: function(jqXHR, textStatus, errorThrown)
+				{
+					// Handle Errors here
+					console.log('ERRORS: ' + textStatus);
+				}
+			});
+
 		}
+
 	};
 
 	// Run it
