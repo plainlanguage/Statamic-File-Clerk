@@ -34,3 +34,11 @@ $color-blue-mid: 			#6A9AA8;
 // BG Image Path
 // ---------------------------------------------------------------------------------
 $bg-img-path: 		'../assets/build/img/';
+
+// ---------------------------------------------------------------------------------
+// Breakpoints
+// ---------------------------------------------------------------------------------
+
+$large: new-breakpoint(min-width 960px); // Desktop-ish
+$medium: new-breakpoint(min-width 768px max-width 959px); // Tablet-ish
+$small: new-breakpoint(max-width 767px); // Mobileness-ish

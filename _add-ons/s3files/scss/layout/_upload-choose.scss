@@ -49,6 +49,10 @@ $control-bar-element-border-radius: em(5);
 			border: $border-default;
 			display: inline-block;
 
+			@include media($small) {
+				width: 50%;
+			}
+
 			&.active {
 				border-bottom-color: $color-white;
 
@@ -67,8 +71,16 @@ $control-bar-element-border-radius: em(5);
 				background-color: lighten( $color-tan-mid, 8 );
 				color: darken( $color-tan-mid, 35 );
 				display: block;
-				padding: em(8) em(18);
-				width: em(130);
+
+				@include media($large) {
+					padding: em(8) em(18);
+					width: em(160);
+				}
+
+				@include media($small) {
+					padding: em(4) em(8);
+					width: 100%;
+				}
 
 				&:hover {
 					background-color: $color-tan-mid;
@@ -162,7 +174,7 @@ $control-bar-element-border-radius: em(5);
 				content: '\232A';
 				@include position( absolute, em(3) em(-13) 0 0 );
 				color: darken( $color-tan-light, 15 );
-				font-size: 170%;
+				font-size: em(21);
 			}
 
 			&:last-child {

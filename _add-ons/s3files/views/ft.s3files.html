@@ -1,36 +1,4 @@
-	<div class="s3files file-field-container">
-	<!--
-	<input class="postUrl" name="postUrl" type="hidden" value="{{ action }}">
-	{{ if field_data }}
-	<div class="result is-visible">
-		 <p><span class="filename-display">{{ basename_value }}</span></p>
-		 <a class="btn btn-small btn-remove" href="#">Remove</a>
-		 <input class="successful-upload" name="{{ name }}" type="hidden" value="{{ value }}">
-	 </div>
-	{{ else }}
-	<div class="fileinput">
-		<p><input class="file-upload" id="s3files-upload-{{ id }}" type="file" name="files" tabindex="{{ tabindex }}"></p>
-		<button class="btn-upload btn btn-small is-hidden">Upload</button>
-	</div>
-	<div class="progress is-hidden">
-		<div class="progress-filename clearfix">
-			<p>Uploading&hellip;</p>
-		</div>
-		<div class="progress-bar clearfix">
-			<progress class="uploading" value="0" min="0" max="100"></progress>
-			<div class="prc"></div>
-		</div>
-	</div>
-	<div class="result">
-		<input type="hidden" class="successful-upload" id="{{ name }}" name="{{ name }}" type="text" value="">
-	</div>
-	{{ endif }}
-
-	<p>
-		<a href="/TRIGGER/s3files/choosefile">Choose a File &#187;</a>
-	</p>
-	-->
-
+<div class="s3files file-field-container">
 	<div class="s3-add-file">
 		<ul class="nav nav-tabs tabs">
 			<li class="active"><a href="#view-upload-{{ id }}" data-toggle="tab" title="Upload New">Upload New</a></li><li><a href="#view-remote-{{ id }}" data-toggle="tab" title="Choose Existing">Choose Existing</a></li>
@@ -61,7 +29,7 @@
 				<ul class="breadcrumb">
 					<li class="root"><a href="#">s3files</a></li>
 					<li><a href="#">podcast</a></li>
-					<li class="current"><a href="#">2014</a></li>
+					<li class="current">2014</li>
 				</ul>
 				<div class="view-list">
 					<table class="tablesorter">
@@ -95,8 +63,7 @@
 					</table>
 				</div>
 				<div class="action-bar">
-					<a class="button button-light" href="#">Cancel</a>
-					<a class="button button-blue" href="#">Select</a>
+					<a class="button button-blue" href="#">Select File</a>
 				</div>
 			</div>
 
