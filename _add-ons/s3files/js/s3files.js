@@ -35,6 +35,9 @@ $(function () {
 
 			// Choose existing file
 			$('body').on( 'dblclick', '.is-directory', this.loadExisting );
+
+			// Highlight Row
+			$('body').on( 'click', '.view-list td', this.highlightRow );
 		},
 
 		// Prepare Upload
@@ -188,7 +191,7 @@ $(function () {
 
 			var $this = $(this),
 				listURL = '/TRIGGER/s3files/list' + ($(this).data('uri') ? '?uri=' + $(this).data('uri') : ''),
-				viewList = $this.closest('.s3-add-file').find('.view-remote .view-list tbody');
+				viewList = $this.closest('.s3-add-file').find('.view-remote .view-list tbody'),
 				spinner = $this.closest('.s3-add-file').find('.view-remote .view-list .ajax-spinner');
 
 			// Load Existing files
@@ -226,6 +229,16 @@ $(function () {
 					console.log('ERRORS: ' + textStatus);
 				}
 			});
+
+		},
+
+		highlightRow: function( event ) {
+
+			var $this = $(this),
+				highlight = 'is-highlighted';
+
+			$this.closest('tr').siblings().removeClass(highlight);
+			$this.parent('tr').toggleClass(highlight);
 
 		}
 

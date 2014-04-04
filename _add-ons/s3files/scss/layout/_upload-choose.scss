@@ -285,6 +285,11 @@ $control-bar-element-border-radius: em(5);
 
 		tr {
 			border-bottom: 1px solid lighten( $color-tan-mid, 12 );
+			@include transition( all 0.2 ease-in-out );
+
+			&.is-highlighted {
+				background-color: $color-blue-light;
+			}
 		}
 
 		.head-name {
@@ -307,6 +312,7 @@ $control-bar-element-border-radius: em(5);
 
 		.is-directory {
 			@include bg-img(icon-view-list-directory, png, 18px, em(8), center);
+			cursor: alias;
 		}
 
 		.is-file {
