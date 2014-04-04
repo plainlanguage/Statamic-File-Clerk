@@ -79,6 +79,7 @@ $control-bar-element-border-radius: em(5);
 			}
 
 			a {
+				@include transition( all 0.2s ease-in );
 				background-color: lighten( $color-tan-mid, 8 );
 				border: {
 					right: $border-default;
@@ -237,10 +238,14 @@ $control-bar-element-border-radius: em(5);
 	// Wrap for List (Table) View
 	.view-list {
 		border: $border-default;
-		height: em(200);
+		height: em(270);
 		overflow-y: scroll;
 		text-align: left;
 		-webkit-overflow-scrolling: touch;
+
+		.ajax-spinner {
+			color: $color-gray-mid;
+		}
 
 		table {
 			width: 100%;
@@ -271,6 +276,10 @@ $control-bar-element-border-radius: em(5);
 
 		td {
 			padding: em(8);
+
+			a {
+				color: $color-gray-dark;
+			}
 		}
 
 		tr {

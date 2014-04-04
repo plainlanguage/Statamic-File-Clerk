@@ -189,6 +189,7 @@ $(function () {
 			var $this = $(this),
 				listURL = '/TRIGGER/s3files/list' + ($(this).data('uri') ? '?uri=' + $(this).data('uri') : ''),
 				viewList = $this.closest('.s3-add-file').find('.view-remote .view-list tbody');
+				spinner = $this.closest('.s3-add-file').find('.view-remote .view-list .ajax-spinner');
 
 			// Load Existing files
 			$.ajax({
@@ -200,6 +201,15 @@ $(function () {
 				contentType: false, // Set content type to false as jQuery will tell the server it's a query string request
 				beforeSend: function(data) {
 					// Do stuff before sending. Loading Gif? (Chad, that's a soft `G`!) -- (Your mom is a soft 'G'. Love, Chad)
+					spinner.spin({
+						lines: 10,
+						length: 6,
+						width: 2,
+						radius: 6,
+						corners: 0,
+						hwaccel: true,
+						top: '185px'
+					}); // Start spinner
 				},
 				success: function(data, textStatus, jqXHR)
 				{
@@ -207,6 +217,7 @@ $(function () {
 					{
 						console.log(data.success);
 						viewList.html(data.html);
+						spinner.spin(false); // Stop spinner
 					}
 				},
 				error: function(jqXHR, textStatus, errorThrown)
