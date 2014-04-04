@@ -527,8 +527,8 @@ class Hooks_s3files extends Hooks
 
 		// Destination config values that even if null should override master config.
 		$allow_override = array( 
-			'custom_domain', 
-			'directory', 
+			'custom_domain',
+			'directory',
 			'content_types',
 		);
 
