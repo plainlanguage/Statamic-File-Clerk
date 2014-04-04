@@ -60,7 +60,7 @@ $control-bar-element-border-radius: em(5);
 			&.active {
 
 				a {
-					border-bottom: none;
+					border-bottom: 1px solid $color-white;
 				}
 
 				a,
@@ -71,11 +71,11 @@ $control-bar-element-border-radius: em(5);
 			}
 
 			&:first-child.active a {
-				border-right-color: $color-white;
+				margin-right: -1px;
 			}
 
 			&:last-child.active a {
-				border-left-color: $color-white;
+				margin-left: -1px;
 			}
 
 			a {
@@ -128,11 +128,7 @@ $control-bar-element-border-radius: em(5);
 	// The Content Area
 	.content {
 		background-color: $color-white;
-		border: {
-			right: $border-default;
-			bottom: $border-default;
-			left: $border-default;
-		}
+		border: $border-default;
 		margin-top: -1px;
 		padding: em(15);
 		text-align: center;

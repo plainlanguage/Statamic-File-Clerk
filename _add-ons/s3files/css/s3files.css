@@ -241,7 +241,7 @@
   }
 }
 .s3files .s3-add-file .tabs li.active a {
-  border-bottom: none;
+  border-bottom: 1px solid white;
 }
 .s3files .s3-add-file .tabs li.active a,
 .s3files .s3-add-file .tabs li.active a:hover {
@@ -249,10 +249,10 @@
   color: #222244;
 }
 .s3files .s3-add-file .tabs li:first-child.active a {
-  border-right-color: white;
+  margin-right: -1px;
 }
 .s3files .s3-add-file .tabs li:last-child.active a {
-  border-left-color: white;
+  margin-left: -1px;
 }
 .s3files .s3-add-file .tabs li a {
   background-color: #e9e9e1;
@@ -295,9 +295,7 @@
 }
 .s3files .s3-add-file .content {
   background-color: white;
-  border-right: 1px solid #d7d7ca;
-  border-bottom: 1px solid #d7d7ca;
-  border-left: 1px solid #d7d7ca;
+  border: 1px solid #d7d7ca;
   margin-top: -1px;
   padding: 0.9375em;
   text-align: center;
