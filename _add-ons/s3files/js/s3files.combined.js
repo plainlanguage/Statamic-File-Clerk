@@ -395,7 +395,7 @@ $(function () {
 				processData: false, // Don't process the files
 				contentType: false, // Set content type to false as jQuery will tell the server it's a query string request
 				beforeSend: function(data) {
-					// Do stuff before sending. Loading Gif? (Chad, that's a soft `G`!)
+					// Do stuff before sending. Loading Gif? (Chad, that's a soft `G`!) -- (Your mom is a soft 'G'. Love, Chad)
 				},
 				success: function(data, textStatus, jqXHR)
 				{

@@ -229,29 +229,56 @@
   margin: 0;
   position: relative;
   text-align: center;
-  z-index: 2;
+  z-index: 1;
 }
 .s3files .s3-add-file .tabs li {
-  border: 1px solid #d7d7ca;
+  border-top: 1px solid #d7d7ca;
   display: inline-block;
 }
-.s3files .s3-add-file .tabs li.active {
-  border-bottom-color: white;
+@media screen and (max-width: 767px) {
+  .s3files .s3-add-file .tabs li {
+    width: 50%;
+  }
+}
+.s3files .s3-add-file .tabs li.active a {
+  border-bottom: 1px solid white;
 }
 .s3files .s3-add-file .tabs li.active a,
 .s3files .s3-add-file .tabs li.active a:hover {
   background-color: white;
   color: #222244;
 }
-.s3files .s3-add-file .tabs li:last-child {
+.s3files .s3-add-file .tabs li:first-child.active a {
+  margin-right: -1px;
+}
+.s3files .s3-add-file .tabs li:last-child.active a {
   margin-left: -1px;
 }
 .s3files .s3-add-file .tabs li a {
   background-color: #e9e9e1;
+  border-right: 1px solid #d7d7ca;
+  border-bottom: 1px solid #d7d7ca;
+  border-left: 1px solid #d7d7ca;
   color: #888867;
   display: block;
-  padding: 0.5em 1.125em;
-  width: 8.125em;
+}
+@media screen and (min-width: 960px) {
+  .s3files .s3-add-file .tabs li a {
+    padding: 0.5em 1.125em;
+    width: 10em;
+  }
+}
+@media screen and (min-width: 768px) and (max-width: 959px) {
+  .s3files .s3-add-file .tabs li a {
+    padding: 0.5em 1.125em;
+    width: 10em;
+  }
+}
+@media screen and (max-width: 767px) {
+  .s3files .s3-add-file .tabs li a {
+    font-size: 90%;
+    padding: 0.5em 0.3125em;
+  }
 }
 .s3files .s3-add-file .tabs li a:hover {
   background-color: #d7d7ca;
@@ -311,7 +338,7 @@
   border-radius: 4px;
   text-align: left;
   margin: 0 0 0.9375em 0;
-  padding: 0;
+  padding: 0.5em 0;
 }
 .s3files .s3-add-file .breadcrumb:before, .s3files .s3-add-file .breadcrumb:after {
   content: " ";
@@ -323,31 +350,43 @@
 .s3files .s3-add-file .breadcrumb li {
   display: inline-block;
   font-size: 90%;
+  height: 1.75em;
+  line-height: 1.75em;
+  padding: 0;
   position: relative;
 }
 .s3files .s3-add-file .breadcrumb li:after {
-  content: '\232A';
+  content: ' ';
+  background: url("../assets/build/img/bg-breadcrumb-tip.png") 0em center no-repeat;
   position: absolute;
-  top: 0.1875em;
+  top: 0em;
   right: -0.8125em;
-  color: #d4d4c4;
-  font-size: 170%;
+  display: block;
+  width: 1.125em;
+  height: 1.75em;
+}
+@media only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen and (min--moz-device-pixel-ratio: 1.3), only screen and (-o-min-device-pixel-ratio: 1.3 / 1), only screen and (min-resolution: 125dpi), only screen and (min-resolution: 1.3dppx) {
+  .s3files .s3-add-file .breadcrumb li:after {
+    background: url("../assets/build/img/bg-breadcrumb-tip@2x.png") 0em center no-repeat;
+    background-size: 10px auto;
+  }
 }
 .s3files .s3-add-file .breadcrumb li:last-child:after {
-  content: '';
+  width: 0;
+  height: 0;
 }
 .s3files .s3-add-file .breadcrumb li.current {
   background-color: #e6e6de;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.2);
   color: #68684e;
   font-weight: 600;
-  margin-left: 0.8125em;
-  padding: 0.125em 0.5em;
+  margin-left: 1.125em;
+  padding: 0 0.5em;
 }
 .s3files .s3-add-file .breadcrumb li a {
   color: #79795c;
   display: block;
-  padding: 0.625em 0.9375em;
+  padding: 0 0.9375em;
 }
 .s3files .s3-add-file .breadcrumb li a:hover {
   color: #3f3f30;
@@ -357,6 +396,7 @@
   height: 12.5em;
   overflow-y: scroll;
   text-align: left;
+  -webkit-overflow-scrolling: touch;
 }
 .s3files .s3-add-file .view-list table {
   width: 100%;
