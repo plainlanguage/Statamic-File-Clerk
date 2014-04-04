@@ -212,7 +212,7 @@ $(function () {
 						radius: 6,
 						corners: 0,
 						hwaccel: true,
-						top: '120px'
+						top: '165px'
 					}); // Start spinner
 					ajaxOverlay.toggleClass('is-hidden is-visible');
 				},

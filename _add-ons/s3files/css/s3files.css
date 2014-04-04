@@ -332,6 +332,9 @@
     background-size: 23px auto;
   }
 }
+.s3files .s3-add-file .view-remote {
+  position: relative;
+}
 .s3files .s3-add-file .breadcrumb {
   *zoom: 1;
   background-color: white;
@@ -398,7 +401,6 @@
   border: 1px solid #d7d7ca;
   height: 16.875em;
   overflow-y: scroll;
-  position: relative;
   text-align: left;
   z-index: 1;
   -webkit-overflow-scrolling: touch;

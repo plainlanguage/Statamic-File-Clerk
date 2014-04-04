@@ -175,6 +175,11 @@ $control-bar-element-border-radius: em(5);
 	// ----------------------------------------------------
 	// Choose Existing
 	// ----------------------------------------------------
+	//
+
+	.view-remote {
+		position: relative;
+	}
 
 	// Breadcrumb Nav
 	.breadcrumb {
@@ -240,7 +245,6 @@ $control-bar-element-border-radius: em(5);
 		border: $border-default;
 		height: em(270);
 		overflow-y: scroll;
-		position: relative;
 		text-align: left;
 		z-index: 1;
 		-webkit-overflow-scrolling: touch;
