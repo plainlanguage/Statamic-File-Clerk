@@ -3,8 +3,8 @@
 require_once 'config.php';
 
 // AJAX Response Codes
-define('S3FILES_FILE_UPLOAD_FAILED', 100);
-define('S3FILES_FILE_UPLOAD_SUCCESS', 200);
+define('S3FILES_FILE_UPLOAD_SUCCESS', 100);
+define('S3FILES_FILE_UPLOAD_FAILED', 200);
 define('S3FILES_ERROR_FILE_EXISTS', 300);
 define('S3FILES_ERROR_FILE_EXISTS_MSG', 'File exists.');
 
@@ -280,6 +280,7 @@ class Hooks_s3files extends Hooks
 				'crumbs'      => explode('/', $uri), // Array of the currently request URI.
 				'files'       => array(), // Files array
 				'directories' => array(), // Directories array
+				'list'        => array(), // Files and dirs mixed
 			);
 
 			/**
@@ -300,6 +301,8 @@ class Hooks_s3files extends Hooks
 						'is_file'       => $file->isFile(),
 						'is_directory'  => $file->isDir(),
 					);
+
+					array_push($file_data['list'], $file_data);
 
 					/**
 					 * Decide where to shove $file_data
@@ -342,6 +345,7 @@ class Hooks_s3files extends Hooks
 
 		// We're basically parsing template partials here to build out the larger view.
 		$parsed_data = array(
+			'list' => Parse::template( self::get_view('_list')
 			'files'       => Parse::template( self::get_view('_list-file'), $data ),
 			'directories' => Parse::template( self::get_view('_list-directories'), $data ),
 		);
