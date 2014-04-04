@@ -1,9 +1,3 @@
-* {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
-
 .s3files .is-hidden {
   -webkit-transition: all 0.25s ease-out;
   -moz-transition: all 0.25s ease-out;
@@ -261,16 +255,12 @@
   background-color: #e9e9e1;
   color: #888867;
   display: block;
-}
-@media screen and (min-width: 960px) {
-  .s3files .s3-add-file .tabs li a {
-    padding: 0.5em 1.125em;
-    width: 10em;
-  }
+  padding: 0.5em 1.125em;
+  width: 10em;
 }
 @media screen and (max-width: 767px) {
   .s3files .s3-add-file .tabs li a {
-    padding: 0.25em 0.5em;
+    padding: 0.5em;
     width: 100%;
   }
 }
