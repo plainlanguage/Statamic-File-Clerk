@@ -351,7 +351,9 @@ class Hooks_s3files extends Hooks
 
 		// Output the final parsed HTML
 		//echo Parse::template($ft_template, $parsed_data);
+		header('Content-Type: application/json');
 		echo self::build_response_json(true, false, 200, '', '', $data, Parse::template($ft_template, $parsed_data));
+		exit;
 	}
 
 
@@ -495,8 +497,9 @@ class Hooks_s3files extends Hooks
 		$ft_template = File::get( __DIR__ . '/views/list.html');
 
 		// Output the final parsed HTML
-		echo Parse::template($ft_template, $parsed_data);
-		//echo self::build_response_json(true, false, 200, '', '', $data, Parse::template($ft_template, $parsed_data));
+		header('Content-type: application/json');
+		echo self::build_response_json(true, false, 200, '', '', $data, Parse::template($ft_template, $parsed_data));
+		//echo Parse::template($ft_template, $parsed_data);
 
 	}
 
