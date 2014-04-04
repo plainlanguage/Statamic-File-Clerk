@@ -180,7 +180,7 @@ class Hooks_s3files extends Hooks
 	|--------------------------------------------------------------------------
 	| These are accessed by the `/TRIGGER/s3files/{method}` convention.
 	| Return from these methods will be JSON.
-	| 
+	|
 	*/
 
 	/**
@@ -406,7 +406,7 @@ class Hooks_s3files extends Hooks
 
 		// Do some werk to setup paths
 		$bucket    = $this->config['bucket'];
-		$directory = $this->config['folder'];
+		$directory = $this->config['directory'];
 		$uri       = Request::get('uri');
 		$url       = Url::tidy( 's3://' . join('/', array($bucket, $directory,$uri)) );
 
@@ -554,7 +554,7 @@ class Hooks_s3files extends Hooks
 		$destination_config = array();
 
 		// Destination config values that even if null should override master config.
-		$allow_override = array( 
+		$allow_override = array(
 			'custom_domain',
 			'directory',
 			'content_types',
@@ -624,7 +624,7 @@ class Hooks_s3files extends Hooks
 		{
 			return false;
 		}
-		
+
 		$extension = File::getExtension($filename);
 		$file      = str_replace('.' . $extension, '', $filename);
 		$now       = time();
