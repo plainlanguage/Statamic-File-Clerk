@@ -259,7 +259,7 @@ class Hooks_s3files extends Hooks
 					->ignoreDotFiles(true)
 					->sortByName()
 					->in($url)
-					->depth('< 0') // Do not allow access above the starting directory
+					->depth('== 0') // Do not allow access above the starting directory
 				;
 			}
 			catch(Exception $e)
@@ -302,7 +302,7 @@ class Hooks_s3files extends Hooks
 						'is_directory'  => $file->isDir(),
 					);
 
-					array_push($file_data['list'], $file_data);
+					//array_push($file_data['list'], $file_data);
 
 					/**
 					 * Decide where to shove $file_data
@@ -345,7 +345,7 @@ class Hooks_s3files extends Hooks
 
 		// We're basically parsing template partials here to build out the larger view.
 		$parsed_data = array(
-			'list' => Parse::template( self::get_view('_list')
+			//'list' => Parse::template( self::get_view('_list', $data),
 			'files'       => Parse::template( self::get_view('_list-file'), $data ),
 			'directories' => Parse::template( self::get_view('_list-directories'), $data ),
 		);
