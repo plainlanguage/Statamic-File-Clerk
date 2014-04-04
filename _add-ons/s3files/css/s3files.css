@@ -402,6 +402,7 @@
   -webkit-overflow-scrolling: touch;
 }
 .s3files .s3-add-file .view-list .ajax-spinner {
+  background-color: black;
   color: #1e3640;
 }
 .s3files .s3-add-file .view-list table {

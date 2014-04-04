@@ -244,6 +244,7 @@ $control-bar-element-border-radius: em(5);
 		-webkit-overflow-scrolling: touch;
 
 		.ajax-spinner {
+			background-color: $color-black;
 			color: $color-gray-mid;
 		}
 
