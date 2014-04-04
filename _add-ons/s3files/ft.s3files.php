@@ -29,8 +29,7 @@ class Fieldtype_s3files extends Fieldtype {
 			'id'			=> $this->field_id,
 			'tabindex'		=> $this->tabindex,
 			'value'			=> $this->field_data,
-			'action'		=> Config::getSiteRoot() . 'TRIGGER/s3files/ajaxupload', // this is the file the AJAX needs to hit on POST. Created in hooks -> function s3files__ajaxupload
-			'list_url'		=> Config::getSiteRoot() . 'TRIGGER/s3files/list' // this is the file the AJAX needs to hit to choose an existing file. Created in hooks -> function s3files__choosefile
+			'action'		=> Config::getSiteRoot() . 'TRIGGER/s3files/ajaxupload' // this is the file the AJAX needs to hit on POST. Created in hooks -> function s3files__ajaxupload
 		);
 
 		/**
@@ -54,7 +53,6 @@ class Fieldtype_s3files extends Fieldtype {
 		$data = array(
 			'field_data'     => $this->field_data,
 			'action'         => $attributes['action'],
-			'list_url'       => $attributes['list_url'],
 			'basename_value' => basename($attributes['value']),
 			'id'             => $attributes['id'],
 			'name'           => $attributes['name'],

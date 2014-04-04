@@ -32,6 +32,9 @@ $(function () {
 
 			// Choose existing file
 			$('body').on( 'click', '.load_existing', this.loadExisting );
+
+			// Choose existing file
+			$('body').on( 'dblclick', '.is-directory', this.loadExisting );
 		},
 
 		// Prepare Upload
@@ -184,7 +187,7 @@ $(function () {
 		loadExisting: function( event ) {
 
 			var $this = $(this),
-				listURL = $this.data('list'),
+				listURL = '/TRIGGER/s3files/list' + ($(this).data('uri') ? '?uri=' + $(this).data('uri') : ''),
 				viewList = $this.closest('.s3-add-file').find('.view-remote .view-list tbody');
 
 			// Load Existing files
