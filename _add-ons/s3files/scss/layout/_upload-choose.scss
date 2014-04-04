@@ -43,10 +43,14 @@ $control-bar-element-border-radius: em(5);
 		margin: 0;
 		position: relative;
 		text-align: center;
-		z-index: 2;
+		z-index: 1;
+
+		@include media($small) {
+			//overflow: hidden;
+		}
 
 		li {
-			border: $border-default;
+			border-top: $border-default;
 			display: inline-block;
 
 			@include media($small) {
@@ -54,7 +58,10 @@ $control-bar-element-border-radius: em(5);
 			}
 
 			&.active {
-				border-bottom-color: $color-white;
+
+				a {
+					border-bottom: none;
+				}
 
 				a,
 				a:hover {
@@ -63,20 +70,37 @@ $control-bar-element-border-radius: em(5);
 				}
 			}
 
-			&:last-child {
-				margin-left: -1px;
+			&:first-child.active a {
+				border-right-color: $color-white;
+			}
+
+			&:last-child.active a {
+				border-left-color: $color-white;
 			}
 
 			a {
 				background-color: lighten( $color-tan-mid, 8 );
+				border: {
+					right: $border-default;
+					bottom: $border-default;
+					left: $border-default;
+				}
 				color: darken( $color-tan-mid, 35 );
 				display: block;
-				padding: em(8) em(18);
-				width: em(160);
+
+				@include media($large) {
+					padding: em(8) em(18);
+					width: em(160);
+				}
+
+				@include media($medium) {
+					padding: em(8) em(18);
+					width: em(160);
+				}
 
 				@include media($small) {
-					padding: em(8);
-					width: 100%;
+					font-size: 90%;
+					padding: em(8) em(5);
 				}
 
 				&:hover {
@@ -104,7 +128,11 @@ $control-bar-element-border-radius: em(5);
 	// The Content Area
 	.content {
 		background-color: $color-white;
-		border: $border-default;
+		border: {
+			right: $border-default;
+			bottom: $border-default;
+			left: $border-default;
+		}
 		margin-top: -1px;
 		padding: em(15);
 		text-align: center;
@@ -209,6 +237,7 @@ $control-bar-element-border-radius: em(5);
 		height: em(200);
 		overflow-y: scroll;
 		text-align: left;
+		-webkit-overflow-scrolling: touch;
 
 		table {
 			width: 100%;

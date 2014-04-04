@@ -229,10 +229,10 @@
   margin: 0;
   position: relative;
   text-align: center;
-  z-index: 2;
+  z-index: 1;
 }
 .s3files .s3-add-file .tabs li {
-  border: 1px solid #d7d7ca;
+  border-top: 1px solid #d7d7ca;
   display: inline-block;
 }
 @media screen and (max-width: 767px) {
@@ -240,28 +240,44 @@
     width: 50%;
   }
 }
-.s3files .s3-add-file .tabs li.active {
-  border-bottom-color: white;
+.s3files .s3-add-file .tabs li.active a {
+  border-bottom: none;
 }
 .s3files .s3-add-file .tabs li.active a,
 .s3files .s3-add-file .tabs li.active a:hover {
   background-color: white;
   color: #222244;
 }
-.s3files .s3-add-file .tabs li:last-child {
-  margin-left: -1px;
+.s3files .s3-add-file .tabs li:first-child.active a {
+  border-right-color: white;
+}
+.s3files .s3-add-file .tabs li:last-child.active a {
+  border-left-color: white;
 }
 .s3files .s3-add-file .tabs li a {
   background-color: #e9e9e1;
+  border-right: 1px solid #d7d7ca;
+  border-bottom: 1px solid #d7d7ca;
+  border-left: 1px solid #d7d7ca;
   color: #888867;
   display: block;
-  padding: 0.5em 1.125em;
-  width: 10em;
+}
+@media screen and (min-width: 960px) {
+  .s3files .s3-add-file .tabs li a {
+    padding: 0.5em 1.125em;
+    width: 10em;
+  }
+}
+@media screen and (min-width: 768px) and (max-width: 959px) {
+  .s3files .s3-add-file .tabs li a {
+    padding: 0.5em 1.125em;
+    width: 10em;
+  }
 }
 @media screen and (max-width: 767px) {
   .s3files .s3-add-file .tabs li a {
-    padding: 0.5em;
-    width: 100%;
+    font-size: 90%;
+    padding: 0.5em 0.3125em;
   }
 }
 .s3files .s3-add-file .tabs li a:hover {
@@ -279,7 +295,9 @@
 }
 .s3files .s3-add-file .content {
   background-color: white;
-  border: 1px solid #d7d7ca;
+  border-right: 1px solid #d7d7ca;
+  border-bottom: 1px solid #d7d7ca;
+  border-left: 1px solid #d7d7ca;
   margin-top: -1px;
   padding: 0.9375em;
   text-align: center;
@@ -368,6 +386,7 @@
   height: 12.5em;
   overflow-y: scroll;
   text-align: left;
+  -webkit-overflow-scrolling: touch;
 }
 .s3files .s3-add-file .view-list table {
   width: 100%;
