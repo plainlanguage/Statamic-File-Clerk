@@ -327,7 +327,7 @@ $control-bar-element-border-radius: em(5);
 
 		.is-directory {
 			@include bg-img(icon-view-list-directory, png, 18px, em(8), center);
-			cursor: alias;
+			//cursor: alias;
 		}
 
 		.is-file {
