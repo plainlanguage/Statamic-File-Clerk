@@ -277,7 +277,7 @@ class Hooks_s3files extends Hooks
 			*/
 
 			$data = array(
-				'crumbs'      => explode('/', $uri), // Array of the currently request URI.
+				'crumbs'      => explode('/', $uri), // Array of the currently requested URI.
 				'files'       => array(), // Files array
 				'directories' => array(), // Directories array
 				'list'        => array(), // Files and dirs mixed
@@ -354,6 +354,19 @@ class Hooks_s3files extends Hooks
 			}
 		}
 
+		// Prepare breadcrumbs
+		foreach ($data['crumbs'] as $key => $value) {
+			$path = explode('/', $uri, ($key + 1) - (count($data['crumbs'])));
+			$path = implode('/', $path);
+			$data['crumbs'][$key] = array(
+				'name' => $value,
+				'path' => $path
+			);
+		}
+
+		// Build breadcrumb
+		$breadcrumb = Parse::template( self::get_view('_list-breadcrumb'), $data );
+
 		// We're basically parsing template partials here to build out the larger view.
 		$parsed_data = array(
 			'list'        => Parse::template( self::get_view('_list'), $data ),
@@ -361,13 +374,13 @@ class Hooks_s3files extends Hooks
 			'directories' => Parse::template( self::get_view('_list-directories'), $data ),
 		);
 
-		// PUt it all together
+		// Put it all together
 		$ft_template = File::get( __DIR__ . '/views/list.html');
 
 		// Output the final parsed HTML
 		//echo Parse::template($ft_template, $parsed_data);
 		header('Content-Type: application/json');
-		echo self::build_response_json(true, false, 200, '', '', $data, Parse::template($ft_template, $parsed_data));
+		echo self::build_response_json(true, false, 200, '', '', $data, $breadcrumb, Parse::template($ft_template, $parsed_data));
 		exit;
 	}
 
@@ -680,16 +693,17 @@ class Hooks_s3files extends Hooks
 		return File::get( $filepath );
 	}
 
-	private function build_response_json( $success = false, $error = true, $code =null, $message = null, $type = null, $data = null, $html = null )
+	private function build_response_json( $success = false, $error = true, $code =null, $message = null, $type = null, $data = null, $breadcrumb = null, $html = null )
 	{
 		return json_encode( array(
-			'success' => $success,
-			'error'   => $error,
-			'code'    => (int) $code,
-			'message' => $message,
-			'type'    => $type,
-			'data'    => $data,
-			'html'    => $html,
+			'success'   => $success,
+			'error'     => $error,
+			'code'      => (int) $code,
+			'message'   => $message,
+			'type'      => $type,
+			'data'      => $data,
+			'breadcrumb' => $breadcrumb,
+			'html'      => $html,
 		) );
 	}
 

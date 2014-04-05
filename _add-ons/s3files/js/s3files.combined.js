@@ -665,6 +665,9 @@ $(function () {
 			// Choose existing file
 			$('body').on( 'dblclick', '.is-directory', this.loadExisting );
 
+			// Breadcrumb
+			$('body').on( 'click', '.breadcrumb a', this.loadExisting );
+
 			// Highlight Row
 			$('body').on( 'click', '.view-list td', this.highlightRow );
 		},
@@ -818,9 +821,12 @@ $(function () {
 		// Choose Existing
 		loadExisting: function( event ) {
 
+			event.preventDefault();
+
 			var $this = $(this),
 				listURL = '/TRIGGER/s3files/list' + ($(this).data('uri') ? '?uri=' + $(this).data('uri') : ''),
 				viewList = $this.closest('.s3-add-file').find('.view-remote .view-list tbody'),
+				breadcrumb = $this.closest('.s3-add-file').find('.view-remote .breadcrumb'),
 				ajaxSpinner = $this.closest('.s3-add-file').find('.view-remote .view-list .ajax-spinner');
 				ajaxOverlay = $this.closest('.s3-add-file').find('.view-remote .view-list .ajax-overlay');
 
@@ -850,6 +856,7 @@ $(function () {
 					if (data.error === false)
 					{
 						console.log(data.success);
+						breadcrumb.html(data.breadcrumb);
 						viewList.html(data.html);
 						ajaxSpinner.spin(false); // Stop spinner
 						ajaxOverlay.toggleClass('is-visible is-hidden');

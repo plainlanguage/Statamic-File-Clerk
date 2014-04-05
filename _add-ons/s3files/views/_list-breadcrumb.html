@@ -1,0 +1,6 @@
+<li class="root"><a href="#">s3files</a></li>
+{{ if crumbs }}
+{{ crumbs }}
+{{ if name !== '' }}<li{{ if last }} class="current"{{ endif }}><a href="#" data-uri="{{ path }}">{{ name }}</a></li>{{ endif }}
+{{ /crumbs }}
+{{ endif }}
