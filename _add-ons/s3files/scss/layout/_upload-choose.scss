@@ -346,4 +346,19 @@ $control-bar-element-border-radius: em(5);
 			white-space: nowrap;
 		}
 	}
+
+	// Errors
+
+	.error-exists {
+
+		ul {
+			@include clearfix;
+			list-style-type: none;
+			text-align: center;
+
+			li {
+				display: inline-block;
+			}
+		}
+	}
 }

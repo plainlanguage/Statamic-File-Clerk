@@ -495,3 +495,18 @@
   line-height: 90%;
   white-space: nowrap;
 }
+.s3files .s3-add-file .error-exists ul {
+  *zoom: 1;
+  list-style-type: none;
+  text-align: center;
+}
+.s3files .s3-add-file .error-exists ul:before, .s3files .s3-add-file .error-exists ul:after {
+  content: " ";
+  display: table;
+}
+.s3files .s3-add-file .error-exists ul:after {
+  clear: both;
+}
+.s3files .s3-add-file .error-exists ul li {
+  display: inline-block;
+}

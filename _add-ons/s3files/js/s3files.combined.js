@@ -670,6 +670,9 @@ $(function () {
 
 			// Highlight Row
 			$('body').on( 'click', '.view-list td', this.highlightRow );
+
+			// File Exists Options
+			$('body').on( 'click', '.error-exists a', this.fileExists );
 		},
 
 		// Prepare Upload
@@ -702,7 +705,8 @@ $(function () {
 				uploadSuccess = $this.closest('.s3files').find('.result .filename-display'),
 				successfullUpload = $this.closest('.s3files').find('.result input.successful-upload'),
 				result_wrapper = $this.closest('.s3files').find('.result'),
-				add_file = $this.closest('.s3files').find('.s3-add-file');
+				add_file = $this.closest('.s3files').find('.s3-add-file'),
+				uploadError = $this.closest('.s3files').find('.upload-error');
 
 			// Do we have a file to work with?
 			if( filename !== '' ) {
@@ -771,7 +775,8 @@ $(function () {
 						// File name already exists
 						else if ( data.code === 300 )
 						{
-
+							console.log(data.message);
+							uploadError.toggleClass('is-hidden is-visible').html(data.html); // Add is-visible class and show JSON html
 						}
 						else
 						{
@@ -879,6 +884,33 @@ $(function () {
 			$this.closest('tr').siblings().removeClass(highlight);
 			$this.parent('tr').toggleClass(highlight);
 
+		},
+
+		fileExists: function( event ) {
+
+			var $this = $(this),
+				actionAttr = $this.attr('data-action'),
+				uploadError = $this.closest('.s3files').find('.upload-error'),
+				errorExists = $this.closest('.s3files').find('.upload-error .error-exists');
+				fileWrapper = $this.closest('.s3files').find('.file-wrapper');
+
+			// Clicked Replace
+			if (actionAttr === 'replace') {
+				console.log('Replace');
+			}
+			// Clicked Keep Both
+			if (actionAttr === 'keep-both') {
+				console.log('Keep Both');
+			}
+			// Clicked Cancel
+			if (actionAttr === 'cancel') {
+				console.log('Cancel');
+				errorExists.remove(); // Remove error
+				uploadError.toggleClass('is-visible is-hidden'); // Hide error holder
+				fileWrapper.toggleClass('is-hidden is-visible'); // Bring back the upload buttton
+			}
+
+			event.preventDefault();
 		}
 
 	};

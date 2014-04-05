@@ -115,14 +115,16 @@ class Hooks_s3files extends Hooks
 			if( self::file_exists( $s3_path, $filename ) )
 			{
 				$overwrite = Request::get('overwrite');
+				$file_exists_template = File::get( __DIR__ . '/views/file-exists.html');
 
 				if( is_null($overwrite) )
 				{
 					echo json_encode( array(
-						'error'   => TRUE,
-						'type'    => 'dialog',
-						'code'    => S3FILES_ERROR_FILE_EXISTS,
-						'message' => S3FILES_ERROR_FILE_EXISTS_MSG,
+						'error'		=> TRUE,
+						'type'		=> 'dialog',
+						'code'		=> S3FILES_ERROR_FILE_EXISTS,
+						'message'	=> S3FILES_ERROR_FILE_EXISTS_MSG,
+						'html'		=> Parse::template( $file_exists_template, $data),
 					));
 					exit;
 				}
