@@ -304,6 +304,11 @@ $control-bar-element-border-radius: em(5);
 
 			&.is-highlighted {
 				background-color: $color-blue-light;
+
+				td,
+				.time {
+					color: $color-white;
+				}
 			}
 		}
 

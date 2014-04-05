@@ -454,6 +454,10 @@
 .s3files .s3-add-file .view-list tr.is-highlighted {
   background-color: #8ab0bb;
 }
+.s3files .s3-add-file .view-list tr.is-highlighted td,
+.s3files .s3-add-file .view-list tr.is-highlighted .time {
+  color: white;
+}
 .s3files .s3-add-file .view-list .head-name {
   width: 65%;
 }
