@@ -148,6 +148,7 @@ $(function () {
 						{
 							console.log(data.message);
 							uploadError.toggleClass('is-hidden is-visible').html(data.html); // Add is-visible class and show JSON html
+							progressWrapper.toggleClass('is-visible is-hidden'); // Hide Progress Bar since there is an error
 						}
 						else
 						{
@@ -262,7 +263,7 @@ $(function () {
 			var $this = $(this),
 				actionAttr = $this.attr('data-action'),
 				uploadError = $this.closest('.s3files').find('.upload-error'),
-				errorExists = $this.closest('.s3files').find('.upload-error .error-exists');
+				errorExists = $this.closest('.s3files').find('.upload-error .error-exists'),
 				fileWrapper = $this.closest('.s3files').find('.file-wrapper');
 
 			// Clicked Replace
