@@ -1,8 +1,10 @@
 module.exports = {
 
 	build: {
-		src: '_add-ons/s3files/js/s3files.combined.js',
-		dest: '_add-ons/s3files/js/s3files.min.js'
+		files: {
+			"_add-ons/s3files/js/build/s3files.plugins.min.js" : "_add-ons/s3files/js/plugins.combined.js",
+			"_add-ons/s3files/js/build/s3files.min.js" : "_add-ons/s3files/js/s3files.js"
+		}
 	}
 
 };

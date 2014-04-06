@@ -23,7 +23,7 @@ class Hooks_s3files extends Hooks
 {
 
 	protected $client;
-	protected $config;	
+	protected $config;
 	protected $env;
 
 	/**
@@ -46,7 +46,8 @@ class Hooks_s3files extends Hooks
 		// Get the necessary support .js
 		if (URL::getCurrent(false) == '/publish') {
 			$html = $this->js->link(array(
-				's3files.min.js'
+				'build/s3files.plugins.min.js',
+				'build/s3files.min.js'
 			));
 			return $html;
 		}
@@ -229,7 +230,7 @@ class Hooks_s3files extends Hooks
 	public function s3files__list()
 	{
 		// @todo Ensure AJAX requests only!
-		if( ! Request::isAjax() ) 
+		if( ! Request::isAjax() )
 		{
 			// echo 'Back the fuzz up.';
 			// exit;

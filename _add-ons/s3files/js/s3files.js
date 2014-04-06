@@ -153,7 +153,7 @@ $(function () {
 
 								$this.closest('.s3files').find('.upload-error .error-exists a').on('click', function(event) {
 
-									actionAttr = $(this).attr('data-action');
+									var actionAttr = $(this).attr('data-action');
 
 									// Clicked Replace
 									if (actionAttr === 'replace') {
@@ -168,7 +168,7 @@ $(function () {
 									// Clicked Cancel
 									if (actionAttr === 'cancel') {
 										console.log('Cancel');
-										errorExists.remove(); // Remove error
+										//errorExists.remove(); // Remove error
 										uploadError.toggleClass('is-visible is-hidden'); // Hide error holder
 										fileWrapper.toggleClass('is-hidden is-visible'); // Bring back the upload buttton
 									}
@@ -233,7 +233,7 @@ $(function () {
 				listURL = '/TRIGGER/s3files/list' + ($(this).data('uri') ? '?uri=' + $(this).data('uri') : '') + ($(this).data('uri') ? '&' : '?') + ($(this).data('destination') ? 'destination=' + $(this).data('destination') : ''),
 				viewList = $this.closest('.s3-add-file').find('.view-remote .view-list tbody'),
 				breadcrumb = $this.closest('.s3-add-file').find('.view-remote .breadcrumb'),
-				ajaxSpinner = $this.closest('.s3-add-file').find('.view-remote .view-list .ajax-spinner');
+				ajaxSpinner = $this.closest('.s3-add-file').find('.view-remote .view-list .ajax-spinner'),
 				ajaxOverlay = $this.closest('.s3-add-file').find('.view-remote .view-list .ajax-overlay');
 
 			// Load Existing files
