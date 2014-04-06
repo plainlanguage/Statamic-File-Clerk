@@ -130,7 +130,7 @@ class Hooks_s3files extends Hooks
 					));
 					exit;
 				}
-				elseif( $overwrite == 'false' || ! $overwrite || $overwrite == 0 )
+				elseif( $overwrite === 'false' || ! $overwrite || $overwrite === 0 )
 				{
 					$filename = self::increment_filename_unix($filename);
 				}
