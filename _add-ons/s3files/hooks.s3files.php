@@ -7,7 +7,9 @@ define('S3FILES_FILE_UPLOAD_SUCCESS', 100);
 define('S3FILES_FILE_UPLOAD_FAILED', 200);
 define('S3FILES_ERROR_FILE_EXISTS', 300);
 define('S3FILES_ERROR_FILE_EXISTS_MSG', 'File exists.');
-
+define('S3FILES_LIST_SUCCESS', 400);
+define('S3FILES_LIST_NO_RESULTS', 500);
+define('S3FILES_LIST_ERROR', 600);
 
 use Aws\S3\S3Client;
 use Aws\S3\StreamWrapper;
@@ -21,6 +23,8 @@ class Hooks_s3files extends Hooks
 {
 
 	protected $client;
+	protected $config;
+	protected $env;
 
 	/**
 	 * Add CSS to Header
@@ -42,7 +46,7 @@ class Hooks_s3files extends Hooks
 		// Get the necessary support .js
 		if (URL::getCurrent(false) == '/publish') {
 			$html = $this->js->link(array(
-				's3files.min.js'
+				's3files.js'
 			));
 			return $html;
 		}
@@ -54,7 +58,7 @@ class Hooks_s3files extends Hooks
 		// S3 credentials
 		$this->client = S3Client::factory(array(
 			'key'		=> $this->config['aws_access_key'],
-			'secret'	=> $this->config['aws_secret_key']
+			'secret'	=> $this->config['aws_secret_key'],
 		));
 
 		// Register Stream Wrapper
@@ -156,25 +160,30 @@ class Hooks_s3files extends Hooks
 			{
 				$uploader->abort();
 				$error = true;
+				$error_message = $e->getMessage();
 			}
 		}
 
 		// Return Results
-		$data = ($error) ?
-		array(
-			'error' 	=> 'Nope',
-		) :
-		array(
-			'success'	=> 'Aww yeah! '.$filename.' was uploaded successfully.',
-			'filename'	=> $filename,
-			'filetype'	=> $filetype,
-			'filesize'	=> $filesize,
-			'fullpath'	=> $fullPath,
-		);
+		if( $error )
+		{
+			header('Content-Type: application/json');
+			echo self::build_response_json(false, true, S3FILES_FILE_UPLOAD_FAILED, $error_message);
+			exit;
+		}
+		else
+		{
+			$data = array(
+				'filename'	=> $filename,
+				'filetype'	=> $filetype,
+				'filesize'	=> $filesize,
+				'fullpath'	=> $fullPath,
+			);
 
-		// JSONify it
-		echo json_encode($data);
-
+			header('Content-Type: application/json');
+			echo self::build_response_json(true, false, S3FILES_FILE_UPLOAD_SUCCESS, 'File ' . $filename . 'uploaded successfully!', null, $data, null, null);
+			exit;
+		}
 	}
 
 
@@ -211,27 +220,25 @@ class Hooks_s3files extends Hooks
 	}
 
 	/**
-	 * `TRIGGER: Choose files
-	 * @uri /TRIGGER/s3files/choosefile?uri=/path/to/dir/to/get
-	 * @return none
-	 */
-	public function s3files__choosefile()
-	{
-		self::s3files__list( Request::get('uri') );
-	}
-
-	/**
-	 * Select S3 File
-	 * @return [array]
-	 * @todo Need to make sure that when we get a file or dir, we return a fully-qualified URL to save in the field.
+	 * Get list of files from a bucket / directory.
+	 * @return (array)
+	 * @todo Pass in destination as querystring parameter
+	 * @todo Figure out sorting, alpha natural sort
+	 * @todo Breadcrumbs
 	 */
 	public function s3files__list()
 	{
 		// @todo Ensure AJAX requests only!
-		// if( Request::isAjax() );
+		if( ! Request::isAjax() ) 
+		{
+			// echo 'Back the fuzz up.';
+			// exit;
+		}
+
+		$destination = Request::get('destination');
 
 		// Merge configs before we proceed
-		$this->config = self::merge_configs(Request::get('destination'));
+		$this->config = self::merge_configs( $destination );
 
 		// Set default error to false
 		$error = false;
@@ -241,15 +248,6 @@ class Hooks_s3files extends Hooks
 		$directory = $this->config['directory'];
 		$uri       = Request::get('uri');
 		$url       = Url::tidy( 's3://' . join('/', array($bucket, $directory,$uri)) );
-
-		/*
-		|--------------------------------------------------------------------------
-		| Finder
-		|--------------------------------------------------------------------------
-		|
-		| Get_Files implements most of the Symfony Finder component
-		|
-		*/
 
 		// Let's make sure we  have a valid URL before movin' on
 		if( Url::isValid( $url ) )
@@ -263,56 +261,50 @@ class Hooks_s3files extends Hooks
 					->ignoreDotFiles(true)
 					->in($url)
 					->depth('== 0') // Do not allow access above the starting directory
-					->sortByName()
 				;
 			}
 			catch(Exception $e)
 			{
 				$error = $e->getMessage();
+				echo self::build_response_json(false, true, S3FILES_LIST_ERROR, $error );
+				exit;
 			}
 
-			/*
-			|--------------------------------------------------------------------------
-			| Assemble File Array
-			|--------------------------------------------------------------------------
-			|
-			| Select the important bits of data on the list of files.
-			|
-			*/
-
+			// Data array for building out view
 			$data = array(
-				'crumbs'      => explode('/', $uri), // Array of the currently requested URI.
-				'files'       => array(), // Files array
-				'directories' => array(), // Directories array
-				'list'        => array(), // Files and dirs mixed
+				'crumbs' => explode('/', $uri), // Array of the currently request URI.
+				'list'   => array(), // Files and dirs mixed
 			);
 
 			/**
 			 * Let's make sure we've got somethin' up in this mutha.
 			 */
-			if( ! $error && $finder->count() > 0 )
+			if( $finder->count() > 0 )
 			{
 				foreach ($finder as $file)
 				{
+					$filename = $file->getFilename();
+
 					// File / directory attributes
 					$file_data = array(
-						'filename'      => $file->getFilename(),
-						'file'          => $file->getPathname(),
+						'basename'      => $file->getBasename( '.' . $file->getExtension() ),
 						'extension'     => $file->getExtension(),
-						'url'           => Url::tidy( self::get_url_prefix($uri) . '/' . $file->getFilename() ),
-						'size'          => $file->isDir() ? '--' : File::getHumanSize($file->getSize()),
+						'file'          => $file->getPathname(),
+						'filename'      => $file->getFilename(),
 						'last_modified' => $file->isDir() ? '--' :$file->getMTime(),
 						'is_file'       => $file->isFile(),
 						'is_directory'  => $file->isDir(),
+						'size'          => $file->isDir() ? '--' : File::getHumanSize($file->getSize()),
+						'uri' => '',
+						'url'           => Url::tidy( self::get_url_prefix($uri) . '/' . $file->getFilename() ),
 					);
 
 					/**
-					 * Decide where to shove $file_data
+					 * Need to set the uri value
 					 */
 					if( $file->isFile() ) // Push to files array
 					{
 						$file_data['uri'] = null;
-						array_push( $data['files'], $file_data );
 					}
 					elseif( $file->isDir() ) // Push to directories array
 					{
@@ -333,11 +325,13 @@ class Hooks_s3files extends Hooks
 					{
 						continue;
 					}
-					array_push($data['list'], $file_data);
+
+					// Push file data to a new array with the filename as the key for sorting.
+					$data['list'][$filename] = $file_data;
 					unset( $file_data );
 				}
 			}
-			else
+			else // Nothing returned from Finder
 			{
 				/**
 				 * Return an error of type dialog that should show a message to the user
@@ -345,16 +339,8 @@ class Hooks_s3files extends Hooks
 				 * @return [array] JSON
 				 * @todo See `self::set_json_return`.
 				 */
-				echo json_encode( array(
-					'error'   => true,
-					'message' => $error,
-					'code'    => 100,
-					'type'    => 'message',
-					'data'    => array(
-						'text' => 'There are no files nor directories here.',
-						'html' => '',
-					),
-				));
+				echo self::build_response_json(false, true, S3FILES_LIST_NO_RESULTS, 'No results returned.');
+				exit;
 			}
 		}
 
@@ -371,20 +357,27 @@ class Hooks_s3files extends Hooks
 		// Build breadcrumb
 		$breadcrumb = Parse::template( self::get_view('_list-breadcrumb'), $data );
 
+		// Sort this fucking multi-dimensional array already.
+		array_multisort( array_keys($data['list']), SORT_NATURAL | SORT_FLAG_CASE, $data['list'] );
+
+		// Now we need to tweak the array for parsing.
+		foreach( $data['list'] as $filename => $filedata )
+		{
+			$data['list'][] = $filedata;
+			unset($data['list'][$filename]);
+		}
+
 		// We're basically parsing template partials here to build out the larger view.
 		$parsed_data = array(
-			'list'        => Parse::template( self::get_view('_list'), $data ),
-			'files'       => Parse::template( self::get_view('_list-file'), $data ),
-			'directories' => Parse::template( self::get_view('_list-directories'), $data ),
+			'list' => Parse::template( self::get_view('_list'), $data ),
 		);
 
 		// Put it all together
 		$ft_template = File::get( __DIR__ . '/views/list.html');
 
-		// Output the final parsed HTML
-		//echo Parse::template($ft_template, $parsed_data);
+		// Return JASON
 		header('Content-Type: application/json');
-		echo self::build_response_json(true, false, 200, '', '', $data, $breadcrumb, Parse::template($ft_template, $parsed_data));
+		echo self::build_response_json(true, false, S3FILES_LIST_SUCCESS, '', '', $data, $breadcrumb, Parse::template($ft_template, $parsed_data));
 		exit;
 	}
 
@@ -395,7 +388,6 @@ class Hooks_s3files extends Hooks
 	 */
 	public function s3files__view() //This can be accessed as a URL via /TRIGGER/s3files/view
 	{
-
 		ob_start();
 		$object = new Hooks_s3files();
 		$object->select_s3_file();
@@ -411,148 +403,15 @@ class Hooks_s3files extends Hooks
 	*/
 
 	/**
-	 * Listing of files and directories for a given path.
-	 */
-	public function get_list()
-	{
-		// Merge configs before we proceed
-		$this->config = self::merge_configs(Request::get('destination'));
-
-		// Set default error to false
-		$error = false;
-
-		// Do some werk to setup paths
-		$bucket    = $this->config['bucket'];
-		$directory = $this->config['directory'];
-		$uri       = Request::get('uri');
-		$url       = Url::tidy( 's3://' . join('/', array($bucket, $directory,$uri)) );
-
-		/*
-		|--------------------------------------------------------------------------
-		| Finder
-		|--------------------------------------------------------------------------
-		|
-		| Get_Files implements most of the Symfony Finder component
-		|
-		*/
-
-		// Let's make sure we  have a valid URL before movin' on
-		if( Url::isValid( $url ) )
-		{
-			$finder = new Finder();
-
-			try
-			{
-				$finder
-					->ignoreUnreadableDirs()
-					->ignoreDotFiles(true)
-					->sortByName()
-					->in($url)
-					->depth('< 0') // Do not allow access above the starting directory
-				;
-			}
-			catch(Exception $e)
-			{
-				$error = $e->getMessage();
-			}
-
-			/*
-			|--------------------------------------------------------------------------
-			| Assemble File Array
-			|--------------------------------------------------------------------------
-			|
-			| Select the important bits of data on the list of files.
-			|
-			*/
-
-			$data = array(
-				//'crumbs'      => explode('/', $uri), // Array of the currently request URI.
-				'files'       => array(), // Files array
-				'directories' => array(), // Directories array
-			);
-
-			/**
-			 * Let's make sure we've got somethin' up in this mutha.
-			 */
-			if( ! $error && $finder->count() > 0 )
-			{
-				foreach ($finder as $file)
-				{
-					// File / directory attributes
-					$file_data = array(
-						'filename'      => $file->getFilename(),
-						'file'          => $file->getPathname(),
-						'extension'     => $file->getExtension(),
-						'url'           => Url::tidy( self::get_url_prefix($uri) . '/' . $file->getFilename() ),
-						'size'          => File::getHumanSize($file->getSize()),
-						'last_modified' => $file->getMTime(),
-						'is_file'       => $file->isFile(),
-						'is_directory'  => $file->isDir(),
-					);
-
-					/**
-					 * Decide where to shove $file_data
-					 */
-					if( $file->isFile() ) // Push to files array
-					{
-						$file_data['uri'] = null;
-						array_push( $data['files'], $file_data );
-					}
-					elseif( $file->isDir() ) // Push to directories array
-					{
-						if( is_null($uri) )
-						{
-							$newuri = Url::tidy( '/' . join('/', array($bucket,$directory,$file_data['filename'])) );
-						}
-						else
-						{
-							$newuri = Url::tidy( '/' . join('/', array($bucket,$directory,$uri,$file_data['filename'])) );
-						}
-						$file_data['uri'] = $newuri;
-						array_push( $data['directories'], $file_data );
-					}
-					else // Keep on movin' on.
-					{
-						continue;
-					}
-					unset( $file_data );
-				}
-			}
-			else
-			{
-				// Error
-			}
-		}
-
-		asort($data['files']);
-		asort($data['directories']);
-
-		return $data;
-
-		// We're basically parsing template partials here to build out the larger view.
-		$parsed_data = array(
-			'files'       => Parse::template( self::get_view('_list-file'), $data ),
-			'directories' => Parse::template( self::get_view('_list-directories'), $data ),
-		);
-
-		// PUt it all together
-		$ft_template = File::get( __DIR__ . '/views/list.html');
-
-		// Output the final parsed HTML
-		header('Content-type: application/json');
-		echo self::build_response_json(true, false, 200, '', '', $data, Parse::template($ft_template, $parsed_data));
-		//echo Parse::template($ft_template, $parsed_data);
-
-	}
-
-	/**
 	 * Merge all configs
-	 *
 	 * @param string  $destination Paramter for destination YAML file to attempt to load.
 	 * @return array
 	 */
 	private function merge_configs( $destination = null )
 	{
+		// Set environment
+		$this->env = $env = Environment::detect( Config::getAll() );
+
 		// Create our S3 client
 		self::load_s3();
 
@@ -612,7 +471,6 @@ class Hooks_s3files extends Hooks
 
 	/**
 	 * Check to see if file exits
-	 *
 	 * @param
 	 * @return boolean
 	 */
@@ -652,19 +510,6 @@ class Hooks_s3files extends Hooks
 	}
 
 	/**
-	 * Private function to build appropriate JSON messages for AJAX.
-	 * @return [array] JSON.
-	 * @todo Establish set error codes.
-	 * @todo Establish parameters for function.
-	 */
-	private function return_json()
-	{
-		$data = array();
-
-		return $data;
-	}
-
-	/**
 	 * Build out the proper URL prefix based on configs
 	 * @param (string) $uri This is the URI passed in on AJAX calls.
 	 * @return (string)
@@ -700,14 +545,14 @@ class Hooks_s3files extends Hooks
 	private function build_response_json( $success = false, $error = true, $code =null, $message = null, $type = null, $data = null, $breadcrumb = null, $html = null )
 	{
 		return json_encode( array(
-			'success'   => $success,
-			'error'     => $error,
-			'code'      => (int) $code,
-			'message'   => $message,
-			'type'      => $type,
-			'data'      => $data,
+			'success'    => $success,
+			'error'      => $error,
+			'code'       => (int) $code,
+			'message'    => $message,
+			'type'       => $type,
+			'data'       => $data,
 			'breadcrumb' => $breadcrumb,
-			'html'      => $html,
+			'html'       => $html,
 		) );
 	}
 
