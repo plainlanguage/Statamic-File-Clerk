@@ -84,11 +84,11 @@ class Hooks_s3files extends Hooks
 			$filesize	= $file['size'];
 
 			// Check if the filetype is allowed in config
-			if( ! in_array($filetype, array_get($this->config, 'content_types')) )
-			{
-				// @todo Return proper JSON.
-				// return false;
-			}
+			// if( ! in_array($filetype, array_get($this->config, 'content_types')) )
+			// {
+			// 		@todo Return proper JSON.
+			// 		return false;
+			// }
 
 			$handle   = $tmp_name; // Set the full path of the uploaded file to use in setSource
 			$filename = File::cleanFilename($filename); // Clean Filename
