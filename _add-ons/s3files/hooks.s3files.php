@@ -103,16 +103,6 @@ class Hooks_s3files extends Hooks
 			$custom_domain	= $this->config['custom_domain'];
 			$set_acl		= $this->config['permissions'];
 
-			// Is a custom domain set in the config?
-			if ($custom_domain)
-			{
-				$fullPath = URL::tidy('http://'.$custom_domain.'/'.$directory.'/'.$filename);
-			}
-			else
-			{
-				$fullPath = URL::tidy('http://'.$bucket.'.s3.amazonaws.com'.'/'.$directory.'/'.$filename);
-			}
-
 			$s3_path = Url::tidy( 's3://' . join('/', array($bucket, $directory)) );
 
 			// Check for file existence
@@ -138,6 +128,16 @@ class Hooks_s3files extends Hooks
 				{
 					$filename = self::increment_filename_unix($filename);
 				}
+			}
+
+			// Is a custom domain set in the config?
+			if ($custom_domain)
+			{
+				$fullPath = URL::tidy('http://'.$custom_domain.'/'.$directory.'/'.$filename);
+			}
+			else
+			{
+				$fullPath = URL::tidy('http://'.$bucket.'.s3.amazonaws.com'.'/'.$directory.'/'.$filename);
 			}
 
 			$uploader = UploadBuilder::newInstance()
