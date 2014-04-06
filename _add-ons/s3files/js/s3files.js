@@ -43,7 +43,7 @@ $(function () {
 			$('body').on( 'click', '.view-list td', this.highlightRow );
 
 			// File Exists Options
-			$('body').on( 'click', '.error-exists a', this.fileExists );
+			//$('body').on( 'click', '.error-exists a', this.fileExists );
 		},
 
 		// Prepare Upload
@@ -58,10 +58,13 @@ $(function () {
 		},
 
 		// Upload Files
-		uploadFiles: function( event ) {
+		uploadFiles: function( event, files, overwrite ) {
 
-			// event.stopPropagation(); // Stop stuff from happening
-			// event.preventDefault(); // Really make sure stuff isn't happening
+			files = typeof files !== 'undefined' ? files : false;
+
+			if( typeof overwrite !== 'undefined' ) {
+				postUrl = postUrl + '?ovewrite=' + overwrite;
+			}
 
 			var $this = $(this),
 				fullPath = $this.val(),
@@ -77,17 +80,23 @@ $(function () {
 				successfullUpload = $this.closest('.s3files').find('.result input.successful-upload'),
 				result_wrapper = $this.closest('.s3files').find('.result'),
 				add_file = $this.closest('.s3files').find('.s3-add-file'),
-				uploadError = $this.closest('.s3files').find('.upload-error');
+				uploadError = $this.closest('.s3files').find('.upload-error'),
+				errorExists = $this.closest('.s3files').find('.upload-error .error-exists');
 
 			// Do we have a file to work with?
-			if( filename !== '' ) {
+			if( filename !== '' || files ) {
 
 				// Create a formdata object and add the file
 				var data = new FormData();
 
-				$.each($this[0].files, function(i, file) {
-					data.append('file-'+i, file);
-				});
+				if( files ) {
+					data = files;
+				}
+				else {
+					$.each($this[0].files, function(i, file) {
+						data.append('file-'+i, file);
+					});
+				}
 
 				// Try to upload file
 				$.ajax({
@@ -149,6 +158,28 @@ $(function () {
 							console.log(data.message);
 							uploadError.toggleClass('is-hidden is-visible').html(data.html); // Add is-visible class and show JSON html
 							progressWrapper.toggleClass('is-visible is-hidden'); // Hide Progress Bar since there is an error
+
+							$(this).closest('.s3files').find('.upload-error .error-exists a').on('click', function(event) {
+								actionAttr = $(this).attr('data-action'),
+
+								// Clicked Replace
+								if (actionAttr === 'replace') {
+									console.log('Replace');
+								}
+								// Clicked Keep Both
+								if (actionAttr === 'keep-both') {
+									console.log('Keep Both');
+								}
+								// Clicked Cancel
+								if (actionAttr === 'cancel') {
+									console.log('Cancel');
+									errorExists.remove(); // Remove error
+									uploadError.toggleClass('is-visible is-hidden'); // Hide error holder
+									fileWrapper.toggleClass('is-hidden is-visible'); // Bring back the upload buttton
+								}
+
+								event.preventDefault();
+							});
 						}
 						else
 						{
