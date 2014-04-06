@@ -721,7 +721,7 @@ $(function () {
 				 {
 				 	if( typeof overwrite !== 'undefined' )
 				 	{
-				 		postUrl = postUrl + '?overwrite=' + overwrite;
+				 		postUrl = postUrl + '&overwrite=' + overwrite;
 				 	}
 
 					 $.ajax({
