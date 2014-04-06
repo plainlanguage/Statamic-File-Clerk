@@ -58,10 +58,13 @@ $(function () {
 		},
 
 		// Upload Files
-		uploadFiles: function( event ) {
+		uploadFiles: function( event, files, overwrite ) {
 
-			// event.stopPropagation(); // Stop stuff from happening
-			// event.preventDefault(); // Really make sure stuff isn't happening
+			files = typeof files !== 'undefined' ? files : false;
+
+			if( typeof overwrite !== 'undefined' ) {
+				postUrl = postUrl + '?ovewrite=' + overwrite;
+			}
 
 			var $this = $(this),
 				fullPath = $this.val(),
@@ -81,14 +84,19 @@ $(function () {
 				errorExists = $this.closest('.s3files').find('.upload-error .error-exists');
 
 			// Do we have a file to work with?
-			if( filename !== '' ) {
+			if( filename !== '' || files ) {
 
 				// Create a formdata object and add the file
 				var data = new FormData();
 
-				$.each($this[0].files, function(i, file) {
-					data.append('file-'+i, file);
-				});
+				if( files ) {
+					data = files;
+				}
+				else {
+					$.each($this[0].files, function(i, file) {
+						data.append('file-'+i, file);
+					});
+				}
 
 				// Try to upload file
 				$.ajax({

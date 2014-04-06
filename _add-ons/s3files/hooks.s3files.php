@@ -124,7 +124,9 @@ class Hooks_s3files extends Hooks
 						'type'		=> 'dialog',
 						'code'		=> S3FILES_ERROR_FILE_EXISTS,
 						'message'	=> S3FILES_ERROR_FILE_EXISTS_MSG,
-						'html'		=> Parse::template( $file_exists_template, $data),
+						'html'		=> Parse::template( $file_exists_template, array(
+							'filename' => $filename,
+						)),
 					));
 					exit;
 				}
