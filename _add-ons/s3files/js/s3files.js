@@ -230,7 +230,7 @@ $(function () {
 			event.preventDefault();
 
 			var $this = $(this),
-				listURL = '/TRIGGER/s3files/list' + ($(this).data('uri') ? '?uri=' + $(this).data('uri') : ''),
+				listURL = '/TRIGGER/s3files/list' + ($(this).data('uri') ? '?uri=' + $(this).data('uri') : '') + ($(this).data('uri') ? '&' : '?') + ($(this).data('destination') ? 'destination=' + $(this).data('destination') : ''),
 				viewList = $this.closest('.s3-add-file').find('.view-remote .view-list tbody'),
 				breadcrumb = $this.closest('.s3-add-file').find('.view-remote .breadcrumb'),
 				ajaxSpinner = $this.closest('.s3-add-file').find('.view-remote .view-list .ajax-spinner');
