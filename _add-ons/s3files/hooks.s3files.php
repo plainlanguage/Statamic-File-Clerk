@@ -46,7 +46,7 @@ class Hooks_s3files extends Hooks
 		// Get the necessary support .js
 		if (URL::getCurrent(false) == '/publish') {
 			$html = $this->js->link(array(
-				's3files.js'
+				's3files.min.js'
 			));
 			return $html;
 		}
@@ -318,8 +318,6 @@ class Hooks_s3files extends Hooks
 						}
 
 						$file_data['uri'] = $newuri;
-
-						array_push( $data['directories'], $file_data );
 					}
 					else // Keep on movin' on.
 					{
