@@ -25,11 +25,12 @@ class Fieldtype_s3files extends Fieldtype {
 
 		// Set attributes as array
 		$attributes = array(
-			'name'			=> $this->fieldname,
-			'id'			=> $this->field_id,
-			'tabindex'		=> $this->tabindex,
-			'value'			=> $this->field_data,
-			'action'		=> Config::getSiteRoot() . 'TRIGGER/s3files/ajaxupload' // this is the file the AJAX needs to hit on POST. Created in hooks -> function s3files__ajaxupload
+			'action'      => Config::getSiteRoot() . 'TRIGGER/s3files/ajaxupload', // this is the file the AJAX needs to hit on POST. Created in hooks -> function s3files__ajaxupload
+			'destination' => $destination,
+			'id'          => $this->field_id,
+			'name'        => $this->fieldname,
+			'tabindex'    => $this->tabindex,
+			'value'       => $this->field_data,
 		);
 
 		/**
@@ -51,9 +52,10 @@ class Fieldtype_s3files extends Fieldtype {
 		 * @todo Use a parsed template to render field HTML.
 		 */
 		$data = array(
-			'field_data'     => $this->field_data,
 			'action'         => $attributes['action'],
 			'basename_value' => basename($attributes['value']),
+			'destination'    => $destination,
+			'field_data'     => $this->field_data,
 			'id'             => $attributes['id'],
 			'name'           => $attributes['name'],
 			'tabindex'       => $this->tabindex,
