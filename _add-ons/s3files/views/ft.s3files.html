@@ -1,5 +1,6 @@
 <div class="s3files file-field-container">
-	<div class="s3-add-file">
+
+	<div class="s3-add-file {{ if value }}is-hidden{{ else }}is-visible{{ endif }}">
 		<ul class="nav nav-tabs tabs">
 			<li class="active"><a href="#view-upload-{{ id }}" data-toggle="tab" title="Upload New">Upload New</a></li><li><a href="#view-remote-{{ id }}" data-toggle="tab" title="Choose Existing" class="load_existing">Choose Existing</a></li>
 		</ul>
@@ -70,5 +71,10 @@
 			</div>
 
 		</div>
+	</div>
+
+	<div class="result {{ if value }}is-visible{{ else }}is-hidden{{ endif }}">
+		<p>{{ basename_value }}</p><a class="btn btn-small btn-remove" href="#">Remove</a>
+		<input type="hidden" name="{{ name }}" id="{{ name }}" class="successful-upload" value="{{ value }}">
 	</div>
 </div>
