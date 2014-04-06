@@ -356,7 +356,8 @@ class Hooks_s3files extends Hooks
 		$breadcrumb = Parse::template( self::get_view('_list-breadcrumb'), $data );
 
 		// Sort this fucking multi-dimensional array already.
-		array_multisort( array_keys($data['list']), SORT_FLAG_CASE, $data['list'] );
+		uksort( $data['list'], 'strcasecmp');
+		//array_multisort( array_keys($data['list']), SORT_FLAG_CASE, $data['list'] );
 
 		/**
 		 * THIS ONLY WORKS IN PHP 5.4+. FUCK!
