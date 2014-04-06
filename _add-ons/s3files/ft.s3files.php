@@ -43,8 +43,16 @@ class Fieldtype_s3files extends Fieldtype {
 				'destination' => $destination,
 			);
 
-			$attributes['action'] .= '?' . http_build_query($query_data);
 		}
+		else
+		{
+			$query_data = array(
+				'destination' => false,
+			);
+		}
+
+		// Set the action attribute
+		$attributes['action'] .= '?' . http_build_query($query_data);
 
 		// print_r($attributes);
 

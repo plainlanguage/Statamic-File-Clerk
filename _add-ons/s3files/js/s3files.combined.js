@@ -717,12 +717,12 @@ $(function () {
 				});
 
 				// Try to upload file
-				var tryUpload = function( overwrite )
-				{
-					if( typeof overwrite !== 'undefined' )
-					{
-						postUrl = postUrl + '?overwrite=' + overwrite;
-					}
+				 var tryUpload = function( overwrite )
+				 {
+				 	if( typeof overwrite !== 'undefined' )
+				 	{
+				 		postUrl = postUrl + '&overwrite=' + overwrite;
+				 	}
 
 					 $.ajax({
 						url: postUrl,
