@@ -23,7 +23,7 @@ class Hooks_s3files extends Hooks
 {
 
 	protected $client;
-	protected $config;
+	protected $config;	
 	protected $env;
 
 	/**
@@ -295,7 +295,7 @@ class Hooks_s3files extends Hooks
 						'is_file'       => $file->isFile(),
 						'is_directory'  => $file->isDir(),
 						'size'          => $file->isDir() ? '--' : File::getHumanSize($file->getSize()),
-						'uri' => '',
+						'uri'           => null,
 						'url'           => Url::tidy( self::get_url_prefix($uri) . '/' . $file->getFilename() ),
 					);
 
@@ -346,11 +346,15 @@ class Hooks_s3files extends Hooks
 		foreach ($data['crumbs'] as $key => $value) {
 			$path = explode('/', $uri, ($key + 1) - (count($data['crumbs'])));
 			$path = implode('/', $path);
+			$path = $path . '?' . http_build_query(array('destination' => $destination));
 			$data['crumbs'][$key] = array(
 				'name' => $value,
 				'path' => $path
 			);
 		}
+
+		// Need to pass in the destination for root requests.
+		$data['destination'] = $destination;
 
 		// Build breadcrumb
 		$breadcrumb = Parse::template( self::get_view('_list-breadcrumb'), $data );
@@ -418,6 +422,9 @@ class Hooks_s3files extends Hooks
 
 		// Create our S3 client
 		self::load_s3();
+
+		// Check for a destination config
+		$destination = Request::get('destination');
 
 		// A complete list of all possible config variables
 		$config = array(
