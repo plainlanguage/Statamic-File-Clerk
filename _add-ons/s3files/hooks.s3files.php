@@ -441,7 +441,7 @@ class Hooks_s3files extends Hooks
 		);
 
 		// Check that the destination config file exists
-		if( ! is_null($destination) )
+		if( ! is_null($destination) || $destination !== 0 || $destination )
 		{
 			// Set the full path for the destination file
 			$destination_file = S3FILES_DESTINATION_PATH . ltrim($destination) . '.yaml';
