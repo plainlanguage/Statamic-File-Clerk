@@ -236,6 +236,7 @@ class Hooks_s3files extends Hooks
 		}
 
 		$destination = Request::get('destination');
+		$destination = is_null($destination) ? 0 : $destination;
 
 		// Merge configs before we proceed
 		$this->config = self::merge_configs( $destination );
@@ -247,7 +248,11 @@ class Hooks_s3files extends Hooks
 		$bucket    = $this->config['bucket'];
 		$directory = $this->config['directory'];
 		$uri       = Request::get('uri');
+		$uri       = reset(explode('?', $uri));
 		$url       = Url::tidy( 's3://' . join('/', array($bucket, $directory,$uri)) );
+
+		// Querystring for appending to all requests
+		$querystring = http_build_query( array('destination' => $destination) );
 
 		// Let's make sure we  have a valid URL before movin' on
 		if( Url::isValid( $url ) )
@@ -304,7 +309,7 @@ class Hooks_s3files extends Hooks
 					 */
 					if( $file->isFile() ) // Push to files array
 					{
-						$file_data['uri'] = null;
+						$newuri = null;
 					}
 					elseif( $file->isDir() ) // Push to directories array
 					{
@@ -316,13 +321,14 @@ class Hooks_s3files extends Hooks
 						{
 							$newuri = Url::tidy( '/' . join('/', array($uri,$file_data['filename'])) );
 						}
-
-						$file_data['uri'] = $newuri;
 					}
 					else // Keep on movin' on.
 					{
 						continue;
 					}
+
+					// Append querystring to URI
+					$file_data['uri'] = Url::tidy( $newuri . '/?' . $querystring );
 
 					// Push file data to a new array with the filename as the key for sorting.
 					$data['list'][$filename] = $file_data;
@@ -346,7 +352,7 @@ class Hooks_s3files extends Hooks
 		foreach ($data['crumbs'] as $key => $value) {
 			$path = explode('/', $uri, ($key + 1) - (count($data['crumbs'])));
 			$path = implode('/', $path);
-			$path = $path . '?' . http_build_query(array('destination' => $destination));
+			$path = Url::tidy( $path . '/?' . $querystring );
 			$data['crumbs'][$key] = array(
 				'name' => $value,
 				'path' => $path
