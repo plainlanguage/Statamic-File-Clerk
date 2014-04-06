@@ -88,7 +88,7 @@ $(function () {
 				});
 
 				// Try to upload file
-				 var upload = function( overwrite )
+				 var tryUpload = function( overwrite )
 				 {
 				 	if( typeof overwrite !== 'undefined' )
 				 	{
@@ -125,28 +125,24 @@ $(function () {
 						},
 						success: function(data, textStatus, jqXHR)
 						{
-							if (typeof data.error === 'undefined')
+							// Upload was successful
+							if ( data.code === 100 )
 							{
 								// Success, so call function to process the form
 								console.log(data.success);
-								console.log('URL: ' + data.fullpath);
+								console.log('URL: ' + data.data.fullpath);
 								progressWrapper.addClass('is-hidden'); // Hide progress bar when a file is succesfully uploaded.
-								uploadSuccess.append(data.filename); // Show filename on successful upload
-								successfullUpload.val(data.fullpath); // Add full file path to hidden input
+								uploadSuccess.append(data.data.filename); // Show filename on successful upload
+								successfullUpload.val(data.data .fullpath); // Add full file path to hidden input
 								add_file.toggleClass('is-visible is-hidden');
 								setTimeout(function() {
 									result_wrapper.toggleClass('is-hidden is-visible');
 								}, 300);
 							}
-							// Upload was successful
-							else if ( data.code === 100 )
-							{
-
-							}
 							// Upload failed
 							else if ( data.code === 200 )
 							{
-
+								// data.message contains the error message returned by AWS.
 							}
 							// File name already exists
 							else if ( data.code === 300 )
@@ -162,12 +158,12 @@ $(function () {
 									// Clicked Replace
 									if (actionAttr === 'replace') {
 										console.log('Replace');
-										upload(true);
+										tryUpload(true);
 									}
 									// Clicked Keep Both
 									if (actionAttr === 'keep-both') {
 										console.log('Keep Both');
-										upload(false);
+										tryUpload(false);
 									}
 									// Clicked Cancel
 									if (actionAttr === 'cancel') {
@@ -194,12 +190,12 @@ $(function () {
 					});
 				}
 
-				upload();
+				// Call the AJAX
+				tryUpload();
 
 				s3upload.resetFormElement($this);
 
 				console.log( 'Uploading... ' + filename );
-
 			}
 		},
 
@@ -263,13 +259,24 @@ $(function () {
 				},
 				success: function(data, textStatus, jqXHR)
 				{
-					if (data.error === false)
+					// List returned
+					if( data.code === 400 || data.error === false )
 					{
 						console.log(data.success);
 						breadcrumb.html(data.breadcrumb);
 						viewList.html(data.html);
 						ajaxSpinner.spin(false); // Stop spinner
 						ajaxOverlay.toggleClass('is-visible is-hidden');
+					}
+					// No results
+					else if( data.code === 500 )
+					{
+
+					}
+					// List error
+					else if( data.code === 600 )
+					{
+
 					}
 				},
 				error: function(jqXHR, textStatus, errorThrown)
