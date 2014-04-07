@@ -26,3 +26,5 @@
 <!--(bake plugins/transition.js)-->
 <!--(bake plugins/spin.js)-->
 <!--(bake plugins/jquery.spin.js)-->
+<!--(bake plugins/jquery.finger.js)-->
+<!--(bake plugins/stupidtable.js)-->

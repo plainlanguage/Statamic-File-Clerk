@@ -34,13 +34,13 @@ $(function () {
 			$('body').on( 'click', '.load_existing', this.loadExisting );
 
 			// Choose existing file
-			$('body').on( 'dblclick', '.is-directory', this.loadExisting );
+			$('body').on( 'doubletap', '.is-directory', this.loadExisting );
 
 			// Breadcrumb
 			$('body').on( 'click', '.breadcrumb a', this.loadExisting );
 
 			// Highlight Row
-			$('body').on( 'click', '.view-list td', this.highlightRow );
+			$('body').on( 'tap', '.view-list td', this.highlightRow );
 
 			// File Exists Options
 			//$('body').on( 'click', '.error-exists a', this.fileExists );
@@ -329,5 +329,63 @@ $(function () {
 
 	// Run it
 	s3upload.init();
+
+
+	// $$$$$$$$\        $$\       $$\                  $$$$$$\                       $$\
+	// \__$$  __|       $$ |      $$ |                $$  __$$\                      $$ |
+	//    $$ | $$$$$$\  $$$$$$$\  $$ | $$$$$$\        $$ /  \__| $$$$$$\   $$$$$$\ $$$$$$\    $$$$$$\   $$$$$$\
+	//    $$ | \____$$\ $$  __$$\ $$ |$$  __$$\       \$$$$$$\  $$  __$$\ $$  __$$\\_$$  _|  $$  __$$\ $$  __$$\
+	//    $$ | $$$$$$$ |$$ |  $$ |$$ |$$$$$$$$ |       \____$$\ $$ /  $$ |$$ |  \__| $$ |    $$$$$$$$ |$$ |  \__|
+	//    $$ |$$  __$$ |$$ |  $$ |$$ |$$   ____|      $$\   $$ |$$ |  $$ |$$ |       $$ |$$\ $$   ____|$$ |
+	//    $$ |\$$$$$$$ |$$$$$$$  |$$ |\$$$$$$$\       \$$$$$$  |\$$$$$$  |$$ |       \$$$$  |\$$$$$$$\ $$ |
+	//    \__| \_______|\_______/ \__| \_______|       \______/  \______/ \__|        \____/  \_______|\__|
+
+	var dateFromString = function(str){
+		var pattern = "^(\\d{1,2})\\/(\\d{1,2})\\/(\\d{2,4})\\s*(\\d{1,2}):(\\d{1,2})\\s*(am|pm|AM|PM|Am|Pm)$";
+		var re = new RegExp(pattern);
+		var DateParts = re.exec(str).slice(1);
+		var Month = DateParts[0];
+		var Day = DateParts[1];
+		var Year = DateParts[2];
+		var Hour = DateParts[3];
+		var Minutes = DateParts[4];
+		var AMPM = DateParts[5];
+		var dateString = Month + ' ' + Day + ' ' + Year + ' ' + Hour + ':' + Minutes + ':' + '00 ' + AMPM;
+
+		return new Date(dateString);
+	}
+
+	var fileSize = function (str) {
+		var parts = str.split(" "),
+			size = parts[0].replace(/,/g, ""),
+			unit = parts[1],
+			x_unit = 8;
+
+		if (unit === "KB") {
+			x_unit = 1024;
+		} else if (unit === "MB") {
+			x_unit = 1048576;
+		} else if (unit === "GB") {
+			x_unit = 1073741824;
+		}
+
+		return parseInt( size * x_unit, 10 );
+	}
+
+	$(".tablesort").stupidtable({
+		"date":function(a,b){
+			var aDate = dateFromString(a);
+			var bDate = dateFromString(b);
+
+			return aDate - bDate;
+		},
+		"size":function(a,b){
+			var aSize = fileSize(a);
+			var bSize = fileSize(b);
+
+			return aSize - bSize;
+		}
+	});
+
 
 });
