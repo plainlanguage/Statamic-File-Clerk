@@ -196,13 +196,11 @@ $control-bar-element-border-radius: em(5);
 		text-align: left;
 		margin: 0 0 em(15) 0;
 		padding: em(8) 0;
+		vertical-align: middle;
 
 		li {
-			$height: em(28);
-			display: inline-block;
-			font-size: 90%;
-			height: $height;
-			line-height: $height;
+			display: block;
+			float: left;
 			padding: 0;
 			position: relative;
 
@@ -233,15 +231,22 @@ $control-bar-element-border-radius: em(5);
 				padding: 0 em(8);
 			}
 
-			&.root a {
-				@include image-replacement($height, $height);
-				@include bg-img(icon-breadcrumb-home, png, 16px, center, center, no-repeat);
+			&.root {
+
+				a {
+					@include image-replacement(16px, em(28));
+					@include bg-img(icon-breadcrumb-home, png, 16px, center, center, no-repeat);
+				}
 			}
 		}
 
 		li a {
+			$height: em(28);
 			color: darken( $color-tan-mid, 40 );
 			display: block;
+			font-size: 90%;
+			height: $height;
+			line-height: $height;
 			padding: 0 em(15);
 
 			&:hover {
