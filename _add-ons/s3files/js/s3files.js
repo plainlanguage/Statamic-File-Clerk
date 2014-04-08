@@ -291,10 +291,20 @@ $(function () {
 		highlightRow: function( event ) {
 
 			var $this = $(this),
-				highlight = 'is-highlighted';
+				highlight = 'is-highlighted',
+				siblings = $this.closest('tr').siblings(),
+				parent = $this.parent('tr'),
+				rows = $this.closest('tbody').find('tr'),
+				selectBtn = $this.closest('.view-remote').find('button[data-action="select_file"]');
 
-			$this.closest('tr').siblings().removeClass(highlight);
-			$this.parent('tr').toggleClass(highlight);
+			siblings.removeClass(highlight);
+			parent.toggleClass(highlight);
+
+			if (rows.hasClass(highlight) && !parent.hasClass('directory')) {
+				selectBtn.prop( "disabled", false );
+			} else {
+				selectBtn.prop( "disabled", true );
+			}
 
 		},
 

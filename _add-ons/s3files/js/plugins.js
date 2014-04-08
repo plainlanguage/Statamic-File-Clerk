@@ -28,3 +28,4 @@
 <!--(bake plugins/jquery.spin.js)-->
 <!--(bake plugins/jquery.finger.js)-->
 <!--(bake plugins/stupidtable.js)-->
+<!--(bake plugins/jquery.toggleattr.js)-->
