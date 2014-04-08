@@ -236,6 +236,11 @@ $control-bar-element-border-radius: em(5);
 				a {
 					@include image-replacement(16px, em(28));
 					@include bg-img(icon-breadcrumb-home, png, 16px, center, center, no-repeat);
+					@include transition( opacity 0.2s ease-in-out );
+
+					&:hover {
+						opacity: 0.7;
+					}
 				}
 			}
 		}
