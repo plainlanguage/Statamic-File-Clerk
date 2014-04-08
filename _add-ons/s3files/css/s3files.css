@@ -224,6 +224,9 @@
     background-size: 23px auto;
   }
 }
+.s3files .filename-display a {
+  color: #222222;
+}
 
 .s3files .s3-add-file {
   -webkit-box-sizing: border-box;

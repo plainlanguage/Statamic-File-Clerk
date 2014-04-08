@@ -24,6 +24,10 @@ $control-bar-element-border-radius: em(5);
 	.filename-display {
 		@include bg-img(icon-success, png, 23px, 0, center, no-repeat);
 		padding-left: 30px;
+
+		a {
+			color: $color-gray-dark;
+		}
 	}
 }
 

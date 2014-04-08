@@ -70,7 +70,7 @@ $(function () {
 				progressWrapper = uploadTab.find('.progress-bar'),
 				progressBar = progressWrapper.find('progress'),
 				progressPrc = progressWrapper.find('.prc'),
-				uploadSuccess = $this.closest('.s3files').find('.result .filename-display'),
+				uploadSuccess = $this.closest('.s3files').find('.result .filename-display a'),
 				successfullUpload = $this.closest('.s3files').find('.result input.successful-upload'),
 				result_wrapper = $this.closest('.s3files').find('.result'),
 				add_file = $this.closest('.s3files').find('.s3-add-file'),
@@ -134,6 +134,7 @@ $(function () {
 								progressWrapper.addClass('is-hidden'); // Hide progress bar when a file is succesfully uploaded.
 								uploadSuccess.append(data.data.filename); // Show filename on successful upload
 								successfullUpload.val(data.data .fullpath); // Add full file path to hidden input
+								uploadSuccess.attr('href', data.data.fullpath);
 								add_file.toggleClass('is-visible is-hidden');
 								setTimeout(function() {
 									result_wrapper.toggleClass('is-hidden is-visible');
@@ -397,5 +398,24 @@ $(function () {
 		}
 	});
 
+	//  $$$$$$$$\             $$\                                             $$\       $$\       $$\           $$\
+	//  $$  _____|            $$ |                                            $$ |      $$ |      \__|          $$ |
+	//  $$ |      $$\   $$\ $$$$$$\    $$$$$$\   $$$$$$\  $$$$$$$\   $$$$$$\  $$ |      $$ |      $$\ $$$$$$$\  $$ |  $$\  $$$$$$$\
+	//  $$$$$\    \$$\ $$  |\_$$  _|  $$  __$$\ $$  __$$\ $$  __$$\  \____$$\ $$ |      $$ |      $$ |$$  __$$\ $$ | $$  |$$  _____|
+	//  $$  __|    \$$$$  /   $$ |    $$$$$$$$ |$$ |  \__|$$ |  $$ | $$$$$$$ |$$ |      $$ |      $$ |$$ |  $$ |$$$$$$  / \$$$$$$\
+	//  $$ |       $$  $$<    $$ |$$\ $$   ____|$$ |      $$ |  $$ |$$  __$$ |$$ |      $$ |      $$ |$$ |  $$ |$$  _$$<   \____$$\
+	//  $$$$$$$$\ $$  /\$$\   \$$$$  |\$$$$$$$\ $$ |      $$ |  $$ |\$$$$$$$ |$$ |      $$$$$$$$\ $$ |$$ |  $$ |$$ | \$$\ $$$$$$$  |
+	//  \________|\__/  \__|   \____/  \_______|\__|      \__|  \__| \_______|\__|      \________|\__|\__|  \__|\__|  \__|\_______/
+	//
+	//
+	//
+
+	var external_link = $('a[rel="external"]');
+
+	external_link.on('click', function(event) {
+		event.preventDefault();
+		event.stopPropagation();
+		window.open(this.href, '_blank');
+	});
 
 });
