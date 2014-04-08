@@ -210,9 +210,9 @@ class Hooks_s3files extends Hooks
 			$object = new Hooks_s3files();
 			$object->upload_file();
 			header('Content-Type: application/json');
-			ob_flush();
 			return true;
 			Log::info('Boom');
+			ob_flush();
 		}
 		else
 		{
@@ -236,6 +236,7 @@ class Hooks_s3files extends Hooks
 			// exit;
 		}
 
+		// Destination config parameter
 		$destination = Request::get('destination');
 		$destination = is_null($destination) ? 0 : $destination;
 
