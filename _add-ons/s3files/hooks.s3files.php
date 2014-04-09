@@ -10,7 +10,7 @@ define('S3FILES_ERROR_FILE_EXISTS_MSG', 'File exists.');
 define('S3FILES_LIST_SUCCESS', 400);
 define('S3FILES_LIST_NO_RESULTS', 500);
 define('S3FILES_LIST_ERROR', 600);
-define('SEFILES_DISALLOWED_FILETYPE', 700);
+define('S3FILES_DISALLOWED_FILETYPE', 700);
 
 use Aws\S3\S3Client;
 use Aws\S3\StreamWrapper;
@@ -102,7 +102,7 @@ class Hooks_s3files extends Hooks
 			{
 				if( ! in_array($mime_type, $allowed_content_types) )
 				{
-					echo self::build_response_json(false, true, SEFILES_DISALLOWED_FILETYPE, 'Files of type ' . $mime_type . ' not allowed.');
+					echo self::build_response_json(false, true, S3FILES_DISALLOWED_FILETYPE, 'Files of type ' . $mime_type . ' not allowed.');
 					exit;
 				}
 			}
