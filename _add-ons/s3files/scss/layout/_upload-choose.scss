@@ -314,6 +314,23 @@ $control-bar-element-border-radius: em(5);
 				bottom: em(15);
 				left: em(8);
 			}
+
+			&.sorting-asc:after,
+			&.sorting-desc:after {
+				content: ' ';
+				display: inline-block;
+				margin-left: 5px;
+				width: 8px;
+				height: 4px;
+			}
+
+			&.sorting-asc:after {
+				@include bg-img(icon-arrow-ascending, png, 8px, 0, center, no-repeat);
+			}
+
+			&.sorting-desc:after {
+				@include bg-img(icon-arrow-descending, png, 8px, 0, center, no-repeat);
+			}
 		}
 
 		td {
