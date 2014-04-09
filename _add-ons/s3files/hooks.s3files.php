@@ -10,6 +10,7 @@ define('S3FILES_ERROR_FILE_EXISTS_MSG', 'File exists.');
 define('S3FILES_LIST_SUCCESS', 400);
 define('S3FILES_LIST_NO_RESULTS', 500);
 define('S3FILES_LIST_ERROR', 600);
+define('SEFILES_DISALLOWED_FILETYPE', 700);
 
 use Aws\S3\S3Client;
 use Aws\S3\StreamWrapper;
@@ -89,11 +90,22 @@ class Hooks_s3files extends Hooks
 			$filesize	= $file['size'];
 
 			// Check if the filetype is allowed in config
-			// if( ! in_array($filetype, array_get($this->config, 'content_types')) )
-			// {
-			// 		@todo Return proper JSON.
-			// 		return false;
-			// }
+			$allowed_content_types = array_get($this->config, 'content_types');
+
+			// Get the file MIME type
+			// for comparision against allowed content types.
+			$mime_type = explode('/', $file['type']);
+			$mime_type = end($mime_type);
+
+			// Need an array of content types to proceed
+			if( is_array($allowed_content_types) )
+			{
+				if( ! in_array($mime_type, $allowed_content_types) )
+				{
+					echo self::build_response_json(false, true, SEFILES_DISALLOWED_FILETYPE, 'Files of type ' . $mime_type . ' not allowed.');
+					exit;
+				}
+			}
 
 			$handle   = $tmp_name; // Set the full path of the uploaded file to use in setSource
 			$filename = File::cleanFilename($filename); // Clean Filename
@@ -498,6 +510,7 @@ class Hooks_s3files extends Hooks
 					->files()
 					->in($path)
 					->name($filename)
+					->depth('== 0')
 					->count()
 		;
 
