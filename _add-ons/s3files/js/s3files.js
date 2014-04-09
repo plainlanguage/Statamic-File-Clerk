@@ -357,16 +357,20 @@ $(function () {
 	var dateFromString = function(str){
 		var pattern = "^(\\d{1,2})\\/(\\d{1,2})\\/(\\d{2,4})\\s*(\\d{1,2}):(\\d{1,2})\\s*(am|pm|AM|PM|Am|Pm)$";
 		var re = new RegExp(pattern);
-		var DateParts = re.exec(str).slice(1);
-		var Month = DateParts[0];
-		var Day = DateParts[1];
-		var Year = DateParts[2];
-		var Hour = DateParts[3];
-		var Minutes = DateParts[4];
-		var AMPM = DateParts[5];
-		var dateString = Month + ' ' + Day + ' ' + Year + ' ' + Hour + ':' + Minutes + ':' + '00 ' + AMPM;
 
-		return new Date(dateString);
+		if (re.test(str)) {
+			var dateParts = re.exec(str).slice(1);
+			var month = dateParts[0];
+			var day = dateParts[1];
+			var year = dateParts[2];
+			var hour = dateParts[3];
+			var minutes = dateParts[4];
+			var ampm = dateParts[5];
+			var dateString = month + ' ' + day + ' ' + year + ' ' + hour + ':' + minutes + ':' + '00 ' + ampm;
+			return new Date(dateString);
+		} else {
+			return false;
+		}
 	}
 
 	var fileSize = function (str) {
