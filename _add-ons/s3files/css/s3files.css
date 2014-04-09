@@ -1073,7 +1073,7 @@
   -moz-transition: all 0.2 ease-in-out;
   transition: all 0.2 ease-in-out;
 }
-.s3files .s3-add-file .view-list tr.is-highlighted {
+.s3files .s3-add-file .view-list tr.is-highlighted td {
   background-color: #8ab0bb;
 }
 .s3files .s3-add-file .view-list tr.is-highlighted td,
