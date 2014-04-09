@@ -210,9 +210,9 @@ class Hooks_s3files extends Hooks
 			$object = new Hooks_s3files();
 			$object->upload_file();
 			header('Content-Type: application/json');
-			ob_flush();
 			return true;
 			Log::info('Boom');
+			ob_flush();
 		}
 		else
 		{
@@ -236,6 +236,7 @@ class Hooks_s3files extends Hooks
 			// exit;
 		}
 
+		// Destination config parameter
 		$destination = Request::get('destination');
 		$destination = is_null($destination) ? 0 : $destination;
 
@@ -249,7 +250,8 @@ class Hooks_s3files extends Hooks
 		$bucket    = $this->config['bucket'];
 		$directory = $this->config['directory'];
 		$uri       = Request::get('uri');
-		$uri       = reset(explode('?', $uri));
+		$uri       = explode('?', $uri);
+		$uri       = reset($uri);
 		$url       = Url::tidy( 's3://' . join('/', array($bucket, $directory,$uri)) );
 
 		// Querystring for appending to all requests
