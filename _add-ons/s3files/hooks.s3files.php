@@ -250,7 +250,8 @@ class Hooks_s3files extends Hooks
 		$bucket    = $this->config['bucket'];
 		$directory = $this->config['directory'];
 		$uri       = Request::get('uri');
-		$uri       = reset(explode('?', $uri));
+		$uri       = explode('?', $uri);
+		$uri       = reset($uri);
 		$url       = Url::tidy( 's3://' . join('/', array($bucket, $directory,$uri)) );
 
 		// Querystring for appending to all requests
