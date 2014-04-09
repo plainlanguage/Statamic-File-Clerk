@@ -224,7 +224,7 @@ $(function () {
 			result_wrapper.toggleClass('is-visible is-hidden').addClass('animated fadeOut');
 			setTimeout(function() {
 				add_file.toggleClass('is-hidden is-visible').addClass('animated fadeIn');
-				fileWrapper.toggleClass('is-hidden is-visible').addClass('animated fadeIn'); // Show the upload button again
+				fileWrapper.removeClass('is-hidden').addClass('is-visible animated fadeIn'); // Show the upload button again
 			}, 300);
 		},
 
