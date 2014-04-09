@@ -7,9 +7,9 @@
 	</tr>
 	{{ elseif is_directory }}
 	<tr class="directory">
-		<td class="is-directory" scope="row" data-title="title" data-uri="{{ uri }}">{{ filename }}</td>
+		<td class="is-directory" scope="row" data-title="title" data-uri="{{ uri }}" data-destination="{{ destination }}">{{ filename }}</td>
 		<td data-title="Size">--</td>
-		<td data-title="Date Modified">{{ last_modified format="m/j/Y" }} <span class="time">{{ last_modified format="h:i A" }}</span></td>
+		<td data-title="Date Modified">--</td>
 	</tr>
 	{{ endif }}
 {{ /list }}
