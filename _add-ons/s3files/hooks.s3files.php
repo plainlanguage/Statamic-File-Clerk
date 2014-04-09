@@ -254,9 +254,6 @@ class Hooks_s3files extends Hooks
 		$uri       = reset($uri);
 		$url       = Url::tidy( 's3://' . join('/', array($bucket, $directory,$uri)) );
 
-		// Querystring for appending to all requests
-		$querystring = http_build_query( array('destination' => $destination) );
-
 		// Let's make sure we  have a valid URL before movin' on
 		if( Url::isValid( $url ) )
 		{
@@ -296,6 +293,7 @@ class Hooks_s3files extends Hooks
 					// File / directory attributes
 					$file_data = array(
 						'basename'      => $file->getBasename( '.' . $file->getExtension() ),
+						'destination'   => $destination,
 						'extension'     => $file->getExtension(),
 						'file'          => $file->getPathname(),
 						'filename'      => $file->getFilename(),
@@ -312,26 +310,23 @@ class Hooks_s3files extends Hooks
 					 */
 					if( $file->isFile() ) // Push to files array
 					{
-						$newuri = null;
+						$file_data['uri'] = null;
 					}
 					elseif( $file->isDir() ) // Push to directories array
 					{
 						if( is_null($uri) )
 						{
-							$newuri = Url::tidy( '/' . join('/', array($file_data['filename'])) );
+							$file_data['uri'] = Url::tidy( '/' . join('/', array($file_data['filename'])) );
 						}
 						else
 						{
-							$newuri = Url::tidy( '/' . join('/', array($uri,$file_data['filename'])) );
+							$file_data['uri'] = Url::tidy( '/' . join('/', array($uri,$file_data['filename'])) );
 						}
 					}
 					else // Keep on movin' on.
 					{
 						continue;
 					}
-
-					// Append querystring to URI
-					$file_data['uri'] = Url::tidy( $newuri . '/?' . $querystring );
 
 					// Push file data to a new array with the filename as the key for sorting.
 					$data['list'][$filename] = $file_data;
@@ -355,7 +350,8 @@ class Hooks_s3files extends Hooks
 		foreach ($data['crumbs'] as $key => $value) {
 			$path = explode('/', $uri, ($key + 1) - (count($data['crumbs'])));
 			$path = implode('/', $path);
-			$path = Url::tidy( $path . '/?' . $querystring );
+			//$path = Url::tidy( $path . '/?' . $querystring );
+			$path = Url::tidy( $path );
 			$data['crumbs'][$key] = array(
 				'name' => $value,
 				'path' => $path
