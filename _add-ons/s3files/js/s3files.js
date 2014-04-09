@@ -136,7 +136,7 @@ $(function () {
 								successfullUpload.val(data.data .fullpath); // Add full file path to hidden input
 								uploadSuccess.attr('href', data.data.fullpath);
 								add_file.toggleClass('is-visible is-hidden');
-								result_wrapper.toggleClass('is-hidden is-visible').addClass('animated fadeInUp');
+								result_wrapper.toggleClass('is-hidden is-visible').addClass('animated fadeIn');
 							}
 							// Upload failed
 							else if ( data.code === 200 )
@@ -214,14 +214,17 @@ $(function () {
 				result_wrapper = $this.closest('.s3files').find('.result'),
 				add_file = $this.closest('.s3files').find('.s3-add-file'),
 				successful_upload = $this.closest('.s3files').find('.result input.successful-upload'),
-				filename_display = $this.closest('.s3files').find('.result .filename-display');
+				filename_display = $this.closest('.s3files').find('.result .filename-display a'),
+				fileWrapper = $this.closest('.s3files').find('.file-wrapper')
+			;
 
 			event.preventDefault();
 			successful_upload.val(''); // Empty out hidden field w/ url
 			filename_display.html(''); // Empty display filename
-			result_wrapper.toggleClass('is-visible is-hidden');
+			result_wrapper.toggleClass('is-visible is-hidden').addClass('animated fadeOut');
 			setTimeout(function() {
-				add_file.toggleClass('is-hidden is-visible');
+				add_file.toggleClass('is-hidden is-visible').addClass('animated fadeIn');
+				fileWrapper.toggleClass('is-hidden is-visible').addClass('animated fadeIn'); // Show the upload button again
 			}, 300);
 		},
 

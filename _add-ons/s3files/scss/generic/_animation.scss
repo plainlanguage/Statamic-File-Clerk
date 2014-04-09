@@ -13,7 +13,7 @@
 .s3files {
 
 	.animated {
-		@include animation-duration(1s);
+		@include animation-duration(.5s);
 		@include animation-fill-mode( both );
 	}
 
@@ -22,7 +22,6 @@
 		@include transform(translate3d(0,0,0));
 		//@include backface-visibility(hidden);
 		//@include perspective(1000);
-		@include transition( all 0.3s ease-out );
 		max-height: 0;
 		visibility: hidden;
 		opacity: 0;
