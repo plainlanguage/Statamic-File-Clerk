@@ -254,9 +254,6 @@ class Hooks_s3files extends Hooks
 		$uri       = reset($uri);
 		$url       = Url::tidy( 's3://' . join('/', array($bucket, $directory,$uri)) );
 
-		var_dump($url);
-		exit;
-
 		// Let's make sure we  have a valid URL before movin' on
 		if( Url::isValid( $url ) )
 		{
