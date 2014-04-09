@@ -12,13 +12,18 @@
 
 .s3files {
 
+	.animated {
+		@include animation-duration(1s);
+		@include animation-fill-mode( both );
+	}
+
 	// Hi, I am hidden
 	.is-hidden {
-		@include transition(all .25s ease-out);
 		@include transform(translate3d(0,0,0));
-		@include backface-visibility(hidden);
-		@include perspective(1000);
-		height: 0;
+		//@include backface-visibility(hidden);
+		//@include perspective(1000);
+		@include transition( all 0.3s ease-out );
+		max-height: 0;
 		visibility: hidden;
 		opacity: 0;
 		overflow: hidden;
@@ -26,10 +31,10 @@
 
 	// Hi, I am visible
 	.is-visible {
-		@include transition(all .25s ease-out);
 		@include transform(translate3d(0,0,0));
-		@include backface-visibility(hidden);
-		@include perspective(1000);
+		//@include backface-visibility(hidden);
+		//@include perspective(1000);
+		max-height: auto;
 		visibility: visible;
 		opacity: 1.0;
 		overflow: auto;

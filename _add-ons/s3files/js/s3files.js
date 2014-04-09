@@ -120,8 +120,8 @@ $(function () {
 						processData: false, // Don't process the files
 						contentType: false, // Set content type to false as jQuery will tell the server it's a query string request
 						beforeSend: function(data) {
-							fileWrapper.addClass('is-hidden'); // Hide file inputs
-							progressWrapper.removeClass('is-hidden'); // Show progress
+							fileWrapper.removeClass('is-visible').addClass('is-hidden animated fadeOut'); // Hide file inputs
+							progressWrapper.toggleClass('is-hidden is-visible').addClass('animated fadeIn'); // Show progress
 						},
 						success: function(data, textStatus, jqXHR)
 						{
@@ -136,9 +136,7 @@ $(function () {
 								successfullUpload.val(data.data .fullpath); // Add full file path to hidden input
 								uploadSuccess.attr('href', data.data.fullpath);
 								add_file.toggleClass('is-visible is-hidden');
-								setTimeout(function() {
-									result_wrapper.toggleClass('is-hidden is-visible');
-								}, 300);
+								result_wrapper.toggleClass('is-hidden is-visible').addClass('animated fadeInUp');
 							}
 							// Upload failed
 							else if ( data.code === 200 )
@@ -149,8 +147,8 @@ $(function () {
 							else if ( data.code === 300 )
 							{
 								console.log(data.message);
-								uploadError.toggleClass('is-hidden is-visible').html(data.html); // Add is-visible class and show JSON html
-								progressWrapper.toggleClass('is-visible is-hidden'); // Hide Progress Bar since there is an error
+								uploadError.toggleClass('is-hidden is-visible').addClass('animated fadeInUp').html(data.html); // Add is-visible class and show JSON html
+								progressWrapper.toggleClass('is-visible is-hidden').addClass('animated fadeOut'); // Hide Progress Bar since there is an error
 
 								$this.closest('.s3files').find('.upload-error .error-exists a').on('click', function(event) {
 
@@ -160,18 +158,20 @@ $(function () {
 									if (actionAttr === 'replace') {
 										console.log('Replace');
 										tryUpload(true);
+										uploadError.toggleClass('is-visible is-hidden').addClass('animated fadeOut'); // Hide error holder
 									}
 									// Clicked Keep Both
 									if (actionAttr === 'keep-both') {
 										console.log('Keep Both');
 										tryUpload(false);
+										uploadError.toggleClass('is-visible is-hidden').addClass('animated fadeOut'); // Hide error holder
 									}
 									// Clicked Cancel
 									if (actionAttr === 'cancel') {
 										console.log('Cancel');
 										//errorExists.remove(); // Remove error
-										uploadError.toggleClass('is-visible is-hidden'); // Hide error holder
-										fileWrapper.toggleClass('is-hidden is-visible'); // Bring back the upload buttton
+										uploadError.toggleClass('is-visible is-hidden').addClass('animated fadeOut'); // Hide error holder
+										fileWrapper.toggleClass('is-hidden is-visible').addClass('animated fadeIn'); // Bring back the upload buttton
 									}
 
 									event.preventDefault();

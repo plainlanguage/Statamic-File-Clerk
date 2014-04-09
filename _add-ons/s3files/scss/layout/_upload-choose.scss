@@ -126,11 +126,7 @@ $control-bar-element-border-radius: em(5);
 	.action-bar {
 		background-color: $color-white;
 		@include background-image(linear-gradient( $color-white, $color-tan-light ));
-		border: {
-			right: $border-default;
-			bottom: $border-default;
-			left: $border-default;
-		}
+		border: $border-default;
 		padding: em(8);
 		text-align: right;
 	}
@@ -148,9 +144,9 @@ $control-bar-element-border-radius: em(5);
 	// Upload Tab
 	// ----------------------------------------------------
 
-	// Choose File
 	.choose-file {
-		padding: em(15) 0;
+		min-height: 85px;
+		padding: 0;
 	}
 
 	// File Wrapper -- http://viget.com/inspire/custom-file-inputs-with-a-bit-of-jquery
@@ -158,6 +154,7 @@ $control-bar-element-border-radius: em(5);
 		cursor: pointer;
 		display: inline-block;
 		overflow: hidden;
+		padding: em(25) 0 0 0;
 		position: relative;
 
 		input {
@@ -170,6 +167,10 @@ $control-bar-element-border-radius: em(5);
 			filter: alpha(opacity=1); // IE
 			opacity: 0.01;
 		}
+	}
+
+	.progress-bar {
+		padding: em(20) em(10) 0 em(10);
 	}
 
 	// Successfull Upload
@@ -268,6 +269,7 @@ $control-bar-element-border-radius: em(5);
 	.view-list {
 		border: $border-default;
 		height: em(270);
+		margin-bottom: -1px;
 		overflow-y: scroll;
 		text-align: left;
 		z-index: 1;
@@ -372,16 +374,26 @@ $control-bar-element-border-radius: em(5);
 	}
 
 	// Errors
-
 	.error-exists {
+		 background-color: lighten( $color-tan-light, 3 );
+		 border: $border-default;
+		 border-radius: 4px;
+		 box-shadow: 0 1px 2px rgba( $color-black, 0.2 );
+		 padding: em(25) em(15);
 
 		ul {
 			@include clearfix;
 			list-style-type: none;
+			margin: 0;
+			padding: em(8) 0;
 			text-align: center;
 
 			li {
 				display: inline-block;
+
+				a {
+					width: em(120);
+				}
 			}
 		}
 	}
