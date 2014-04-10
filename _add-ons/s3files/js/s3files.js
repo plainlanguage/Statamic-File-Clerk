@@ -180,6 +180,27 @@ $(function () {
 									event.preventDefault();
 								});
 							}
+							// Disallowed Filetype
+							else if ( data.code === 700 ) {
+								console.log(data.message);
+								uploadError.toggleClass('is-hidden is-visible').addClass('animated fadeInUp').html(data.html); // Add is-visible class and show JSON html
+								progressWrapper.toggleClass('is-visible is-hidden').addClass('animated fadeOut'); // Hide Progress Bar since there is an error
+
+								$this.closest('.s3files').find('.upload-error .error-not-allowed a').on('click', function(event) {
+
+									var actionAttr = $(this).attr('data-action');
+
+									// Clicked Cancel
+									if (actionAttr === 'cancel') {
+										console.log('Cancel');
+										//errorExists.remove(); // Remove error
+										uploadError.toggleClass('is-visible is-hidden').addClass('animated fadeOut'); // Hide error holder
+										fileWrapper.toggleClass('is-hidden is-visible').addClass('animated fadeIn'); // Bring back the upload buttton
+									}
+
+									event.preventDefault();
+								});
+							}
 							else
 							{
 								// Handle errors here

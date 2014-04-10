@@ -644,7 +644,7 @@
   background-image: -webkit-linear-gradient( #6094a3, #568694);
   background-image: linear-gradient( #6094a3, #568694);
 }
-.button.button-blue[disabled] {
+.button.button-blue:disabled {
   background: #f4f4f0;
   background-image: none;
   border-bottom-color: #d4d4c4;
@@ -882,7 +882,6 @@
 .s3files .s3-add-file .file-wrapper {
   cursor: pointer;
   display: inline-block;
-  overflow: hidden;
   padding: 1.5625em 0 0 0;
   position: relative;
 }
@@ -1118,30 +1117,53 @@
   line-height: 90%;
   white-space: nowrap;
 }
-.s3files .s3-add-file .error-exists {
+.s3files .s3-add-file .error-message {
   background-color: #fafaf9;
   border: 1px solid #d7d7ca;
   border-radius: 4px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   padding: 1.5625em 0.9375em;
 }
-.s3files .s3-add-file .error-exists ul {
+.s3files .s3-add-file .error-message ul {
   *zoom: 1;
   list-style-type: none;
   margin: 0;
-  padding: 0.5em 0;
+  padding: 0.9375em 0;
   text-align: center;
 }
-.s3files .s3-add-file .error-exists ul:before, .s3files .s3-add-file .error-exists ul:after {
+.s3files .s3-add-file .error-message ul:before, .s3files .s3-add-file .error-message ul:after {
   content: " ";
   display: table;
 }
-.s3files .s3-add-file .error-exists ul:after {
+.s3files .s3-add-file .error-message ul:after {
   clear: both;
 }
-.s3files .s3-add-file .error-exists ul li {
+.s3files .s3-add-file .error-message ul li {
   display: inline-block;
 }
-.s3files .s3-add-file .error-exists ul li a {
+.s3files .s3-add-file .error-message ul li a {
   width: 7.5em;
+}
+.s3files .s3-add-file .error-message .cancel {
+  -webkit-transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+  background: url("../assets/build/img/icon-cancel.png") 0 center no-repeat;
+  color: #bbbbba;
+  font-size: 0.9375em;
+  font-weight: 600;
+  padding-left: 16px;
+  text-transform: uppercase;
+}
+@media only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen and (min--moz-device-pixel-ratio: 1.3), only screen and (-o-min-device-pixel-ratio: 1.3 / 1), only screen and (min-resolution: 125dpi), only screen and (min-resolution: 1.3dppx) {
+  .s3files .s3-add-file .error-message .cancel {
+    background: url("../assets/build/img/icon-cancel@2x.png") 0 center no-repeat;
+    background-size: 14px auto;
+  }
+}
+.s3files .s3-add-file .error-message .cancel:hover {
+  color: #999999;
+}
+.s3files .s3-add-file .error-message .btn {
+  float: none;
 }

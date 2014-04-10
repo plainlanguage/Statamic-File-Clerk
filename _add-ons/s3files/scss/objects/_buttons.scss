@@ -41,7 +41,7 @@
 			@include background-image(linear-gradient( darken( $color-blue-light, 13 ), darken( $color-blue, 13 )));
 		}
 
-		&[disabled] {
+		&:disabled {
 			background: $color-tan-light;
 			background-image: none;
 			border: {
