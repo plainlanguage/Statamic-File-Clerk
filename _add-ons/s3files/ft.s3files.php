@@ -85,49 +85,35 @@ class Fieldtype_s3files extends Fieldtype {
 		// Parse the template with data
 		return Parse::template($ft_template, $data);
 
-
-		// $html = "<div class='s3files file-field-container'>";
-		// 	$html .= "<input class='postUrl' name='postUrl' type='hidden' value='{$attributes['action']}'>";
-		// 	if ($this->field_data)
-		// 	{
-		// 	$html .= "<div class='result is-visible'>";
-		// 		$html .= "<p><span class='filename-display'>".basename($attributes['value'])."</span></p>";
-		// 		$html .= "<a class='btn btn-small btn-remove' href='#'>Remove</a>";
-		// 		$html .= "<input class='successful-upload' name='{$attributes['name']}' type='hidden' value='{$attributes['value']}'>";
-		// 	$html .= "</div>";
-		// 	}
-		// 	else
-		// 	{
-		// 	$html .= "<div class='fileinput'>";
-		// 		$html .= "<p><input class='file-upload' id='s3files-upload-{$attributes['id']}' type='file' name='files' tabindex='{$this->tabindex}'></p>";
-		// 		$html .= "<button class='btn-upload btn btn-small is-hidden'>Upload</button>";
-		// 	$html .= "</div>";
-		// 	$html .= "<div class='progress is-hidden'>";
-		// 		$html .= "<div class='progress-filename clearfix'>";
-		// 			$html .= "<p>Uploading&hellip;</p>";
-		// 		$html .= "</div>";
-		// 		$html .= "<div class='progress-bar clearfix'>";
-		// 			$html .= "<progress class='uploading' value='0' min='0' max='100'></progress>";
-		// 			$html .= "<div class='prc'></div>";
-		// 		$html .= "</div>";
-		// 	$html .= "</div>";
-		// 	$html .= "<div class='result'>";
-		// 		$html .= "<input type='hidden' class='successful-upload' id='{$attributes['name']}' name='{$attributes['name']}' type='text' value=''>";
-		// 	$html .= "</div>";
-		// 	}
-
-		// $html .= "</div>";
-
-		// return $html;
-
 	}
 
 	public static function get_field_settings() {
 		return self::$field_settings;
 	}
 
+	/**
+	 * Process the field data
+	 * @return void
+	 */
 	function process() {
-		return trim($this->field_data);
+
+		if( is_array($this->field_data) )
+		{
+			foreach( $this->field_data as $key => $value )
+			{
+				if( $value == 'filename' )
+				{
+					trim( $this->field_data->$column );
+				}
+			}
+		}
+
+		// Field needs to be stored as a zero-index array.
+		// $field_data = array();
+		// array_push($field_data, $this->field_data);
+		// $this->field_data = $field_data;
+		
+		return $this->field_data;
 	}
 
 }

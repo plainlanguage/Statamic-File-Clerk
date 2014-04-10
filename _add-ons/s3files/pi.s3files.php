@@ -21,70 +21,14 @@ class Plugin_s3files extends Plugin
 
 	public function index()
 	{
-
-		/*
-		|--------------------------------------------------------------------------
-		| Get the URL
-		|--------------------------------------------------------------------------
-		|
-		| Tag ex: {{ s3files url="{{fieldname}}" }}
-		|
-		*/
-
-		$s3_url = $this->fetchParam('url', null, false, false, false);
-
-		/*
-		|--------------------------------------------------------------------------
-		| Check for URL
-		|--------------------------------------------------------------------------
-		|
-		|
-		*/
-
-		// Check to make sure the string is a URL and also if it exists. If it's not, log it.
-		if( ! Url::isValid($s3_url) || $this->curl_get_file_size($s3_url) <= "1" ) {
-
-			Log::error("Could not find the requested URL: " . $s3_url, "core", "S3 Files");
-
-			return;
-		}
-
-		/*
-		|--------------------------------------------------------------------------
-		| Assemble Array
-		|--------------------------------------------------------------------------
-		|
-		| Make that array, son.
-		|
-		*/
-
-		$size = $this->curl_get_file_size($s3_url);
-
-		$file_info = array(
-			'extension' => pathinfo($s3_url, PATHINFO_EXTENSION),
-			'filename' => basename($s3_url),
-			'size' => File::getHumanSize($size),
-			'size_kilobytes' => number_format($size / 1024, 2),
-			'size_megabytes' => number_format($size / 1048576, 2),
-			'size_gigabytes' => number_format($size / 1073741824, 2),
-		);
-
-		/*
-		|--------------------------------------------------------------------------
-		| Return
-		|--------------------------------------------------------------------------
-		|
-		|
-		*/
-
-		return Parse::contextualTemplate($this->content, $file_info);
-
+		self::get_field();
+		return self::get('url');
 	}
 
 	public function url()
 	{
 		self::get_field();
-		return self::get('url');
+		return trim( self::get('url') );
 	}
 
 	/**
@@ -211,6 +155,11 @@ class Plugin_s3files extends Plugin
 
 	}
 
+	/**
+	 * Get filesize via cURL
+	 * @param  (string) $url Absolute URL for file.
+	 * @return (int)      Filezize
+	 */
 	private function curl_get_file_size( $url )
 	{
 		$ch = curl_init($url);

@@ -77,7 +77,12 @@ $(function () {
 				successfullUpload = $this.closest('.s3files').find('.result input.successful-upload'),
 				result_wrapper = $this.closest('.s3files').find('.result'),
 				add_file = $this.closest('.s3files').find('.s3-add-file'),
-				uploadError = $this.closest('.s3files').find('.upload-error')
+				uploadError = $this.closest('.s3files').find('.upload-error'),
+				// Set some hidden inputs up in this thang.
+				hiddenUrl = $this.closest('.s3files').find('.result input.hidden-url'),
+				hiddenFilename = $this.closest('.s3files').find('.result input.hidden-filename'),
+				hiddenExtension = $this.closest('.s3files').find('.result input.hidden-extension'),
+				hiddenSize = $this.closest('.s3files').find('.result input.hidden-size')
 			;
 
 			// Do we have a file to work with?
@@ -140,6 +145,10 @@ $(function () {
 								uploadSuccess.attr('href', data.data.fullpath);
 								add_file.toggleClass('is-visible is-hidden');
 								result_wrapper.toggleClass('is-hidden is-visible').addClass('animated fadeIn');
+								hiddenUrl.val(data.data.fullpath);
+								hiddenFilename.val(data.data.filename);
+								hiddenExtension.val(data.data.filetype);
+								hiddenSize.val(data.data.filesize);
 							}
 							// Upload failed
 							else if ( data.code === 200 )
