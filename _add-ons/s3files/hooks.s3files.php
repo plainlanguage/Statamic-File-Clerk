@@ -100,9 +100,20 @@ class Hooks_s3files extends Hooks
 			// Need an array of content types to proceed
 			if( is_array($allowed_content_types) )
 			{
+
+				$file_not_allowed_template = File::get( __DIR__ . '/views/error-not-allowed.html');
+
 				if( ! in_array($mime_type, $allowed_content_types) )
 				{
-					echo self::build_response_json(false, true, S3FILES_DISALLOWED_FILETYPE, 'Files of type ' . $mime_type . ' not allowed.');
+					//echo self::build_response_json(false, true, S3FILES_DISALLOWED_FILETYPE, 'Files of type ' . $mime_type . ' not allowed.');
+					echo json_encode( array(
+						'error'	=> TRUE,
+						'type'	=> 'dialog',
+						'code'	=> S3FILES_DISALLOWED_FILETYPE,
+						'html'	=> Parse::template( $file_not_allowed_template, array(
+							'mime_type' => $mime_type,
+						)),
+					));
 					exit;
 				}
 			}
