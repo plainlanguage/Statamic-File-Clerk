@@ -41,18 +41,18 @@
 							{{ if directories }}
 							{{ directories }}
 							<tr class="directory">
-								<td class="is-directory" scope="row" data-title="title">{{ filename }}</td>
-								<td data-title="Size">--</td>
-								<td data-title="Date Modified">{{ last_modified format="m/j/Y" }} <span class="time">{{ last_modified format="h:i A" }}</span></td>
+								<td class="is-directory" scope="row">{{ filename }}</td>
+								<td>--</td>
+								<td>{{ last_modified format="m/j/Y" }} <span class="time">{{ last_modified format="h:i A" }}</span></td>
 							</tr>
 							{{ /directories }}
 							{{ endif }}
 							{{ if files }}
 							{{ files }}
-							<tr class="file">
-								<td class="is-file" scope="row" data-title="title"><a href="{{ url }}" target="_blank">{{ filename }}</a></td>
-								<td data-title="Size">{{ size }}</td>
-								<td data-title="Date Modified">{{ last_modified format="m/j/Y" }} <span class="time">{{ last_modified format="h:i A" }}</span></td>
+							<tr class="file" data-file="{{ file }}">
+								<td class="is-file" scope="row"><a href="{{ url }}" target="_blank">{{ filename }}</a></td>
+								<td>{{ size }}</td>
+								<td>{{ last_modified format="m/j/Y" }} <span class="time">{{ last_modified format="h:i A" }}</span></td>
 							</tr>
 							{{ /files }}
 							{{ endif }}

@@ -33,7 +33,7 @@ $(function () {
 			// Choose existing file
 			$('body').on( 'click', '.load_existing', this.loadExisting );
 
-			// Choose existing file
+			// Open directory
 			$('body').on( 'doubletap', '.is-directory', this.loadExisting );
 
 			// Breadcrumb
@@ -41,6 +41,9 @@ $(function () {
 
 			// Highlight Row
 			$('body').on( 'tap', '.view-list td', this.highlightRow );
+
+			// Select file
+			$('body').on( 'click', '[data-action="select_file"]', this.selectFile );
 
 			// File Exists Options
 			//$('body').on( 'click', '.error-exists a', this.fileExists );
@@ -309,6 +312,30 @@ $(function () {
 			} else {
 				selectBtn.prop( "disabled", true );
 			}
+
+		},
+
+		selectFile: function( event ) {
+
+			event.preventDefault();
+
+			var $this = $(this),
+				fullPath = $this.closest('.view-remote').find('.view-list table tr.file.is-highlighted').data('file'),
+				filename = $this.closest('.view-remote').find('.view-list table tr.file.is-highlighted td.is-file').html(),
+				uploadSuccess = $this.closest('.s3files').find('.result .filename-display a'),
+				successfullUpload = $this.closest('.s3files').find('.result input.successful-upload'),
+				result_wrapper = $this.closest('.s3files').find('.result'),
+				addFile = $this.closest('.s3files').find('.s3-add-file'),
+				uploadError = $this.closest('.s3files').find('.upload-error')
+			;
+
+			uploadSuccess.append(filename); // Show filename on successful upload
+			successfullUpload.val(fullPath); // Add full file path to hidden input
+			uploadSuccess.attr('href', fullPath);
+			addFile.toggleClass('is-visible is-hidden');
+			result_wrapper.toggleClass('is-hidden is-visible').addClass('animated fadeIn');
+
+			console.log(filename + ' selected');
 
 		},
 
