@@ -610,6 +610,7 @@
   border: none;
   border-radius: 4px;
   display: inline-block;
+  font-family: 'Open Sans', sans-serif;
   font-size: 1em;
   font-weight: 500;
   line-height: 1.75em;
@@ -646,7 +647,10 @@
 .button.button-blue[disabled] {
   background: #f4f4f0;
   background-image: none;
+  border-bottom-color: #d4d4c4;
   box-shadow: none;
+  color: #c5c5b3;
+  text-shadow: none;
 }
 .button.button-light {
   background-color: white;

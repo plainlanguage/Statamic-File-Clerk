@@ -3,6 +3,7 @@
 	border-radius: 4px;
 	display: inline-block;
 	font: {
+		family: 'Open Sans', sans-serif;
 		size: em(16);
 		weight: 500;
 	}
@@ -43,7 +44,12 @@
 		&[disabled] {
 			background: $color-tan-light;
 			background-image: none;
+			border: {
+				bottom-color: darken( $color-tan-light, 15 );
+			}
 			box-shadow: none;
+			color: darken( $color-tan-mid, 8 );
+			text-shadow: none;
 		}
 	}
 
