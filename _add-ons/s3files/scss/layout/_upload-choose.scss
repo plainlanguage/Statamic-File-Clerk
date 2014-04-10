@@ -153,7 +153,6 @@ $control-bar-element-border-radius: em(5);
 	.file-wrapper {
 		cursor: pointer;
 		display: inline-block;
-		overflow: hidden;
 		padding: em(25) 0 0 0;
 		position: relative;
 
@@ -403,7 +402,7 @@ $control-bar-element-border-radius: em(5);
 			@include clearfix;
 			list-style-type: none;
 			margin: 0;
-			padding: em(8) 0;
+			padding: em(15) 0;
 			text-align: center;
 
 			li {
@@ -412,6 +411,22 @@ $control-bar-element-border-radius: em(5);
 				a {
 					width: em(120);
 				}
+			}
+		}
+
+		.cancel {
+			@include transition( all 0.2s ease-in-out );
+			@include bg-img(icon-cancel, png, 14px, 0, center);
+			color: $color-gray-lighter;
+			font: {
+				size: em(15);
+				weight: 600;
+			}
+			padding-left: 16px;
+			text-transform: uppercase;
+
+			&:hover {
+				color: $color-gray-light;
 			}
 		}
 	}
