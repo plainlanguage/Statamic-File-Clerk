@@ -13,5 +13,6 @@
 	"devel": true,
 	"browser": true,
 	"node": true,
-	"jquery": true
+	"jquery": true,
+	"asi": true
 }

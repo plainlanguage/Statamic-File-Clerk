@@ -11,10 +11,10 @@ custom_domain:
 bucket:
 
 # The folder/path to upload the file. Leave empty if uploading into bucket root.
-folder:
+directory:
 
 # Define the file types that can be uploaded. [array] Not required.
-content_type:
+content_types:
 
 # Access for the uploaded file. Required.
 # Options include:

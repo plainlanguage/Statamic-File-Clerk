@@ -2,7 +2,7 @@ module.exports = {
 
 	scripts: {
 		files: ['_add-ons/s3files/js/*.js', '!_add-ons/s3files/js/plugins/*.js', '!_add-ons/s3files/js/vendor/*.js'],
-		tasks: ['newer:bake', 'newer:concat', 'uglify', 'newer:jshint', 'notify:scripts'],
+		tasks: ['newer:bake', 'newer:uglify', 'newer:jshint', 'notify:scripts'],
 		options: {
 			spawn: false,
 			livereload: false

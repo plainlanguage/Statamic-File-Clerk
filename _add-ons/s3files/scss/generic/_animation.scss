@@ -1,0 +1,53 @@
+//   $$$$$$\            $$\                          $$\     $$\
+//  $$  __$$\           \__|                         $$ |    \__|
+//  $$ /  $$ |$$$$$$$\  $$\ $$$$$$\$$$$\   $$$$$$\ $$$$$$\   $$\  $$$$$$\  $$$$$$$\
+//  $$$$$$$$ |$$  __$$\ $$ |$$  _$$  _$$\  \____$$\\_$$  _|  $$ |$$  __$$\ $$  __$$\
+//  $$  __$$ |$$ |  $$ |$$ |$$ / $$ / $$ | $$$$$$$ | $$ |    $$ |$$ /  $$ |$$ |  $$ |
+//  $$ |  $$ |$$ |  $$ |$$ |$$ | $$ | $$ |$$  __$$ | $$ |$$\ $$ |$$ |  $$ |$$ |  $$ |
+//  $$ |  $$ |$$ |  $$ |$$ |$$ | $$ | $$ |\$$$$$$$ | \$$$$  |$$ |\$$$$$$  |$$ |  $$ |
+//  \__|  \__|\__|  \__|\__|\__| \__| \__| \_______|  \____/ \__| \______/ \__|  \__|
+//
+//
+//
+
+.s3files {
+
+	.animated {
+		@include animation-duration(.5s);
+		@include animation-fill-mode( both );
+	}
+
+	// Hi, I am hidden
+	.is-hidden {
+		@include transform(translate3d(0,0,0));
+		//@include backface-visibility(hidden);
+		//@include perspective(1000);
+		max-height: 0;
+		visibility: hidden;
+		opacity: 0;
+		overflow: hidden;
+	}
+
+	// Hi, I am visible
+	.is-visible {
+		@include transform(translate3d(0,0,0));
+		//@include backface-visibility(hidden);
+		//@include perspective(1000);
+		max-height: auto;
+		visibility: visible;
+		opacity: 1.0;
+		overflow: auto;
+	}
+
+	.fade {
+		opacity: 0;
+		@include transition(opacity .1s linear);
+		@include transform(translate3d(0,0,0));
+		@include backface-visibility(hidden);
+		@include perspective(1000);
+		&.in {
+			opacity: 1;
+		}
+	}
+
+}

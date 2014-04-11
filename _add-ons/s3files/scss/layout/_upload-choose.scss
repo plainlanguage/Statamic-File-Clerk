@@ -1,0 +1,437 @@
+//  $$\   $$\           $$\                           $$\       $$\  $$$$$$\  $$\
+//  $$ |  $$ |          $$ |                          $$ |     $$  |$$  __$$\ $$ |
+//  $$ |  $$ | $$$$$$\  $$ | $$$$$$\   $$$$$$\   $$$$$$$ |    $$  / $$ /  \__|$$$$$$$\   $$$$$$\   $$$$$$\   $$$$$$$\  $$$$$$\
+//  $$ |  $$ |$$  __$$\ $$ |$$  __$$\  \____$$\ $$  __$$ |   $$  /  $$ |      $$  __$$\ $$  __$$\ $$  __$$\ $$  _____|$$  __$$\
+//  $$ |  $$ |$$ /  $$ |$$ |$$ /  $$ | $$$$$$$ |$$ /  $$ |  $$  /   $$ |      $$ |  $$ |$$ /  $$ |$$ /  $$ |\$$$$$$\  $$$$$$$$ |
+//  $$ |  $$ |$$ |  $$ |$$ |$$ |  $$ |$$  __$$ |$$ |  $$ | $$  /    $$ |  $$\ $$ |  $$ |$$ |  $$ |$$ |  $$ | \____$$\ $$   ____|
+//  \$$$$$$  |$$$$$$$  |$$ |\$$$$$$  |\$$$$$$$ |\$$$$$$$ |$$  /     \$$$$$$  |$$ |  $$ |\$$$$$$  |\$$$$$$  |$$$$$$$  |\$$$$$$$\
+//   \______/ $$  ____/ \__| \______/  \_______| \_______|\__/       \______/ \__|  \__| \______/  \______/ \_______/  \_______|
+//            $$ |
+//            $$ |
+//            \__|
+// The Tabbed Upload/Choose interface
+
+// ---------------------------------------------------------------------------------
+// Default Variables
+// ---------------------------------------------------------------------------------
+$border-default: 1px solid $color-tan-mid; // Default Border for elements
+$control-bar-element-size: 32; // Used for element sizes. Height for .directory-nav and .option-file-view a
+$control-bar-element-border-radius: em(5);
+
+.s3files {
+	min-height: 52px; // Set this so when hiding/showing elements, it doesn't have a weird 'ugh'
+
+	.filename-display {
+		@include bg-img(icon-success, png, 23px, 0, center, no-repeat);
+		padding-left: 30px;
+
+		a {
+			color: $color-gray-dark;
+		}
+	}
+}
+
+.s3files .s3-add-file {
+	@include box-sizing( border-box );
+	clear: both;
+	padding: em(15);
+
+	&.is-hidden {
+		max-height: 0;
+		padding: 0;
+	}
+
+	p {
+		float: none;
+	}
+
+	// Tab Navigation
+	.tabs {
+		list-style-type: none;
+		padding: 0;
+		margin: 0;
+		position: relative;
+		text-align: center;
+		z-index: 1;
+
+		@include media($small) {
+			//overflow: hidden;
+		}
+
+		li {
+			border-top: $border-default;
+			display: inline-block;
+
+			@include media($small) {
+				width: 50%;
+			}
+
+			&.active {
+
+				a {
+					border-bottom: 1px solid $color-white;
+				}
+
+				a,
+				a:hover {
+					background-color: $color-white;
+					color: $color-gray-dark;
+				}
+			}
+
+			&:first-child.active a {
+				margin-right: -1px;
+			}
+
+			&:last-child.active a {
+				margin-left: -1px;
+			}
+
+			a {
+				@include transition( all 0.2s ease-in );
+				background-color: lighten( $color-tan-mid, 8 );
+				border: {
+					right: $border-default;
+					bottom: $border-default;
+					left: $border-default;
+				}
+				color: darken( $color-tan-mid, 35 );
+				display: block;
+
+				@include media($large) {
+					padding: em(8) em(18);
+					width: em(160);
+				}
+
+				@include media($medium) {
+					padding: em(8) em(18);
+					width: em(160);
+				}
+
+				@include media($small) {
+					font-size: 90%;
+					padding: em(8) em(5);
+				}
+
+				&:hover {
+					background-color: $color-tan-mid;
+				}
+			}
+		}
+
+
+	}
+
+	// ACTION bar
+	.action-bar {
+		background-color: $color-white;
+		@include background-image(linear-gradient( $color-white, $color-tan-light ));
+		border: $border-default;
+		padding: em(8);
+		text-align: right;
+	}
+
+	// The Content Area
+	.content {
+		background-color: $color-white;
+		border: $border-default;
+		margin-top: -1px;
+		padding: em(15);
+		text-align: center;
+	}
+
+	// ----------------------------------------------------
+	// Upload Tab
+	// ----------------------------------------------------
+
+	.choose-file {
+		min-height: 85px;
+		padding: 0;
+	}
+
+	// File Wrapper -- http://viget.com/inspire/custom-file-inputs-with-a-bit-of-jquery
+	.file-wrapper {
+		cursor: pointer;
+		display: inline-block;
+		padding: em(25) 0 0 0;
+		position: relative;
+
+		input {
+			cursor: pointer;
+			font-size: em(100);
+			height: 100%;
+			position: absolute;
+			right: 0;
+			top: 0;
+			filter: alpha(opacity=1); // IE
+			opacity: 0.01;
+		}
+	}
+
+	.progress-bar {
+		padding: em(20) em(10) 0 em(10);
+	}
+
+	// Successfull Upload
+	.upload-success {
+
+		span {
+			@include bg-img(icon-success, png, 23px, 0, center);
+			padding-left: 30px;
+		}
+	}
+
+	// ----------------------------------------------------
+	// Choose Existing
+	// ----------------------------------------------------
+	//
+
+	.view-remote {
+		position: relative;
+	}
+
+	// Breadcrumb Nav
+	.breadcrumb {
+		@include clearfix;
+		background-color: $color-white;
+		@include background-image(linear-gradient( $color-white, $color-tan-light ));
+		border: $border-default;
+		border-radius: 4px;
+		text-align: left;
+		margin: 0 0 em(15) 0;
+		padding: em(8) 0;
+		vertical-align: middle;
+
+		li {
+			$height: em(28);
+			display: block;
+			float: left;
+			font-size: 90%;
+			height: $height;
+			line-height: $height;
+			padding: 0;
+			position: relative;
+
+			&:after {
+				content: ' ';
+				@include bg-img(bg-breadcrumb-tip, png, 10px, em(0), center);
+				@include position( absolute, em(0) em(-13) 0 0 );
+				display: block;
+				width: em(18);
+				height: em(28);
+			}
+
+			&:last-child {
+
+				&:after {
+					width: 0;
+					height: 0;
+				}
+			}
+
+			// Current directory (not an href)
+			&.current {
+				margin-left: em(18);
+			}
+
+			&.root {
+
+				a {
+					@include image-replacement(16px, em(28));
+					@include bg-img(icon-breadcrumb-home, png, 16px, center, center, no-repeat);
+					@include transition( opacity 0.2s ease-in-out );
+
+					&:hover {
+						opacity: 0.7;
+					}
+				}
+			}
+		}
+
+		li a {
+			$height: em(28);
+			color: darken( $color-tan-mid, 40 );
+			display: block;
+			height: $height;
+			line-height: $height;
+			padding: 0 em(15);
+
+			&:hover {
+				color: darken( $color-tan-mid, 60 );
+			}
+		}
+	}
+
+	// Wrap for List (Table) View
+	.view-list {
+		border: $border-default;
+		height: em(270);
+		margin-bottom: -1px;
+		overflow-y: scroll;
+		text-align: left;
+		z-index: 1;
+		-webkit-overflow-scrolling: touch;
+
+		.ajax-spinner {
+			background-color: $color-black;
+			color: $color-gray-mid;
+			z-index: 500;
+		}
+
+		.ajax-overlay {
+			@include position( fixed, 0px 0 0 0px );
+			background-color: rgba( $color-white, 0.8 );
+			width: 100%;
+			height: 100%;
+			z-index: 2;
+		}
+
+		table {
+			width: 100%;
+		}
+
+		thead {
+			background-color: lighten( $color-tan-light, 2 );
+		}
+
+		th,
+		td {
+			border: 0;
+			vertical-align: middle;
+		}
+
+		th {
+			color: darken( $color-tan-mid, 25 );
+			font-size: 80%;
+			//font-weight: normal;
+			text-align: left;
+			padding: {
+				top: em(15);
+				right: em(8);
+				bottom: em(15);
+				left: em(8);
+			}
+
+			&.sorting-asc:after,
+			&.sorting-desc:after {
+				content: ' ';
+				display: inline-block;
+				margin-left: 5px;
+				width: 8px;
+				height: 4px;
+			}
+
+			&.sorting-asc:after {
+				@include bg-img(icon-arrow-ascending, png, 8px, 0, center, no-repeat);
+			}
+
+			&.sorting-desc:after {
+				@include bg-img(icon-arrow-descending, png, 8px, 0, center, no-repeat);
+			}
+		}
+
+		td {
+			padding: em(8);
+
+			a {
+				color: $color-gray-dark;
+			}
+		}
+
+		tr {
+			border-bottom: 1px solid lighten( $color-tan-mid, 12 );
+			@include transition( all 0.2 ease-in-out );
+
+			&.is-highlighted {
+
+				td {
+					background-color: $color-blue-light;
+				}
+
+				td,
+				.time {
+					color: $color-white;
+				}
+			}
+		}
+
+		.head-name {
+			width: 65%;
+		}
+
+		.head-size {
+			width: 15%;
+		}
+
+		.head-date {
+			width: 20%;
+		}
+
+		// Icons
+		.is-file,
+		.is-directory {
+			padding-left: em(35);
+		}
+
+		.is-directory {
+			@include bg-img(icon-view-list-directory, png, 18px, em(8), center);
+			//cursor: alias;
+		}
+
+		.is-file {
+			@include bg-img(icon-view-list-file, png, 13px, em(12), center);
+		}
+
+		span.time {
+			color: $color-gray;
+			font-size: 80%;
+			line-height: 90%;
+			white-space: nowrap;
+		}
+	}
+
+	// Errors
+	.error-message {
+		 background-color: lighten( $color-tan-light, 3 );
+		 border: $border-default;
+		 border-radius: 4px;
+		 box-shadow: 0 1px 2px rgba( $color-black, 0.2 );
+		 padding: em(25) em(15);
+
+		ul {
+			@include clearfix;
+			list-style-type: none;
+			margin: 0;
+			padding: em(15) 0;
+			text-align: center;
+
+			li {
+				display: inline-block;
+
+				a {
+					width: em(120);
+				}
+			}
+		}
+
+		.cancel {
+			@include transition( all 0.2s ease-in-out );
+			@include bg-img(icon-cancel, png, 14px, 0, center);
+			color: $color-gray-lighter;
+			font: {
+				size: em(15);
+				weight: 600;
+			}
+			padding-left: 16px;
+			text-transform: uppercase;
+
+			&:hover {
+				color: $color-gray-light;
+			}
+		}
+
+		.btn {
+			float:  none;
+		}
+	}
+}

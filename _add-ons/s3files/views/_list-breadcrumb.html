@@ -1,0 +1,12 @@
+<li class="root"><a href="#" data-destination="{{ destination }}">/</a></li>
+{{ if crumbs }}
+{{ crumbs }}
+{{ if name !== '' }}
+	{{ if ! last }}
+	<li><a href="#" data-uri="{{ path }}">{{ name }}</a></li>
+	{{ else }}
+	<li class="current">{{ name }}</li>
+	{{ endif }}
+{{ endif }}
+{{ /crumbs }}
+{{ endif }}

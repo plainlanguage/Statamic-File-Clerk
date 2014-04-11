@@ -20,3 +20,12 @@
 		}
 	}
 }());
+
+// Place any jQuery/helper plugins in here.
+<!--(bake plugins/tab.js)-->
+<!--(bake plugins/transition.js)-->
+<!--(bake plugins/spin.js)-->
+<!--(bake plugins/jquery.spin.js)-->
+<!--(bake plugins/jquery.finger.js)-->
+<!--(bake plugins/stupidtable.js)-->
+<!--(bake plugins/jquery.toggleattr.js)-->
