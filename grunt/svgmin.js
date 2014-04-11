@@ -9,9 +9,9 @@ module.exports = {
 	build: {
 		files: [{
 			expand: true,
-			cwd: '_add-ons/s3files/img/',
+			cwd: '_add-ons/fileclerk/img/',
 			src: ['**/*.svg'],
-			dest: '_add-ons/s3files/img/build/'
+			dest: '_add-ons/fileclerk/img/build/'
 		}]
 	}
 
