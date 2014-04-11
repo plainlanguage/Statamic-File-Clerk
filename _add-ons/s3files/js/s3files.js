@@ -352,15 +352,25 @@ $(function () {
 			var $this = $(this),
 				fullPath = $this.closest('.view-remote').find('.view-list table tr.file.is-highlighted').data('file'),
 				filename = $this.closest('.view-remote').find('.view-list table tr.file.is-highlighted td.is-file').html(),
+				extension = $this.closest('.view-remote').find('.view-list table tr.file.is-highlighted').data('extension'),
+				size = $this.closest('.view-remote').find('.view-list table tr.file.is-highlighted').data('size'),
 				uploadSuccess = $this.closest('.s3files').find('.result .filename-display a'),
 				successfullUpload = $this.closest('.s3files').find('.result input.successful-upload'),
 				result_wrapper = $this.closest('.s3files').find('.result'),
 				addFile = $this.closest('.s3files').find('.s3-add-file'),
-				uploadError = $this.closest('.s3files').find('.upload-error')
+				uploadError = $this.closest('.s3files').find('.upload-error'),
+				hiddenUrl = $this.closest('.s3files').find('.result input.hidden-url'),
+				hiddenFilename = $this.closest('.s3files').find('.result input.hidden-filename'),
+				hiddenExtension = $this.closest('.s3files').find('.result input.hidden-extension'),
+				hiddenSize = $this.closest('.s3files').find('.result input.hidden-size')
 			;
 
 			uploadSuccess.append(filename); // Show filename on successful upload
 			successfullUpload.val(fullPath); // Add full file path to hidden input
+			hiddenUrl.val(fullPath);
+			hiddenFilename.val(filename);
+			hiddenExtension.val(extension);
+			hiddenSize.val(size);
 			uploadSuccess.attr('href', fullPath);
 			addFile.toggleClass('is-visible is-hidden');
 			result_wrapper.toggleClass('is-hidden is-visible').addClass('animated fadeIn');
