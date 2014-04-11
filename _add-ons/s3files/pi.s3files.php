@@ -196,9 +196,9 @@ class Plugin_s3files extends Plugin
 		$data = array_get($this->context, $this->fieldname);
 
 		// Make sure it's an array and we have 1.
-		if( is_array($data) && count($data) === 1 )
+		if( is_array($data) && count($data === 1) )
 		{
-			$this->field = reset($data);
+			$this->field = reset( $data );
 		}
 	}
 

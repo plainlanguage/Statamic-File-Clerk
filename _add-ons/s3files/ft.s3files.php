@@ -16,22 +16,40 @@ class Fieldtype_s3files extends Fieldtype {
 	function render()
 	{
 
+		// Get the field settings
 		self::$field_settings = $this->field_config;
 
 		$field_settings = Fieldtype_s3files::get_field_settings();
 		$field_config   = array_get($field_settings, 'field_config', $field_settings);
 		$destination    = isset( $field_settings['destination'] ) ? $field_settings['destination'] : false;
 
-
-		// Set attributes as array
-		$attributes = array(
-			'action'      => Config::getSiteRoot() . 'TRIGGER/s3files/ajaxupload', // this is the file the AJAX needs to hit on POST. Created in hooks -> function s3files__ajaxupload
-			'destination' => $destination,
-			'id'          => $this->field_id,
-			'name'        => $this->fieldname,
-			'tabindex'    => $this->tabindex,
-			'value'       => $this->field_data,
+		// Field data
+		$data = array(
+			'action'         => Config::getSiteRoot() . 'TRIGGER/s3files/ajaxupload', // this is the file the AJAX needs to hit on POST. Created in hooks -> function s3files__ajaxupload
+			'basename_value' => null,
+			'destination'    => $destination,
+			'extension'      => null,
+			'field_data'     => $this->field_data,
+			'filename'       => null,
+			'id'             => $this->field_id,
+			'name'           => $this->fieldname,
+			'size'           => null,
+			'tabindex'       => $this->tabindex,
+			'value'          => $this->field_data,
+			'url'            => null,
 		);
+
+		// If field data is an array, it means we have an existing file
+		if( is_array($this->field_data) && isset($this->field_data[0]) )
+		{
+			$field_data = reset($this->field_data);
+
+			$data['basename_value'] = $field_data['filename'];
+			$data['extension']      = $field_data['extension'];
+			$data['filename']       = $field_data['filename'];
+			$data['size']           = $field_data['size'];
+			$data['url']            = $field_data['url'];
+		}
 
 		/**
 		 * If there is a destination parameter set in the field,
@@ -52,32 +70,8 @@ class Fieldtype_s3files extends Fieldtype {
 		}
 
 		// Set the action attribute
-		$attributes['action'] .= '?' . http_build_query($query_data);
+		$data['action'] .= '?' . http_build_query($query_data);
 
-		// print_r($attributes);
-
-		/**
-		 * @todo Use a parsed template to render field HTML.
-		 */
-		$data = array(
-			'action'         => $attributes['action'],
-			'basename_value' => basename($attributes['value']),
-			'destination'    => $destination,
-			'field_data'     => $this->field_data,
-			'id'             => $attributes['id'],
-			'name'           => $attributes['name'],
-			'tabindex'       => $this->tabindex,
-			'value'          => $attributes['value'],
-		);
-
-		// Get a file listing for the field
-		//$listing = Hooks_s3files::get_list();
-		$listing = array();
-
-		// Merge in with the existing data
-		$data = array_merge($data, $listing);
-
-		//dd($data);
 
 		// Get the view file
 		$ft_template = File::get( __DIR__ . '/views/ft.s3files.html');
@@ -108,11 +102,6 @@ class Fieldtype_s3files extends Fieldtype {
 			}
 		}
 
-		// Field needs to be stored as a zero-index array.
-		// $field_data = array();
-		// array_push($field_data, $this->field_data);
-		// $this->field_data = $field_data;
-		
 		return $this->field_data;
 	}
 

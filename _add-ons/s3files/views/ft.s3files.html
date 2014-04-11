@@ -70,9 +70,9 @@
 	<div class="result {{ if value }}is-visible{{ else }}is-hidden{{ endif }}">
 		<p><span class="filename-display"><a href="{{ value }}" rel="external">{{ basename_value }}</a></span></p><a class="btn btn-small btn-remove" href="#">Remove</a>
 		<input type="hidden" name="{{ name }}" id="{{ name }}" class="successful-upload" value="{{ value }}">
-		<input type="hidden" name="{{ name }}[0][url]" class="hidden-url" value="">
-		<input type="hidden" name="{{ name }}[0][filename]" class="hidden-filename" value="">
-		<input type="hidden" name="{{ name }}[0][extension]" class="hidden-extension" value="">
-		<input type="hidden" name="{{ name }}[0][size]" class="hidden-size" value="">
+		<input type="hidden" name="{{ name }}[0][url]" class="hidden-url" value="{{ url }}">
+		<input type="hidden" name="{{ name }}[0][filename]" class="hidden-filename" value="{{ filename }}">
+		<input type="hidden" name="{{ name }}[0][extension]" class="hidden-extension" value="{{ extension }}">
+		<input type="hidden" name="{{ name }}[0][size]" class="hidden-size" value="{{ size }}">
 	</div>
 </div>
