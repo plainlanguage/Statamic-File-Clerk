@@ -1,4 +1,4 @@
-s// The jQuery
+// The jQuery
 $(function () {
 
 	//  $$\   $$\           $$\                           $$\
@@ -247,12 +247,20 @@ $(function () {
 				result_wrapper = $this.closest('.fileclerk').find('.result'),
 				add_file = $this.closest('.fileclerk').find('.add-file'),
 				successful_upload = $this.closest('.fileclerk').find('.result input.successful-upload'),
+				hiddenUrl = $this.closest('.fileclerk').find('.result input.hidden-url'),
+				hiddenFilename = $this.closest('.fileclerk').find('.result input.hidden-filename'),
+				hiddenExtension = $this.closest('.fileclerk').find('.result input.hidden-extension'),
+				hiddenSize = $this.closest('.fileclerk').find('.result input.hidden-size'),
 				filename_display = $this.closest('.fileclerk').find('.result .filename-display a'),
 				fileWrapper = $this.closest('.fileclerk').find('.file-wrapper')
 			;
 
 			event.preventDefault();
 			successful_upload.val(''); // Empty out hidden field w/ url
+			hiddenUrl.val(''); // Empty out hidden field w/ url
+			hiddenFilename.val(''); // Empty out hidden field w/ url
+			hiddenExtension.val(''); // Empty out hidden field w/ url
+			hiddenSize.val(''); // Empty out hidden field w/ url
 			filename_display.html(''); // Empty display filename
 			result_wrapper.toggleClass('is-visible is-hidden').addClass('animated fadeOut');
 			setTimeout(function() {
@@ -270,8 +278,8 @@ $(function () {
 				listURL = '/TRIGGER/fileclerk/list' + ($(this).data('uri') ? '?uri=' + $(this).data('uri') : '') + ($(this).data('uri') ? '&' : '?') + ($(this).data('destination') ? 'destination=' + $(this).data('destination') : ''),
 				viewList = $this.closest('.add-file').find('.view-remote .view-list tbody'),
 				breadcrumb = $this.closest('.add-file').find('.view-remote .breadcrumb'),
-				ajaxSpinner = $this.closest('.add-file').find('.view-remote .view-list .ajax-spinner'),
-				ajaxOverlay = $this.closest('.add-file').find('.view-remote .view-list .ajax-overlay');
+				ajaxSpinner = $this.closest('.add-file').find('.view-remote .ajax-spinner'),
+				ajaxOverlay = $this.closest('.add-file').find('.view-remote .ajax-overlay');
 
 			// Load Existing files
 			$.ajax({
@@ -358,7 +366,7 @@ $(function () {
 				successfullUpload = $this.closest('.fileclerk').find('.result input.successful-upload'),
 				result_wrapper = $this.closest('.fileclerk').find('.result'),
 				addFile = $this.closest('.fileclerk').find('.add-file'),
-				uploadError = $this.closest('.fileclerk').find('.upload-error'),
+				//uploadError = $this.closest('.fileclerk').find('.upload-error'),
 				hiddenUrl = $this.closest('.fileclerk').find('.result input.hidden-url'),
 				hiddenFilename = $this.closest('.fileclerk').find('.result input.hidden-filename'),
 				hiddenExtension = $this.closest('.fileclerk').find('.result input.hidden-extension'),
