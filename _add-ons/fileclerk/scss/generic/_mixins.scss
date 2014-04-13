@@ -18,7 +18,12 @@
 	display: block;
 	height: $height;
 	overflow: hidden;
-	text-indent: 100%;
-	white-space: nowrap;
 	width: $width;
+
+	&:before {
+		content: "";
+		display: block;
+		width: 0;
+		height: 100%;
+	}
 }
