@@ -48,7 +48,8 @@ class Hooks_fileclerk extends Hooks
 		if (URL::getCurrent(false) == '/publish') {
 			$html = $this->js->link(array(
 				'build/fileclerk.plugins.min.js',
-				'build/fileclerk.min.js'
+				//'build/fileclerk.min.js'
+				'fileclerk.js'
 			));
 			return $html;
 		}
@@ -275,7 +276,7 @@ class Hooks_fileclerk extends Hooks
 		$uri       = Request::get('uri');
 		$uri       = explode('?', $uri);
 		$uri       = reset($uri);
-		$url       = Url::tidy( 's3://' . join('/', array($bucket, $directory,$uri)) );
+		$url       = Url::tidy( 's3://' . join('/', array($bucket, $directory, $uri)) );
 
 		// Let's make sure we  have a valid URL before movin' on
 		if( Url::isValid( $url ) )
@@ -413,7 +414,7 @@ class Hooks_fileclerk extends Hooks
 
 		// Return JASON
 		header('Content-Type: application/json');
-		echo self::build_response_json(true, false, FILECLERK_LIST_SUCCESS, '', '', $data, $breadcrumb, Parse::template($ft_template, $parsed_data));
+		echo self::build_response_json(true, false, FILECLERK_LIST_SUCCESS, null, null, $data, $breadcrumb, Parse::template($ft_template, $parsed_data));
 		exit;
 	}
 
@@ -422,7 +423,7 @@ class Hooks_fileclerk extends Hooks
 	 * AJAX - run select_s3_file
 	 *
 	 */
-	public function FILECLERK__view() //This can be accessed as a URL via /TRIGGER/fileclerk/view
+	public function fileclerk__view() //This can be accessed as a URL via /TRIGGER/fileclerk/view
 	{
 		ob_start();
 		$object = new Hooks_fileclerk();
@@ -600,7 +601,7 @@ class Hooks_fileclerk extends Hooks
 	 * Test method for testing merge_configs()
 	 * @return (array)
 	 */
-	public function FILECLERK__config_dump()
+	public function fileclerk__config_dump()
 	{
 		$destination = Request::get('destination');
 		dd(self::merge_configs($destination));

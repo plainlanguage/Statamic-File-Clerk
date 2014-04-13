@@ -188,7 +188,7 @@ class Plugin_fileclerk extends Plugin
 
 		if( is_null($this->fieldname) )
 		{
-			Log::error('The field parameter must be set.', 'S3 Files');
+			Log::error('The field parameter must be set.', 'File Clerk');
 			return false;
 		}
 

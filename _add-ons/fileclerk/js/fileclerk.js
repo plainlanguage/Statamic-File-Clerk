@@ -1,4 +1,4 @@
-s// The jQuery
+// The jQuery
 $(function () {
 
 	//  $$\   $$\           $$\                           $$\
@@ -271,7 +271,8 @@ $(function () {
 				viewList = $this.closest('.add-file').find('.view-remote .view-list tbody'),
 				breadcrumb = $this.closest('.add-file').find('.view-remote .breadcrumb'),
 				ajaxSpinner = $this.closest('.add-file').find('.view-remote .view-list .ajax-spinner'),
-				ajaxOverlay = $this.closest('.add-file').find('.view-remote .view-list .ajax-overlay');
+				ajaxOverlay = $this.closest('.add-file').find('.view-remote .view-list .ajax-overlay')
+			;
 
 			// Load Existing files
 			$.ajax({
@@ -319,7 +320,7 @@ $(function () {
 				error: function(jqXHR, textStatus, errorThrown)
 				{
 					// Handle Errors here
-					console.log('ERRORS: ' + textStatus);
+					console.log('ERRORS: ' + textStatus + ' : ' + errorThrown);
 				}
 			});
 
