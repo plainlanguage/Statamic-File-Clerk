@@ -565,22 +565,12 @@
   animation-fill-mode: both;
 }
 .fileclerk .is-hidden {
-  -webkit-transform: translate3d(0, 0, 0);
-  -moz-transform: translate3d(0, 0, 0);
-  -ms-transform: translate3d(0, 0, 0);
-  -o-transform: translate3d(0, 0, 0);
-  transform: translate3d(0, 0, 0);
   max-height: 0;
   visibility: hidden;
   opacity: 0;
   overflow: hidden;
 }
 .fileclerk .is-visible {
-  -webkit-transform: translate3d(0, 0, 0);
-  -moz-transform: translate3d(0, 0, 0);
-  -ms-transform: translate3d(0, 0, 0);
-  -o-transform: translate3d(0, 0, 0);
-  transform: translate3d(0, 0, 0);
   max-height: auto;
   visibility: visible;
   opacity: 1.0;
@@ -904,6 +894,22 @@
 }
 .fileclerk .add-file .view-remote {
   position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+.fileclerk .add-file .view-remote .ajax-spinner {
+  background-color: black;
+  color: #1e3640;
+  z-index: 500;
+}
+.fileclerk .add-file .view-remote .ajax-overlay {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background-color: rgba(255, 255, 255, 0.8);
+  width: 100%;
+  height: 100%;
+  z-index: 2;
 }
 .fileclerk .add-file .breadcrumb {
   *zoom: 1;
@@ -992,23 +998,10 @@
   height: 16.875em;
   margin-bottom: -1px;
   overflow-y: scroll;
+  position: relative;
   text-align: left;
   z-index: 1;
   -webkit-overflow-scrolling: touch;
-}
-.fileclerk .add-file .view-list .ajax-spinner {
-  background-color: black;
-  color: #1e3640;
-  z-index: 500;
-}
-.fileclerk .add-file .view-list .ajax-overlay {
-  position: fixed;
-  top: 0px;
-  left: 0px;
-  background-color: rgba(255, 255, 255, 0.8);
-  width: 100%;
-  height: 100%;
-  z-index: 2;
 }
 .fileclerk .add-file .view-list table {
   width: 100%;
