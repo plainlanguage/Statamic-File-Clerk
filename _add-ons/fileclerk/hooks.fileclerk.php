@@ -48,8 +48,7 @@ class Hooks_fileclerk extends Hooks
 		if (URL::getCurrent(false) == '/publish') {
 			$html = $this->js->link(array(
 				'build/fileclerk.plugins.min.js',
-				//'build/fileclerk.min.js'
-				'fileclerk.js'
+				'build/fileclerk.min.js'
 			));
 			return $html;
 		}
