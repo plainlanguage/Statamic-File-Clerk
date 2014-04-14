@@ -20,14 +20,16 @@
 				height: 20px;
 			}
 
-			&[value]::-webkit-progress-bar {
+			&[value]::-webkit-progress-bar,
+			&[value]::-moz-progress-bar {
 				background-color: #EDEDE7;
 				border-radius: 2px;
 				box-shadow: inset 0 1px 1px rgba( 0,0,0,0.2 );
 				overflow: hidden;
 			}
 
-			&[value]::-webkit-progress-value {
+			&[value]::-webkit-progress-value,
+			&[value]::-moz-progress-value {
 				background-color: $color-green;
 				box-shadow: inset 0 1px 1px rgba( 0,0,0,0.2 );
 			}
