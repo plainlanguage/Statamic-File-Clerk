@@ -54,19 +54,6 @@ class Hooks_fileclerk extends Hooks
 		}
 	}
 
-	private function load_s3()
-	{
-
-		// S3 credentials
-		$this->client = S3Client::factory(array(
-			'key'		=> $this->config['aws_access_key'],
-			'secret'	=> $this->config['aws_secret_key'],
-		));
-
-		// Register Stream Wrapper
-		$this->client->registerStreamWrapper();
-	}
-
 	/**
 	 * Upload File
 	 *
@@ -234,7 +221,7 @@ class Hooks_fileclerk extends Hooks
 			$object->upload_file();
 			header('Content-Type: application/json');
 			return true;
-			Log::info('Boom');
+			Log::info('File uploaded.');
 			ob_flush();
 		}
 		else
@@ -417,26 +404,24 @@ class Hooks_fileclerk extends Hooks
 		exit;
 	}
 
-
-	/**
-	 * AJAX - run select_s3_file
-	 *
-	 */
-	public function fileclerk__view() //This can be accessed as a URL via /TRIGGER/fileclerk/view
-	{
-		ob_start();
-		$object = new Hooks_fileclerk();
-		$object->select_s3_file();
-		ob_flush();
-		return true;
-	}
-
-
 	/*
 	|--------------------------------------------------------------------------
 	| Private methods down here.
 	|--------------------------------------------------------------------------
 	*/
+
+	// Initialize S3 client.
+	private function load_s3()
+	{
+		// S3 credentials
+		$this->client = S3Client::factory(array(
+			'key'		=> $this->config['aws_access_key'],
+			'secret'	=> $this->config['aws_secret_key'],
+		));
+
+		// Register Stream Wrapper
+		$this->client->registerStreamWrapper();
+	}
 
 	/**
 	 * Merge all configs
@@ -563,7 +548,7 @@ class Hooks_fileclerk extends Hooks
 		$bucket        = array_get($this->config, 'bucket');
 		$directory     = array_get($this->config, 'directory');
 
-		if( $custom_domain )
+		if( ! is_null($custom_domain) )
 		{
 			return URL::tidy( 'http://'. $custom_domain .'/' . $uri . '/' . $directory . '/' );
 		}
@@ -573,6 +558,11 @@ class Hooks_fileclerk extends Hooks
 		}
 	}
 
+	/**
+	 * Get a view file.
+	 * @param  string $viewname 
+	 * @return string           File data.
+	 */
 	private function get_view( $viewname = null )
 	{
 		if( is_null($viewname) ) return false;
@@ -582,6 +572,18 @@ class Hooks_fileclerk extends Hooks
 		return File::get( $filepath );
 	}
 
+	/**
+	 * Build out the AJAX JASON response.
+	 * @param  boolean $success    
+	 * @param  boolean $error      
+	 * @param  int  $code       See constants for values.
+	 * @param  string  $message    
+	 * @param  string  $type       
+	 * @param  array  $data       
+	 * @param  array  $breadcrumb 
+	 * @param  string  $html       
+	 * @return string              JASON data for AJAX response.
+	 */
 	private function build_response_json( $success = false, $error = true, $code =null, $message = null, $type = null, $data = null, $breadcrumb = null, $html = null )
 	{
 		return json_encode( array(
