@@ -102,6 +102,10 @@ class Fieldtype_fileclerk extends Fieldtype {
 			}
 		}
 
+		$data = array( $this->field_data );
+		$this->field_data = $data;
+		Log::info( json_encode($this->field_data), 'File Clerk' );
+
 		return $this->field_data;
 	}
 
