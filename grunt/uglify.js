@@ -2,8 +2,8 @@ module.exports = {
 
 	build: {
 		files: {
-			"_add-ons/s3files/js/build/s3files.plugins.min.js" : "_add-ons/s3files/js/plugins.combined.js",
-			"_add-ons/s3files/js/build/s3files.min.js" : "_add-ons/s3files/js/s3files.js"
+			"_add-ons/fileclerk/js/build/fileclerk.plugins.min.js" : "_add-ons/fileclerk/js/plugins.combined.js",
+			"_add-ons/fileclerk/js/build/fileclerk.min.js" : "_add-ons/fileclerk/js/fileclerk.js"
 		}
 	}
 

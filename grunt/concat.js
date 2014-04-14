@@ -2,10 +2,10 @@ module.exports = {
 
 	build: {
 		src: [
-			'_add-ons/s3files/js/plugins.processed.js',
-			'_add-ons/s3files/js/s3files.js'
+			'_add-ons/fileclerk/js/plugins.processed.js',
+			'_add-ons/fileclerk/js/fileclerk.js'
 		],
-		dest: '_add-ons/s3files/js/s3files.combined.js'
+		dest: '_add-ons/fileclerk/js/fileclerk.combined.js'
 	}
 
 };

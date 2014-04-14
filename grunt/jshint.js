@@ -2,8 +2,8 @@ module.exports = {
 
 	options: {
 		jshintrc: '.jshintrc',
-		ignores: ['_add-ons/s3files/js/plugins.js','_add-ons/s3files/js/plugins.processed.js']
+		ignores: ['_add-ons/fileclerk/js/plugins.js','_add-ons/fileclerk/js/plugins.processed.js']
 	},
-	beforeconcat: ['_add-ons/s3files/js/s3files.js']
+	beforeconcat: ['_add-ons/fileclerk/js/fileclerk.js']
 
 };
