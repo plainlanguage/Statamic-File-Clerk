@@ -60,8 +60,37 @@ $(function () {
 			console.log(files);
 		},
 
+		fileCheck: function( destination, filename ) {
+
+			$.ajax({
+				url: '/TRIGGER/fileclerk/filecheck',
+				type: 'GET',
+				data: {'destination': destination, 'filename': filename},
+				cache: false,
+				dataType: 'JSON',
+				processData: true,
+				contentType: false,
+				beforeSend: function(data) {
+					// fileWrapper.removeClass('is-visible').addClass('is-hidden animated fadeOut'); // Hide file inputs
+					// progressWrapper.toggleClass('is-hidden is-visible').addClass('animated fadeIn'); // Show progress
+				},
+				success: function( data, textStatus, jqXHR )
+				{
+					console.log(data);
+					return data.error;
+				},
+				error: function( data, textStatus, errorThrown )
+				{
+					return false;
+				}
+			});
+
+		},
+
 		// Upload Files
 		uploadFiles: function( event ) {
+
+			event.preventDefault();
 
 			var $this = $(this),
 				fullPath = $this.val(),
@@ -224,12 +253,78 @@ $(function () {
 					});
 				}
 
-				// Call the AJAX
-				tryUpload();
+				var doFileCheck = function() {
+					$.ajax({
+						url: '/TRIGGER/fileclerk/filecheck',
+						type: 'GET',
+						data: {'destination': $this.data('destination'), 'filename': filename},
+						cache: false,
+						dataType: 'JSON',
+						processData: true,
+						contentType: false,
+						async: false,
+						beforeSend: function(data) {
+							// fileWrapper.removeClass('is-visible').addClass('is-hidden animated fadeOut'); // Hide file inputs
+							// progressWrapper.toggleClass('is-hidden is-visible').addClass('animated fadeIn'); // Show progress
+						},
+						success: function( data, textStatus, jqXHR )
+						{
+							event.preventDefault();
 
+							console.log(data);
+							console.log(data.message);
+
+							uploadError.toggleClass('is-hidden is-visible').addClass('animated fadeInUp').html(data.html); // Add is-visible class and show JSON html
+							progressWrapper.toggleClass('is-visible is-hidden').addClass('animated fadeOut'); // Hide Progress Bar since there is an error
+
+							$this.closest('.fileclerk').find('.upload-error .error-exists a').on('click', function(event) {
+
+								var actionAttr = $(this).attr('data-action');
+								console.log(actionAttr);
+
+								// Clicked Replace
+								if (actionAttr === 'replace') {
+									console.log('Replace');
+									tryUpload(true);
+									uploadError.toggleClass('is-visible is-hidden').addClass('animated fadeOut'); // Hide error holder
+								}
+								// Clicked Keep Both
+								if (actionAttr === 'keep-both') {
+									console.log('Keep Both');
+									tryUpload(false);
+									uploadError.toggleClass('is-visible is-hidden').addClass('animated fadeOut'); // Hide error holder
+								}
+								// Clicked Cancel
+								if (actionAttr === 'cancel') {
+									console.log('Cancel');
+									//errorExists.remove(); // Remove error
+									uploadError.toggleClass('is-visible is-hidden').addClass('animated fadeOut'); // Hide error holder
+									fileWrapper.toggleClass('is-hidden is-visible').addClass('animated fadeIn'); // Bring back the upload buttton
+								}
+
+								event.preventDefault();
+							});
+						},
+						error: function( data, textStatus, errorThrown )
+						{
+							console.log(errorThrown);
+							return false;
+						}
+					});
+				}
+
+				// Check for file existence first
+				doFileCheck();
+
+				// Probably don't need this any longer.
+				// Try the upload
+				//tryUpload();
+
+				// Form reset
 				s3upload.resetFormElement($this);
 
-				console.log( 'Uploading... ' + filename );
+				// Probably move this elsewhere.
+				//console.log( 'Uploading... ' + filename );
 			}
 		},
 

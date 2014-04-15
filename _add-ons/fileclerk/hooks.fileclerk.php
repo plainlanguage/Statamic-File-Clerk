@@ -33,7 +33,8 @@ class Hooks_fileclerk extends Hooks
 	 */
 	public function control_panel__add_to_head()
 	{
-		if (URL::getCurrent(false) == '/publish') {
+		if (URL::getCurrent(false) == '/publish') 
+		{
 			return $this->css->link('fileclerk.min.css');
 		}
 	}
@@ -45,11 +46,22 @@ class Hooks_fileclerk extends Hooks
 	public function control_panel__add_to_foot()
 	{
 		// Get the necessary support .js
-		if (URL::getCurrent(false) == '/publish') {
-			$html = $this->js->link(array(
-				'build/fileclerk.plugins.min.js',
-				'build/fileclerk.min.js'
-			));
+		if (URL::getCurrent(false) == '/publish') 
+		{
+			if( FILECLERK_ENV === 'dev' )
+			{
+				$html = $this->js->link(array(
+					'plugins.combined.js',
+					'fileclerk.js',
+				));
+			}
+			else
+			{
+				$html = $this->js->link(array(
+					'build/fileclerk.plugins.min.js',
+					'build/fileclerk.min.js',
+				));
+			}
 			return $html;
 		}
 	}
@@ -206,6 +218,45 @@ class Hooks_fileclerk extends Hooks
 	| Return from these methods will be JSON.
 	|
 	*/
+
+	public function fileclerk__filecheck()
+	{
+		$destination = Request::get('destination');
+		$filename    = Request::get('filename');
+
+		self::merge_configs( $destination );
+
+		$s3_path = self::build_s3_path();
+
+		if( self::file_exists( $s3_path, $filename ) )
+		{
+			$overwrite = Request::get('overwrite');
+			$file_exists_template = File::get( __DIR__ . '/views/file-exists.html');
+
+			if( is_null($overwrite) )
+			{
+				echo json_encode( array(
+					'error'		=> TRUE,
+					'type'		=> 'dialog',
+					'code'		=> FILECLERK_ERROR_FILE_EXISTS,
+					'message'	=> FILECLERK_ERROR_FILE_EXISTS_MSG,
+					'html'		=> Parse::template( $file_exists_template, array(
+						'filename' => $filename,
+					)),
+				));
+				exit;
+			}
+			elseif( $overwrite === 'false' || ! $overwrite || $overwrite === 0 )
+			{
+				$filename = self::increment_filename_unix($filename);
+			}
+		}
+		else
+		{
+			echo json_encode( false );
+			exit;
+		}
+	}
 
 	/**
 	 * AJAX - Run upload_file
@@ -598,6 +649,17 @@ class Hooks_fileclerk extends Hooks
 		) );
 	}
 
+	private function build_s3_path()
+	{
+		// Add-on settings
+		$bucket			= $this->config['bucket'];
+		$directory		= $this->config['directory'];
+		$custom_domain	= $this->config['custom_domain'];
+		$set_acl		= $this->config['permissions'];
+
+		return Url::tidy( 's3://' . join('/', array($bucket, $directory)) );
+	}
+
 	/**
 	 * Test method for testing merge_configs()
 	 * @return (array)
@@ -606,6 +668,16 @@ class Hooks_fileclerk extends Hooks
 	{
 		$destination = Request::get('destination');
 		dd(self::merge_configs($destination));
+	}
+
+	/**
+	 * Initialize
+	 * @return none
+	 */
+	private function init()
+	{
+		self::load_s3();
+		self::merge_configs( Request::get('destination') );
 	}
 
 }
