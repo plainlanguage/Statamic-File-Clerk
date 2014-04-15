@@ -127,6 +127,7 @@ $control-bar-element-border-radius: em(5);
 		background-color: $color-white;
 		@include background-image(linear-gradient( $color-white, $color-tan-light ));
 		border: $border-default;
+		border-radius: 0 0 4px 4px;
 		padding: em(8);
 		text-align: right;
 	}
@@ -211,10 +212,14 @@ $control-bar-element-border-radius: em(5);
 		@include clearfix;
 		background-color: $color-white;
 		@include background-image(linear-gradient( $color-white, $color-tan-light ));
-		border: $border-default;
-		border-radius: 4px;
+		border: {
+			top: $border-default;
+			right: $border-default;
+			left: $border-default;
+		}
+		border-radius: 4px 4px 0 0;
 		text-align: left;
-		margin: 0 0 em(15) 0;
+		margin: 0;
 		padding: em(8) 0;
 		vertical-align: middle;
 
@@ -294,7 +299,7 @@ $control-bar-element-border-radius: em(5);
 		}
 
 		thead {
-			background-color: lighten( $color-tan-light, 2 );
+			background-color: lighten( $color-tan-light, 1 );
 		}
 
 		th,
@@ -304,8 +309,8 @@ $control-bar-element-border-radius: em(5);
 		}
 
 		th {
-			color: darken( $color-tan-mid, 25 );
-			font-size: 80%;
+			color: darken( $color-tan-mid, 35 );
+			font-size: 85%;
 			//font-weight: normal;
 			text-align: left;
 			padding: {
