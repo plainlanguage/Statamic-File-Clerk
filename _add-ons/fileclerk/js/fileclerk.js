@@ -269,41 +269,48 @@ $(function () {
 						},
 						success: function( data, textStatus, jqXHR )
 						{
-							event.preventDefault();
-
-							console.log(data);
-							console.log(data.message);
-
-							uploadError.toggleClass('is-hidden is-visible').addClass('animated fadeInUp').html(data.html); // Add is-visible class and show JSON html
-							progressWrapper.toggleClass('is-visible is-hidden').addClass('animated fadeOut'); // Hide Progress Bar since there is an error
-
-							$this.closest('.fileclerk').find('.upload-error .error-exists a').on('click', function(event) {
-
-								var actionAttr = $(this).attr('data-action');
-								console.log(actionAttr);
-
-								// Clicked Replace
-								if (actionAttr === 'replace') {
-									console.log('Replace');
-									tryUpload(true);
-									uploadError.toggleClass('is-visible is-hidden').addClass('animated fadeOut'); // Hide error holder
-								}
-								// Clicked Keep Both
-								if (actionAttr === 'keep-both') {
-									console.log('Keep Both');
-									tryUpload(false);
-									uploadError.toggleClass('is-visible is-hidden').addClass('animated fadeOut'); // Hide error holder
-								}
-								// Clicked Cancel
-								if (actionAttr === 'cancel') {
-									console.log('Cancel');
-									//errorExists.remove(); // Remove error
-									uploadError.toggleClass('is-visible is-hidden').addClass('animated fadeOut'); // Hide error holder
-									fileWrapper.toggleClass('is-hidden is-visible').addClass('animated fadeIn'); // Bring back the upload buttton
-								}
-
+							if( data.code === 300 )
+							{
 								event.preventDefault();
-							});
+
+								console.log(data);
+								console.log(data.message);
+
+								uploadError.toggleClass('is-hidden is-visible').addClass('animated fadeInUp').html(data.html); // Add is-visible class and show JSON html
+								progressWrapper.toggleClass('is-visible is-hidden').addClass('animated fadeOut'); // Hide Progress Bar since there is an error
+
+								$this.closest('.fileclerk').find('.upload-error .error-exists a').on('click', function(event) {
+
+									var actionAttr = $(this).attr('data-action');
+									console.log(actionAttr);
+
+									// Clicked Replace
+									if (actionAttr === 'replace') {
+										console.log('Replace');
+										tryUpload(true);
+										uploadError.toggleClass('is-visible is-hidden').addClass('animated fadeOut'); // Hide error holder
+									}
+									// Clicked Keep Both
+									if (actionAttr === 'keep-both') {
+										console.log('Keep Both');
+										tryUpload(false);
+										uploadError.toggleClass('is-visible is-hidden').addClass('animated fadeOut'); // Hide error holder
+									}
+									// Clicked Cancel
+									if (actionAttr === 'cancel') {
+										console.log('Cancel');
+										//errorExists.remove(); // Remove error
+										uploadError.toggleClass('is-visible is-hidden').addClass('animated fadeOut'); // Hide error holder
+										fileWrapper.toggleClass('is-hidden is-visible').addClass('animated fadeIn'); // Bring back the upload buttton
+									}
+
+									event.preventDefault();
+								});
+							}
+							else if( data.code === 800 ) // File is clean!
+							{
+								tryUpload(false);
+							}
 						},
 						error: function( data, textStatus, errorThrown )
 						{

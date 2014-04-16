@@ -11,6 +11,8 @@ define('FILECLERK_LIST_SUCCESS', 400);
 define('FILECLERK_LIST_NO_RESULTS', 500);
 define('FILECLERK_LIST_ERROR', 600);
 define('FILECLERK_DISALLOWED_FILETYPE', 700);
+define('FILECLERK_FILE_DOES_NOT_EXIST', 800);
+define('FILECLERK_AJAX_WARNING', 'AJAX only, son.');
 
 use Aws\S3\S3Client;
 use Aws\S3\StreamWrapper;
@@ -223,6 +225,7 @@ class Hooks_fileclerk extends Hooks
 	{
 		$destination = Request::get('destination');
 		$filename    = Request::get('filename');
+		$filename    = File::cleanFilename($filename);
 
 		self::merge_configs( $destination );
 
@@ -230,20 +233,12 @@ class Hooks_fileclerk extends Hooks
 
 		if( self::file_exists( $s3_path, $filename ) )
 		{
-			$overwrite = Request::get('overwrite');
+			$overwrite            = Request::get('overwrite');
 			$file_exists_template = File::get( __DIR__ . '/views/file-exists.html');
 
 			if( is_null($overwrite) )
 			{
-				echo json_encode( array(
-					'error'		=> TRUE,
-					'type'		=> 'dialog',
-					'code'		=> FILECLERK_ERROR_FILE_EXISTS,
-					'message'	=> FILECLERK_ERROR_FILE_EXISTS_MSG,
-					'html'		=> Parse::template( $file_exists_template, array(
-						'filename' => $filename,
-					)),
-				));
+				echo self::build_response_json(false, true, FILECLERK_ERROR_FILE_EXISTS, FILECLERK_ERROR_FILE_EXISTS_MSG, 'dialog', null, null, Parse::template($file_exists_template, array('filename' => $filename)));
 				exit;
 			}
 			elseif( $overwrite === 'false' || ! $overwrite || $overwrite === 0 )
@@ -253,7 +248,7 @@ class Hooks_fileclerk extends Hooks
 		}
 		else
 		{
-			echo json_encode( false );
+			echo self::build_response_json(true, false, FILECLERK_FILE_DOES_NOT_EXIST, 'File is clean!', null, null, null, null);
 			exit;
 		}
 	}
@@ -264,20 +259,20 @@ class Hooks_fileclerk extends Hooks
 	 */
 	public function fileclerk__ajaxupload() //This can be accessed as a URL via /TRIGGER/fileclerk/ajaxupload
 	{
-
-		if(Request::isAjax()) // Make sure request is AJAX
+		if( Request::isAjax() ) // Make sure request is AJAX
 		{
 			ob_start();
-			$object = new Hooks_fileclerk();
-			$object->upload_file();
-			header('Content-Type: application/json');
-			return true;
-			Log::info('File uploaded.');
+				$object = new Hooks_fileclerk();
+				$object->upload_file();
+				Log::info('File uploaded.');
+				header('Content-Type: application/json');
+				return true;
 			ob_flush();
 		}
 		else
 		{
-			echo 'AJAX only, son.';
+			echo FILECLERK_AJAX_WARNING;
+			exit;
 		}
 	}
 
@@ -293,8 +288,8 @@ class Hooks_fileclerk extends Hooks
 		// @todo Ensure AJAX requests only!
 		if( ! Request::isAjax() )
 		{
-			// echo 'Back the fuzz up.';
-			// exit;
+			echo FILECLERK_AJAX_WARNING;
+			exit;
 		}
 
 		// Destination config parameter
