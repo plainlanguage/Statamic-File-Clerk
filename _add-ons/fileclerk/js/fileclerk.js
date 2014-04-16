@@ -276,8 +276,8 @@ $(function () {
 								console.log(data);
 								console.log(data.message);
 
+								fileWrapper.toggleClass('is-visible is-hidden').addClass('animated fadeOut');
 								uploadError.toggleClass('is-hidden is-visible').addClass('animated fadeInUp').html(data.html); // Add is-visible class and show JSON html
-								progressWrapper.toggleClass('is-visible is-hidden').addClass('animated fadeOut'); // Hide Progress Bar since there is an error
 
 								$this.closest('.fileclerk').find('.upload-error .error-exists a').on('click', function(event) {
 
