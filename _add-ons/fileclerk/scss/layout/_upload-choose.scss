@@ -420,6 +420,7 @@ $control-bar-element-border-radius: em(5);
 
 	// Errors
 	.error-message {
+		@include backface-visibility(hidden);
 		 background-color: lighten( $color-tan-light, 3 );
 		 border: $border-default;
 		 border-radius: 4px;

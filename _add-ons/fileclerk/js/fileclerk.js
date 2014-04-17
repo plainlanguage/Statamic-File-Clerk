@@ -72,7 +72,7 @@ $(function () {
 				contentType: false,
 				beforeSend: function(data) {
 					// fileWrapper.removeClass('is-visible').addClass('is-hidden animated fadeOut'); // Hide file inputs
-					// progressWrapper.toggleClass('is-hidden is-visible').addClass('animated fadeIn'); // Show progress
+					// progressWrapper.toggleClass('is-hidden is-visible'); // Show progress
 				},
 				success: function( data, textStatus, jqXHR )
 				{
@@ -157,8 +157,8 @@ $(function () {
 						processData: false, // Don't process the files
 						contentType: false, // Set content type to false as jQuery will tell the server it's a query string request
 						beforeSend: function(data) {
-							fileWrapper.removeClass('is-visible').addClass('is-hidden animated fadeOut'); // Hide file inputs
-							progressWrapper.toggleClass('is-hidden is-visible').addClass('animated fadeIn'); // Show progress
+							fileWrapper.removeClass('is-visible').addClass('is-hidden'); // Hide file inputs
+							progressWrapper.toggleClass('is-hidden is-visible'); // Show progress
 						},
 						success: function(data, textStatus, jqXHR)
 						{
@@ -173,7 +173,7 @@ $(function () {
 								successfullUpload.val(data.data .fullpath); // Add full file path to hidden input
 								uploadSuccess.attr('href', data.data.fullpath);
 								add_file.toggleClass('is-visible is-hidden');
-								result_wrapper.toggleClass('is-hidden is-visible').addClass('animated fadeIn');
+								result_wrapper.toggleClass('is-hidden is-visible');
 								hiddenUrl.val(data.data.fullpath);
 								hiddenFilename.val(data.data.filename);
 								hiddenExtension.val(data.data.filetype);
@@ -188,8 +188,8 @@ $(function () {
 							else if ( data.code === 300 )
 							{
 								console.log(data.message);
-								uploadError.toggleClass('is-hidden is-visible').addClass('animated fadeInUp').html(data.html); // Add is-visible class and show JSON html
-								progressWrapper.toggleClass('is-visible is-hidden').addClass('animated fadeOut'); // Hide Progress Bar since there is an error
+								uploadError.toggleClass('is-hidden is-visible').html(data.html); // Add is-visible class and show JSON html
+								progressWrapper.toggleClass('is-visible is-hidden'); // Hide Progress Bar since there is an error
 
 								$this.closest('.fileclerk').find('.upload-error .error-exists a').on('click', function(event) {
 
@@ -199,20 +199,20 @@ $(function () {
 									if (actionAttr === 'replace') {
 										console.log('Replace');
 										tryUpload(true);
-										uploadError.toggleClass('is-visible is-hidden').addClass('animated fadeOut'); // Hide error holder
+										uploadError.toggleClass('is-visible is-hidden'); // Hide error holder
 									}
 									// Clicked Keep Both
 									if (actionAttr === 'keep-both') {
 										console.log('Keep Both');
 										tryUpload(false);
-										uploadError.toggleClass('is-visible is-hidden').addClass('animated fadeOut'); // Hide error holder
+										uploadError.toggleClass('is-visible is-hidden'); // Hide error holder
 									}
 									// Clicked Cancel
 									if (actionAttr === 'cancel') {
 										console.log('Cancel');
 										//errorExists.remove(); // Remove error
-										uploadError.toggleClass('is-visible is-hidden').addClass('animated fadeOut'); // Hide error holder
-										fileWrapper.toggleClass('is-hidden is-visible').addClass('animated fadeIn'); // Bring back the upload buttton
+										uploadError.toggleClass('is-visible is-hidden'); // Hide error holder
+										fileWrapper.toggleClass('is-hidden is-visible'); // Bring back the upload buttton
 									}
 
 									event.preventDefault();
@@ -221,8 +221,8 @@ $(function () {
 							// Disallowed Filetype
 							else if ( data.code === 700 ) {
 								console.log(data.message);
-								uploadError.toggleClass('is-hidden is-visible').addClass('animated fadeInUp').html(data.html); // Add is-visible class and show JSON html
-								progressWrapper.toggleClass('is-visible is-hidden').addClass('animated fadeOut'); // Hide Progress Bar since there is an error
+								uploadError.toggleClass('is-hidden is-visible').html(data.html); // Add is-visible class and show JSON html
+								progressWrapper.toggleClass('is-visible is-hidden'); // Hide Progress Bar since there is an error
 
 								$this.closest('.fileclerk').find('.upload-error .error-not-allowed a').on('click', function(event) {
 
@@ -232,8 +232,8 @@ $(function () {
 									if (actionAttr === 'cancel') {
 										console.log('Cancel');
 										//errorExists.remove(); // Remove error
-										uploadError.toggleClass('is-visible is-hidden').addClass('animated fadeOut'); // Hide error holder
-										fileWrapper.toggleClass('is-hidden is-visible').addClass('animated fadeIn'); // Bring back the upload buttton
+										uploadError.toggleClass('is-visible is-hidden'); // Hide error holder
+										fileWrapper.toggleClass('is-hidden is-visible'); // Bring back the upload buttton
 									}
 
 									event.preventDefault();
@@ -265,7 +265,7 @@ $(function () {
 						async: false,
 						beforeSend: function(data) {
 							// fileWrapper.removeClass('is-visible').addClass('is-hidden animated fadeOut'); // Hide file inputs
-							// progressWrapper.toggleClass('is-hidden is-visible').addClass('animated fadeIn'); // Show progress
+							// progressWrapper.toggleClass('is-hidden is-visible'); // Show progress
 						},
 						success: function( data, textStatus, jqXHR )
 						{
@@ -276,8 +276,8 @@ $(function () {
 								console.log(data);
 								console.log(data.message);
 
-								fileWrapper.toggleClass('is-visible is-hidden').addClass('animated fadeOut');
-								uploadError.toggleClass('is-hidden is-visible').addClass('animated fadeInUp').html(data.html); // Add is-visible class and show JSON html
+								fileWrapper.toggleClass('is-visible is-hidden');
+								uploadError.toggleClass('is-hidden is-visible').html(data.html); // Add is-visible class and show JSON html
 
 								$this.closest('.fileclerk').find('.upload-error .error-exists a').on('click', function(event) {
 
@@ -288,20 +288,20 @@ $(function () {
 									if (actionAttr === 'replace') {
 										console.log('Replace');
 										tryUpload(true);
-										uploadError.toggleClass('is-visible is-hidden').addClass('animated fadeOut'); // Hide error holder
+										uploadError.toggleClass('is-visible is-hidden'); // Hide error holder
 									}
 									// Clicked Keep Both
 									if (actionAttr === 'keep-both') {
 										console.log('Keep Both');
 										tryUpload(false);
-										uploadError.toggleClass('is-visible is-hidden').addClass('animated fadeOut'); // Hide error holder
+										uploadError.toggleClass('is-visible is-hidden'); // Hide error holder
 									}
 									// Clicked Cancel
 									if (actionAttr === 'cancel') {
 										console.log('Cancel');
 										//errorExists.remove(); // Remove error
-										uploadError.toggleClass('is-visible is-hidden').addClass('animated fadeOut'); // Hide error holder
-										fileWrapper.toggleClass('is-hidden is-visible').addClass('animated fadeIn'); // Bring back the upload buttton
+										uploadError.toggleClass('is-visible is-hidden'); // Hide error holder
+										fileWrapper.toggleClass('is-hidden is-visible'); // Bring back the upload buttton
 									}
 
 									event.preventDefault();
@@ -364,10 +364,10 @@ $(function () {
 			hiddenExtension.val(''); // Empty out hidden field w/ url
 			hiddenSize.val(''); // Empty out hidden field w/ url
 			filename_display.html(''); // Empty display filename
-			result_wrapper.toggleClass('is-visible is-hidden').addClass('animated fadeOut');
+			result_wrapper.toggleClass('is-visible is-hidden');
 			setTimeout(function() {
-				add_file.toggleClass('is-hidden is-visible').addClass('animated fadeIn');
-				fileWrapper.removeClass('is-hidden').addClass('is-visible animated fadeIn'); // Show the upload button again
+				add_file.toggleClass('is-hidden is-visible');
+				fileWrapper.removeClass('is-hidden').addClass('is-visible'); // Show the upload button again
 			}, 300);
 		},
 
@@ -427,7 +427,6 @@ $(function () {
 						breadcrumb.html(data.breadcrumb);
 						viewListTable.addClass('is-hidden');
 						viewListTableBody.empty(); // Empty out tbody cause the height will get cray
-						$(data.html).prependTo(viewList).addClass('animated fadeInUp');
 						ajaxSpinner.spin(false); // Stop spinner
 						ajaxOverlay.toggleClass('is-visible is-hidden');
 					}
@@ -494,7 +493,7 @@ $(function () {
 			hiddenSize.val(size);
 			uploadSuccess.attr('href', fullPath);
 			addFile.toggleClass('is-visible is-hidden');
-			result_wrapper.toggleClass('is-hidden is-visible').addClass('animated fadeIn');
+			result_wrapper.toggleClass('is-hidden is-visible');
 
 			console.log(filename + ' selected');
 

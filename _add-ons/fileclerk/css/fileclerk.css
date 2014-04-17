@@ -1130,6 +1130,8 @@
   float: none;
 }
 .fileclerk .add-file .error-message {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
   background-color: #fafaf9;
   border: 1px solid #d7d7ca;
   border-radius: 4px;
