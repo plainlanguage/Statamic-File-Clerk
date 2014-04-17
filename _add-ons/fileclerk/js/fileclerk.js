@@ -426,6 +426,7 @@ $(function () {
 					{
 						breadcrumb.html(data.breadcrumb);
 						viewListTable.addClass('is-hidden');
+						viewListTableBody.empty(); // Empty out tbody cause the height will get cray
 						$(data.html).prependTo(viewList).addClass('animated fadeInUp');
 						ajaxSpinner.spin(false); // Stop spinner
 						ajaxOverlay.toggleClass('is-visible is-hidden');

@@ -1011,6 +1011,14 @@
 .fileclerk .add-file .view-list table {
   width: 100%;
 }
+.fileclerk .add-file .view-list table.is-hidden {
+  border-collapse: collapse;
+  height: 0;
+}
+.fileclerk .add-file .view-list table.is-hidden thead, .fileclerk .add-file .view-list table.is-hidden tr, .fileclerk .add-file .view-list table.is-hidden th, .fileclerk .add-file .view-list table.is-hidden td {
+  height: 0;
+  line-height: 0;
+}
 .fileclerk .add-file .view-list thead {
   background-color: #f8f8f6;
 }
@@ -1108,6 +1116,18 @@
   font-size: 80%;
   line-height: 90%;
   white-space: nowrap;
+}
+.fileclerk .add-file .view-list .error-no-results {
+  padding: 2.1875em 0.9375em 0.9375em 0.9375em;
+  text-align: center;
+}
+.fileclerk .add-file .view-list .error-no-results ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+.fileclerk .add-file .view-list .error-no-results .btn {
+  float: none;
 }
 .fileclerk .add-file .error-message {
   background-color: #fafaf9;

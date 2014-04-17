@@ -291,6 +291,16 @@ $control-bar-element-border-radius: em(5);
 
 		table {
 			width: 100%;
+
+			&.is-hidden {
+				border-collapse: collapse;
+				height: 0;
+
+				thead, tr, th, td {
+					height: 0;
+					line-height: 0;
+				}
+			}
 		}
 
 		thead {
@@ -390,6 +400,21 @@ $control-bar-element-border-radius: em(5);
 			font-size: 80%;
 			line-height: 90%;
 			white-space: nowrap;
+		}
+
+		.error-no-results {
+			padding: em(35) em(15) em(15) em(15);
+			text-align: center;
+
+			ul {
+				list-style-type: none;
+				margin: 0;
+				padding: 0;
+			}
+
+			.btn {
+				float: none;
+			}
 		}
 	}
 
