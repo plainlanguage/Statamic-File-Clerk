@@ -37,7 +37,7 @@ $(function () {
 			$('body').on( 'doubletap', '.is-directory', this.loadExisting );
 
 			// Breadcrumb
-			$('body').on( 'click', '.breadcrumb a', this.loadExisting );
+			$('body').on( 'click', '.breadcrumb a, .error-no-results a', this.loadExisting );
 
 			// Highlight Row
 			$('body').on( 'tap', '.view-list td', this.highlightRow );
@@ -378,10 +378,14 @@ $(function () {
 
 			var $this = $(this),
 				listURL = '/TRIGGER/fileclerk/list' + ($(this).data('uri') ? '?uri=' + $(this).data('uri') : '') + ($(this).data('uri') ? '&' : '?') + ($(this).data('destination') ? 'destination=' + $(this).data('destination') : ''),
-				viewList = $this.closest('.add-file').find('.view-remote .view-list tbody'),
+				viewList = $this.closest('.add-file').find('.view-remote .view-list'),
+				viewListTable = viewList.find('table'),
+				viewListTableBody = viewList.find('tbody'),
+				errorNoResults = viewList.find('.error-no-results'),
 				breadcrumb = $this.closest('.add-file').find('.view-remote .breadcrumb'),
 				ajaxSpinner = $this.closest('.add-file').find('.view-remote .ajax-spinner'),
-				ajaxOverlay = $this.closest('.add-file').find('.view-remote .ajax-overlay');
+				ajaxOverlay = $this.closest('.add-file').find('.view-remote .ajax-overlay')
+			;
 
 			// Load Existing files
 			$.ajax({
@@ -410,15 +414,21 @@ $(function () {
 					if( data.code === 400 || data.error === false )
 					{
 						console.log(data.success);
+						errorNoResults.remove();
 						breadcrumb.html(data.breadcrumb);
-						viewList.html(data.html);
+						viewListTable.removeClass('is-hidden');
+						viewListTableBody.html(data.html);
 						ajaxSpinner.spin(false); // Stop spinner
 						ajaxOverlay.toggleClass('is-visible is-hidden');
 					}
 					// No results
 					else if( data.code === 500 )
 					{
-
+						breadcrumb.html(data.breadcrumb);
+						viewListTable.addClass('is-hidden');
+						$(data.html).prependTo(viewList).addClass('animated fadeInUp');
+						ajaxSpinner.spin(false); // Stop spinner
+						ajaxOverlay.toggleClass('is-visible is-hidden');
 					}
 					// List error
 					else if( data.code === 600 )
