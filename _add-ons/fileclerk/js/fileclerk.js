@@ -425,6 +425,7 @@ $(function () {
 					else if( data.code === 500 )
 					{
 						breadcrumb.html(data.breadcrumb);
+						$(data.html).prependTo(viewList);
 						viewListTable.addClass('is-hidden');
 						viewListTableBody.empty(); // Empty out tbody cause the height will get cray
 						ajaxSpinner.spin(false); // Stop spinner
