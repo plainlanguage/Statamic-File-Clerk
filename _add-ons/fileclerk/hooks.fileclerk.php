@@ -35,7 +35,7 @@ class Hooks_fileclerk extends Hooks
 	 */
 	public function control_panel__add_to_head()
 	{
-		if (URL::getCurrent(false) == '/publish') 
+		if (URL::getCurrent(false) == '/publish')
 		{
 			return $this->css->link('fileclerk.min.css');
 		}
@@ -48,7 +48,7 @@ class Hooks_fileclerk extends Hooks
 	public function control_panel__add_to_foot()
 	{
 		// Get the necessary support .js
-		if (URL::getCurrent(false) == '/publish') 
+		if (URL::getCurrent(false) == '/publish')
 		{
 			if( FILECLERK_ENV === 'dev' )
 			{
@@ -337,6 +337,21 @@ class Hooks_fileclerk extends Hooks
 				'list'   => array(), // Files and dirs mixed
 			);
 
+			// Prepare breadcrumbs
+			foreach ($data['crumbs'] as $key => $value) {
+				$path = explode('/', $uri, ($key + 1) - (count($data['crumbs'])));
+				$path = implode('/', $path);
+				//$path = Url::tidy( $path . '/?' . $querystring );
+				$path = Url::tidy( $path );
+				$data['crumbs'][$key] = array(
+					'name' => $value,
+					'path' => $path
+				);
+			}
+
+			// Build breadcrumb
+			$breadcrumb = Parse::template( self::get_view('_list-breadcrumb'), $data );
+
 			/**
 			 * Let's make sure we've got somethin' up in this mutha.
 			 */
@@ -397,28 +412,29 @@ class Hooks_fileclerk extends Hooks
 				 * @return [array] JSON
 				 * @todo See `self::set_json_return`.
 				 */
-				echo self::build_response_json(false, true, FILECLERK_LIST_NO_RESULTS, 'No results returned.');
-				exit;
-			}
-		}
+				// echo self::build_response_json(false, true, FILECLERK_LIST_NO_RESULTS, 'No results returned.');
+				// exit;
 
-		// Prepare breadcrumbs
-		foreach ($data['crumbs'] as $key => $value) {
-			$path = explode('/', $uri, ($key + 1) - (count($data['crumbs'])));
-			$path = implode('/', $path);
-			//$path = Url::tidy( $path . '/?' . $querystring );
-			$path = Url::tidy( $path );
-			$data['crumbs'][$key] = array(
-				'name' => $value,
-				'path' => $path
-			);
+				$no_results_template = File::get( __DIR__ . '/views/error-no-results.html');
+
+				end($data['crumbs']);
+				$previous_directory = prev($data['crumbs']);
+
+				echo json_encode( array(
+					'error'			=> TRUE,
+					'type'			=> 'dialog',
+					'code'			=> FILECLERK_LIST_NO_RESULTS,
+					'breadcrumb'	=> $breadcrumb,
+					'html'			=> Parse::template( $no_results_template, array('previous_directory' => $previous_directory['path']) ),
+				));
+
+				exit;
+
+			}
 		}
 
 		// Need to pass in the destination for root requests.
 		$data['destination'] = $destination;
-
-		// Build breadcrumb
-		$breadcrumb = Parse::template( self::get_view('_list-breadcrumb'), $data );
 
 		// Sort this fucking multi-dimensional array already.
 		uksort( $data['list'], 'strcasecmp');
@@ -606,7 +622,7 @@ class Hooks_fileclerk extends Hooks
 
 	/**
 	 * Get a view file.
-	 * @param  string $viewname 
+	 * @param  string $viewname
 	 * @return string           File data.
 	 */
 	private function get_view( $viewname = null )
@@ -620,14 +636,14 @@ class Hooks_fileclerk extends Hooks
 
 	/**
 	 * Build out the AJAX JASON response.
-	 * @param  boolean $success    
-	 * @param  boolean $error      
+	 * @param  boolean $success
+	 * @param  boolean $error
 	 * @param  int  $code       See constants for values.
-	 * @param  string  $message    
-	 * @param  string  $type       
-	 * @param  array  $data       
-	 * @param  array  $breadcrumb 
-	 * @param  string  $html       
+	 * @param  string  $message
+	 * @param  string  $type
+	 * @param  array  $data
+	 * @param  array  $breadcrumb
+	 * @param  string  $html
 	 * @return string              JASON data for AJAX response.
 	 */
 	private function build_response_json( $success = false, $error = true, $code =null, $message = null, $type = null, $data = null, $breadcrumb = null, $html = null )
