@@ -138,34 +138,20 @@ $(function () {
 						data: data,
 						cache: false,
 						dataType: 'JSON',
-						// This is screwing things up. Need to figure this jimmy-jam out.
-//						xhr: function() {
-//							var myXhr = $.ajaxSettings.xhr();
-//							if(myXhr.upload) { // Check if upload property exists
-//								console.log('Xhr');
-//								myXhr.upload.addEventListener('progress', function(event) {
-//									if(event.lengthComputable) {
-//										var progress = parseInt(event.loaded / event.total * 100, 10);
-//										console.log(progress + '%');
-//										progressBar.attr({value:event.loaded,max:event.total});
-//										progressPrc.html(progress + '%');
-//									}
-//								}, false); // For handling the progress of the upload
-//							}
-//							return myXhr;
-//						},
 						xhr: function() {
 							// get the native XmlHttpRequest object
 							var xhr = $.ajaxSettings.xhr() ;
 							// set the onprogress event handler
 							xhr.upload.onprogress = function(evt){
 								var progress = parseInt(evt.loaded / evt.total * 100, 10);
-								console.log('progress', evt.loaded/evt.total*100)
+								console.log('Uploading: ', evt.loaded/evt.total*100 + '%')
 								progressBar.attr({value:evt.loaded,max:evt.total});
 								progressPrc.html(progress + '%');
 							};
 							// set the onload event handler
-							xhr.upload.onload = function(){ console.log('DONE!') } ;
+							xhr.upload.onload = function(){
+								console.log('DONE!')
+							};
 							// return the customized object
 							return xhr ;
 						},
