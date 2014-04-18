@@ -68,6 +68,134 @@
   opacity: 1;
 }
 
+@-webkit-keyframes fadeInOut {
+  0% {
+    opacity: 1.0;
+  }
+
+  50% {
+    opacity: 1.0;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+@-moz-keyframes fadeInOut {
+  0% {
+    opacity: 1.0;
+  }
+
+  50% {
+    opacity: 1.0;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+@-o-keyframes fadeInOut {
+  0% {
+    opacity: 1.0;
+  }
+
+  50% {
+    opacity: 1.0;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes fadeInOut {
+  0% {
+    opacity: 1.0;
+  }
+
+  50% {
+    opacity: 1.0;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+@-webkit-keyframes bounceIn {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateY(-12px);
+  }
+
+  60% {
+    opacity: 1;
+    -webkit-transform: translateY(6px);
+  }
+
+  80% {
+    -webkit-transform: translateY(-3px);
+  }
+
+  100% {
+    -webkit-transform: translateY(0);
+  }
+}
+@-moz-keyframes bounceIn {
+  0% {
+    opacity: 0;
+    -moz-transform: translateY(-12px);
+  }
+
+  60% {
+    opacity: 1;
+    -moz-transform: translateY(6px);
+  }
+
+  80% {
+    -moz-transform: translateY(-3px);
+  }
+
+  100% {
+    -moz-transform: translateY(0);
+  }
+}
+@-o-keyframes bounceIn {
+  0% {
+    opacity: 0;
+    -o-transform: translateY(-12px);
+  }
+
+  60% {
+    opacity: 1;
+    -o-transform: translateY(6px);
+  }
+
+  80% {
+    -o-transform: translateY(-3px);
+  }
+
+  100% {
+    -o-transform: translateY(0);
+  }
+}
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+
+  60% {
+    opacity: 1;
+    transform: translateY(6px);
+  }
+
+  80% {
+    transform: translateY(-3px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
 .button {
   border: none;
   border-radius: 4px;
@@ -233,6 +361,32 @@
 
 .fileclerk {
   min-height: 52px;
+}
+.fileclerk.yay {
+  -webkit-animation: bounceIn 0.8s;
+  -moz-animation: bounceIn 0.8s;
+  animation: bounceIn 0.8s;
+  -webkit-animation-fill-mode: both;
+  -moz-animation-fill-mode: both;
+  animation-fill-mode: both;
+  position: relative;
+  z-index: 1;
+}
+.fileclerk.yay:after {
+  -webkit-animation: fadeInOut 4s;
+  -moz-animation: fadeInOut 4s;
+  animation: fadeInOut 4s;
+  -webkit-animation-fill-mode: both;
+  -moz-animation-fill-mode: both;
+  animation-fill-mode: both;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  box-shadow: 0 0 10px rgba(108, 134, 140, 0.5);
+  display: block;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
 }
 .fileclerk .filename-display {
   background: url("../assets/build/img/icon-success.png") 0 center no-repeat;
@@ -639,12 +793,17 @@
   float: none;
 }
 .fileclerk .add-file .upload-error {
-  overflow: hidden;
-}
-.fileclerk .add-file .error-message {
   background-color: #fafaf9;
   border: 1px solid #d7d7ca;
   border-radius: 4px;
+}
+.fileclerk .add-file .error-message {
+  -webkit-animation: bounceIn 0.6s;
+  -moz-animation: bounceIn 0.6s;
+  animation: bounceIn 0.6s;
+  -webkit-animation-fill-mode: both;
+  -moz-animation-fill-mode: both;
+  animation-fill-mode: both;
   padding: 1.5625em;
 }
 .fileclerk .add-file .error-message ul {
@@ -689,4 +848,9 @@
 }
 .fileclerk .add-file .error-message .btn {
   float: none;
+}
+.fileclerk .add-file .result {
+  -webkit-transition: height 2s linear;
+  -moz-transition: height 2s linear;
+  transition: height 2s linear;
 }

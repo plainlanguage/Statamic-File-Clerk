@@ -107,6 +107,7 @@ $(function () {
 				uploadSuccess = $this.closest('.fileclerk').find('.result .filename-display a'),
 				successfullUpload = $this.closest('.fileclerk').find('.result input.successful-upload'),
 				result_wrapper = $this.closest('.fileclerk').find('.result'),
+				fileClerkWrapper = $this.closest('.fileclerk'),
 				add_file = $this.closest('.fileclerk').find('.add-file'),
 				uploadError = $this.closest('.fileclerk').find('.upload-error'),
 				// Set some hidden inputs up in this thang.
@@ -176,9 +177,8 @@ $(function () {
 								successfullUpload.val(data.data .fullpath); // Add full file path to hidden input
 								uploadSuccess.attr('href', data.data.fullpath);
 								add_file.toggleClass('is-visible is-hidden'); // Hide Add File
-								setTimeout(function() {
-									result_wrapper.toggleClass('is-hidden is-visible');
-								}, 500);
+								result_wrapper.toggleClass('is-hidden is-visible');
+								fileClerkWrapper.addClass('yay'); // Add a 'yay' class to .filewrapper
 
 								hiddenUrl.val(data.data.fullpath);
 								hiddenFilename.val(data.data.filename);
@@ -351,6 +351,7 @@ $(function () {
 		removeFileReference: function( event ) {
 
 			var $this = $(this),
+				fileClerkWrapper = $this.closest('.fileclerk'),
 				result_wrapper = $this.closest('.fileclerk').find('.result'),
 				add_file = $this.closest('.fileclerk').find('.add-file'),
 				successful_upload = $this.closest('.fileclerk').find('.result input.successful-upload'),
@@ -373,6 +374,7 @@ $(function () {
 			setTimeout(function() {
 				add_file.toggleClass('is-hidden is-visible');
 				fileWrapper.removeClass('is-hidden').addClass('is-visible'); // Show the upload button again
+				fileClerkWrapper.removeClass('yay'); // Remove the 'yay' class
 			}, 300);
 		},
 
@@ -478,6 +480,7 @@ $(function () {
 			event.preventDefault();
 
 			var $this = $(this),
+				fileClerkWrapper = $this.closest('.fileclerk'),
 				fullPath = $this.closest('.view-remote').find('.view-list table tr.file.is-highlighted').data('file'),
 				filename = $this.closest('.view-remote').find('.view-list table tr.file.is-highlighted td.is-file').html(),
 				extension = $this.closest('.view-remote').find('.view-list table tr.file.is-highlighted').data('extension'),
@@ -501,9 +504,8 @@ $(function () {
 			hiddenSize.val(size);
 			uploadSuccess.attr('href', fullPath);
 			addFile.toggleClass('is-visible is-hidden');
-			setTimeout(function() {
-				result_wrapper.toggleClass('is-hidden is-visible');
-			}, 500);
+			result_wrapper.toggleClass('is-hidden is-visible');
+			fileClerkWrapper.addClass('yay'); // Add a 'yay' class to .filewrapper
 
 			console.log(filename + ' selected');
 

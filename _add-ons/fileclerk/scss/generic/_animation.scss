@@ -54,5 +54,33 @@
 			opacity: 1;
 		}
 	}
+}
 
+@include keyframes( fadeInOut ) {
+	0% {
+		opacity: 1.0;
+	}
+	50% {
+		opacity: 1.0;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+@include keyframes( bounceIn ) {
+	0% {
+		opacity: 0;
+		@include transform( translateY(-12px) );
+	}
+	60% {
+		opacity: 1;
+		@include transform( translateY(6px) );
+	}
+	80% {
+		@include transform( translateY(-3px) );
+	}
+	100% {
+		@include transform( translateY(0) );
+	}
 }
