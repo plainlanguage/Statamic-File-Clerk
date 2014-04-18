@@ -515,6 +515,9 @@
 .fileclerk .add-file .tabs li a:hover {
   background-color: #d7d7ca;
 }
+.fileclerk .add-file .tabs li a.disabled {
+  cursor: not-allowed;
+}
 .fileclerk .add-file .action-bar {
   background-color: white;
   background-image: -webkit-linear-gradient( white, #f4f4f0);

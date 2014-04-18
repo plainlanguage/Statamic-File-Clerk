@@ -142,6 +142,10 @@ $control-bar-element-border-radius: em(5);
 				&:hover {
 					background-color: $color-tan-mid;
 				}
+
+				&.disabled {
+					cursor: not-allowed;
+				}
 			}
 		}
 

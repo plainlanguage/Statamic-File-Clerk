@@ -108,7 +108,8 @@ $(function () {
 				successfullUpload = $this.closest('.fileclerk').find('.result input.successful-upload'),
 				result_wrapper = $this.closest('.fileclerk').find('.result'),
 				fileClerkWrapper = $this.closest('.fileclerk'),
-				add_file = $this.closest('.fileclerk').find('.add-file'),
+				addFile = $this.closest('.fileclerk').find('.add-file'),
+				chooseExistingTab = addFile.find('.nav-tabs li:nth-child(2) a'),
 				uploadError = $this.closest('.fileclerk').find('.upload-error'),
 				// Set some hidden inputs up in this thang.
 				hiddenUrl = $this.closest('.fileclerk').find('.result input.hidden-url'),
@@ -176,7 +177,7 @@ $(function () {
 								uploadSuccess.append(data.data.filename); // Show filename on successful upload
 								successfullUpload.val(data.data .fullpath); // Add full file path to hidden input
 								uploadSuccess.attr('href', data.data.fullpath);
-								add_file.toggleClass('is-visible is-hidden'); // Hide Add File
+								addFile.toggleClass('is-visible is-hidden'); // Hide Add File
 								result_wrapper.toggleClass('is-hidden is-visible');
 								fileClerkWrapper.addClass('yay'); // Add a 'yay' class to .filewrapper
 
@@ -283,6 +284,7 @@ $(function () {
 
 								fileWrapper.toggleClass('is-visible is-hidden');
 								uploadError.toggleClass('is-hidden is-visible').html(data.html); // Add is-visible class and show JSON html
+								chooseExistingTab.removeAttr('data-toggle').addClass('disabled'); // Disable Choose Existing tab
 
 								$this.closest('.fileclerk').find('.upload-error .error-exists a').on('click', function(event) {
 
@@ -308,6 +310,8 @@ $(function () {
 										uploadError.toggleClass('is-visible is-hidden'); // Hide error holder
 										fileWrapper.toggleClass('is-hidden is-visible'); // Bring back the upload buttton
 									}
+
+									chooseExistingTab.attr('data-toggle', 'tab').removeClass('disabled'); // Enable Choose Existing tab
 
 									event.preventDefault();
 								});
@@ -353,7 +357,7 @@ $(function () {
 			var $this = $(this),
 				fileClerkWrapper = $this.closest('.fileclerk'),
 				result_wrapper = $this.closest('.fileclerk').find('.result'),
-				add_file = $this.closest('.fileclerk').find('.add-file'),
+				addFile = $this.closest('.fileclerk').find('.add-file'),
 				successful_upload = $this.closest('.fileclerk').find('.result input.successful-upload'),
 				hiddenUrl = $this.closest('.fileclerk').find('.result input.hidden-url'),
 				hiddenFilename = $this.closest('.fileclerk').find('.result input.hidden-filename'),
@@ -372,7 +376,7 @@ $(function () {
 			filename_display.html(''); // Empty display filename
 			result_wrapper.toggleClass('is-visible is-hidden');
 			setTimeout(function() {
-				add_file.toggleClass('is-hidden is-visible');
+				addFile.toggleClass('is-hidden is-visible');
 				fileWrapper.removeClass('is-hidden').addClass('is-visible'); // Show the upload button again
 				fileClerkWrapper.removeClass('yay'); // Remove the 'yay' class
 			}, 300);
