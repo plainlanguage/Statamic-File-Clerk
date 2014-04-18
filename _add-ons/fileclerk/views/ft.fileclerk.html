@@ -7,18 +7,16 @@
 		<div class="tab-content content">
 
 			<div class="tab-pane active view-upload fade in" id="view-upload-{{ id }}">
-				<input class="postUrl" name="postUrl" type="hidden" data-destination="{{ destinatio }}" value="{{ action }}">
-				<div class="choose-file">
-					<div class="file-wrapper">
-						<input class="file-upload" type="file" name="files">
-						<span class="button button-light large" href="#"><span class="button-icon-upload">Upload File</span></span>
-					</div>
-					<div class="upload-error is-hidden">
-					</div>
-					<div class="progress-bar clearfix is-hidden">
-						<progress class="uploading" value="0" min="0" max="100"></progress>
-						<div class="prc"></div>
-					</div>
+				<input class="postUrl" name="postUrl" type="hidden" data-destination="{{ destination }}" value="{{ action }}">
+				<div class="file-wrapper is-visible">
+					<input class="file-upload" type="file" name="files">
+					<span class="button button-light large" href="#"><span class="button-icon-upload">Upload File</span></span>
+				</div>
+				<div class="upload-error is-hidden">
+				</div>
+				<div class="progress-bar is-hidden">
+					<progress class="uploading" value="0" min="0" max="100"></progress>
+					<div class="prc"></div>
 				</div>
 			</div>
 

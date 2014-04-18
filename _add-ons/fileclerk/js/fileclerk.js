@@ -74,8 +74,7 @@ $(function () {
 				processData: true,
 				contentType: false,
 				beforeSend: function(data) {
-					// fileWrapper.removeClass('is-visible').addClass('is-hidden animated fadeOut'); // Hide file inputs
-					// progressWrapper.toggleClass('is-hidden is-visible'); // Show progress
+
 				},
 				success: function( data, textStatus, jqXHR )
 				{
@@ -176,8 +175,11 @@ $(function () {
 								uploadSuccess.append(data.data.filename); // Show filename on successful upload
 								successfullUpload.val(data.data .fullpath); // Add full file path to hidden input
 								uploadSuccess.attr('href', data.data.fullpath);
-								add_file.toggleClass('is-visible is-hidden');
-								result_wrapper.toggleClass('is-hidden is-visible');
+								add_file.toggleClass('is-visible is-hidden'); // Hide Add File
+								setTimeout(function() {
+									result_wrapper.toggleClass('is-hidden is-visible');
+								}, 500);
+
 								hiddenUrl.val(data.data.fullpath);
 								hiddenFilename.val(data.data.filename);
 								hiddenExtension.val(data.data.filetype);
@@ -216,7 +218,7 @@ $(function () {
 										console.log('Cancel');
 										//errorExists.remove(); // Remove error
 										uploadError.toggleClass('is-visible is-hidden'); // Hide error holder
-										fileWrapper.toggleClass('is-hidden is-visible'); // Bring back the upload buttton
+										fileWrapper.removeClass('is-hidden').addClass('is-visible'); // Bring back the upload buttton
 									}
 
 									event.preventDefault();
@@ -268,8 +270,7 @@ $(function () {
 						contentType: false,
 						async: false,
 						beforeSend: function(data) {
-							// fileWrapper.removeClass('is-visible').addClass('is-hidden animated fadeOut'); // Hide file inputs
-							// progressWrapper.toggleClass('is-hidden is-visible'); // Show progress
+
 						},
 						success: function( data, textStatus, jqXHR )
 						{
@@ -500,7 +501,9 @@ $(function () {
 			hiddenSize.val(size);
 			uploadSuccess.attr('href', fullPath);
 			addFile.toggleClass('is-visible is-hidden');
-			result_wrapper.toggleClass('is-hidden is-visible');
+			setTimeout(function() {
+				result_wrapper.toggleClass('is-hidden is-visible');
+			}, 500);
 
 			console.log(filename + ' selected');
 

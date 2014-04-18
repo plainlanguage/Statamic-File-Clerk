@@ -12,18 +12,33 @@
 
 .fileclerk {
 
+	.animated {
+		@include animation-duration( 1s );
+		@include animation-fill-mode( both );
+		@include backface-visibility( hidden );
+	}
+
 	// Hi, I am hidden
 	.is-hidden {
-		max-height: 0;
+		@include transition( opacity 0.1s linear );
+		@include transform(translate3d(0,0,0));
+		@include backface-visibility(hidden);
+		@include perspective(1000);
+		height: 0;
 		visibility: hidden;
 		opacity: 0;
 		overflow: hidden;
+		margin: 0;
+		padding: 0;
 	}
 
 	// Hi, I am visible
 	.is-visible {
-		display: block;
-		max-height: em(999);
+		@include transition( opacity 0.2s linear );
+		@include transform(translate3d(0,0,0));
+		@include backface-visibility(hidden);
+		@include perspective(1000);
+		height: auto;
 		visibility: visible;
 		opacity: 1.0;
 		overflow: auto;
