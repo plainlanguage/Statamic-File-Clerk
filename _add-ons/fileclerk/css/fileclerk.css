@@ -619,10 +619,12 @@
   background-color: white;
   background-image: -webkit-linear-gradient( white, #f4f4f0);
   background-image: linear-gradient( white, #f4f4f0);
-  border: 1px solid #d7d7ca;
-  border-radius: 4px;
+  border-top: 1px solid #d7d7ca;
+  border-right: 1px solid #d7d7ca;
+  border-left: 1px solid #d7d7ca;
+  border-radius: 4px 4px 0 0;
   text-align: left;
-  margin: 0 0 0.9375em 0;
+  margin: 0;
   padding: 0.5em 0;
   vertical-align: middle;
 }
