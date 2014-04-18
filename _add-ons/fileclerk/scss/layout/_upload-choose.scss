@@ -156,6 +156,11 @@ $control-bar-element-border-radius: em(5);
 		padding: em(25) 0 0 0;
 		position: relative;
 
+		&.is-visible {
+			width: 100%;
+			min-height: 50px;
+		}
+
 		input {
 			cursor: pointer;
 			font-size: em(100);

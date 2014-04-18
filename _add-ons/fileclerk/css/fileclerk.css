@@ -870,6 +870,10 @@
   padding: 1.5625em 0 0 0;
   position: relative;
 }
+.fileclerk .add-file .file-wrapper.is-visible {
+  width: 100%;
+  min-height: 50px;
+}
 .fileclerk .add-file .file-wrapper input {
   cursor: pointer;
   font-size: 6.25em;
