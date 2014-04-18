@@ -288,8 +288,8 @@ class Hooks_fileclerk extends Hooks
 		// @todo Ensure AJAX requests only!
 		if( ! Request::isAjax() )
 		{
-			echo FILECLERK_AJAX_WARNING;
-			exit;
+			// echo FILECLERK_AJAX_WARNING;
+			// exit;
 		}
 
 		// Destination config parameter
@@ -308,10 +308,11 @@ class Hooks_fileclerk extends Hooks
 		$uri       = Request::get('uri');
 		$uri       = explode('?', $uri);
 		$uri       = reset($uri);
-		$url       = Url::tidy( 's3://' . join('/', array($bucket, $directory, $uri)) );
+		//$url       = Url::tidy( 's3://' . join('/', array($bucket, $directory, $uri)) );
+		$s3_url       = Url::tidy( 's3://' . join('/', array($bucket, $directory, $uri)) );
 
 		// Let's make sure we  have a valid URL before movin' on
-		if( Url::isValid( $url ) )
+		if( Url::isValid( $s3_url ) )
 		{
 			$finder = new Finder();
 
@@ -320,7 +321,7 @@ class Hooks_fileclerk extends Hooks
 				$finder
 					->ignoreUnreadableDirs()
 					->ignoreDotFiles(true)
-					->in($url)
+					->in($s3_url)
 					->depth('== 0') // Do not allow access above the starting directory
 				;
 			}
@@ -372,8 +373,8 @@ class Hooks_fileclerk extends Hooks
 						'is_file'       => $file->isFile(),
 						'is_directory'  => $file->isDir(),
 						'size'          => $file->isDir() ? '--' : File::getHumanSize($file->getSize()),
-						'uri'           => null,
-						'url'           => Url::tidy( self::get_url_prefix($uri) . '/' . $file->getFilename() ),
+						'uri'           => $uri,
+						//'url'           => Url::tidy( self::get_url_prefix($uri) . '/' . $file->getFilename() ),
 					);
 
 					/**
@@ -381,7 +382,7 @@ class Hooks_fileclerk extends Hooks
 					 */
 					if( $file->isFile() ) // Push to files array
 					{
-						$file_data['uri'] = null;
+						//$file_data['uri'] = null;
 					}
 					elseif( $file->isDir() ) // Push to directories array
 					{
@@ -398,6 +399,9 @@ class Hooks_fileclerk extends Hooks
 					{
 						continue;
 					}
+
+					// Set the URL
+					$file_data['url'] = Url::tidy( self::get_url_prefix($uri) . '/' . $filename );
 
 					// Push file data to a new array with the filename as the key for sorting.
 					$data['list'][$filename] = $file_data;
@@ -509,6 +513,7 @@ class Hooks_fileclerk extends Hooks
 			'bucket'         => null,
 			'directory'      => null,
 			'permissions'    => 'public-read',
+			// @todo Should be removed. Possibly move to the main config as a default?
 			'content_types'  => array('jpg', 'jpeg', 'png', 'gif', 'pdf', 'doc'),
 		);
 
@@ -610,7 +615,7 @@ class Hooks_fileclerk extends Hooks
 		$bucket        = array_get($this->config, 'bucket');
 		$directory     = array_get($this->config, 'directory');
 
-		if( ! is_null($custom_domain) )
+		if( $custom_domain != '' )
 		{
 			return URL::tidy( 'http://'. $custom_domain .'/' . $uri . '/' . $directory . '/' );
 		}
