@@ -467,7 +467,7 @@ $control-bar-element-border-radius: em(5);
 	}
 
 	.error-message {
-		@include animation( bounceIn .6s );
+		@include animation( fadeIn .7s );
 		@include animation-fill-mode( both );
 		padding: em(25);
 

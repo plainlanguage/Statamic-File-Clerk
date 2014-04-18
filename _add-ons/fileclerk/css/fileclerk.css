@@ -196,6 +196,42 @@
     transform: translateY(0);
   }
 }
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+@-moz-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+@-o-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
 .button {
   border: none;
   border-radius: 4px;
@@ -798,9 +834,9 @@
   border-radius: 4px;
 }
 .fileclerk .add-file .error-message {
-  -webkit-animation: bounceIn 0.6s;
-  -moz-animation: bounceIn 0.6s;
-  animation: bounceIn 0.6s;
+  -webkit-animation: fadeIn 0.7s;
+  -moz-animation: fadeIn 0.7s;
+  animation: fadeIn 0.7s;
   -webkit-animation-fill-mode: both;
   -moz-animation-fill-mode: both;
   animation-fill-mode: both;
