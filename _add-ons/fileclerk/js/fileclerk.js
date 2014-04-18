@@ -172,7 +172,7 @@ $(function () {
 								// Success, so call function to process the form
 								console.log(data.success);
 								console.log('URL: ' + data.data.fullpath);
-								progressWrapper.addClass('is-hidden'); // Hide progress bar when a file is succesfully uploaded.
+								progressWrapper.toggleClass('is-visible is-hidden'); // Hide progress bar when a file is succesfully uploaded.
 								uploadSuccess.append(data.data.filename); // Show filename on successful upload
 								successfullUpload.val(data.data .fullpath); // Add full file path to hidden input
 								uploadSuccess.attr('href', data.data.fullpath);
