@@ -37,13 +37,16 @@ $(function () {
 			$('body').on( 'doubletap', '.is-directory', this.loadExisting );
 
 			// Breadcrumb
-			$('body').on( 'click', '.breadcrumb a, .error-no-results a', this.loadExisting );
+			$('body').on( 'click', '.breadcrumb a, .error-no-results a[data-uri]', this.loadExisting );
 
 			// Highlight Row
 			$('body').on( 'tap', '.view-list td', this.highlightRow );
 
 			// Select file
 			$('body').on( 'click', '[data-action="select_file"]', this.selectFile );
+
+			// Switch back to Upload New tab
+			$('body').on( 'click', '[data-action="go-back"]', this.goBack );
 
 			// File Exists Options
 			//$('body').on( 'click', '.error-exists a', this.fileExists );
@@ -426,6 +429,7 @@ $(function () {
 					else if( data.code === 500 )
 					{
 						breadcrumb.html(data.breadcrumb);
+						errorNoResults.remove();
 						$(data.html).prependTo(viewList);
 						viewListTable.addClass('is-hidden');
 						viewListTableBody.empty(); // Empty out tbody cause the height will get cray
@@ -454,7 +458,8 @@ $(function () {
 				siblings = $this.closest('tr').siblings(),
 				parent = $this.parent('tr'),
 				rows = $this.closest('tbody').find('tr'),
-				selectBtn = $this.closest('.view-remote').find('button[data-action="select_file"]');
+				selectBtn = $this.closest('.view-remote').find('button[data-action="select_file"]')
+			;
 
 			siblings.removeClass(highlight);
 			parent.toggleClass(highlight);
@@ -507,7 +512,8 @@ $(function () {
 				actionAttr = $this.attr('data-action'),
 				uploadError = $this.closest('.fileclerk').find('.upload-error'),
 				errorExists = $this.closest('.fileclerk').find('.upload-error .error-exists'),
-				fileWrapper = $this.closest('.fileclerk').find('.file-wrapper');
+				fileWrapper = $this.closest('.fileclerk').find('.file-wrapper')
+			;
 
 			// Clicked Replace
 			if (actionAttr === 'replace') {
@@ -524,6 +530,19 @@ $(function () {
 				uploadError.toggleClass('is-visible is-hidden'); // Hide error holder
 				fileWrapper.toggleClass('is-hidden is-visible'); // Bring back the upload buttton
 			}
+
+			event.preventDefault();
+		},
+
+		goBack: function( event ) {
+
+			var $this = $(this),
+				errorNoResults = $this.closest('.error-no-results'),
+				uploadNewTab = $this.closest('.fileclerk').find('.nav-tabs li:nth-child(1) a').attr('href')
+			;
+
+			$('a[href="' + uploadNewTab + '"]').tab('show');
+			errorNoResults.remove();
 
 			event.preventDefault();
 		}
