@@ -161,6 +161,10 @@ $control-bar-element-border-radius: em(5);
 			min-height: 50px;
 		}
 
+		&.is-hidden {
+			@include transition( height 0.1s ease-out );
+		}
+
 		input {
 			cursor: pointer;
 			font-size: em(100);
@@ -424,12 +428,22 @@ $control-bar-element-border-radius: em(5);
 	}
 
 	// Errors
+	.upload-error {
+
+		&.is-visible {
+			@include transition ( max-height 1.0s ease-in );
+		}
+
+		&.is-hidden {
+			@include transition ( max-height 0.5s ease-out );
+		}
+	}
+
 	.error-message {
 		@include backface-visibility(hidden);
 		 background-color: lighten( $color-tan-light, 3 );
 		 border: $border-default;
 		 border-radius: 4px;
-		 box-shadow: 0 1px 2px rgba( $color-black, 0.2 );
 		 padding: em(25) em(15);
 
 		ul {

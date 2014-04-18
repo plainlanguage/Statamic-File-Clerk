@@ -556,14 +556,6 @@
   backface-visibility: hidden;
 }
 
-.fileclerk .animated {
-  -webkit-animation-duration: 0.5s;
-  -moz-animation-duration: 0.5s;
-  animation-duration: 0.5s;
-  -webkit-animation-fill-mode: both;
-  -moz-animation-fill-mode: both;
-  animation-fill-mode: both;
-}
 .fileclerk .is-hidden {
   max-height: 0;
   visibility: hidden;
@@ -571,7 +563,8 @@
   overflow: hidden;
 }
 .fileclerk .is-visible {
-  max-height: auto;
+  display: block;
+  max-height: 62.4375em;
   visibility: visible;
   opacity: 1.0;
   overflow: auto;
@@ -874,6 +867,11 @@
   width: 100%;
   min-height: 50px;
 }
+.fileclerk .add-file .file-wrapper.is-hidden {
+  -webkit-transition: height 0.1s ease-out;
+  -moz-transition: height 0.1s ease-out;
+  transition: height 0.1s ease-out;
+}
 .fileclerk .add-file .file-wrapper input {
   cursor: pointer;
   font-size: 6.25em;
@@ -1133,13 +1131,22 @@
 .fileclerk .add-file .view-list .error-no-results .btn {
   float: none;
 }
+.fileclerk .add-file .upload-error.is-visible {
+  -webkit-transition: max-height 1s ease-in;
+  -moz-transition: max-height 1s ease-in;
+  transition: max-height 1s ease-in;
+}
+.fileclerk .add-file .upload-error.is-hidden {
+  -webkit-transition: max-height 0.5s ease-out;
+  -moz-transition: max-height 0.5s ease-out;
+  transition: max-height 0.5s ease-out;
+}
 .fileclerk .add-file .error-message {
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   background-color: #fafaf9;
   border: 1px solid #d7d7ca;
   border-radius: 4px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   padding: 1.5625em 0.9375em;
 }
 .fileclerk .add-file .error-message ul {
