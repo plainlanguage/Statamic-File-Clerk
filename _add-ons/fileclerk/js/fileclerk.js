@@ -100,6 +100,7 @@ $(function () {
 				filename = pathArray[pathArray.length-1],
 				uploadTab = $this.closest('.view-upload'),
 				postUrl = uploadTab.find('.postUrl').val(),
+				destination = uploadTab.find('.postUrl').data('destination');
 				fileWrapper = uploadTab.find('.file-wrapper'),
 				progressWrapper = uploadTab.find('.progress-bar'),
 				progressBar = progressWrapper.find('progress'),
@@ -263,7 +264,7 @@ $(function () {
 					$.ajax({
 						url: '/TRIGGER/fileclerk/filecheck',
 						type: 'GET',
-						data: {'destination': $this.data('destination'), 'filename': filename},
+						data: {'destination': destination, 'filename': filename},
 						cache: false,
 						dataType: 'JSON',
 						processData: true,

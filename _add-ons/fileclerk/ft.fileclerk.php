@@ -12,6 +12,7 @@ class Fieldtype_fileclerk extends Fieldtype {
 	);
 
 	static $field_settings;
+	static $errors;
 
 	function render()
 	{
@@ -22,6 +23,19 @@ class Fieldtype_fileclerk extends Fieldtype {
 		$field_settings = Fieldtype_fileclerk::get_field_settings();
 		$field_config   = array_get($field_settings, 'field_config', $field_settings);
 		$destination    = isset( $field_settings['destination'] ) ? $field_settings['destination'] : false;
+		$field_config   = Hooks_fileclerk::merge_configs($destination, 'html');
+
+		/**
+		 * If we have errors in the config, no (sur)render.
+		 */
+		if( isset($field_config['errors']) )
+		{
+			// Get the errors view file
+			$template = File::get( __DIR__ . '/views/error-no-render.html');
+
+			// Parse the errors template with error data
+			return Parse::template($template, array('errors' => $field_config['errors']));
+		}
 
 		// Field data
 		$data = array(
@@ -31,7 +45,7 @@ class Fieldtype_fileclerk extends Fieldtype {
 			'extension'      => null,
 			'field_data'     => $this->field_data,
 			'filename'       => null,
-			'id'             => $this->field_id,
+			'id'             => Helper::getRandomString(), // $this->field_id,
 			'name'           => $this->fieldname,
 			'size'           => null,
 			'tabindex'       => $this->tabindex,
@@ -55,25 +69,12 @@ class Fieldtype_fileclerk extends Fieldtype {
 		 * If there is a destination parameter set in the field,
 		 * let's append it to the action and choose_file
 		 */
-		if( $destination )
-		{
-			$query_data = array(
-				'destination' => $destination,
-			);
-
-		}
-		else
-		{
-			$query_data = array(
-				'destination' => false,
-			);
-		}
+		$query_data = $destination ? array('destination' => $destination) : array('destination' => false);
 
 		// Set the action attribute
 		$data['action'] .= '?' . http_build_query($query_data);
 
-
-		// Get the view file
+		// Get the fieldtype view file
 		$ft_template = File::get( __DIR__ . '/views/ft.fileclerk.html');
 
 		// Parse the template with data

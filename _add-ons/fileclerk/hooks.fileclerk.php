@@ -156,14 +156,17 @@ class Hooks_fileclerk extends Hooks
 			}
 
 			// Is a custom domain set in the config?
-			if ($custom_domain)
-			{
-				$fullPath = URL::tidy('http://'.$custom_domain.'/'.$directory.'/'.$filename);
-			}
-			else
-			{
-				$fullPath = URL::tidy('http://'.$bucket.'.s3.amazonaws.com'.'/'.$directory.'/'.$filename);
-			}
+			// if ($custom_domain)
+			// {
+			// 	$fullPath = URL::tidy('http://'.$custom_domain.'/'.$directory.'/'.$filename);
+			// }
+			// else
+			// {
+			// 	$fullPath = URL::tidy('http://'.$bucket.'.s3.amazonaws.com'.'/'.$directory.'/'.$filename);
+			// }
+
+			// Set the full path for the file.
+			$fullPath = Url::tidy( self::get_url_prefix($directory) . '/' . $filename );
 
 			$uploader = UploadBuilder::newInstance()
 				->setClient($this->client)
@@ -227,7 +230,8 @@ class Hooks_fileclerk extends Hooks
 		$filename    = Request::get('filename');
 		$filename    = File::cleanFilename($filename);
 
-		self::merge_configs( $destination );
+		//self::merge_configs( $destination );
+		$this->config = self::merge_configs( $destination );
 
 		$s3_path = self::build_s3_path();
 
@@ -297,6 +301,7 @@ class Hooks_fileclerk extends Hooks
 		$destination = is_null($destination) ? 0 : $destination;
 
 		// Merge configs before we proceed
+		//$this->config = self::merge_configs( $destination );
 		$this->config = self::merge_configs( $destination );
 
 		// Set default error to false
@@ -486,24 +491,36 @@ class Hooks_fileclerk extends Hooks
 		));
 
 		// Register Stream Wrapper
-		$this->client->registerStreamWrapper();
+		try
+		{
+			$this->client->registerStreamWrapper();
+		}
+		catch( Exception $e )
+		{
+			echo json_encode( $e->getMessage() );
+			exit;
+		}
 	}
 
 	/**
 	 * Merge all configs
 	 * @param string  $destination Paramter for destination YAML file to attempt to load.
+	 * @param string  $return_type Set the return type
 	 * @return array
 	 */
-	private function merge_configs( $destination = null )
+	public function merge_configs( $destination = null, $respons_type = 'json' )
 	{
 		// Set environment
 		$this->env = $env = Environment::detect( Config::getAll() );
+
+		// Error(s) holder
+		$errors = false;
 
 		// Create our S3 client
 		self::load_s3();
 
 		// Check for a destination config
-		$destination = Request::get('destination');
+		$destination = is_null( $destination ) ? Request::get('destination') : $destination;
 
 		// A complete list of all possible config variables
 		$config = array(
@@ -517,8 +534,11 @@ class Hooks_fileclerk extends Hooks
 			'content_types'  => array('jpg', 'jpeg', 'png', 'gif', 'pdf', 'doc'),
 		);
 
-		// Destination config array
-		$destination_config = array();
+		// Requried config values
+		$required_config = array(
+			'aws_access_key',
+			'aws_secret_key',
+		);
 
 		// Destination config values that even if null should override master config.
 		$allow_override = array(
@@ -526,6 +546,9 @@ class Hooks_fileclerk extends Hooks
 			'directory',
 			'content_types',
 		);
+
+		// Destination config array
+		$destination_config = array();
 
 		// Check that the destination config file exists
 		if( ! is_null($destination) || $destination !== 0 || $destination )
@@ -557,6 +580,19 @@ class Hooks_fileclerk extends Hooks
 		// merge config variables in order
 		$config = array_merge($config, $addon_config, $destination_config);
 
+		foreach( $required_config as $key )
+		{
+			if( ! isset($config[$key]) || $config[$key] == '' )
+			{
+				$errors[] = array( 'error' => "`{$key}` is a required config value." );
+			}
+		}
+
+		if( $errors )
+		{
+			$config['errors'] = $errors;
+		}
+
 		return $config;
 	}
 
@@ -569,13 +605,21 @@ class Hooks_fileclerk extends Hooks
 	{
 		$finder = new Finder();
 
-		$count = $finder
-					->files()
-					->in($path)
-					->name($filename)
-					->depth('== 0')
-					->count()
-		;
+		try
+		{
+			$count = $finder
+						->files()
+						->in($path)
+						->name($filename)
+						->depth('== 0')
+						->count()
+			;
+		}
+		catch ( Exception $e)
+		{
+			echo json_encode( $e->getMessage() );
+			exit;
+		}
 
 		return $count === 1 ? TRUE : FALSE;
 	}
