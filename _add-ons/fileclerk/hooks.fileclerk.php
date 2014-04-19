@@ -13,6 +13,7 @@ define('FILECLERK_LIST_ERROR', 600);
 define('FILECLERK_DISALLOWED_FILETYPE', 700);
 define('FILECLERK_FILE_DOES_NOT_EXIST', 800);
 define('FILECLERK_AJAX_WARNING', 'AJAX only, son.');
+define('FILECLERK_S3_ERROR', 900);
 
 use Aws\S3\S3Client;
 use Aws\S3\StreamWrapper;
@@ -74,8 +75,6 @@ class Hooks_fileclerk extends Hooks
 	 */
 	public function upload_file()
 	{
-
-		//$this->load_s3(); // Load S3
 
 		$error = false;
 		$data  = array();
@@ -189,6 +188,18 @@ class Hooks_fileclerk extends Hooks
 				$uploader->abort();
 				$error = true;
 				$error_message = $e->getMessage();
+
+				$errors = array(
+					'error' => $e->getMessage(),
+				);
+
+				// Set the template here
+				// $template = File::get( __DIR__ . '/views/list.html');
+				// $html = Parse::template($template, $errors);
+
+				echo self::build_response_json(false, true, FILECLERK_S3_ERROR, $e->getMessage(), 'error', $errors, null, null);
+				exit;
+
 			}
 		}
 
@@ -292,8 +303,8 @@ class Hooks_fileclerk extends Hooks
 		// @todo Ensure AJAX requests only!
 		if( ! Request::isAjax() )
 		{
-			// echo FILECLERK_AJAX_WARNING;
-			// exit;
+			echo FILECLERK_AJAX_WARNING;
+			exit;
 		}
 
 		// Destination config parameter
@@ -301,7 +312,6 @@ class Hooks_fileclerk extends Hooks
 		$destination = is_null($destination) ? 0 : $destination;
 
 		// Merge configs before we proceed
-		//$this->config = self::merge_configs( $destination );
 		$this->config = self::merge_configs( $destination );
 
 		// Set default error to false
@@ -497,7 +507,15 @@ class Hooks_fileclerk extends Hooks
 		}
 		catch( Exception $e )
 		{
-			echo json_encode( $e->getMessage() );
+			$errors = array(
+				'error' => $e->getMessage(),
+			);
+
+			// Set the template here
+			// $template = File::get( __DIR__ . '/views/list.html');
+			// $html = Parse::template($template, $errors);
+
+			echo self::build_response_json(false, true, FILECLERK_S3_ERROR, $e->getMessage(), 'error', $errors, null, null);
 			exit;
 		}
 	}
@@ -617,7 +635,15 @@ class Hooks_fileclerk extends Hooks
 		}
 		catch ( Exception $e)
 		{
-			echo json_encode( $e->getMessage() );
+			$errors = array(
+				'error' => $e->getMessage(),
+			);
+
+			// Set the template here
+			// $template = File::get( __DIR__ . '/views/list.html');
+			// $html = Parse::template($template, $errors);
+
+			echo self::build_response_json(false, true, FILECLERK_S3_ERROR, $e->getMessage(), 'error', $errors, null, null);
 			exit;
 		}
 
