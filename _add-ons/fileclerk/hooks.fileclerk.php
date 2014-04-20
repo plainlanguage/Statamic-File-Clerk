@@ -603,7 +603,7 @@ class Hooks_fileclerk extends Hooks
 		{
 			if( ! isset($config[$key]) || $config[$key] == '' )
 			{
-				$errors[] = array( 'error' => "<pre>{$key}</pre> is a required config value." );
+				$errors[] = array( 'error' => "<pre>{$key}</pre> is a required File Clerk config value." );
 			}
 		}
 
