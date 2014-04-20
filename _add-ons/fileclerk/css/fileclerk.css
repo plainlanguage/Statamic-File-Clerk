@@ -853,7 +853,7 @@
 }
 .fileclerk .error-message.no-render ul {
   background: url("../assets/build/img/icon-warning.png") 10px center no-repeat;
-  padding: 0 0 0 30px;
+  padding: 0 0 0 34px;
   text-align: left;
 }
 @media only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen and (min--moz-device-pixel-ratio: 1.3), only screen and (-o-min-device-pixel-ratio: 1.3 / 1), only screen and (min-resolution: 125dpi), only screen and (min-resolution: 1.3dppx) {
