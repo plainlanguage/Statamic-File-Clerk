@@ -11,12 +11,9 @@ module.exports = {
 			{src: ['_add-ons/fileclerk/assets/build/img/**.*']}, // Optimized images
 			{src: ['_add-ons/fileclerk/css/fileclerk.min.css'], filter: 'isFile'}, // Minified CSS
 			{src: ['_add-ons/fileclerk/js/build/**.js'], filter: 'isFile'}, // Minified JS
-			{src: ['_add-ons/fileclerk/views/'], filter: 'isFile'}, // Fieldtype Views
+			{src: ['_add-ons/fileclerk/views/**.html'], filter: 'isFile'}, // Fieldtype Views
 			{src: ['_add-ons/fileclerk/config.php'], filter: 'isFile'}, // Config File
-			{src: ['_add-ons/fileclerk/ft.fileclerk.php'], filter: 'isFile'}, // Fieldtype File
-			{src: ['_add-ons/fileclerk/hooks.fileclerk.php'], filter: 'isFile'}, // Hooks File
-			{src: ['_add-ons/fileclerk/pi.fileclerk.php'], filter: 'isFile'}, // Plugin File
-			{src: ['_add-ons/fileclerk/tasks.fileclerk.php'], filter: 'isFile'}, // Tasks File
+			{src: ['_add-ons/fileclerk/**.php'], filter: 'isFile'},
 
 			{src: ['_add-ons/fileclerk/vendor/autoload.php'], filter: 'isFile'}, // Autoload file
 			{src: ['_add-ons/fileclerk/vendor/composer/**/*']}, // Composer Files
