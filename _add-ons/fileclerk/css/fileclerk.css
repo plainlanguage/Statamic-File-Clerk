@@ -398,6 +398,23 @@
 .fileclerk {
   min-height: 52px;
 }
+@media screen and (max-width: 767px) {
+  .fileclerk {
+    padding-bottom: 0;
+  }
+  .fileclerk .btn {
+    margin-top: 15px;
+  }
+}
+.fileclerk p, .fileclerk li {
+  line-height: 1.4;
+}
+.fileclerk p {
+  padding-top: 15px;
+}
+.fileclerk pre {
+  margin: 0;
+}
 .fileclerk.yay {
   -webkit-animation: bounceIn 0.8s;
   -moz-animation: bounceIn 0.8s;
