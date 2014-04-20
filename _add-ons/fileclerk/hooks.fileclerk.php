@@ -350,6 +350,7 @@ class Hooks_fileclerk extends Hooks
 			// Data array for building out view
 			$data = array(
 				'crumbs' => explode('/', $uri), // Array of the currently request URI.
+				'destination' => $destination, // Array of the currently request URI.
 				'list'   => array(), // Files and dirs mixed
 			);
 
