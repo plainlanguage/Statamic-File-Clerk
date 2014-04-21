@@ -356,6 +356,7 @@ class Hooks_fileclerk extends Hooks
 			// Data array for building out view
 			$data = array(
 				'crumbs' => explode('/', $uri), // Array of the currently request URI.
+				'destination' => $destination, // Array of the currently request URI.
 				'list'   => array(), // Files and dirs mixed
 			);
 
@@ -608,7 +609,7 @@ class Hooks_fileclerk extends Hooks
 		{
 			if( ! isset($config[$key]) || $config[$key] == '' )
 			{
-				$errors[] = array( 'error' => "<pre>{$key}</pre> is a required config value." );
+				$errors[] = array( 'error' => "<pre>{$key}</pre> is a required File Clerk config value." );
 			}
 		}
 

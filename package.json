@@ -16,7 +16,8 @@
     "grunt-contrib-watch": "*",
     "grunt-newer": "*",
     "grunt-svgmin": "*",
-    "load-grunt-config": "*"
+    "load-grunt-config": "*",
+    "grunt-contrib-compress": "*"
   },
   "dependencies": {
     "time-grunt": "*"
