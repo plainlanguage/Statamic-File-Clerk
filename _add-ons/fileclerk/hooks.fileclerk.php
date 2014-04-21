@@ -18,6 +18,8 @@ define('FILECLERK_S3_ERROR', 900);
 use Aws\S3\S3Client;
 use Aws\S3\StreamWrapper;
 use Aws\S3\Enum\CannedAcl;
+use Aws\S3\Exception\Parser\S3ExceptionParser;
+use Aws\S3\Exception\S3Exception;
 use Aws\Common\Enum\Size;
 use Aws\Common\Exception\MultipartUploadException;
 use Aws\S3\Model\MultipartUpload\UploadBuilder;
@@ -339,11 +341,15 @@ class Hooks_fileclerk extends Hooks
 					->in($s3_url)
 					->depth('== 0') // Do not allow access above the starting directory
 				;
+
+				//$results = iterator_to_array($finder);
 			}
-			catch(Exception $e)
+			catch( Exception $e )
 			{
 				$error = $e->getMessage();
-				echo self::build_response_json(false, true, FILECLERK_LIST_ERROR, $error );
+
+				header('Content-Type: application/json');
+				echo self::build_response_json(false, true, FILECLERK_S3_ERROR, $error, 'error', null, null, null);
 				exit;
 			}
 
@@ -512,10 +518,13 @@ class Hooks_fileclerk extends Hooks
 			);
 
 			// Set the template here
-			// $template = File::get( __DIR__ . '/views/list.html');
-			// $html = Parse::template($template, $errors);
+			$template = File::get( __DIR__ . '/views/error-no-render.html');
 
-			echo self::build_response_json(false, true, FILECLERK_S3_ERROR, $e->getMessage(), 'error', $errors, null, null);
+			// Parse the template
+			$html = Parse::template($template, $errors);
+
+			header('Content-Type: application/json');
+			echo self::build_response_json(false, true, FILECLERK_S3_ERROR, $e->getMessage(), 'error', $errors, null, $html);
 			exit;
 		}
 	}
@@ -533,9 +542,6 @@ class Hooks_fileclerk extends Hooks
 
 		// Error(s) holder
 		$errors = false;
-
-		// Create our S3 client
-		self::load_s3();
 
 		// Check for a destination config
 		$destination = is_null( $destination ) ? Request::get('destination') : $destination;
@@ -611,6 +617,9 @@ class Hooks_fileclerk extends Hooks
 			$config['errors'] = $errors;
 		}
 
+		// Create our S3 client
+		self::load_s3();
+
 		return $config;
 	}
 
@@ -633,16 +642,18 @@ class Hooks_fileclerk extends Hooks
 						->count()
 			;
 		}
-		catch ( Exception $e)
+		catch ( Exception $e )
 		{
 			$errors = array(
 				'error' => $e->getMessage(),
 			);
 
 			// Set the template here
-			// $template = File::get( __DIR__ . '/views/list.html');
-			// $html = Parse::template($template, $errors);
+			$template = File::get( __DIR__ . '/views/error-no-render.html');
+			
+			$html = Parse::template($template, $errors);
 
+			header('Content-Type: application/json');
 			echo self::build_response_json(false, true, FILECLERK_S3_ERROR, $e->getMessage(), 'error', $errors, null, null);
 			exit;
 		}
