@@ -883,6 +883,7 @@
 }
 .fileclerk .error-message.no-render ul {
   background: url("../assets/build/img/icon-warning.png") 10px center no-repeat;
+  margin-top: 15px;
   padding: 0 0 0 34px;
   text-align: left;
 }
