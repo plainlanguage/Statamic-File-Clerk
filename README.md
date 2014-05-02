@@ -1,24 +1,24 @@
-# S3 Files
+# File Clerk
 A simple Amazon S3 add-on for Statamic
 
 ## Requirements
 - [Statamic 1.7+](http://statamic.com/ "Statamic")
 
 ## Installing
-1. Unzip the `s3files` add-on zip file
+1. Unzip the `fileclerk` add-on zip file
 2. In the unzipped folder, drag the following folders into your site's Statamic installation:
 
-- `_add-ons/s3files` goes into your installation's `_add-ons` folder
-- `_config/add-ons/s3files` goes into your installation's `_config/add-ons` folder
+- `_add-ons/fileclerk` goes into your installation's `_add-ons` folder
+- `_config/add-ons/fileclerk` goes into your installation's `_config/add-ons` folder
 
 ## Configuration
-There are two places to define settings for S3 Files.
+There are two places to define settings for File Clerk.
 
-1. **Master Settings** - You will find this in `_config/add-ons/s3files/s3files.yaml`
-2. **Destinations** - You can set different upload "destinations" by creating different YAML files in `_config/add-ons/s3files/destinations`
+1. **Master Settings** - You will find this in `_config/add-ons/fileclerk/fileclerk.yaml`
+2. **Destinations** - You can set different upload "destinations" by creating different YAML files in `_config/add-ons/fileclerk/destinations`
 
 ### Settings
-These are the settings you can configure for S3 Files.
+These are the settings you can configure for File Clerk.
 
 - `aws_access_key` - Required. Your AWS Access Key.
 - `aws_secret_key` - Required. Your AWS Secret Key.
@@ -29,7 +29,7 @@ These are the settings you can configure for S3 Files.
 - `permissions` - The permissions for the uploaded file. If left blank, all files will default to 'public-read'.
 
 ### Master Settings
-The **Master Settings** in `_config/add-ons/s3files/s3files.yaml` will be, well, the Master configuration. If you only need one upload location, you only need to worry about this file.
+The **Master Settings** in `_config/add-ons/fileclerk/fileclerk.yaml` will be, well, the Master configuration. If you only need one upload location, you only need to worry about this file.
 
 ### Destinations
 "But I want multiple upload locations!" Hey, I hear you. Good news! You can set up different **Destinations**.
@@ -38,15 +38,15 @@ Destination files will override any parameters set in the **Master Settings** fi
 
 For example, let's say you want an upload destination called "podcast".
 
-1. Create `podcast.yaml` in the `_config/add-ons/s3files/destinations/` directory
+1. Create `podcast.yaml` in the `_config/add-ons/fileclerk/destinations/` directory
 2. Include any of the settings you want to override (in theory, you could upload to different S3 accounts/buckets as long as you have the proper credentials although it's probably most likely you will be changing thinks like `bucket`, `directory`, `content_types`, and `permissions` in these files).
-3. In your fieldset, add `destination: podcast` as a parameter to your `s3files` field.
+3. In your fieldset, add `destination: podcast` as a parameter to your `fileclerk` field.
 
 ## Fieldtype Example
 ```
 fields:
-  s3upload:
-    type: s3files
+  upload:
+    type: fileclerk
     display: File Upload
     destination: podcast
 ```
