@@ -11,6 +11,7 @@ class Fieldtype_fileclerk extends Fieldtype {
 		'author_url'	=> FILECLERK_AUTHOR_URL
 	);
 
+	static $env;
 	static $field_settings;
 	static $errors;
 
@@ -23,7 +24,7 @@ class Fieldtype_fileclerk extends Fieldtype {
 		$field_settings = Fieldtype_fileclerk::get_field_settings();
 		$field_config   = array_get($field_settings, 'field_config', $field_settings);
 		$destination    = isset( $field_settings['destination'] ) ? $field_settings['destination'] : false;
-		$field_config   = Hooks_fileclerk::merge_configs($destination, 'html');
+		//$field_config   = $this->hooks->merge_configs($destination, 'html');
 
 		/**
 		 * If we have errors in the config, no (sur)render.
