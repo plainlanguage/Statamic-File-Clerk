@@ -167,7 +167,7 @@ class Hooks_fileclerk extends Hooks
 			// }
 
 			// Set the full path for the file.
-			$fullPath = Url::tidy( self::get_url_prefix($directory) . '/' . $filename );
+			$fullPath = Url::tidy( self::get_url_prefix() . '/' . $filename );
 
 			$uploader = UploadBuilder::newInstance()
 				->setClient($this->client)
@@ -305,8 +305,8 @@ class Hooks_fileclerk extends Hooks
 		// @todo Ensure AJAX requests only!
 		if( ! Request::isAjax() )
 		{
-			echo FILECLERK_AJAX_WARNING;
-			exit;
+			// echo FILECLERK_AJAX_WARNING;
+			// exit;
 		}
 
 		// Destination config parameter
@@ -325,7 +325,6 @@ class Hooks_fileclerk extends Hooks
 		$uri       = Request::get('uri');
 		$uri       = explode('?', $uri);
 		$uri       = reset($uri);
-		//$url       = Url::tidy( 's3://' . join('/', array($bucket, $directory, $uri)) );
 		$s3_url       = Url::tidy( 's3://' . join('/', array($bucket, $directory, $uri)) );
 
 		// Let's make sure we  have a valid URL before movin' on
@@ -342,7 +341,7 @@ class Hooks_fileclerk extends Hooks
 					->depth('== 0') // Do not allow access above the starting directory
 				;
 
-				//$results = iterator_to_array($finder);
+				$results = iterator_to_array($finder);
 			}
 			catch( Exception $e )
 			{

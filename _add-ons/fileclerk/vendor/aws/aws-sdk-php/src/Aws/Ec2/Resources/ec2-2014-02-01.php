@@ -8650,6 +8650,10 @@ return array (
                                     'type' => 'string',
                                     'sentAs' => 'publicIp',
                                 ),
+                                'PublicDnsName' => array(
+                                    'type' => 'string',
+                                    'sentAs' => 'publicDnsName',
+                                ),
                                 'IpOwnerId' => array(
                                     'type' => 'string',
                                     'sentAs' => 'ipOwnerId',
@@ -8710,6 +8714,10 @@ return array (
                                             'PublicIp' => array(
                                                 'type' => 'string',
                                                 'sentAs' => 'publicIp',
+                                            ),
+                                            'PublicDnsName' => array(
+                                                'type' => 'string',
+                                                'sentAs' => 'publicDnsName',
                                             ),
                                             'IpOwnerId' => array(
                                                 'type' => 'string',
@@ -11766,6 +11774,10 @@ return array (
                                         'type' => 'string',
                                         'sentAs' => 'publicIp',
                                     ),
+                                    'PublicDnsName' => array(
+                                        'type' => 'string',
+                                        'sentAs' => 'publicDnsName',
+                                    ),
                                     'IpOwnerId' => array(
                                         'type' => 'string',
                                         'sentAs' => 'ipOwnerId',
@@ -11826,6 +11838,10 @@ return array (
                                                 'PublicIp' => array(
                                                     'type' => 'string',
                                                     'sentAs' => 'publicIp',
+                                                ),
+                                                'PublicDnsName' => array(
+                                                    'type' => 'string',
+                                                    'sentAs' => 'publicDnsName',
                                                 ),
                                                 'IpOwnerId' => array(
                                                     'type' => 'string',
@@ -15591,6 +15607,20 @@ return array (
             'interval' => 15,
             'max_attempts' => 40,
             'acceptor.type' => 'output',
+        ),
+        '__SpotInstanceRequestState' => array(
+            'operation' => 'DescribeSpotInstanceRequests',
+            'acceptor.path' => 'SpotInstanceRequests/*/Status/Code',
+        ),
+        'SpotInstanceRequestFulfilled' => array(
+            'extends' => '__SpotInstanceRequestState',
+            'success.value' => 'fulfilled',
+            'failure.value' => array(
+                'schedule-expired',
+                'canceled-before-fulfillment',
+                'bad-parameters',
+                'system-error',
+            )
         ),
         '__InstanceState' => array(
             'operation' => 'DescribeInstances',
