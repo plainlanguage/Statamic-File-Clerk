@@ -88,4 +88,11 @@
 		}
 	}
 
+	.btn.btn-remove {
+		margin: 10px;
+
+		@include media($small) {
+			margin: 15px 0 0 0;
+		}
+	}
 }

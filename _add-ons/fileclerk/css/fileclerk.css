@@ -321,6 +321,14 @@
     background-size: 19px auto;
   }
 }
+.fileclerk .btn.btn-remove {
+  margin: 10px;
+}
+@media screen and (max-width: 767px) {
+  .fileclerk .btn.btn-remove {
+    margin: 15px 0 0 0;
+  }
+}
 
 .fileclerk .progress {
   width: 100%;

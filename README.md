@@ -1,6 +1,9 @@
 # File Clerk
 A friendly Amazon S3 file manager for Statamic
 
+## @todo
+1. Add info for `CacheControl` config settings once that is figured out
+
 ## Requirements
 - [Statamic 1.7+](http://statamic.com/ "Statamic")
 
