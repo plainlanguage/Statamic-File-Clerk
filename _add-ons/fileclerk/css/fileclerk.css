@@ -324,7 +324,7 @@
 .fileclerk .btn.btn-remove {
   margin: 10px;
 }
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 480px) {
   .fileclerk .btn.btn-remove {
     margin: 15px 0 0 0;
   }
@@ -419,7 +419,7 @@
 .fileclerk {
   min-height: 52px;
 }
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 480px) {
   .fileclerk {
     padding-bottom: 0;
   }
@@ -502,7 +502,7 @@
   border-top: 1px solid #d7d7ca;
   display: inline-block;
 }
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 480px) {
   .fileclerk .add-file .tabs li {
     width: 50%;
   }
@@ -538,13 +538,13 @@
     width: 10em;
   }
 }
-@media screen and (min-width: 768px) and (max-width: 959px) {
+@media screen and (min-width: 481px) and (max-width: 959px) {
   .fileclerk .add-file .tabs li a {
     padding: 0.5em 1.125em;
     width: 10em;
   }
 }
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 480px) {
   .fileclerk .add-file .tabs li a {
     font-size: 90%;
     padding: 0.5em 0.3125em;
