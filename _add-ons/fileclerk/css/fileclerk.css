@@ -355,6 +355,12 @@
   width: 90%;
   float: left;
 }
+.fileclerk .progress-bar progress[value]::-webkit-progress-bar {
+  background-color: #EDEDE7;
+  border-radius: 2px;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
 .fileclerk .progress-bar progress[value]::-webkit-progress-value {
   background: #4aae4e;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.2);
