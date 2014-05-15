@@ -95,28 +95,34 @@ $(function () {
 			event.preventDefault();
 
 			var $this = $(this),
-				fullPath = $this.val(),
-				pathArray = fullPath.split('\\'),
-				filename = pathArray[pathArray.length-1],
-				uploadTab = $this.closest('.view-upload'),
-				postUrl = uploadTab.find('.postUrl').val(),
-				destination = uploadTab.find('.postUrl').data('destination'),
-				fileWrapper = uploadTab.find('.file-wrapper'),
-				progressWrapper = uploadTab.find('.progress-bar'),
-				progressBar = progressWrapper.find('progress'),
-				progressPrc = progressWrapper.find('.prc'),
-				uploadSuccess = $this.closest('.fileclerk').find('.result .filename-display a'),
-				successfullUpload = $this.closest('.fileclerk').find('.result input.successful-upload'),
-				result_wrapper = $this.closest('.fileclerk').find('.result'),
-				fileClerkWrapper = $this.closest('.fileclerk'),
-				addFile = $this.closest('.fileclerk').find('.add-file'),
-				chooseExistingTab = addFile.find('.nav-tabs li:nth-child(2) a'),
-				uploadError = $this.closest('.fileclerk').find('.upload-error'),
+				fullPath            = $this.val(),
+				pathArray           = fullPath.split('\\'),
+				filename            = pathArray[pathArray.length-1],
+				uploadTab           = $this.closest('.view-upload'),
+				postUrl             = uploadTab.find('.postUrl').val(),
+				destination         = uploadTab.find('.postUrl').data('destination'),
+				fileWrapper         = uploadTab.find('.file-wrapper'),
+				progressWrapper     = uploadTab.find('.progress-bar'),
+				progressBar         = progressWrapper.find('progress'),
+				progressPrc         = progressWrapper.find('.prc'),
+				uploadSuccess       = $this.closest('.fileclerk').find('.result .filename-display a'),
+				successfullUpload   = $this.closest('.fileclerk').find('.result input.successful-upload'),
+				result_wrapper      = $this.closest('.fileclerk').find('.result'),
+				fileClerkWrapper    = $this.closest('.fileclerk'),
+				addFile             = $this.closest('.fileclerk').find('.add-file'),
+				chooseExistingTab   = addFile.find('.nav-tabs li:nth-child(2) a'),
+				uploadError         = $this.closest('.fileclerk').find('.upload-error'),
 				// Set some hidden inputs up in this thang.
-				hiddenUrl = $this.closest('.fileclerk').find('.result input.hidden-url'),
-				hiddenFilename = $this.closest('.fileclerk').find('.result input.hidden-filename'),
-				hiddenExtension = $this.closest('.fileclerk').find('.result input.hidden-extension'),
-				hiddenSize = $this.closest('.fileclerk').find('.result input.hidden-size')
+				hiddenUrl           = $this.closest('.fileclerk').find('.result input.hidden-url'),
+				hiddenFilename      = $this.closest('.fileclerk').find('.result input.hidden-filename'),
+				hiddenExtension     = $this.closest('.fileclerk').find('.result input.hidden-extension'),
+				hiddenSize          = $this.closest('.fileclerk').find('.result input.hidden-size'),
+				hiddenSizeBytes     = $this.closest('.fileclerk').find('.result input.hidden-size-bytes'),
+				hiddenSizeKilobytes = $this.closest('.fileclerk').find('.result input.hidden-size-kilobytes'),
+				hiddenSizeMegabytes = $this.closest('.fileclerk').find('.result input.hidden-size-megabytes'),
+				hiddenSizeGigabytes = $this.closest('.fileclerk').find('.result input.hidden-size-gigabytes'),
+				hiddenMimeType      = $this.closest('.fileclerk').find('.result input.hidden-mime-type'),
+				hiddenIsImage       = $this.closest('.fileclerk').find('.result input.hidden-is-image')
 			;
 
 			// Do we have a file to work with?
@@ -182,10 +188,17 @@ $(function () {
 								result_wrapper.toggleClass('is-hidden is-visible');
 								fileClerkWrapper.addClass('yay'); // Add a 'yay' class to .filewrapper
 
+								// Populate hidden fields, which stores field data
 								hiddenUrl.val(data.data.fullpath);
 								hiddenFilename.val(data.data.filename);
-								hiddenExtension.val(data.data.filetype);
-								hiddenSize.val(data.data.filesize);
+								hiddenExtension.val(data.data.extension);
+								hiddenSize.val(data.data.size);
+								hiddenSizeBytes.val(data.data.size_bytes);
+								hiddenSizeKilobytes.val(data.data.size_kilobytes);
+								hiddenSizeMegabytes.val(data.data.size_megabytes);
+								hiddenSizeGigabytes.val(data.data.size_gigabytes);
+								hiddenIsImage.val(data.data.is_image);
+								hiddenMimeType.val(data.data.mime_type);
 							}
 							// Upload failed
 							else if ( data.code === 200 )

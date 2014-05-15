@@ -28,8 +28,10 @@ use Symfony\Component\Finder\Finder;
 class Hooks_fileclerk extends Hooks
 {
 
-	protected $client;
+	private   $client;
 	protected $config;
+	private   $data;
+	private   $error;
 	protected $env;
 
 	/**
@@ -77,19 +79,41 @@ class Hooks_fileclerk extends Hooks
 	 */
 	public function upload_file()
 	{
-
-		$error = false;
-		$data  = array();
-
-		// Merge configs before we proceed
+		// Initialize variables
+		$this->error  = false;
+		$this->data   = $this->tasks->get_file_data_array();
 		$this->config = self::merge_configs(Request::get('destination'));
 
-		foreach($_FILES as $file)
+		foreach ( $_FILES as $file )
 		{
-			$filename	= $file['name'];
-			$filetype	= $file['type'];
-			$tmp_name	= $file['tmp_name'];
-			$filesize	= $file['size'];
+			/**
+			 * Set all file data here.
+			 * @todo Convert all vars below into keys inside $this->data.
+			 * @var array
+			 */
+			$data = $this->tasks->get_file_data_array();
+
+			// Extract file data
+			$filename  = $file['name'];
+			$data['filename'] = $file['name'];
+
+			$filetype  = $file['type'];
+			$data['filetype'] = $file['type'];
+
+			$mime_type = $file['type'];
+			$data['mime_type'] = $file['type'];
+
+			$tmp_name  = $file['tmp_name'];
+
+			$filesize  = $file['size'];
+			$data['size_bytes'] = $file['size'];
+			
+			$extension = File::getExtension($filename);
+			$data['extension'] = File::getExtension($filename);
+
+			// Check if file is an image and set as bool flag.
+			$mime_type_parts = explode('/', $filetype);
+			$is_image        = strtolower(reset($mime_type_parts)) === 'image' ? true : false;
 
 			// Check if the filetype is allowed in config
 			$allowed_content_types = array_get($this->config, 'content_types');
@@ -99,12 +123,14 @@ class Hooks_fileclerk extends Hooks
 			$mime_type = explode('/', $file['type']);
 			$mime_type = end($mime_type);
 
+			// Check the that file mime type is allowed
 			// Need an array of content types to proceed
 			if( is_array($allowed_content_types) )
 			{
-
+				// Get the html template
 				$file_not_allowed_template = File::get( __DIR__ . '/views/error-not-allowed.html');
 
+				// Only return JSON if the mime type is not allowed for upload
 				if( ! in_array($mime_type, $allowed_content_types) )
 				{
 					//echo self::build_response_json(false, true, FILECLERK_DISALLOWED_FILETYPE, 'Files of type ' . $mime_type . ' not allowed.');
@@ -120,18 +146,21 @@ class Hooks_fileclerk extends Hooks
 				}
 			}
 
+			// Not sure why we're doing this here?
 			$handle   = $tmp_name; // Set the full path of the uploaded file to use in setSource
 			$filename = File::cleanFilename($filename); // Clean Filename
 
 			// Add-on settings
+			// Do we need this?
 			$bucket			= $this->config['bucket'];
 			$directory		= $this->config['directory'];
 			$custom_domain	= $this->config['custom_domain'];
 			$set_acl		= $this->config['permissions'];
 
+			// Set the full S3 path to the bucket/key
 			$s3_path = Url::tidy( 's3://' . join('/', array($bucket, $directory)) );
 
-			// Check for file existence
+			// Check if the file already exists
 			if( self::file_exists( $s3_path, $filename ) )
 			{
 				$overwrite = Request::get('overwrite');
@@ -156,19 +185,10 @@ class Hooks_fileclerk extends Hooks
 				}
 			}
 
-			// Is a custom domain set in the config?
-			// if ($custom_domain)
-			// {
-			// 	$fullPath = URL::tidy('http://'.$custom_domain.'/'.$directory.'/'.$filename);
-			// }
-			// else
-			// {
-			// 	$fullPath = URL::tidy('http://'.$bucket.'.s3.amazonaws.com'.'/'.$directory.'/'.$filename);
-			// }
-
 			// Set the full path for the file.
 			$fullPath = Url::tidy( self::get_url_prefix() . '/' . $filename );
 
+			// Build up the upload object
 			$uploader = UploadBuilder::newInstance()
 				->setClient($this->client)
 				->setSource($handle)
@@ -183,12 +203,13 @@ class Hooks_fileclerk extends Hooks
 			// Do it.
 			try
 			{
+				// Try the upload
 				$uploader->upload();
 			}
 			catch (MultipartUploadException $e)
 			{
 				$uploader->abort();
-				$error = true;
+				$this->error = true;
 				$error_message = $e->getMessage();
 
 				$errors = array(
@@ -205,8 +226,8 @@ class Hooks_fileclerk extends Hooks
 			}
 		}
 
-		// Return Results
-		if( $error )
+		// Setup the return
+		if( $this->error )
 		{
 			header('Content-Type: application/json');
 			echo self::build_response_json(false, true, FILECLERK_FILE_UPLOAD_FAILED, $error_message);
@@ -214,11 +235,24 @@ class Hooks_fileclerk extends Hooks
 		}
 		else
 		{
+			/**
+			 * Data needed for view and field data
+			 * @var array
+			 * @todo Explicity set the array keys/values if needed, however, they should already be set, array already initialized.
+			 */
 			$data = array(
-				'filename'	=> $filename,
-				'filetype'	=> $filetype,
-				'filesize'	=> $filesize,
-				'fullpath'	=> $fullPath,
+				'extension'      => $extension,
+				'filename'       => $filename,
+				'filetype'       => $filetype,
+				'filesize'       => $filesize,
+				'fullpath'       => $fullPath,
+				'is_image'       => $is_image,
+				'mime_type'      => $filetype,
+				'size'           => File::getHumanSize($filesize),
+				'size_bytes'     => $filesize,
+				'size_kilobytes' => number_format($filesize / 1024, 2),
+				'size_megabytes' => number_format($filesize / 1048576, 2),
+				'size_gigabytes' => number_format($filesize / 1073741824, 2),
 			);
 
 			header('Content-Type: application/json');
@@ -303,10 +337,10 @@ class Hooks_fileclerk extends Hooks
 	public function fileclerk__list()
 	{
 		// @todo Ensure AJAX requests only!
-		if( ! Request::isAjax() )
+		if( ! Request::isAjax() && $this->env != 'dev' )
 		{
-			// echo FILECLERK_AJAX_WARNING;
-			// exit;
+			echo FILECLERK_AJAX_WARNING;
+			exit;
 		}
 
 		// Destination config parameter

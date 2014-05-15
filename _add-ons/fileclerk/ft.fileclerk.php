@@ -47,8 +47,14 @@ class Fieldtype_fileclerk extends Fieldtype {
 			'field_data'     => $this->field_data,
 			'filename'       => null,
 			'id'             => Helper::getRandomString(), // $this->field_id,
+			'is_image'       => null,
+			'mime_type'      => null,
 			'name'           => $this->fieldname,
 			'size'           => null,
+			'size_bytes'     => null,
+			'size_kilobytes' => null,
+			'size_megabytes' => null,
+			'size_gigabytes' => null,
 			'tabindex'       => $this->tabindex,
 			'value'          => $this->field_data,
 			'url'            => null,
@@ -62,7 +68,13 @@ class Fieldtype_fileclerk extends Fieldtype {
 			$data['basename_value'] = $field_data['filename'];
 			$data['extension']      = $field_data['extension'];
 			$data['filename']       = $field_data['filename'];
+			$data['is_image']       = $field_data['is_image'];
+			$data['mime_type']      = $field_data['mime_type'];
 			$data['size']           = $field_data['size'];
+			$data['size_bytes']     = $field_data['size_bytes'];
+			$data['size_kilobytes'] = $field_data['size_kilobytes'];
+			$data['size_megabytes'] = $field_data['size_megabytes'];
+			$data['size_gigabytes'] = $field_data['size_gigabytes'];
 			$data['url']            = $field_data['url'];
 		}
 
