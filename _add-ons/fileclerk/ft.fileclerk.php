@@ -101,28 +101,39 @@ class Fieldtype_fileclerk extends Fieldtype {
 
 	/**
 	 * Process the field data
-	 * @return void
+	 * @return (array) Field data.
 	 */
 	function process() {
 
+		// Only do stuff if field data is an array (assumes an entry submission is happening)
 		if( is_array($this->field_data) )
 		{
 			foreach( $this->field_data as $key => $value )
 			{
-				if( $value == 'filename' )
+				switch( $key )
 				{
-					trim( $this->field_data->$column );
+					case 'filename':
+						trim($this->field_data['filename']);
+						break;
+					case 'is_image':
+						$this->field_data['is_image'] = ( $value || $value == '1' ) ? true : false;
+						break;
+					case 'size_bytes':
+							$this->field_data[$key] = (int) $value;
+							break;
+					default:
+						(string) $value;
+						break;
 				}
 			}
 		}
 
-		$data = array( $this->field_data );
-		$this->field_data = $data;
-		Log::info( json_encode($this->field_data), 'File Clerk' );
+		// Field data needs to be a zero-index array
+		$this->field_data = array( $this->field_data );
 
 		return $this->field_data;
+
 	}
 
 }
-
 // END ft.fileclerk.php
