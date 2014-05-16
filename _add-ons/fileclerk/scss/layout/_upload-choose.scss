@@ -68,8 +68,12 @@ $control-bar-element-border-radius: em(5);
 	}
 
 	.filename-display {
+		background-color: yellow;
+		display: inline-block;
+		margin: em(15) 0 0 em(15);
 		@include bg-img(icon-success, png, 23px, 0, center, no-repeat);
 		padding-left: 30px;
+		position: relative;
 
 		a {
 			color: $color-gray-dark;
@@ -535,7 +539,95 @@ $control-bar-element-border-radius: em(5);
 //
 
 .fileclerk .result {
+	overflow: visible;
 
+	.preview {
+		@include image_replacement( em(35), em(25) );
+		@include transition( all 0.3s ease-in-out );
+		@include bg-img(icon-preview-image, png, 20px, center, center);
+		opacity: 0.5;
+		vertical-align: middle;
+
+		&:hover {
+			opacity: 1.0;
+		}
+	}
+
+	// Inline Preview!
+	.inline-preview {
+		$size: 300;
+		$pad: 15;
+		@include box-sizing(border-box);
+		@include position( absolute, em(-($size + 12)) em(-($size/2) + 20) 0 0 );
+		background-color: $color-white;
+		border: 1px solid $color-tan-mid;
+		border-radius: 4px;
+		box-shadow: 0 1px 2px rgba( $color-black, 0.2 );
+		display: block;
+		height: em($size);
+		overflow: visible;
+		padding: em($pad * 2) em($pad) em($pad) em($pad);
+		width: em($size);
+		z-index: 3;
+
+		&:after {
+			$triangle-size: 20;
+			@include position( absolute, 0 0 em(-($triangle-size+2)) em(($size/2)-($triangle-size)) );
+			border: {
+				left: $triangle-size+px solid transparent;
+				right: $triangle-size+px solid transparent;
+				top: $triangle-size+px solid $color-white;
+			}
+			content: '';
+			display: block;
+			height: 0;
+			width: 0;
+			z-index: 4;
+		}
+
+		&:before {
+			$triangle-size: 22;
+			@include position( absolute, 0 0 em(-($triangle-size+3)) em(($size/2)-($triangle-size)) );
+			border: {
+				left: $triangle-size+px solid transparent;
+				right: $triangle-size+px solid transparent;
+				top: $triangle-size+px solid $color-tan-mid;
+			}
+			content: '';
+			display: block;
+			height: 0;
+			width: 0;
+			z-index: 2;
+		}
+
+		&.is-visible {
+			@include animation( bounceIn .6s );
+			@include backface-visibility(hidden);
+		}
+
+		// Where it loads
+		.load {
+			@include box-sizing(border-box);
+			background-color: $color-tan-light;
+			box-shadow: inset 0 1px 1px rgba( $color-black, 0.2 );
+			height: em( $size - ($pad * 2) - $pad );
+			overflow-y: scroll;
+			width: 100%;
+		}
+
+		.modal-close {
+			$size: 25;
+			@include position( absolute, em(4) em($pad - 8) 0 0 );
+			@include image_replacement( em($size), em($size) );
+			@include bg-img(icon-preview-close, png, 8px, center, center);
+			@include transition( all 0.3s ease-in-out );
+			opacity: 0.7;
+
+			&:hover {
+				opacity: 1.0;
+			}
+		}
+	}
 }
 
 //  $$$$$$$$\                                               $$\      $$\

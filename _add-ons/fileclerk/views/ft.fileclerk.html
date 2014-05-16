@@ -66,7 +66,14 @@
 	</div>
 
 	<div class="result {{ if value }}is-visible{{ else }}is-hidden{{ endif }}">
-		<p><span class="filename-display"><a href="{{ url }}" rel="external">{{ basename_value }}</a></span></p><a class="btn btn-small btn-remove" href="#">Remove</a>
+		<span class="filename-display">{{ basename_value }}
+			<a class="preview" href="{{ url }}" rel="{{ if is_image }}inline{{ else }}external{{ endif }}">Preview</a>
+			<div class="inline-preview is-hidden">
+				<a class="modal-close" href="#">Close</a>
+				<div class="load"></div>
+			</div>
+		</span>
+		<a class="btn btn-small btn-remove" href="#">Remove</a>
 		<input type="hidden" name="{{ name }}" id="{{ name }}" class="successful-upload" value="{{ value }}">
 		<input type="hidden" name="{{ name }}[url]" class="hidden-url" value="{{ url }}">
 		<input type="hidden" name="{{ name }}[filename]" class="hidden-filename" value="{{ filename }}">

@@ -636,6 +636,65 @@ $(function () {
 		}
 	});
 
+	//  $$$$$$\           $$\ $$\                           $$$$$$$\                                $$\
+	//  \_$$  _|          $$ |\__|                          $$  __$$\                               \__|
+	//    $$ |  $$$$$$$\  $$ |$$\ $$$$$$$\   $$$$$$\        $$ |  $$ | $$$$$$\   $$$$$$\ $$\    $$\ $$\  $$$$$$\  $$\  $$\  $$\
+	//    $$ |  $$  __$$\ $$ |$$ |$$  __$$\ $$  __$$\       $$$$$$$  |$$  __$$\ $$  __$$\\$$\  $$  |$$ |$$  __$$\ $$ | $$ | $$ |
+	//    $$ |  $$ |  $$ |$$ |$$ |$$ |  $$ |$$$$$$$$ |      $$  ____/ $$ |  \__|$$$$$$$$ |\$$\$$  / $$ |$$$$$$$$ |$$ | $$ | $$ |
+	//    $$ |  $$ |  $$ |$$ |$$ |$$ |  $$ |$$   ____|      $$ |      $$ |      $$   ____| \$$$  /  $$ |$$   ____|$$ | $$ | $$ |
+	//  $$$$$$\ $$ |  $$ |$$ |$$ |$$ |  $$ |\$$$$$$$\       $$ |      $$ |      \$$$$$$$\   \$  /   $$ |\$$$$$$$\ \$$$$$\$$$$  |
+	//  \______|\__|  \__|\__|\__|\__|  \__| \_______|      \__|      \__|       \_______|   \_/    \__| \_______| \_____\____/
+	//
+	//
+	//
+	// For the inline, "tooltip" image previews
+
+	var inlinePreview = {
+
+		// Initialize
+		init: function() {
+
+			this.bindUIActions();
+		},
+
+		bindUIActions: function() {
+
+			// Show Modal
+			$('body').on( 'click', '.fileclerk a[rel="inline"]', this.showInlinePreview );
+
+			// Hide Modal
+			$('body').on( 'click', '.fileclerk .inline-preview .modal-close', this.hideInlinePreview );
+		},
+
+		showInlinePreview: function(event) {
+
+			var $this = $(this),
+				fileclerk = $this.closest('.fileclerk'),
+				modal = fileclerk.find('.inline-preview'),
+				close = fileclerk.find('.inline-preview .modal-close')
+			;
+
+			modal.toggleClass('is-hidden is-visible'); // Show Modal
+
+			event.preventDefault();
+			event.stopPropagation();
+		},
+
+		hideInlinePreview: function(event) {
+			var $this = $(this),
+				fileclerk = $this.closest('.fileclerk'),
+				modal = fileclerk.find('.inline-preview')
+			;
+
+			modal.toggleClass('is-visible is-hidden'); // Hide Modal
+
+			event.preventDefault();
+			event.stopPropagation();
+		}
+	}
+
+	inlinePreview.init();
+
 	//  $$$$$$$$\             $$\                                             $$\       $$\       $$\           $$\
 	//  $$  _____|            $$ |                                            $$ |      $$ |      \__|          $$ |
 	//  $$ |      $$\   $$\ $$$$$$\    $$$$$$\   $$$$$$\  $$$$$$$\   $$$$$$\  $$ |      $$ |      $$\ $$$$$$$\  $$ |  $$\  $$$$$$$\
@@ -648,7 +707,7 @@ $(function () {
 	//
 	//
 
-	var external_link = $('a[rel="external"]');
+	var external_link = $('.fileclerk a[rel="external"]');
 
 	external_link.on('click', function(event) {
 		event.preventDefault();
