@@ -22,25 +22,25 @@ class Plugin_fileclerk extends Plugin
 	public function index()
 	{
 		self::get_field();
-		return self::get('url');
+
+		return array(
+			'url'            => self::get('url'),
+			'filename'       => self::get('filename'),
+			'extension'      => self::get('extension'),
+			'size'           => self::get('size'),
+			'size_bytes'     => self::get('size_bytes'),
+			'size_kilobytes' => self::get('size_kilobytes'),
+			'size_megabytes' => self::get('size_megabytes'),
+			'size_gigabytes' => self::get('size_gigabytes'),
+			'is_image'       => self::get('is_image'),
+			'mime_type'      => self::get('mime_type')
+		);
 	}
 
 	public function url()
 	{
 		self::get_field();
 		return trim( self::get('url') );
-	}
-
-	/**
-	 * Return the file extension.
-	 * Single tag:
-	 * {{ fileclerk:extension field="" }}
-	 * @return (string)
-	 */
-	public function extension()
-	{
-		self::get_field();
-		return self::get('extension');
 	}
 
 	/**
@@ -56,6 +56,18 @@ class Plugin_fileclerk extends Plugin
 	}
 
 	/**
+	 * Return the file extension.
+	 * Single tag:
+	 * {{ fileclerk:extension field="" }}
+	 * @return (string)
+	 */
+	public function extension()
+	{
+		self::get_field();
+		return self::get('extension');
+	}
+
+	/**
 	 * Return the filesize.
 	 * Single tag:
 	 * {{ fileclerk:size field="" }}
@@ -65,6 +77,18 @@ class Plugin_fileclerk extends Plugin
 	{
 		self::get_field();
 		return self::get('size');
+	}
+
+	/**
+	 * Return the filesize in bytes.
+	 * Single tag:
+	 * {{ fileclerk:size_bytes field="" }}
+	 * @return (string)
+	 */
+	public function size_bytes()
+	{
+		self::get_field();
+		return self::get('size_bytes');
 	}
 
 	/**
@@ -103,14 +127,29 @@ class Plugin_fileclerk extends Plugin
 		return self::get('size_gigabytes');
 	}
 
-	/*
-	|--------------------------------------------------------------------------
-	| Check Filesize w cURL
-	|--------------------------------------------------------------------------
-	|
-	| http://stackoverflow.com/a/8159439
-	|
-	*/
+	/**
+	 * Return whether or not the file is an image.
+	 * Single tag:
+	 * {{ fileclerk:is_image field="" }}
+	 * @return (string)
+	 */
+	public function is_image()
+	{
+		self::get_field();
+		return self::get('is_image');
+	}
+
+	/**
+	 * Return the MIME type.
+	 * Single tag:
+	 * {{ fileclerk:mime_type field="" }}
+	 * @return (string)
+	 */
+	public function mime_type()
+	{
+		self::get_field();
+		return self::get('mime_type');
+	}
 
 	/**
 	 * Get the appropriate return based on the parameter.
@@ -131,20 +170,16 @@ class Plugin_fileclerk extends Plugin
 				case 'url':
 				case 'extension':
 				case 'filename':
+				case 'mime_type':
+				case 'size':
+				case 'size_kilobytes':
+				case 'size_megabytes':
+				case 'size_gigabytes':
 					return array_get($this->field, $key );
 					break;
-				case 'size':
-					$size = array_get($this->field, $key );
-					return (float) $size;
-					break;
-				case 'size_kilobytes':
-					return number_format(self::get('size') / 1024, 2);
-					break;
-				case 'size_megabytes':
-					return number_format(self::get('size') / 1048576, 2);
-					break;
-				case 'size_gigabytes':
-					return number_format(self::get('size') / 1073741824, 2);
+				case 'is_image':
+					$is_image = array_get($this->field, $key );
+					return (boolean) $is_image;
 					break;
 				default:
 					return false;
@@ -154,6 +189,15 @@ class Plugin_fileclerk extends Plugin
 		return false;
 
 	}
+
+	/*
+	|--------------------------------------------------------------------------
+	| Check Filesize w cURL
+	|--------------------------------------------------------------------------
+	|
+	| http://stackoverflow.com/a/8159439
+	|
+	*/
 
 	/**
 	 * Get filesize via cURL
