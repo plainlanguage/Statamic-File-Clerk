@@ -674,7 +674,6 @@ $(function () {
 					preview_button.removeClass('active');
 				}
 			});
-
 		},
 
 		showInlinePreview: function(event) {

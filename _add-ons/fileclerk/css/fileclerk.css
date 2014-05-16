@@ -934,12 +934,12 @@
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   position: absolute;
-  top: -19.5em;
-  right: -8.1875em;
+  top: -19.25em;
+  right: -8.25em;
   background-color: white;
   border: 1px solid #d7d7ca;
   border-radius: 3px;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.2);
   display: block;
   height: 18.75em;
   overflow: visible;
@@ -970,11 +970,11 @@
 }
 .fileclerk .result .inline-preview:before {
   position: absolute;
-  bottom: -1.625em;
-  left: 8em;
-  border-left: 22px solid transparent;
-  border-right: 22px solid transparent;
-  border-top: 22px solid #d7d7ca;
+  bottom: -1.5em;
+  left: 8.125em;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-top: 20px solid #d7d7ca;
   content: '';
   display: block;
   height: 0;

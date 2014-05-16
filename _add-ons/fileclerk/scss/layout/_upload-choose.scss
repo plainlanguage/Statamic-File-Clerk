@@ -578,11 +578,11 @@ $control-bar-element-border-radius: em(5);
 		$size: 300;
 		$pad: 15;
 		@include box-sizing(border-box);
-		@include position( absolute, em(-($size + 12)) em(-($size/2) + 19) 0 0 );
+		@include position( absolute, em(-($size + 8)) em(-($size/2) + 18) 0 0 );
 		background-color: $color-white;
 		border: 1px solid $color-tan-mid;
 		border-radius: 3px;
-		box-shadow: 0 1px 1px rgba( $color-black, 0.2 );
+		box-shadow: 0 0 1px rgba( $color-black, 0.2 );
 		display: block;
 		height: em($size);
 		overflow: visible;
@@ -611,7 +611,7 @@ $control-bar-element-border-radius: em(5);
 		}
 
 		&:before {
-			$triangle-size: 22;
+			$triangle-size: 20;
 			@include position( absolute, 0 0 em(-($triangle-size+4)) em(($size/2)-($triangle-size)) );
 			border: {
 				left: $triangle-size+px solid transparent;
