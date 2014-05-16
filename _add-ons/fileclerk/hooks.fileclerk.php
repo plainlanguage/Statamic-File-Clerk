@@ -232,6 +232,19 @@ class Hooks_fileclerk extends Hooks
 	}
 
 
+	public function ajax_preview()
+	{
+		$externalUrl = urldecode( Request::get('url') );
+		echo json_encode( array(
+			'error'	=> TRUE,
+			'type'	=> 'file',
+			'code'	=> 200,
+			'url'	=> $externalUrl,
+		));
+		header('Content-Type: application/json');
+		exit;
+	}
+
 	/*
 	|--------------------------------------------------------------------------
 	| TRIGGER AJAX methods here.
@@ -287,6 +300,27 @@ class Hooks_fileclerk extends Hooks
 				$object->upload_file();
 				Log::info('File uploaded.');
 				header('Content-Type: application/json');
+				return true;
+			ob_flush();
+		}
+		else
+		{
+			echo FILECLERK_AJAX_WARNING;
+			exit;
+		}
+	}
+
+	/**
+	 * AJAX - Image Preview
+	 *
+	 */
+	public function fileclerk__ajaxpreview()
+	{
+		if( Request::isAjax() ) // Make sure request is AJAX
+		{
+			ob_start();
+				$object = new Hooks_fileclerk();
+				$object->ajax_preview();
 				return true;
 			ob_flush();
 		}
@@ -654,7 +688,7 @@ class Hooks_fileclerk extends Hooks
 
 			// Set the template here
 			$template = File::get( __DIR__ . '/views/error-no-render.html');
-			
+
 			$html = Parse::template($template, $errors);
 
 			header('Content-Type: application/json');

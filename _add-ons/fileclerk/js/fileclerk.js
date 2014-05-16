@@ -680,16 +680,24 @@ $(function () {
 		showInlinePreview: function(event) {
 
 			var $this = $(this),
-				fileclerk = $this.closest('.fileclerk'),
-				modal = fileclerk.find('.inline-preview'),
-				all_modals = $('.fileclerk .inline-preview'),
-				all_preview_buttons = $('.fileclerk .result .preview')
+				fileclerk			= $this.closest('.fileclerk'),
+				externalUrl			= fileclerk.find('a.preview').attr('href'),
+				loadAJAX			= fileclerk.find('.inline-preview .load img'),
+				modal				= fileclerk.find('.inline-preview'),
+				all_modals			= $('.fileclerk .inline-preview'),
+				all_preview_buttons	= $('.fileclerk .result .preview')
 			;
 
 			all_modals.removeClass('is-visible').addClass('is-hidden'); // Hide all open modals if you open a new one
 			all_preview_buttons.removeClass('active');
 			modal.toggleClass('is-hidden is-visible'); // Show Modal
 			$this.addClass('active');
+
+			// Get external image
+			$.get('/TRIGGER/fileclerk/ajaxpreview?url=' + externalUrl, function(data) {
+				loadAJAX.attr('src', data.url);
+				console.log(data);
+			});
 
 			event.preventDefault();
 			event.stopPropagation();
