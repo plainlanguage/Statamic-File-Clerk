@@ -671,14 +671,11 @@ $(function () {
 			var $this = $(this),
 				fileclerk = $this.closest('.fileclerk'),
 				modal = fileclerk.find('.inline-preview'),
-				all_modals = $('.fileclerk .inline-preview'),
-				ajaxContainer = fileclerk.find('.inline-preview .load'), // .load
-				externalAsset = fileclerk.find('.preview').attr('href') // URL of the external image
+				all_modals = $('.fileclerk .inline-preview')
 			;
 
 			all_modals.removeClass('is-visible').addClass('is-hidden'); // Hide all open modals if you open a new one
 			modal.toggleClass('is-hidden is-visible'); // Show Modal
-			ajaxContainer.load(externalAsset);
 
 			event.preventDefault();
 			event.stopPropagation();

@@ -622,6 +622,12 @@ $control-bar-element-border-radius: em(5);
 			height: em( $size - ($pad * 2) - $pad );
 			overflow-y: scroll;
 			width: 100%;
+
+			img {
+				max-height: inherit;
+				max-width: 100%;
+				width: 100%;
+			}
 		}
 
 		.modal-close {

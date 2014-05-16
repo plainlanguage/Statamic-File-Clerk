@@ -983,6 +983,11 @@
   overflow-y: scroll;
   width: 100%;
 }
+.fileclerk .result .inline-preview .load img {
+  max-height: inherit;
+  max-width: 100%;
+  width: 100%;
+}
 .fileclerk .result .inline-preview .modal-close {
   position: absolute;
   top: 0.25em;
