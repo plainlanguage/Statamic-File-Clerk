@@ -494,6 +494,11 @@
 .fileclerk .filename-display a {
   color: #222222;
 }
+.fileclerk .ajax-spinner {
+  background-color: black;
+  color: #1e3640;
+  z-index: 500;
+}
 
 .fileclerk .add-file {
   -webkit-box-sizing: border-box;
@@ -656,11 +661,6 @@
   position: relative;
   overflow: hidden;
   z-index: 1;
-}
-.fileclerk .add-file .view-remote .ajax-spinner {
-  background-color: black;
-  color: #1e3640;
-  z-index: 500;
 }
 .fileclerk .add-file .view-remote .ajax-overlay {
   position: absolute;

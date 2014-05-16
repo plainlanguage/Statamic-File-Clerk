@@ -90,6 +90,13 @@ $control-bar-element-border-radius: em(5);
 			color: $color-gray-dark;
 		}
 	}
+
+	// AJAX Spinner
+	.ajax-spinner {
+		background-color: $color-black;
+		color: $color-gray-mid;
+		z-index: 500;
+	}
 }
 
 //   $$$$$$\        $$\       $$\       $$$$$$$$\ $$\ $$\
@@ -297,12 +304,6 @@ $control-bar-element-border-radius: em(5);
 		position: relative;
 		overflow: hidden;
 		z-index: 1;
-
-		.ajax-spinner {
-			background-color: $color-black;
-			color: $color-gray-mid;
-			z-index: 500;
-		}
 
 		.ajax-overlay {
 			@include position( absolute, 0px 0 0 0px );

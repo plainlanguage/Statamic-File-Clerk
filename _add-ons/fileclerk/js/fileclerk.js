@@ -685,7 +685,8 @@ $(function () {
 				loadAJAX			= fileclerk.find('.inline-preview .load img'),
 				modal				= fileclerk.find('.inline-preview'),
 				all_modals			= $('.fileclerk .inline-preview'),
-				all_preview_buttons	= $('.fileclerk .result .preview')
+				all_preview_buttons	= $('.fileclerk .result .preview'),
+				ajaxSpinner 		= fileclerk.find('.inline-preview .load .ajax-spinner')
 			;
 
 			all_modals.removeClass('is-visible').addClass('is-hidden'); // Hide all open modals if you open a new one
@@ -697,10 +698,23 @@ $(function () {
 			$.ajax({
 				url: '/TRIGGER/fileclerk/ajaxpreview?url=' + externalUrl,
 				cache: false,
-				dataType: 'JSON', // Jason.
+				dataType: 'JSON', // JSON
+				beforeSend: function(data) {
+					// Do stuff before sending. Loading Gif? (Chad, that's a soft `G`!) -- (Your mom is a soft 'G'. Love, Chad)
+					ajaxSpinner.spin({
+						lines: 10,
+						length: 6,
+						width: 2,
+						radius: 6,
+						corners: 0,
+						hwaccel: true
+						//top: '165px'
+					}); // Start spinner
+				},
 				success: function(data) {
 					loadAJAX.attr('src', data.url);
 					console.log(data);
+					ajaxSpinner.spin(false); // Stop spinner
 				}
 			});
 
