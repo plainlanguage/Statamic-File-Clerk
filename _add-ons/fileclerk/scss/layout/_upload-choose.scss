@@ -568,7 +568,7 @@ $control-bar-element-border-radius: em(5);
 		background-color: $color-white;
 		border: 1px solid $color-tan-mid;
 		border-radius: 4px;
-		box-shadow: 0 1px 2px rgba( $color-black, 0.2 );
+		box-shadow: 0 1px 1px rgba( $color-black, 0.2 );
 		display: block;
 		height: em($size);
 		overflow: visible;
@@ -578,7 +578,7 @@ $control-bar-element-border-radius: em(5);
 
 		&:after {
 			$triangle-size: 20;
-			@include position( absolute, 0 0 em(-($triangle-size+2)) em(($size/2)-($triangle-size)) );
+			@include position( absolute, 0 0 em(-($triangle-size+3)) em(($size/2)-($triangle-size)) );
 			border: {
 				left: $triangle-size+px solid transparent;
 				right: $triangle-size+px solid transparent;
@@ -593,7 +593,7 @@ $control-bar-element-border-radius: em(5);
 
 		&:before {
 			$triangle-size: 22;
-			@include position( absolute, 0 0 em(-($triangle-size+3)) em(($size/2)-($triangle-size)) );
+			@include position( absolute, 0 0 em(-($triangle-size+4)) em(($size/2)-($triangle-size)) );
 			border: {
 				left: $triangle-size+px solid transparent;
 				right: $triangle-size+px solid transparent;
@@ -607,13 +607,15 @@ $control-bar-element-border-radius: em(5);
 		}
 
 		&.is-hidden {
+			@include transition( opacity 0.1s ease-out );
 			height: 0;
+			opacity: 0;
 			padding: 0;
 		}
 
 		&.is-visible {
-			@include animation( bounceIn .6s );
-			@include backface-visibility(hidden);
+			@include transition( opacity 0.2s ease-in );
+			opacity: 1.0;
 		}
 
 		// Where it loads
@@ -621,6 +623,7 @@ $control-bar-element-border-radius: em(5);
 			@include box-sizing(border-box);
 			height: em( $size - ($pad * 2) - $pad );
 			overflow-y: scroll;
+			vertical-align: middle;
 			width: 100%;
 
 			img {

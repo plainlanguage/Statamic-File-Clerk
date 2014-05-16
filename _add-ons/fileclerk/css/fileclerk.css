@@ -930,7 +930,7 @@
   background-color: white;
   border: 1px solid #d7d7ca;
   border-radius: 4px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
   display: block;
   height: 18.75em;
   overflow: visible;
@@ -940,7 +940,7 @@
 }
 .fileclerk .result .inline-preview:after {
   position: absolute;
-  bottom: -1.375em;
+  bottom: -1.4375em;
   left: 8.125em;
   border-left: 20px solid transparent;
   border-right: 20px solid transparent;
@@ -953,7 +953,7 @@
 }
 .fileclerk .result .inline-preview:before {
   position: absolute;
-  bottom: -1.5625em;
+  bottom: -1.625em;
   left: 8em;
   border-left: 22px solid transparent;
   border-right: 22px solid transparent;
@@ -965,15 +965,18 @@
   z-index: 2;
 }
 .fileclerk .result .inline-preview.is-hidden {
+  -webkit-transition: opacity 0.1s ease-out;
+  -moz-transition: opacity 0.1s ease-out;
+  transition: opacity 0.1s ease-out;
   height: 0;
+  opacity: 0;
   padding: 0;
 }
 .fileclerk .result .inline-preview.is-visible {
-  -webkit-animation: bounceIn 0.6s;
-  -moz-animation: bounceIn 0.6s;
-  animation: bounceIn 0.6s;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
+  -webkit-transition: opacity 0.2s ease-in;
+  -moz-transition: opacity 0.2s ease-in;
+  transition: opacity 0.2s ease-in;
+  opacity: 1.0;
 }
 .fileclerk .result .inline-preview .load {
   -webkit-box-sizing: border-box;
@@ -981,6 +984,7 @@
   box-sizing: border-box;
   height: 15.9375em;
   overflow-y: scroll;
+  vertical-align: middle;
   width: 100%;
 }
 .fileclerk .result .inline-preview .load img {
