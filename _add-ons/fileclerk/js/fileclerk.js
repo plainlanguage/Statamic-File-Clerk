@@ -495,20 +495,22 @@ $(function () {
 			event.preventDefault();
 
 			var $this = $(this),
-				fileClerkWrapper = $this.closest('.fileclerk'),
-				fullPath = $this.closest('.view-remote').find('.view-list table tr.file.is-highlighted').data('file'),
-				filename = $this.closest('.view-remote').find('.view-list table tr.file.is-highlighted td.is-file').html(),
-				extension = $this.closest('.view-remote').find('.view-list table tr.file.is-highlighted').data('extension'),
-				size = $this.closest('.view-remote').find('.view-list table tr.file.is-highlighted').data('size'),
-				uploadSuccess = $this.closest('.fileclerk').find('.result .filename-display .filename'),
-				successfullUpload = $this.closest('.fileclerk').find('.result input.successful-upload'),
-				result_wrapper = $this.closest('.fileclerk').find('.result'),
-				addFile = $this.closest('.fileclerk').find('.add-file'),
-				//uploadError = $this.closest('.fileclerk').find('.upload-error'),
-				hiddenUrl = $this.closest('.fileclerk').find('.result input.hidden-url'),
-				hiddenFilename = $this.closest('.fileclerk').find('.result input.hidden-filename'),
-				hiddenExtension = $this.closest('.fileclerk').find('.result input.hidden-extension'),
-				hiddenSize = $this.closest('.fileclerk').find('.result input.hidden-size')
+				fileclerk			= $this.closest('.fileclerk'),
+				viewremote			= $this.closest('.view-remote'),
+				fullPath			= viewremote.find('.view-list table tr.file.is-highlighted').data('file'),
+				filename			= viewremote.find('.view-list table tr.file.is-highlighted td.is-file').html(),
+				extension			= viewremote.find('.view-list table tr.file.is-highlighted').data('extension'),
+				size				= viewremote.find('.view-list table tr.file.is-highlighted').data('size'),
+				uploadSuccess		= fileclerk.find('.result .filename-display .filename'),
+				successfullUpload	= fileclerk.find('.result input.successful-upload'),
+				result_wrapper		= fileclerk.find('.result'),
+				addFile				= fileclerk.find('.add-file'),
+				uploadPreview		= fileclerk.find('.preview'),
+				//uploadError		= fileclerk.find('.upload-error'),
+				hiddenUrl			= fileclerk.find('.result input.hidden-url'),
+				hiddenFilename		= fileclerk.find('.result input.hidden-filename'),
+				hiddenExtension		= fileclerk.find('.result input.hidden-extension'),
+				hiddenSize			= fileclerk.find('.result input.hidden-size')
 			;
 
 			uploadSuccess.append(filename); // Show filename on successful upload
@@ -518,9 +520,10 @@ $(function () {
 			hiddenExtension.val(extension);
 			hiddenSize.val(size);
 			uploadSuccess.attr('href', fullPath);
+			uploadPreview.removeClass('is-hidden').addClass('is-visible');
 			addFile.toggleClass('is-visible is-hidden');
 			result_wrapper.toggleClass('is-hidden is-visible');
-			fileClerkWrapper.addClass('yay'); // Add a 'yay' class to .filewrapper
+			fileclerk.addClass('yay'); // Add a 'yay' class to .filewrapper
 
 			console.log(filename + ' selected');
 
