@@ -95,6 +95,7 @@ $(function () {
 			event.preventDefault();
 
 			var $this = $(this),
+				fileclerk 			= $this.closest('.fileclerk'),
 				fullPath            = $this.val(),
 				pathArray           = fullPath.split('\\'),
 				filename            = pathArray[pathArray.length-1],
@@ -105,24 +106,25 @@ $(function () {
 				progressWrapper     = uploadTab.find('.progress-bar'),
 				progressBar         = progressWrapper.find('progress'),
 				progressPrc         = progressWrapper.find('.prc'),
-				uploadSuccess       = $this.closest('.fileclerk').find('.result .filename-display a'),
-				successfullUpload   = $this.closest('.fileclerk').find('.result input.successful-upload'),
-				result_wrapper      = $this.closest('.fileclerk').find('.result'),
-				fileClerkWrapper    = $this.closest('.fileclerk'),
-				addFile             = $this.closest('.fileclerk').find('.add-file'),
+				uploadSuccess       = fileclerk.find('.result .filename-display .filename'),
+				successfullUpload   = fileclerk.find('.result input.successful-upload'),
+				result_wrapper      = fileclerk.find('.result'),
+				fileClerkWrapper    = fileclerk,
+				addFile             = fileclerk.find('.add-file'),
 				chooseExistingTab   = addFile.find('.nav-tabs li:nth-child(2) a'),
-				uploadError         = $this.closest('.fileclerk').find('.upload-error'),
+				uploadError         = fileclerk.find('.upload-error'),
+				uploadPreview		= fileclerk.find('.preview'),
 				// Set some hidden inputs up in this thang.
-				hiddenUrl           = $this.closest('.fileclerk').find('.result input.hidden-url'),
-				hiddenFilename      = $this.closest('.fileclerk').find('.result input.hidden-filename'),
-				hiddenExtension     = $this.closest('.fileclerk').find('.result input.hidden-extension'),
-				hiddenSize          = $this.closest('.fileclerk').find('.result input.hidden-size'),
-				hiddenSizeBytes     = $this.closest('.fileclerk').find('.result input.hidden-size-bytes'),
-				hiddenSizeKilobytes = $this.closest('.fileclerk').find('.result input.hidden-size-kilobytes'),
-				hiddenSizeMegabytes = $this.closest('.fileclerk').find('.result input.hidden-size-megabytes'),
-				hiddenSizeGigabytes = $this.closest('.fileclerk').find('.result input.hidden-size-gigabytes'),
-				hiddenMimeType      = $this.closest('.fileclerk').find('.result input.hidden-mime-type'),
-				hiddenIsImage       = $this.closest('.fileclerk').find('.result input.hidden-is-image')
+				hiddenUrl           = fileclerk.find('.result input.hidden-url'),
+				hiddenFilename      = fileclerk.find('.result input.hidden-filename'),
+				hiddenExtension     = fileclerk.find('.result input.hidden-extension'),
+				hiddenSize          = fileclerk.find('.result input.hidden-size'),
+				hiddenSizeBytes     = fileclerk.find('.result input.hidden-size-bytes'),
+				hiddenSizeKilobytes = fileclerk.find('.result input.hidden-size-kilobytes'),
+				hiddenSizeMegabytes = fileclerk.find('.result input.hidden-size-megabytes'),
+				hiddenSizeGigabytes = fileclerk.find('.result input.hidden-size-gigabytes'),
+				hiddenMimeType      = fileclerk.find('.result input.hidden-mime-type'),
+				hiddenIsImage       = fileclerk.find('.result input.hidden-is-image')
 			;
 
 			// Do we have a file to work with?
@@ -187,6 +189,7 @@ $(function () {
 								addFile.toggleClass('is-visible is-hidden'); // Hide Add File
 								result_wrapper.toggleClass('is-hidden is-visible');
 								fileClerkWrapper.addClass('yay'); // Add a 'yay' class to .filewrapper
+								uploadPreview.removeClass('is-hidden').addClass('is-visible'); // Show 'preview' icon
 
 								// Populate hidden fields, which stores field data
 								hiddenUrl.val(data.data.fullpath);
@@ -373,20 +376,14 @@ $(function () {
 				result_wrapper = $this.closest('.fileclerk').find('.result'),
 				addFile = $this.closest('.fileclerk').find('.add-file'),
 				successful_upload = $this.closest('.fileclerk').find('.result input.successful-upload'),
-				hiddenUrl = $this.closest('.fileclerk').find('.result input.hidden-url'),
-				hiddenFilename = $this.closest('.fileclerk').find('.result input.hidden-filename'),
-				hiddenExtension = $this.closest('.fileclerk').find('.result input.hidden-extension'),
-				hiddenSize = $this.closest('.fileclerk').find('.result input.hidden-size'),
-				filename_display = $this.closest('.fileclerk').find('.result .filename-display a'),
+				hiddenValues = $this.closest('.fileclerk').find('.result input[type="hidden"]'),
+				filename_display = $this.closest('.fileclerk').find('.result .filename-display .filename'),
 				fileWrapper = $this.closest('.fileclerk').find('.file-wrapper')
 			;
 
 			event.preventDefault();
 			successful_upload.val(''); // Empty out hidden field w/ url
-			hiddenUrl.val(''); // Empty out hidden field w/ url
-			hiddenFilename.val(''); // Empty out hidden field w/ url
-			hiddenExtension.val(''); // Empty out hidden field w/ url
-			hiddenSize.val(''); // Empty out hidden field w/ url
+			hiddenValues.val(''); // Empty out hidden field w/ url
 			filename_display.html(''); // Empty display filename
 			result_wrapper.toggleClass('is-visible is-hidden');
 			setTimeout(function() {
@@ -503,7 +500,7 @@ $(function () {
 				filename = $this.closest('.view-remote').find('.view-list table tr.file.is-highlighted td.is-file').html(),
 				extension = $this.closest('.view-remote').find('.view-list table tr.file.is-highlighted').data('extension'),
 				size = $this.closest('.view-remote').find('.view-list table tr.file.is-highlighted').data('size'),
-				uploadSuccess = $this.closest('.fileclerk').find('.result .filename-display a'),
+				uploadSuccess = $this.closest('.fileclerk').find('.result .filename-display .filename'),
 				successfullUpload = $this.closest('.fileclerk').find('.result input.successful-upload'),
 				result_wrapper = $this.closest('.fileclerk').find('.result'),
 				addFile = $this.closest('.fileclerk').find('.add-file'),
@@ -671,11 +668,14 @@ $(function () {
 			var $this = $(this),
 				fileclerk = $this.closest('.fileclerk'),
 				modal = fileclerk.find('.inline-preview'),
-				all_modals = $('.fileclerk .inline-preview')
+				all_modals = $('.fileclerk .inline-preview'),
+				ajaxContainer = fileclerk.find('.inline-preview .load'), // .load
+				externalAsset = fileclerk.find('.preview').attr('href') // URL of the external image
 			;
 
 			all_modals.removeClass('is-visible').addClass('is-hidden'); // Hide all open modals if you open a new one
 			modal.toggleClass('is-hidden is-visible'); // Show Modal
+			ajaxContainer.load(externalAsset);
 
 			event.preventDefault();
 			event.stopPropagation();
