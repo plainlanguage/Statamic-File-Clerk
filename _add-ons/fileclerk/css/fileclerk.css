@@ -434,6 +434,10 @@
     margin-top: 15px;
   }
 }
+.fileclerk.file-field-container img {
+  max-height: inherit;
+  max-width: inherit;
+}
 .fileclerk p, .fileclerk li {
   line-height: 1.4;
 }
@@ -480,6 +484,11 @@
   .fileclerk .filename-display {
     background: url("../assets/build/img/icon-success@2x.png") 0 center no-repeat;
     background-size: 23px auto;
+  }
+}
+@media screen and (max-width: 480px) {
+  .fileclerk .filename-display {
+    position: inherit;
   }
 }
 .fileclerk .filename-display a {
@@ -938,6 +947,14 @@
   width: 18.75em;
   z-index: 3;
 }
+@media screen and (max-width: 480px) {
+  .fileclerk .result .inline-preview {
+    position: absolute;
+    top: -19.5em;
+    left: 50%;
+    margin-left: -9.375em;
+  }
+}
 .fileclerk .result .inline-preview:after {
   position: absolute;
   bottom: -1.4375em;
@@ -988,9 +1005,12 @@
   width: 100%;
 }
 .fileclerk .result .inline-preview .load img {
-  max-height: inherit;
   max-width: 100%;
-  width: 100%;
+}
+@media screen and (max-width: 480px) {
+  .fileclerk .result .inline-preview .load img {
+    max-width: 16.875em;
+  }
 }
 .fileclerk .result .inline-preview .modal-close {
   position: absolute;

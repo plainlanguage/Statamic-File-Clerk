@@ -36,6 +36,14 @@ $control-bar-element-border-radius: em(5);
 		}
 	}
 
+	&.file-field-container {
+
+		img {
+			max-height: inherit;
+			max-width: inherit;
+		}
+	}
+
 	p, li {
 		line-height: 1.4;
 	}
@@ -73,6 +81,10 @@ $control-bar-element-border-radius: em(5);
 		@include bg-img(icon-success, png, 23px, 0, center, no-repeat);
 		padding-left: 30px;
 		position: relative;
+
+		@include media($small) {
+			position: inherit;
+		}
 
 		a {
 			color: $color-gray-dark;
@@ -577,6 +589,11 @@ $control-bar-element-border-radius: em(5);
 		width: em($size);
 		z-index: 3;
 
+		@include media($small) {
+			@include position( absolute, em(-($size + 12)) 0 0 50% );
+			margin-left: em(-($size/2));
+		}
+
 		&:after {
 			$triangle-size: 20;
 			@include position( absolute, 0 0 em(-($triangle-size+3)) em(($size/2)-($triangle-size)) );
@@ -628,9 +645,11 @@ $control-bar-element-border-radius: em(5);
 			width: 100%;
 
 			img {
-				max-height: inherit;
 				max-width: 100%;
-				width: 100%;
+
+				@include media($small) {
+					max-width: em($size - ($pad * 2));
+				}
 			}
 		}
 
