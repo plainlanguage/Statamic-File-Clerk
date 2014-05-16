@@ -671,9 +671,10 @@ $(function () {
 			var $this = $(this),
 				fileclerk = $this.closest('.fileclerk'),
 				modal = fileclerk.find('.inline-preview'),
-				close = fileclerk.find('.inline-preview .modal-close')
+				all_modals = $('.fileclerk .inline-preview')
 			;
 
+			all_modals.removeClass('is-visible').addClass('is-hidden'); // Hide all open modals if you open a new one
 			modal.toggleClass('is-hidden is-visible'); // Show Modal
 
 			event.preventDefault();
