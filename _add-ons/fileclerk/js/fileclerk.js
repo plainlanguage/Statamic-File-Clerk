@@ -694,9 +694,14 @@ $(function () {
 			$this.addClass('active');
 
 			// Get external image
-			$.get('/TRIGGER/fileclerk/ajaxpreview?url=' + externalUrl, function(data) {
-				loadAJAX.attr('src', data.url);
-				console.log(data);
+			$.ajax({
+				url: '/TRIGGER/fileclerk/ajaxpreview?url=' + externalUrl,
+				cache: false,
+				dataType: 'JSON', // Jason.
+				success: function(data) {
+					loadAJAX.attr('src', data.url);
+					console.log(data);
+				}
 			});
 
 			event.preventDefault();
