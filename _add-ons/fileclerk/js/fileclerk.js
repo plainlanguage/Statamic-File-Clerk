@@ -668,7 +668,10 @@ $(function () {
 				if(event.keyCode === 27)
 				{
 					var all_modals = $('.fileclerk .inline-preview');
+					var preview_button = $('.fileclerk .result .preview');
+
 					all_modals.removeClass('is-visible').addClass('is-hidden');
+					preview_button.removeClass('active');
 				}
 			});
 
@@ -679,10 +682,12 @@ $(function () {
 			var $this = $(this),
 				fileclerk = $this.closest('.fileclerk'),
 				modal = fileclerk.find('.inline-preview'),
-				all_modals = $('.fileclerk .inline-preview')
+				all_modals = $('.fileclerk .inline-preview'),
+				all_preview_buttons = $('.fileclerk .result .preview')
 			;
 
 			all_modals.removeClass('is-visible').addClass('is-hidden'); // Hide all open modals if you open a new one
+			all_preview_buttons.removeClass('active');
 			modal.toggleClass('is-hidden is-visible'); // Show Modal
 			$this.addClass('active');
 
