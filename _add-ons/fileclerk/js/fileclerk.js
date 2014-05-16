@@ -109,7 +109,6 @@ $(function () {
 				uploadSuccess       = fileclerk.find('.result .filename-display .filename'),
 				successfullUpload   = fileclerk.find('.result input.successful-upload'),
 				result_wrapper      = fileclerk.find('.result'),
-				fileClerkWrapper    = fileclerk,
 				addFile             = fileclerk.find('.add-file'),
 				chooseExistingTab   = addFile.find('.nav-tabs li:nth-child(2) a'),
 				uploadError         = fileclerk.find('.upload-error'),
@@ -188,7 +187,7 @@ $(function () {
 								uploadSuccess.attr('href', data.data.fullpath);
 								addFile.toggleClass('is-visible is-hidden'); // Hide Add File
 								result_wrapper.toggleClass('is-hidden is-visible');
-								fileClerkWrapper.addClass('yay'); // Add a 'yay' class to .filewrapper
+								fileclerk.addClass('yay'); // Add a 'yay' class to .filewrapper
 								uploadPreview.removeClass('is-hidden').addClass('is-visible'); // Show 'preview' icon
 
 								// Populate hidden fields, which stores field data
@@ -664,6 +663,15 @@ $(function () {
 
 			// Hide Modal
 			$('body').on( 'click', '.fileclerk .inline-preview .modal-close', this.hideInlinePreview );
+
+			$(document).keyup( function(event) {
+				if(event.keyCode === 27)
+				{
+					var all_modals = $('.fileclerk .inline-preview');
+					all_modals.removeClass('is-visible').addClass('is-hidden');
+				}
+			});
+
 		},
 
 		showInlinePreview: function(event) {
@@ -676,6 +684,7 @@ $(function () {
 
 			all_modals.removeClass('is-visible').addClass('is-hidden'); // Hide all open modals if you open a new one
 			modal.toggleClass('is-hidden is-visible'); // Show Modal
+			$this.addClass('active');
 
 			event.preventDefault();
 			event.stopPropagation();
@@ -684,10 +693,12 @@ $(function () {
 		hideInlinePreview: function(event) {
 			var $this = $(this),
 				fileclerk = $this.closest('.fileclerk'),
-				modal = fileclerk.find('.inline-preview')
+				modal = fileclerk.find('.inline-preview'),
+				previewButton = fileclerk.find('.preview')
 			;
 
 			modal.toggleClass('is-visible is-hidden'); // Hide Modal
+			previewButton.removeClass('active');
 
 			event.preventDefault();
 			event.stopPropagation();

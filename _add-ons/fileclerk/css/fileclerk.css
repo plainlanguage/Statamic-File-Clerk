@@ -897,7 +897,7 @@
   display: inline-block;
   height: 1.5625em;
   overflow: hidden;
-  width: 2.1875em;
+  width: 1.875em;
   -webkit-transition: all 0.3s ease-in-out;
   -moz-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
@@ -917,7 +917,7 @@
     background-size: 20px auto;
   }
 }
-.fileclerk .result .preview:hover {
+.fileclerk .result .preview:hover, .fileclerk .result .preview.active {
   opacity: 1.0;
 }
 .fileclerk .result .inline-preview {
@@ -926,10 +926,10 @@
   box-sizing: border-box;
   position: absolute;
   top: -19.5em;
-  right: -8.125em;
+  right: -8.1875em;
   background-color: white;
   border: 1px solid #d7d7ca;
-  border-radius: 4px;
+  border-radius: 3px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
   display: block;
   height: 18.75em;

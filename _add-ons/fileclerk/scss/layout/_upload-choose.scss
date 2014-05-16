@@ -548,13 +548,14 @@ $control-bar-element-border-radius: em(5);
 	}
 
 	.preview {
-		@include image_replacement( em(35), em(25) );
+		@include image_replacement( em(30), em(25) );
 		@include transition( all 0.3s ease-in-out );
 		@include bg-img(icon-preview-image, png, 20px, center, center);
 		opacity: 0.5;
 		vertical-align: middle;
 
-		&:hover {
+		&:hover,
+		&.active {
 			opacity: 1.0;
 		}
 	}
@@ -564,10 +565,10 @@ $control-bar-element-border-radius: em(5);
 		$size: 300;
 		$pad: 15;
 		@include box-sizing(border-box);
-		@include position( absolute, em(-($size + 12)) em(-($size/2) + 20) 0 0 );
+		@include position( absolute, em(-($size + 12)) em(-($size/2) + 19) 0 0 );
 		background-color: $color-white;
 		border: 1px solid $color-tan-mid;
-		border-radius: 4px;
+		border-radius: 3px;
 		box-shadow: 0 1px 1px rgba( $color-black, 0.2 );
 		display: block;
 		height: em($size);
