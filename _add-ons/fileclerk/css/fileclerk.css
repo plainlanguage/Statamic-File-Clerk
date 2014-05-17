@@ -434,6 +434,10 @@
     margin-top: 15px;
   }
 }
+.fileclerk.file-field-container img {
+  max-height: inherit;
+  max-width: inherit;
+}
 .fileclerk p, .fileclerk li {
   line-height: 1.4;
 }
@@ -482,8 +486,18 @@
     background-size: 23px auto;
   }
 }
+@media screen and (max-width: 480px) {
+  .fileclerk .filename-display {
+    position: inherit;
+  }
+}
 .fileclerk .filename-display a {
   color: #222222;
+}
+.fileclerk .ajax-spinner {
+  background-color: black;
+  color: #1e3640;
+  z-index: 500;
 }
 
 .fileclerk .add-file {
@@ -647,11 +661,6 @@
   position: relative;
   overflow: hidden;
   z-index: 1;
-}
-.fileclerk .add-file .view-remote .ajax-spinner {
-  background-color: black;
-  color: #1e3640;
-  z-index: 500;
 }
 .fileclerk .add-file .view-remote .ajax-overlay {
   position: absolute;
@@ -925,18 +934,26 @@
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   position: absolute;
-  top: -19.5em;
-  right: -8.1875em;
+  top: -19.25em;
+  right: -8.25em;
   background-color: white;
   border: 1px solid #d7d7ca;
   border-radius: 3px;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.2);
   display: block;
   height: 18.75em;
   overflow: visible;
   padding: 1.875em 0.9375em 0.9375em 0.9375em;
   width: 18.75em;
   z-index: 3;
+}
+@media screen and (max-width: 480px) {
+  .fileclerk .result .inline-preview {
+    position: absolute;
+    top: -19.5em;
+    left: 50%;
+    margin-left: -9.375em;
+  }
 }
 .fileclerk .result .inline-preview:after {
   position: absolute;
@@ -953,11 +970,11 @@
 }
 .fileclerk .result .inline-preview:before {
   position: absolute;
-  bottom: -1.625em;
-  left: 8em;
-  border-left: 22px solid transparent;
-  border-right: 22px solid transparent;
-  border-top: 22px solid #d7d7ca;
+  bottom: -1.5em;
+  left: 8.125em;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-top: 20px solid #d7d7ca;
   content: '';
   display: block;
   height: 0;
@@ -988,9 +1005,12 @@
   width: 100%;
 }
 .fileclerk .result .inline-preview .load img {
-  max-height: inherit;
   max-width: 100%;
-  width: 100%;
+}
+@media screen and (max-width: 480px) {
+  .fileclerk .result .inline-preview .load img {
+    max-width: 16.875em;
+  }
 }
 .fileclerk .result .inline-preview .modal-close {
   position: absolute;
