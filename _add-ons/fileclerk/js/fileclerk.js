@@ -494,22 +494,34 @@ $(function () {
 			event.preventDefault();
 
 			var $this = $(this),
-				fileclerk			= $this.closest('.fileclerk'),
-				viewremote			= $this.closest('.view-remote'),
-				fullPath			= viewremote.find('.view-list table tr.file.is-highlighted').data('file'),
-				filename			= viewremote.find('.view-list table tr.file.is-highlighted td.is-file').html(),
-				extension			= viewremote.find('.view-list table tr.file.is-highlighted').data('extension'),
-				size				= viewremote.find('.view-list table tr.file.is-highlighted').data('size'),
-				uploadSuccess		= fileclerk.find('.result .filename-display .filename'),
-				successfullUpload	= fileclerk.find('.result input.successful-upload'),
-				result_wrapper		= fileclerk.find('.result'),
-				addFile				= fileclerk.find('.add-file'),
-				uploadPreview		= fileclerk.find('.preview'),
-				//uploadError		= fileclerk.find('.upload-error'),
-				hiddenUrl			= fileclerk.find('.result input.hidden-url'),
-				hiddenFilename		= fileclerk.find('.result input.hidden-filename'),
-				hiddenExtension		= fileclerk.find('.result input.hidden-extension'),
-				hiddenSize			= fileclerk.find('.result input.hidden-size')
+				fileclerk           = $this.closest('.fileclerk'),
+				viewremote          = $this.closest('.view-remote'),
+				fullPath            = viewremote.find('.view-list table tr.file.is-highlighted').data('file'),
+				filename            = viewremote.find('.view-list table tr.file.is-highlighted td.is-file').html(),
+				extension           = viewremote.find('.view-list table tr.file.is-highlighted').data('extension'),
+				isImage             = viewremote.find('.view-list table tr.file.is-highlighted').data('is-image'),
+				mimeType            = viewremote.find('.view-list table tr.file.is-highlighted').data('mime-type'),
+				size                = viewremote.find('.view-list table tr.file.is-highlighted').data('size'),
+				sizeBytes           = viewremote.find('.view-list table tr.file.is-highlighted').data('size-bytes'),
+				sizeKilobytes       = viewremote.find('.view-list table tr.file.is-highlighted').data('size-kilobytes'),
+				sizeMegabytes       = viewremote.find('.view-list table tr.file.is-highlighted').data('size-megabytes'),
+				sizeGigabytes       = viewremote.find('.view-list table tr.file.is-highlighted').data('size-gigabytes'),
+				uploadSuccess       = fileclerk.find('.result .filename-display .filename'),
+				successfullUpload   = fileclerk.find('.result input.successful-upload'),
+				result_wrapper      = fileclerk.find('.result'),
+				addFile             = fileclerk.find('.add-file'),
+				uploadPreview       = fileclerk.find('.preview'),
+				//uploadError       = fileclerk.find('.upload-error'),
+				hiddenUrl           = fileclerk.find('.result input.hidden-url'),
+				hiddenFilename      = fileclerk.find('.result input.hidden-filename'),
+				hiddenExtension     = fileclerk.find('.result input.hidden-extension'),
+				hiddenSize          = fileclerk.find('.result input.hidden-size'),
+				hiddenSizeBytes     = fileclerk.find('.result input.hidden-size-bytes'),
+				hiddenSizeKilobytes = fileclerk.find('.result input.hidden-size-kilobytes'),
+				hiddenSizeMegabytes = fileclerk.find('.result input.hidden-size-megabytes'),
+				hiddenSizeGigabytes = fileclerk.find('.result input.hidden-size-gigabytes'),
+				hiddenMimeType      = fileclerk.find('.result input.hidden-mime-type'),
+				hiddenIsImage       = fileclerk.find('.result input.hidden-is-image')
 			;
 
 			uploadSuccess.append(filename); // Show filename on successful upload
@@ -517,7 +529,13 @@ $(function () {
 			hiddenUrl.val(fullPath);
 			hiddenFilename.val(filename);
 			hiddenExtension.val(extension);
+			hiddenIsImage.val(isImage);
+			hiddenMimeType.val(mimeType);
 			hiddenSize.val(size);
+			hiddenSizeBytes.val(sizeBytes);
+			hiddenSizeKilobytes.val(sizeKilobytes);
+			hiddenSizeMegabytes.val(sizeMegabytes);
+			hiddenSizeGigabytes.val(sizeGigabytes);
 			uploadSuccess.attr('href', fullPath);
 			uploadPreview.removeClass('is-hidden').addClass('is-visible');
 			addFile.toggleClass('is-visible is-hidden');

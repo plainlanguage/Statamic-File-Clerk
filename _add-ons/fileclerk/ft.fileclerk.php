@@ -116,7 +116,7 @@ class Fieldtype_fileclerk extends Fieldtype {
 						trim($this->field_data['filename']);
 						break;
 					case 'is_image':
-						$this->field_data['is_image'] = ( $value || $value == '1' ) ? true : false;
+						$this->field_data['is_image'] = ( $value || $value == '1' || $value == 'true' ) ? true : false;
 						break;
 					case 'size_bytes':
 							$this->field_data[$key] = (int) $value;

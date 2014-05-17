@@ -52,5 +52,26 @@ class Tasks_fileclerk extends Tasks
 		);
 	}
 
+	public function get_mime_type( $file )
+	{
+		$info = new finfo(FILEINFO_MIME_TYPE);
+		return $info->file($file);
+	}
+
+	public function get_size_kilobytes( $value )
+	{
+		return number_format( $value / 1024, 2 );
+	}
+
+	public function get_size_megabytes( $value )
+	{
+		return number_format( $value / 1048576, 2 );
+	}
+
+	public function get_size_gigabytes( $value )
+	{
+		return number_format( $value / 1073741824, 2 );
+	}
+
 }
 // END file tasks.fileclerk.php

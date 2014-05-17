@@ -307,7 +307,7 @@ class Hooks_fileclerk extends Hooks
 	public function fileclerk__list()
 	{
 		// @todo Ensure AJAX requests only!
-		if( ! Request::isAjax() && $this->env != 'dev' )
+		if( ! Request::isAjax() && FILECLERK_ENV != 'dev' )
 		{
 			echo FILECLERK_AJAX_WARNING;
 			exit;
@@ -329,7 +329,7 @@ class Hooks_fileclerk extends Hooks
 		$uri       = Request::get('uri');
 		$uri       = explode('?', $uri);
 		$uri       = reset($uri);
-		$s3_url       = Url::tidy( 's3://' . join('/', array($bucket, $directory, $uri)) );
+		$s3_url    = Url::tidy( 's3://' . join('/', array($bucket, $directory, $uri)) );
 
 		// Let's make sure we  have a valid URL before movin' on
 		if( Url::isValid( $s3_url ) )
@@ -385,21 +385,28 @@ class Hooks_fileclerk extends Hooks
 			{
 				foreach ($finder as $file)
 				{
+					// Get the filename
 					$filename = $file->getFilename();
 
+					// Set the S3 key string for the objet
+					$key = Url::tidy( join('/', array($directory, $uri, $filename)) );
+
 					// File / directory attributes
+					$this->data = $this->tasks->get_file_data_array();
+
+					// Set some file data
 					$file_data = array(
-						'basename'      => $file->getBasename( '.' . $file->getExtension() ),
-						'destination'   => $destination,
-						'extension'     => $file->getExtension(),
-						'file'          => $file->getPathname(),
-						'filename'      => $file->getFilename(),
-						'last_modified' => $file->isDir() ? '--' :$file->getMTime(),
-						'is_file'       => $file->isFile(),
-						'is_directory'  => $file->isDir(),
-						'size'          => $file->isDir() ? '--' : File::getHumanSize($file->getSize()),
-						'uri'           => $uri,
-						//'url'           => Url::tidy( self::get_url_prefix($uri) . '/' . $file->getFilename() ),
+						'basename'       => $file->getBasename( '.' . $file->getExtension() ),
+						'destination'    => $destination,
+						'extension'      => $file->getExtension(),
+						'file'           => $file->getPathname(),
+						'filename'       => $file->getFilename(),
+						'last_modified'  => $file->isDir() ? '--' :$file->getMTime(),
+						'is_file'        => $file->isFile(),
+						'is_directory'   => $file->isDir(),
+						'size'           => $file->isDir() ? '--' : File::getHumanSize($file->getSize()),
+						'size_bytes'     => $file->getSize(),
+						'uri'            => $uri,
 					);
 
 					/**
@@ -407,7 +414,34 @@ class Hooks_fileclerk extends Hooks
 					 */
 					if( $file->isFile() ) // Push to files array
 					{
-						//$file_data['uri'] = null;
+						// Need to make a head request to get the object metadata.
+						// Mime type not returned by Finder.
+						$head = $this->client->headObject( array(
+							'Bucket' => $bucket,
+							'Key' => $key,
+						));
+
+						// Check for a valid response from the headObject request.
+						if( $body = $head->toArray() )
+						{
+							$file_data['mime_type'] = $body['ContentType'];
+							$mime_type_parts        = explode('/', $body['ContentType']);
+							$file_data['is_image']  = strtolower(reset($mime_type_parts)) === 'image' ? true : false;
+						}
+						else
+						{
+							$mime_type             = null;
+							$file_data['is_image'] = false;
+						}
+
+						// @todo Call task to get kilybytes value
+						$file_data['size_kilobytes'] = $this->tasks->get_size_kilobytes($file_data['size_bytes']);
+
+						// @todo Call task to get megabytes value
+						$file_data['size_megabytes'] = $this->tasks->get_size_megabytes($file_data['size_bytes']);
+
+						// @todo Call task to get gigabytes value
+						$file_data['size_gigabytes'] = $this->tasks->get_size_gigabytes($file_data['size_bytes']);
 					}
 					elseif( $file->isDir() ) // Push to directories array
 					{
