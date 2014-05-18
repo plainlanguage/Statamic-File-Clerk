@@ -425,6 +425,7 @@
 
 .fileclerk {
   min-height: 52px;
+  z-index: 1;
 }
 @media screen and (max-width: 480px) {
   .fileclerk {
@@ -945,7 +946,7 @@
   overflow: visible;
   padding: 1.875em 0.9375em 0.9375em 0.9375em;
   width: 18.75em;
-  z-index: 3;
+  z-index: 100;
 }
 @media screen and (max-width: 480px) {
   .fileclerk .result .inline-preview {

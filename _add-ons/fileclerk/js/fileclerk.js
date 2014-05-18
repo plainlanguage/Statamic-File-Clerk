@@ -113,6 +113,7 @@ $(function () {
 				chooseExistingTab   = addFile.find('.nav-tabs li:nth-child(2) a'),
 				uploadError         = fileclerk.find('.upload-error'),
 				uploadPreview		= fileclerk.find('.preview'),
+				uploadPreviewImg	= fileclerk.find('.inline-preview .load img'),
 				// Set some hidden inputs up in this thang.
 				hiddenUrl           = fileclerk.find('.result input.hidden-url'),
 				hiddenFilename      = fileclerk.find('.result input.hidden-filename'),
@@ -201,6 +202,19 @@ $(function () {
 								hiddenSizeGigabytes.val(data.data.size_gigabytes);
 								hiddenIsImage.val(data.data.is_image);
 								hiddenMimeType.val(data.data.mime_type);
+
+								// Update Live Preview URL and Rel
+								uploadPreview.attr('href', data.data.fullpath); // Update URL
+								uploadPreviewImg.attr('src', ''); // Empty img src tag if content already exists
+
+								if( hiddenIsImage.val('true') )
+								{
+									uploadPreview.attr('rel', 'inline'); // rel='inline' if mime type is image
+								}
+								else
+								{
+									uploadPreview.attr('rel', 'external'); // rel='external' if mime type is not image
+								}
 							}
 							// Upload failed
 							else if ( data.code === 200 )
