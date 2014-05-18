@@ -525,6 +525,7 @@ $(function () {
 				result_wrapper      = fileclerk.find('.result'),
 				addFile             = fileclerk.find('.add-file'),
 				uploadPreview       = fileclerk.find('.preview'),
+				uploadPreviewImg	= fileclerk.find('.inline-preview .load img'),
 				//uploadError       = fileclerk.find('.upload-error'),
 				hiddenUrl           = fileclerk.find('.result input.hidden-url'),
 				hiddenFilename      = fileclerk.find('.result input.hidden-filename'),
@@ -555,6 +556,19 @@ $(function () {
 			addFile.toggleClass('is-visible is-hidden');
 			result_wrapper.toggleClass('is-hidden is-visible');
 			fileclerk.addClass('yay'); // Add a 'yay' class to .filewrapper
+
+			// Update Live Preview URL and Rel
+			uploadPreview.attr('href', fullPath); // Update URL
+			uploadPreviewImg.attr('src', ''); // Empty img src tag if content already exists
+
+			if( hiddenIsImage.val('true') )
+			{
+				uploadPreview.attr('rel', 'inline'); // rel='inline' if mime type is image
+			}
+			else
+			{
+				uploadPreview.attr('rel', 'external'); // rel='external' if mime type is not image
+			}
 
 			console.log(filename + ' selected');
 
