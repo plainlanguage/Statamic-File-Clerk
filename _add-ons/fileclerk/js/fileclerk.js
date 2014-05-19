@@ -209,6 +209,7 @@ $(function () {
 
 								if( hiddenIsImage.val() === 'true' )
 								{
+									uploadPreview.unbind();
 									uploadPreview.attr('rel', 'inline'); // rel='inline' if mime type is image
 								}
 								else
@@ -561,8 +562,9 @@ $(function () {
 			uploadPreview.attr('href', fullPath); // Update URL
 			uploadPreviewImg.attr('src', ''); // Empty img src tag if content already exists
 
-			if( hiddenIsImage.val('true') )
+			if( hiddenIsImage.val() === 'true' )
 			{
+				uploadPreview.unbind();
 				uploadPreview.attr('rel', 'inline'); // rel='inline' if mime type is image
 			}
 			else
