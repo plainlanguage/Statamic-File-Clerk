@@ -643,10 +643,12 @@ $control-bar-element-border-radius: em(5);
 			@include box-sizing(border-box);
 			height: em( $size - ($pad * 2) - $pad );
 			overflow-y: scroll;
-			vertical-align: middle;
+			text-align: center;
 			width: 100%;
 
 			img {
+				display: inline-block;
+				float: none;
 				max-width: 100%;
 
 				@include media($small) {

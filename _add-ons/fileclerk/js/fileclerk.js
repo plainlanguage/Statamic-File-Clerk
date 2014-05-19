@@ -705,7 +705,7 @@ $(function () {
 		bindUIActions: function() {
 
 			// Show Modal
-			$('body').on( 'click', '.fileclerk a[rel="inline"]', this.showInlinePreview );
+			$('body').on( 'click', '.fileclerk .result a[rel="inline"]', this.showInlinePreview );
 
 			// Hide Modal
 			$('body').on( 'click', '.fileclerk .inline-preview .modal-close', this.hideInlinePreview );
@@ -762,6 +762,8 @@ $(function () {
 					ajaxSpinner.spin(false); // Stop spinner
 				}
 			});
+
+			console.log($this.attr('rel'))
 
 			event.preventDefault();
 			event.stopPropagation();

@@ -1002,10 +1002,12 @@
   box-sizing: border-box;
   height: 15.9375em;
   overflow-y: scroll;
-  vertical-align: middle;
+  text-align: center;
   width: 100%;
 }
 .fileclerk .result .inline-preview .load img {
+  display: inline-block;
+  float: none;
   max-width: 100%;
 }
 @media screen and (max-width: 480px) {
