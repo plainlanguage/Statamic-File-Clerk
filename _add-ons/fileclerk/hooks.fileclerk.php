@@ -99,7 +99,7 @@ class Hooks_fileclerk extends Hooks
 			// Check if file is an image and set as bool flag.
 			$mime_type_parts = explode('/', $this->data['mime_type']);
 
-			$this->data['is_image']  = strtolower(reset($mime_type_parts)) === 'image' ? true : false;
+			$this->data['is_image']  = strtolower(reset($mime_type_parts)) === 'image' ? 'true' : 'false';
 
 			// Check if the filetype is allowed in config
 			$allowed_content_types = array_get($this->config, 'content_types');
@@ -452,7 +452,7 @@ class Hooks_fileclerk extends Hooks
 						// Mime type not returned by Finder.
 						$head = $this->client->headObject( array(
 							'Bucket' => $bucket,
-							'Key' => $key,
+							'Key'    => $key,
 						));
 
 						// Check for a valid response from the headObject request.
