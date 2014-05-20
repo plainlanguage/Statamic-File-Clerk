@@ -68,7 +68,7 @@ class Fieldtype_fileclerk extends Fieldtype {
 			$data['basename_value'] = $field_data['filename'];
 			$data['extension']      = $field_data['extension'];
 			$data['filename']       = $field_data['filename'];
-			$data['is_image']       = $field_data['is_image'];
+			$data['is_image']       = $field_data['is_image'] ? 'true' : 'false';
 			$data['mime_type']      = $field_data['mime_type'];
 			$data['size']           = $field_data['size'];
 			$data['size_bytes']     = $field_data['size_bytes'];
@@ -116,7 +116,7 @@ class Fieldtype_fileclerk extends Fieldtype {
 						trim($this->field_data['filename']);
 						break;
 					case 'is_image':
-						$this->field_data['is_image'] = ( $value === 'true' ) ? true : false;
+						$this->field_data['is_image'] = ( $value === 'true' || $value === '1' ) ? true : false;
 						break;
 					case 'size_bytes':
 							$this->field_data[$key] = (int) $value;
