@@ -712,8 +712,21 @@ $(function () {
 			// Hide Modal
 			$('body').on( 'click', '.fileclerk .inline-preview .modal-close', this.hideInlinePreview );
 
+			// Hide modal on esc key hit
 			$(document).keyup( function(event) {
 				if(event.keyCode === 27)
+				{
+					var all_modals = $('.fileclerk .inline-preview');
+					var preview_button = $('.fileclerk .result .preview');
+
+					all_modals.removeClass('is-visible').addClass('is-hidden');
+					preview_button.removeClass('active');
+				}
+			});
+
+			// Hide inline previews when clicking outside of modal
+			$(document).on('click', function(event) {
+				if(!$(event.target).closest('.fileclerk .inline-preview').length)
 				{
 					var all_modals = $('.fileclerk .inline-preview');
 					var preview_button = $('.fileclerk .result .preview');
