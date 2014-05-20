@@ -746,13 +746,17 @@ $(function () {
 				modal				= fileclerk.find('.inline-preview'),
 				all_modals			= $('.fileclerk .inline-preview'),
 				all_preview_buttons	= $('.fileclerk .result .preview'),
-				ajaxSpinner 		= fileclerk.find('.inline-preview .load .ajax-spinner')
+				ajaxSpinner 		= fileclerk.find('.inline-preview .load .ajax-spinner'),
+				page				= $('html, body')
 			;
 
 			all_modals.removeClass('is-visible').addClass('is-hidden'); // Hide all open modals if you open a new one
 			all_preview_buttons.removeClass('active');
 			modal.toggleClass('is-hidden is-visible'); // Show Modal
 			$this.addClass('active');
+			page.animate({
+				scrollTop: modal.offset().top - 20
+			}, 500);
 
 			// Get external image
 			$.ajax({
