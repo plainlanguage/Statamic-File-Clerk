@@ -460,7 +460,7 @@ class Hooks_fileclerk extends Hooks
 						{
 							$file_data['mime_type'] = $body['ContentType'];
 							$mime_type_parts        = explode('/', $body['ContentType']);
-							$file_data['is_image']  = strtolower(reset($mime_type_parts)) === 'image' ? true : false;
+							$file_data['is_image']  = strtolower(reset($mime_type_parts)) === 'image' ? 'true' : 'false';
 						}
 						else
 						{
