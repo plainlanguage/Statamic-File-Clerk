@@ -1004,6 +1004,7 @@
   overflow-y: scroll;
   text-align: center;
   width: 100%;
+  -ms-overflow-style: none;
 }
 .fileclerk .result .inline-preview .load img {
   display: inline-block;

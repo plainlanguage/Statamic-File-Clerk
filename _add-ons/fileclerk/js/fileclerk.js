@@ -207,7 +207,7 @@ $(function () {
 								uploadPreview.attr('href', data.data.fullpath); // Update URL
 								uploadPreviewImg.attr('src', ''); // Empty img src tag if content already exists
 
-								if( hiddenIsImage.val() === 'true' )
+								if( hiddenIsImage.val() === 'true' || '1' )
 								{
 									uploadPreview.unbind();
 									uploadPreview.attr('rel', 'inline'); // rel='inline' if mime type is image
@@ -562,7 +562,7 @@ $(function () {
 			uploadPreview.attr('href', fullPath); // Update URL
 			uploadPreviewImg.attr('src', ''); // Empty img src tag if content already exists
 
-			if( hiddenIsImage.val() === 'true' )
+			if( hiddenIsImage.val() === 'true' || '1' )
 			{
 				uploadPreview.unbind();
 				uploadPreview.attr('rel', 'inline'); // rel='inline' if mime type is image

@@ -68,7 +68,7 @@
 	<div class="result {{ if value }}is-visible{{ else }}is-hidden{{ endif }}">
 		<span class="filename-display">
 			<span class="filename">{{ basename_value }}</span>
-			<a class="preview {{ if value }}is-visible{{ else }}is-hidden{{ endif }}" href="{{ url }}" rel="{{ if is_image }}inline{{ else }}external{{ endif }}">Preview</a>
+			<a class="preview {{ if value }}is-visible{{ else }}is-hidden{{ endif }}" href="{{ url }}" rel="{{ if is_image == "true" }}inline{{ else }}external{{ endif }}">Preview</a>
 			<div class="inline-preview is-hidden">
 				<a class="modal-close" href="#">Close</a>
 				<div class="load"><img src=""><div class="ajax-spinner"></div></div>
