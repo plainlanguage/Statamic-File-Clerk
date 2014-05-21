@@ -207,13 +207,14 @@ $(function () {
 								uploadPreview.attr('href', data.data.fullpath); // Update URL
 								uploadPreviewImg.attr('src', ''); // Empty img src tag if content already exists
 
-								if( hiddenIsImage.val() === 'true' || '1' )
+								if( hiddenIsImage.val() === 'true' || hiddenIsImage.val() === '1' )
 								{
 									uploadPreview.unbind();
 									uploadPreview.attr('rel', 'inline'); // rel='inline' if mime type is image
 								}
 								else
 								{
+									uploadPreview.unbind();
 									uploadPreview.attr('rel', 'external'); // rel='external' if mime type is not image
 								}
 							}
@@ -562,13 +563,14 @@ $(function () {
 			uploadPreview.attr('href', fullPath); // Update URL
 			uploadPreviewImg.attr('src', ''); // Empty img src tag if content already exists
 
-			if( hiddenIsImage.val() === 'true' || '1' )
+			if( hiddenIsImage.val() === 'true' || hiddenIsImage.val() === '1' )
 			{
 				uploadPreview.unbind();
 				uploadPreview.attr('rel', 'inline'); // rel='inline' if mime type is image
 			}
 			else
 			{
+				uploadPreview.unbind();
 				uploadPreview.attr('rel', 'external'); // rel='external' if mime type is not image
 			}
 
