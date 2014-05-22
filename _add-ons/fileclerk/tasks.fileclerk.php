@@ -43,7 +43,7 @@ class Tasks_fileclerk extends Tasks
 			'filesize'       => null,
 			'fullpath'       => null,
 			'is_image'       => null,
-			'mime_type'      => null,
+			//'mime_type'      => null,
 			'size'           => null,
 			'size_bytes'     => null,
 			'size_kilobytes' => null,

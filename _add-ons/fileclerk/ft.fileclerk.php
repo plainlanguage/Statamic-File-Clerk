@@ -69,7 +69,7 @@ class Fieldtype_fileclerk extends Fieldtype {
 			$data['extension']      = $field_data['extension'];
 			$data['filename']       = $field_data['filename'];
 			$data['is_image']       = $field_data['is_image'] ? 'true' : 'false';
-			$data['mime_type']      = $field_data['mime_type'];
+			//$data['mime_type']      = $field_data['mime_type'];
 			$data['size']           = $field_data['size'];
 			$data['size_bytes']     = $field_data['size_bytes'];
 			$data['size_kilobytes'] = $field_data['size_kilobytes'];

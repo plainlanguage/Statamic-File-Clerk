@@ -93,27 +93,27 @@ class Hooks_fileclerk extends Hooks
 			$this->data['mime_type']  = $file['type'];
 			$this->data['size_bytes'] = $file['size'];
 			$this->data['extension']  = File::getExtension($this->data['filename']);
+			$this->data['is_image']   = self::is_image($this->data['extension']);
 
 			$tmp_name  = $file['tmp_name'];
 
 			// Check if file is an image and set as bool flag.
-			$mime_type_parts = explode('/', $this->data['mime_type']);
-
-			$this->data['is_image']  = strtolower(reset($mime_type_parts)) === 'image' ? true : false;
+			// $mime_type_parts = explode('/', $this->data['mime_type']);
+			// $this->data['is_image']  = strtolower(reset($mime_type_parts)) === 'image' ? true : false;
 
 			// Check if the filetype is allowed in config
-			$allowed_content_types = array_get($this->config, 'content_types');
+			$allowed_content_types = array_get($this->config, 'allowed_content_types');
 
 			// Check the that file mime type is allowed
 			// Need an array of content types to proceed
 			if( is_array($allowed_content_types) )
 			{
-				// Get the html template
-				$file_not_allowed_template = File::get( __DIR__ . '/views/error-not-allowed.html');
-
 				// Only return JSON if the mime type is not allowed for upload
-				if( ! in_array(end($mime_type_parts), $allowed_content_types) )
+				if( ! in_array($this->data['extension'], $allowed_content_types) )
 				{
+					// Get the html template
+					$file_not_allowed_template = File::get( __DIR__ . '/views/error-not-allowed.html');
+
 					//echo self::build_response_json(false, true, FILECLERK_DISALLOWED_FILETYPE, 'Files of type ' . $mime_type . ' not allowed.');
 					echo json_encode( array(
 						'error'	=> TRUE,
@@ -448,33 +448,12 @@ class Hooks_fileclerk extends Hooks
 					 */
 					if( $file->isFile() ) // Push to files array
 					{
-						// Need to make a head request to get the object metadata.
-						// Mime type not returned by Finder.
-						$head = $this->client->headObject( array(
-							'Bucket' => $bucket,
-							'Key'    => $key,
-						));
+						// Check if file is an iamge
+						$this->data['is_image'] = self::is_image($file_data['extension']);
 
-						// Check for a valid response from the headObject request.
-						if( $body = $head->toArray() )
-						{
-							$file_data['mime_type'] = $body['ContentType'];
-							$mime_type_parts        = explode('/', $body['ContentType']);
-							$file_data['is_image']  = strtolower(reset($mime_type_parts)) === 'image' ? 'true' : 'false';
-						}
-						else
-						{
-							$mime_type             = null;
-							$file_data['is_image'] = false;
-						}
-
-						// @todo Call task to get kilybytes value
+						// Set filesize data
 						$file_data['size_kilobytes'] = $this->tasks->get_size_kilobytes($file_data['size_bytes']);
-
-						// @todo Call task to get megabytes value
 						$file_data['size_megabytes'] = $this->tasks->get_size_megabytes($file_data['size_bytes']);
-
-						// @todo Call task to get gigabytes value
 						$file_data['size_gigabytes'] = $this->tasks->get_size_gigabytes($file_data['size_bytes']);
 					}
 					elseif( $file->isDir() ) // Push to directories array
@@ -827,6 +806,67 @@ class Hooks_fileclerk extends Hooks
 		$set_acl		= $this->config['permissions'];
 
 		return Url::tidy( 's3://' . join('/', array($bucket, $directory)) );
+	}
+
+	/**
+	 * Get the mime type
+	 * @param  (string) $object_key The S3 objec key (Note: does not include bucket.)
+	 * @return (string) mime type of S3 object.
+	 * @todo Also use this method to see if $file['type'] is set, fallback to headObject request.
+	 */
+	private function get_mime_type( $object_key = null )
+	{
+		if ( is_null($object_key) ) return false;
+
+		// Need to make a head request to get the object metadata.
+		// Mime type not returned by Finder.
+		$head = $this->client->headObject( array(
+			'Bucket' => $this->data['bucket'],
+			'Key'    => $object_key,
+		));
+
+		// Check for a valid response from the headObject request.
+		if( $body = $head->toArray() )
+		{
+			return $body['ContentType'];
+			// $file_data['mime_type'] = $body['ContentType'];
+			// $mime_type_parts        = explode('/', $body['ContentType']);
+			// $file_data['is_image']  = strtolower(reset($mime_type_parts)) === 'image' ? 'true' : 'false';
+		}
+		else
+		{
+			return null;
+			// $mime_type             = null;
+			// $file_data['is_image'] = false;
+		}
+	}
+
+	/**
+	 * Check whether file is an image or not based on mime type.
+	 * @param  (string)  $mime_type
+	 * @return boolean
+	 */
+	private function is_image( $extension = null, $mime_type = null )
+	{
+		if ( ! is_null($extension) )
+		{
+			$image_extensions = array(
+				'jpg',
+				'jpeg',
+				'gif',
+				'png',
+				'bmp',
+			);
+
+			return in_array(strtolower($extension), $image_extensions) ? true : false;
+		}
+		else if ( ! is_null($mime_type) )
+		{
+			$mime_type_parts = explode('/', $body['ContentType']);
+			return ( strtolower(reset($mime_type_parts)) === 'image' ) ? true : false;
+		}
+
+		return false;
 	}
 
 	/**

@@ -123,7 +123,7 @@ $(function () {
 				hiddenSizeKilobytes = fileclerk.find('.result input.hidden-size-kilobytes'),
 				hiddenSizeMegabytes = fileclerk.find('.result input.hidden-size-megabytes'),
 				hiddenSizeGigabytes = fileclerk.find('.result input.hidden-size-gigabytes'),
-				hiddenMimeType      = fileclerk.find('.result input.hidden-mime-type'),
+				//hiddenMimeType      = fileclerk.find('.result input.hidden-mime-type'),
 				hiddenIsImage       = fileclerk.find('.result input.hidden-is-image')
 			;
 
@@ -201,7 +201,7 @@ $(function () {
 								hiddenSizeMegabytes.val(data.data.size_megabytes);
 								hiddenSizeGigabytes.val(data.data.size_gigabytes);
 								hiddenIsImage.val(data.data.is_image);
-								hiddenMimeType.val(data.data.mime_type);
+								//hiddenMimeType.val(data.data.mime_type);
 
 								// Update Live Preview URL and Rel
 								uploadPreview.attr('href', data.data.fullpath); // Update URL
@@ -516,7 +516,7 @@ $(function () {
 				filename            = viewremote.find('.view-list table tr.file.is-highlighted td.is-file').html(),
 				extension           = viewremote.find('.view-list table tr.file.is-highlighted').data('extension'),
 				isImage             = viewremote.find('.view-list table tr.file.is-highlighted').data('is-image'),
-				mimeType            = viewremote.find('.view-list table tr.file.is-highlighted').data('mime-type'),
+				//mimeType            = viewremote.find('.view-list table tr.file.is-highlighted').data('mime-type'),
 				size                = viewremote.find('.view-list table tr.file.is-highlighted').data('size'),
 				sizeBytes           = viewremote.find('.view-list table tr.file.is-highlighted').data('size-bytes'),
 				sizeKilobytes       = viewremote.find('.view-list table tr.file.is-highlighted').data('size-kilobytes'),
@@ -537,7 +537,7 @@ $(function () {
 				hiddenSizeKilobytes = fileclerk.find('.result input.hidden-size-kilobytes'),
 				hiddenSizeMegabytes = fileclerk.find('.result input.hidden-size-megabytes'),
 				hiddenSizeGigabytes = fileclerk.find('.result input.hidden-size-gigabytes'),
-				hiddenMimeType      = fileclerk.find('.result input.hidden-mime-type'),
+				//hiddenMimeType      = fileclerk.find('.result input.hidden-mime-type'),
 				hiddenIsImage       = fileclerk.find('.result input.hidden-is-image')
 			;
 
@@ -547,7 +547,7 @@ $(function () {
 			hiddenFilename.val(filename);
 			hiddenExtension.val(extension);
 			hiddenIsImage.val(isImage);
-			hiddenMimeType.val(mimeType);
+			//hiddenMimeType.val(mimeType);
 			hiddenSize.val(size);
 			hiddenSizeBytes.val(sizeBytes);
 			hiddenSizeKilobytes.val(sizeKilobytes);
