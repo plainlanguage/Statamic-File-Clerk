@@ -33,6 +33,7 @@ class Hooks_fileclerk extends Hooks
 	private   $data;
 	private   $error;
 	protected $env;
+	private $overwrite;
 
 	/**
 	 * Add CSS to Header
@@ -81,35 +82,30 @@ class Hooks_fileclerk extends Hooks
 	{
 		// Initialize variables
 		$this->error  = false;
-		$this->data   = $this->tasks->get_file_data_array();
 		$this->config = self::merge_configs(Request::get('destination'));
 
 		foreach ( $_FILES as $file )
 		{
 			// Set all file data here
-			$this->data               = $this->tasks->get_file_data_array();
-			$this->data['filename']   = File::cleanFilename( $file['name'] );
-			$this->data['filetype']   = $file['type'];
-			$this->data['mime_type']  = $file['type'];
-			$this->data['size_bytes'] = $file['size'];
-			$this->data['extension']  = File::getExtension($this->data['filename']);
-			$this->data['is_image']   = self::is_image($this->data['extension']);
+			$this->data                   = $this->tasks->get_file_data_array();
+			$this->data['filename']       = File::cleanFilename( $file['name'] );
+			$this->data['filetype']       = $file['type'];
+			$this->data['mime_type']      = $file['type'];
+			$this->data['size_bytes']     = $file['size'];
+			$this->data['extension']      = File::getExtension($this->data['filename']);
+			$this->data['is_image']       = self::is_image($this->data['extension']);
+			$this->data['tmp_name']       = $file['tmp_name'];
+			$this->data['size']           = File::getHumanSize($this->data['size_bytes']);
+			$this->data['size_kilobytes'] = number_format($this->data['size_bytes'] / 1024, 2);
+			$this->data['size_megabytes'] = number_format($this->data['size_bytes'] / 1048576, 2);
+			$this->data['size_gigabytes'] = number_format($this->data['size_bytes'] / 1073741824, 2);
 
-			$tmp_name  = $file['tmp_name'];
-
-			// Check if file is an image and set as bool flag.
-			// $mime_type_parts = explode('/', $this->data['mime_type']);
-			// $this->data['is_image']  = strtolower(reset($mime_type_parts)) === 'image' ? true : false;
-
-			// Check if the filetype is allowed in config
-			$allowed_content_types = array_get($this->config, 'allowed_content_types');
-
-			// Check the that file mime type is allowed
-			// Need an array of content types to proceed
-			if( is_array($allowed_content_types) )
+			// Check that the file extension is allowed (Not case-sensitive).
+			// Need an array of content types to proceed.
+			if( is_array($this->config['content_types']) )
 			{
-				// Only return JSON if the mime type is not allowed for upload
-				if( ! in_array($this->data['extension'], $allowed_content_types) )
+				// Only return JSON if the file extension is not allowed for upload
+				if( ! in_array($this->data['extension'], $this->config['content_types']) )
 				{
 					// Get the html template
 					$file_not_allowed_template = File::get( __DIR__ . '/views/error-not-allowed.html');
@@ -120,30 +116,27 @@ class Hooks_fileclerk extends Hooks
 						'type'	=> 'dialog',
 						'code'	=> FILECLERK_DISALLOWED_FILETYPE,
 						'html'	=> Parse::template( $file_not_allowed_template, array(
-							'mime_type' => $this->data['mime_type'],
+							//'mime_type' => $this->data['mime_type'],
+							'mime_type' => $this->data['extension'],
 						)),
 					));
 					exit;
 				}
 			}
 
-			// Not sure why we're doing this here?
-			//$handle   = $tmp_name; // Set the full path of the uploaded file to use in setSource
-			//$this->data['filename'] = File::cleanFilename($this->data['filename']); // Clean Filename
-
 			// Add-on settings
 			// Do we need this?
 			//$bucket        = $this->config['bucket'];
 			//$directory     = $this->config['directory'];
-			$key           = Url::tidy( '/' . $this->config['directory'] . '/' . $this->data['filename'] );
+			$this->data['key']           = Url::tidy( '/' . $this->config['directory'] . '/' . $this->data['filename'] );
 			//$custom_domain = $this->config['custom_domain'];
 			//$set_acl       = $this->config['permissions'];
 
 			// Set the full S3 path to the bucket/key
-			$s3_path = Url::tidy( 's3://' . join('/', array($this->config['bucket'], $this->config['directory'])) );
+			$this->data['s3_path'] = Url::tidy( 's3://' . join('/', array($this->config['bucket'], $this->config['directory'])) );
 
 			// Check if the file already exists
-			if( self::file_exists( $s3_path, $this->data['filename'] ) )
+			if( self::file_exists( $this->data['s3_path'], $this->data['filename'] ) )
 			{
 				$overwrite = Request::get('overwrite');
 				$file_exists_template = File::get( __DIR__ . '/views/file-exists.html');
@@ -174,9 +167,9 @@ class Hooks_fileclerk extends Hooks
 			// Build up the upload object
 			$uploader = UploadBuilder::newInstance()
 				->setClient($this->client)
-				->setSource($tmp_name)
+				->setSource($this->data['tmp_name'])
 				->setBucket($this->config['bucket'])
-				->setKey($key)
+				->setKey($this->data['key'])
 				->setOption('CacheControl', 'max-age=3600')
 				->setOption('ACL', $this->config['permissions'] ? $this->config['permissions'] : CannedAcl::PUBLIC_READ)
 				->setOption('ContentType', $this->data['filetype'])
@@ -187,7 +180,30 @@ class Hooks_fileclerk extends Hooks
 			try
 			{
 				// Try the upload
-				$uploader->upload();
+				$upload = $uploader->upload();
+
+				/**
+				 * We have the following keys available to us after a successful upload
+				 * $upload = array(
+				 *      ['Location'] => https://mreiner-test.s3.amazonaws.com/238355-f520.jpg
+				 *      ['Bucket'] => mreiner-test
+				 *      ['Key'] => 238355-f520.jpg
+				 *      ['ETag'] => "a81b65938b1ec1cef0a09a497e3850f8-1"
+				 *      ['Expiration'] => 
+				 *      ['ServerSideEncryption'] => 
+				 *      ['VersionId'] => 
+				 *      ['RequestId'] => 29482D41515855AA
+				 * );
+				 */
+				
+				$this->data['url']    = $upload['Location'];
+				$this->data['key']    = $upload['Key'];
+				$this->data['bucket'] = $upload['Bucket'];
+			}
+			catch (InvalidArgumentException $e)
+			{
+				echo self::build_response_json(false, true, FILECLERK_S3_ERROR, $e->getMessage(), 'error', null, null, null);
+				exit;
 			}
 			catch (MultipartUploadException $e)
 			{
@@ -218,12 +234,6 @@ class Hooks_fileclerk extends Hooks
 		}
 		else
 		{
-			// Set data needed for view and field data
-			$this->data['size']           = File::getHumanSize($this->data['size_bytes']);
-			$this->data['size_kilobytes'] = number_format($this->data['size_bytes'] / 1024, 2);
-			$this->data['size_megabytes'] = number_format($this->data['size_bytes'] / 1048576, 2);
-			$this->data['size_gigabytes'] = number_format($this->data['size_bytes'] / 1073741824, 2);
-
 			// Response
 			header('Content-Type: application/json');
 			echo self::build_response_json(true, false, FILECLERK_FILE_UPLOAD_SUCCESS, 'File ' . $this->data['filename'] . 'uploaded successfully!', null, $this->data, null, null);
@@ -259,6 +269,27 @@ class Hooks_fileclerk extends Hooks
 		$destination = Request::get('destination');
 		$filename    = Request::get('filename');
 		$filename    = File::cleanFilename($filename);
+		$extension   = File::getExtension($filename);
+
+		/**
+		 * @todo Need to update JS to accept this response for activating.
+		 */
+		// First check if extension is allowed
+		// if ( ! self::extension_is_allowed($extension) )
+		// {
+		// 	// Get the html template
+		// 	$file_not_allowed_template = File::get( __DIR__ . '/views/error-not-allowed.html');
+		// 	echo json_encode( array(
+		// 		'error'	=> TRUE,
+		// 		'type'	=> 'dialog',
+		// 		'code'	=> FILECLERK_DISALLOWED_FILETYPE,
+		// 		'html'	=> Parse::template( $file_not_allowed_template, array(
+		// 			//'mime_type' => $this->data['mime_type'],
+		// 			'mime_type' => $extension,
+		// 		)),
+		// 	));
+		// 	exit;
+		// }
 
 		//self::merge_configs( $destination );
 		$this->config = self::merge_configs( $destination );
@@ -867,6 +898,11 @@ class Hooks_fileclerk extends Hooks
 		}
 
 		return false;
+	}
+
+	private function extension_is_allowed( $extension = null )
+	{
+		return ( is_null($extension) || ! in_array($extension, $this->config['content_types']) ) ? false : true;
 	}
 
 	/**

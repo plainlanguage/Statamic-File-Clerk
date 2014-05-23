@@ -30,6 +30,11 @@ class Tasks_fileclerk extends Tasks
 		$this->log->info('Defining our tasks class.');
 	}
 
+	public function templates()
+	{
+		return array();
+	}
+
 	/**
 	 * Empty array for holding file data
 	 * @return (array)
@@ -43,12 +48,15 @@ class Tasks_fileclerk extends Tasks
 			'filesize'       => null,
 			'fullpath'       => null,
 			'is_image'       => null,
+			'key'            => null, // S3 object key
 			//'mime_type'      => null,
+			's3_path'        => null,
 			'size'           => null,
 			'size_bytes'     => null,
 			'size_kilobytes' => null,
 			'size_megabytes' => null,
 			'size_gigabytes' => null,
+			'tmp_name'       => null,
 		);
 	}
 
