@@ -399,6 +399,34 @@ class Hooks_fileclerk extends Hooks
 		// Let's make sure we  have a valid URL before movin' on
 		if( Url::isValid( $s3_url ) )
 		{
+			// Just messing around native SDK methods get objects
+			if( FALSE )
+			{
+				// Trying out listIterator
+				$iterator = $this->client->getIterator( 'ListObjects', array(
+					'Bucket' => $this->config['bucket'],
+					'Delimiter' => '/',
+					// 'Prefix' => 'balls/',
+				), array(
+					'limit' => 1000,
+					'return_prefixes' => true,
+				));
+
+				//dd($iterator);
+
+				echo '<pre>';
+				foreach( $iterator as $object )
+				{
+					//if( ! isset($object['Prefix']) ) continue; // Skip non-directories
+
+					echo var_dump($object) . '<br>';
+					//echo var_dump($object) . '<br>';
+				}
+				echo '</pre>';
+
+				exit;
+			}
+
 			$finder = new Finder();
 
 			try
@@ -480,7 +508,7 @@ class Hooks_fileclerk extends Hooks
 					if( $file->isFile() ) // Push to files array
 					{
 						// Check if file is an iamge
-						$this->data['is_image'] = self::is_image($file_data['extension']);
+						$file_data['is_image'] = self::is_image($file_data['extension']);
 
 						// Set filesize data
 						$file_data['size_kilobytes'] = $this->tasks->get_size_kilobytes($file_data['size_bytes']);
@@ -889,12 +917,12 @@ class Hooks_fileclerk extends Hooks
 				'bmp',
 			);
 
-			return in_array(strtolower($extension), $image_extensions) ? true : false;
+			return in_array(strtolower($extension), $image_extensions) ? 'true' : 'false';
 		}
 		else if ( ! is_null($mime_type) )
 		{
 			$mime_type_parts = explode('/', $body['ContentType']);
-			return ( strtolower(reset($mime_type_parts)) === 'image' ) ? true : false;
+			return ( strtolower(reset($mime_type_parts)) === 'image' ) ? 'true' : 'false';
 		}
 
 		return false;
