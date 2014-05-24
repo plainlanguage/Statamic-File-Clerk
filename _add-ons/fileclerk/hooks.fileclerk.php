@@ -109,17 +109,8 @@ class Hooks_fileclerk extends Hooks
 				{
 					// Get the html template
 					$file_not_allowed_template = File::get( __DIR__ . '/views/error-not-allowed.html');
-
-					//echo self::build_response_json(false, true, FILECLERK_DISALLOWED_FILETYPE, 'Files of type ' . $mime_type . ' not allowed.');
-					echo json_encode( array(
-						'error'	=> TRUE,
-						'type'	=> 'dialog',
-						'code'	=> FILECLERK_DISALLOWED_FILETYPE,
-						'html'	=> Parse::template( $file_not_allowed_template, array(
-							//'mime_type' => $this->data['mime_type'],
-							'mime_type' => $this->data['extension'],
-						)),
-					));
+					$data = array('extension' => $this->data['extension']);
+					echo self::build_response_json(false, true, FILECLERK_DISALLOWED_FILETYPE, 'Filetype not allowed.', 'dialog', array('extension' => $extension), null, Parse::template($file_not_allowed_template, $data));
 					exit;
 				}
 			}
@@ -275,27 +266,21 @@ class Hooks_fileclerk extends Hooks
 		 * @todo Need to update JS to accept this response for activating.
 		 */
 		// First check if extension is allowed
-		// if ( ! self::extension_is_allowed($extension) )
-		// {
-		// 	// Get the html template
-		// 	$file_not_allowed_template = File::get( __DIR__ . '/views/error-not-allowed.html');
-		// 	echo json_encode( array(
-		// 		'error'	=> TRUE,
-		// 		'type'	=> 'dialog',
-		// 		'code'	=> FILECLERK_DISALLOWED_FILETYPE,
-		// 		'html'	=> Parse::template( $file_not_allowed_template, array(
-		// 			//'mime_type' => $this->data['mime_type'],
-		// 			'mime_type' => $extension,
-		// 		)),
-		// 	));
-		// 	exit;
-		// }
+		if ( ! self::extension_is_allowed($extension) )
+		{
+			$data = array( 'extension' => $extension );
+			$file_not_allowed_template = File::get( __DIR__ . '/views/error-not-allowed.html');
+			echo self::build_response_json(false, true, FILECLERK_DISALLOWED_FILETYPE, 'Filetype not allowed.', 'dialog', array('extension' => $extension), null, Parse::template($file_not_allowed_template, $data));
+			exit;
+		}
 
-		//self::merge_configs( $destination );
+		// Merge configs
 		$this->config = self::merge_configs( $destination );
 
+		// Get the S3 path
 		$s3_path = self::build_s3_path();
 
+		// Check if file already exists
 		if( self::file_exists( $s3_path, $filename ) )
 		{
 			$overwrite            = Request::get('overwrite');
@@ -317,6 +302,7 @@ class Hooks_fileclerk extends Hooks
 			exit;
 		}
 	}
+
 
 	/**
 	 * AJAX - Run upload_file
@@ -751,6 +737,11 @@ class Hooks_fileclerk extends Hooks
 						->depth('== 0')
 						->count()
 			;
+		}
+		catch ( InvalidArgumentException $e )
+		{
+			echo json_encode($e->getMessage());
+			exit;
 		}
 		catch ( Exception $e )
 		{

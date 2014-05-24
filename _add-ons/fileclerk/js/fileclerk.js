@@ -78,8 +78,15 @@ $(function () {
 				},
 				success: function( data, textStatus, jqXHR )
 				{
-					console.log(data);
-					return data.error;
+					if( data.code === 700 )
+					{
+
+					}
+					else if( data.code === 300 )
+					{
+						console.log(data);
+						return data.error;
+					}
 				},
 				error: function( data, textStatus, errorThrown )
 				{
@@ -258,7 +265,9 @@ $(function () {
 								});
 							}
 							// Disallowed Filetype
-							else if ( data.code === 700 ) {
+							else if ( data.code === 700 ) 
+							{
+
 								console.log(data.message);
 								uploadError.toggleClass('is-hidden is-visible').html(data.html); // Add is-visible class and show JSON html
 								progressWrapper.toggleClass('is-visible is-hidden'); // Hide Progress Bar since there is an error
@@ -344,6 +353,27 @@ $(function () {
 									}
 
 									chooseExistingTab.attr('data-toggle', 'tab').removeClass('disabled'); // Enable Choose Existing tab
+
+									event.preventDefault();
+								});
+							}
+							else if( data.code === 700 )
+							{
+								console.log(data.message);
+								fileWrapper.removeClass('is-visible').addClass('is-hidden'); // Hide file inputs
+								uploadError.toggleClass('is-hidden is-visible').html(data.html); // Add is-visible class and show JSON html
+
+								$this.closest('.fileclerk').find('.upload-error .error-not-allowed a').on('click', function(event) {
+
+									var actionAttr = $(this).attr('data-action');
+
+									// Clicked Cancel
+									if (actionAttr === 'cancel') {
+										console.log('Cancel');
+										//errorExists.remove(); // Remove error
+										uploadError.toggleClass('is-visible is-hidden'); // Hide error holder
+										fileWrapper.toggleClass('is-hidden is-visible'); // Bring back the upload buttton
+									}
 
 									event.preventDefault();
 								});
