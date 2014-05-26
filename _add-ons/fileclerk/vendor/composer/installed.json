@@ -1,8 +1,8 @@
 [
     {
         "name": "symfony/event-dispatcher",
-        "version": "v2.4.4",
-        "version_normalized": "2.4.4.0",
+        "version": "v2.4.5",
+        "version_normalized": "2.4.5.0",
         "target-dir": "Symfony/Component/EventDispatcher",
         "source": {
             "type": "git",
@@ -59,17 +59,17 @@
     },
     {
         "name": "guzzle/guzzle",
-        "version": "v3.9.0",
-        "version_normalized": "3.9.0.0",
+        "version": "v3.9.1",
+        "version_normalized": "3.9.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/guzzle/guzzle3.git",
-            "reference": "e4d12d7d6acccf75a5e504114e2df9195e494108"
+            "reference": "92d9934f2fca1da15178c91239576ae26e505e60"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/guzzle/guzzle3/zipball/e4d12d7d6acccf75a5e504114e2df9195e494108",
-            "reference": "e4d12d7d6acccf75a5e504114e2df9195e494108",
+            "url": "https://api.github.com/repos/guzzle/guzzle3/zipball/92d9934f2fca1da15178c91239576ae26e505e60",
+            "reference": "92d9934f2fca1da15178c91239576ae26e505e60",
             "shasum": ""
         },
         "require": {
@@ -110,7 +110,7 @@
             "zendframework/zend-cache": "2.*,<2.3",
             "zendframework/zend-log": "2.*,<2.3"
         },
-        "time": "2014-04-23 21:43:40",
+        "time": "2014-05-07 17:04:22",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -152,69 +152,18 @@
         ]
     },
     {
-        "name": "symfony/finder",
-        "version": "v2.4.4",
-        "version_normalized": "2.4.4.0",
-        "target-dir": "Symfony/Component/Finder",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/symfony/Finder.git",
-            "reference": "25e1e7d5e7376f8a92ae3b1d714d956edf33a730"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/symfony/Finder/zipball/25e1e7d5e7376f8a92ae3b1d714d956edf33a730",
-            "reference": "25e1e7d5e7376f8a92ae3b1d714d956edf33a730",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.3"
-        },
-        "time": "2014-04-27 13:34:57",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "2.4-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "Symfony\\Component\\Finder\\": ""
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Fabien Potencier",
-                "email": "fabien@symfony.com",
-                "homepage": "http://fabien.potencier.org",
-                "role": "Lead Developer"
-            },
-            {
-                "name": "Symfony Community",
-                "homepage": "http://symfony.com/contributors"
-            }
-        ],
-        "description": "Symfony Finder Component",
-        "homepage": "http://symfony.com"
-    },
-    {
         "name": "aws/aws-sdk-php",
-        "version": "2.6.2",
-        "version_normalized": "2.6.2.0",
+        "version": "2.6.5",
+        "version_normalized": "2.6.5.0",
         "source": {
             "type": "git",
             "url": "https://github.com/aws/aws-sdk-php.git",
-            "reference": "629c5ba5b419d2730c0823d5c95ae03066b6817f"
+            "reference": "459e83a318911eb6685d0a6fd2dcd0495a660a51"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/629c5ba5b419d2730c0823d5c95ae03066b6817f",
-            "reference": "629c5ba5b419d2730c0823d5c95ae03066b6817f",
+            "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/459e83a318911eb6685d0a6fd2dcd0495a660a51",
+            "reference": "459e83a318911eb6685d0a6fd2dcd0495a660a51",
             "shasum": ""
         },
         "require": {
@@ -236,7 +185,7 @@
             "monolog/monolog": "Adds support for logging HTTP requests and responses",
             "symfony/yaml": "Eases the ability to write manifests for creating jobs in AWS Import/Export"
         },
-        "time": "2014-05-06 19:14:32",
+        "time": "2014-05-22 23:03:48",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -271,5 +220,56 @@
             "s3",
             "sdk"
         ]
+    },
+    {
+        "name": "symfony/finder",
+        "version": "v2.4.5",
+        "version_normalized": "2.4.5.0",
+        "target-dir": "Symfony/Component/Finder",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/Finder.git",
+            "reference": "46295af1b1e24304b35d5f20f1bf1ec0c2c4934a"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/Finder/zipball/46295af1b1e24304b35d5f20f1bf1ec0c2c4934a",
+            "reference": "46295af1b1e24304b35d5f20f1bf1ec0c2c4934a",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.3"
+        },
+        "time": "2014-05-22 13:46:01",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.4-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Symfony\\Component\\Finder\\": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com",
+                "homepage": "http://fabien.potencier.org",
+                "role": "Lead Developer"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "http://symfony.com/contributors"
+            }
+        ],
+        "description": "Symfony Finder Component",
+        "homepage": "http://symfony.com"
     }
 ]
