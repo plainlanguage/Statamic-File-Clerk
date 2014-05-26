@@ -25,10 +25,25 @@ return array (
     'signatureVersion' => 'v4',
     'namespace' => 'CloudTrail',
     'regions' => array(
+        'ap-southeast-2' => array(
+            'http' => false,
+            'https' => true,
+            'hostname' => 'cloudtrail.ap-southeast-2.amazonaws.com',
+        ),
+        'eu-west-1' => array(
+            'http' => false,
+            'https' => true,
+            'hostname' => 'cloudtrail.eu-west-1.amazonaws.com',
+        ),
         'us-east-1' => array(
             'http' => false,
             'https' => true,
             'hostname' => 'cloudtrail.us-east-1.amazonaws.com',
+        ),
+        'us-west-1' => array(
+            'http' => false,
+            'https' => true,
+            'hostname' => 'cloudtrail.us-west-1.amazonaws.com',
         ),
         'us-west-2' => array(
             'http' => false,
@@ -59,10 +74,12 @@ return array (
                     'default' => 'com.amazonaws.cloudtrail.v20131101.CloudTrail_20131101.CreateTrail',
                 ),
                 'Name' => array(
+                    'required' => true,
                     'type' => 'string',
                     'location' => 'json',
                 ),
                 'S3BucketName' => array(
+                    'required' => true,
                     'type' => 'string',
                     'location' => 'json',
                 ),
@@ -78,28 +95,6 @@ return array (
                     'type' => 'boolean',
                     'format' => 'boolean-string',
                     'location' => 'json',
-                ),
-                'trail' => array(
-                    'type' => 'object',
-                    'location' => 'json',
-                    'properties' => array(
-                        'Name' => array(
-                            'type' => 'string',
-                        ),
-                        'S3BucketName' => array(
-                            'type' => 'string',
-                        ),
-                        'S3KeyPrefix' => array(
-                            'type' => 'string',
-                        ),
-                        'SnsTopicName' => array(
-                            'type' => 'string',
-                        ),
-                        'IncludeGlobalServiceEvents' => array(
-                            'type' => 'boolean',
-                            'format' => 'boolean-string',
-                        ),
-                    ),
                 ),
             ),
             'errorResponses' => array(
@@ -138,10 +133,6 @@ return array (
                 array(
                     'reason' => 'This exception is thrown when the provided trail name is not valid.',
                     'class' => 'InvalidTrailNameException',
-                ),
-                array(
-                    'reason' => 'This exception is thrown when no trail is provided.',
-                    'class' => 'TrailNotProvidedException',
                 ),
             ),
         ),
@@ -350,6 +341,7 @@ return array (
                     'default' => 'com.amazonaws.cloudtrail.v20131101.CloudTrail_20131101.UpdateTrail',
                 ),
                 'Name' => array(
+                    'required' => true,
                     'type' => 'string',
                     'location' => 'json',
                 ),
@@ -369,28 +361,6 @@ return array (
                     'type' => 'boolean',
                     'format' => 'boolean-string',
                     'location' => 'json',
-                ),
-                'trail' => array(
-                    'type' => 'object',
-                    'location' => 'json',
-                    'properties' => array(
-                        'Name' => array(
-                            'type' => 'string',
-                        ),
-                        'S3BucketName' => array(
-                            'type' => 'string',
-                        ),
-                        'S3KeyPrefix' => array(
-                            'type' => 'string',
-                        ),
-                        'SnsTopicName' => array(
-                            'type' => 'string',
-                        ),
-                        'IncludeGlobalServiceEvents' => array(
-                            'type' => 'boolean',
-                            'format' => 'boolean-string',
-                        ),
-                    ),
                 ),
             ),
             'errorResponses' => array(
@@ -426,10 +396,6 @@ return array (
                     'reason' => 'This exception is thrown when the provided trail name is not valid.',
                     'class' => 'InvalidTrailNameException',
                 ),
-                array(
-                    'reason' => 'This exception is thrown when no trail is provided.',
-                    'class' => 'TrailNotProvidedException',
-                ),
             ),
         ),
     ),
@@ -457,27 +423,6 @@ return array (
                 'IncludeGlobalServiceEvents' => array(
                     'type' => 'boolean',
                     'location' => 'json',
-                ),
-                'trail' => array(
-                    'type' => 'object',
-                    'location' => 'json',
-                    'properties' => array(
-                        'Name' => array(
-                            'type' => 'string',
-                        ),
-                        'S3BucketName' => array(
-                            'type' => 'string',
-                        ),
-                        'S3KeyPrefix' => array(
-                            'type' => 'string',
-                        ),
-                        'SnsTopicName' => array(
-                            'type' => 'string',
-                        ),
-                        'IncludeGlobalServiceEvents' => array(
-                            'type' => 'boolean',
-                        ),
-                    ),
                 ),
             ),
         ),
@@ -548,30 +493,6 @@ return array (
                     'type' => 'string',
                     'location' => 'json',
                 ),
-                'LatestDeliveryAttemptTime' => array(
-                    'type' => 'string',
-                    'location' => 'json',
-                ),
-                'LatestNotificationAttemptTime' => array(
-                    'type' => 'string',
-                    'location' => 'json',
-                ),
-                'LatestNotificationAttemptSucceeded' => array(
-                    'type' => 'string',
-                    'location' => 'json',
-                ),
-                'LatestDeliveryAttemptSucceeded' => array(
-                    'type' => 'string',
-                    'location' => 'json',
-                ),
-                'TimeLoggingStarted' => array(
-                    'type' => 'string',
-                    'location' => 'json',
-                ),
-                'TimeLoggingStopped' => array(
-                    'type' => 'string',
-                    'location' => 'json',
-                ),
             ),
         ),
         'UpdateTrailResponse' => array(
@@ -597,27 +518,6 @@ return array (
                 'IncludeGlobalServiceEvents' => array(
                     'type' => 'boolean',
                     'location' => 'json',
-                ),
-                'trail' => array(
-                    'type' => 'object',
-                    'location' => 'json',
-                    'properties' => array(
-                        'Name' => array(
-                            'type' => 'string',
-                        ),
-                        'S3BucketName' => array(
-                            'type' => 'string',
-                        ),
-                        'S3KeyPrefix' => array(
-                            'type' => 'string',
-                        ),
-                        'SnsTopicName' => array(
-                            'type' => 'string',
-                        ),
-                        'IncludeGlobalServiceEvents' => array(
-                            'type' => 'boolean',
-                        ),
-                    ),
                 ),
             ),
         ),

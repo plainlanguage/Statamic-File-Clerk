@@ -1,0 +1,6 @@
+<div class="error-no-results">
+	<span>Sorry, this directory is empty.</span>
+	<ul>
+		<li><a class="btn" href="#" {{ if previous_directory !== NULL }} data-uri="{{ previous_directory }}" data-destination="{{ destination }}" {{ else }} data-action="go-back" {{ endif }}>Go Back</a></li>
+	</ul>
+</div>

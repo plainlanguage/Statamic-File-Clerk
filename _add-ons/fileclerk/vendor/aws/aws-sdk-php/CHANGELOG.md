@@ -1,6 +1,63 @@
 CHANGELOG
 =========
 
+2.6.5 (2014-05-22)
+------------------
+
+* Added cross-region support for the Amazon EC2 CopySnapshot operation.
+* Added AWS Relational Database (RDS) support to the AWS OpsWorks client.
+* Added support for tagging environments to the AWS Elastic Beanstalk client.
+* Refactored the signature version 4 implementation to be able to pre-sign
+  most operations.
+
+2.6.4 (2014-05-20)
+------------------
+
+* Added support for lifecycles on versioning enabled buckets to the Amazon S3
+  client.
+* Fixed an Amazon S3 sync issue which resulted in unnecessary transfers when no
+  `$keyPrefix` argument was utilized.
+* Corrected the `CopySourceIfMatch` and `CopySourceIfNoneMatch` parameter for
+  Amazon S3 to not use a timestamp shape.
+* Corrected the sending of Amazon S3 PutBucketVersioning requests that utilize
+  the `MFADelete` parameter.
+
+2.6.3 (2014-05-14)
+------------------
+
+* Added the ability to modify Amazon SNS topic settings to the UpdateStack
+  operation of the AWS CloudFormation client.
+* Added support for the us-west-1, ap-southeast-2, and eu-west-1 regions to the
+  AWS CloudTrail client.
+* Removed no longer utilized AWS CloudTrail shapes from the model.
+
+2.6.2 (2014-05-06)
+------------------
+
+* Added support for Amazon SQS message attributes.
+* Fixed Amazon S3 multi-part uploads so that manually set ContentType values are not overwritten.
+* No longer recalculating file sizes when an Amazon S3 socket timeout occurs because this was causing issues with
+  multi-part uploads and it is very unlikely ever the culprit of a socket timeout.
+* Added better environment variable detection.
+
+2.6.1 (2014-04-25)
+------------------
+
+* Added support for the `~/.aws/credentials` INI file and credential profiles (via the `profile` option) as a safer
+  alternative to using explicit credentials with the `key` and `secret` options.
+* Added support for query filters and improved conditional expressions to the Amazon DynamoDB client.
+* Added support for the `ChefConfiguration` parameter to a few operations on the AWS OpsWorks Client.
+* Added support for Redis cache cluster snapshots to the Amazon ElastiCache client.
+* Added support for the `PlacementTenancy` parameter to the `CreateLaunchConfiguration` operation of the Auto Scaling
+  client.
+* Added support for the new R3 instance types to the Amazon EC2 client.
+* Added the `SpotInstanceRequestFulfilled` waiter to the Amazon EC2 client (see #241).
+* Improved the S3 Stream Wrapper by adding support for deleting pseudo directories (#264), updating error handling
+  (#276), and fixing `is_link()` for non-existent keys (#268).
+* Fixed #252 and updated the DynamoDB `WriteRequestBatch` abstraction to handle batches that were completely rejected
+  due to exceeding provisioned throughput.
+* Updated the SDK to support Guzzle 3.9.x
+
 2.6.0 (2014-03-25)
 ------------------
 

@@ -7,18 +7,16 @@
 		<div class="tab-content content">
 
 			<div class="tab-pane active view-upload fade in" id="view-upload-{{ id }}">
-				<input class="postUrl" name="postUrl" type="hidden" value="{{ action }}">
-				<div class="choose-file">
-					<div class="file-wrapper">
-						<input class="file-upload" type="file" name="files">
-						<span class="button button-light large" href="#"><span class="button-icon-upload">Upload File</span></span>
-					</div>
-					<div class="upload-error is-hidden">
-					</div>
-					<div class="progress-bar clearfix is-hidden">
-						<progress class="uploading" value="0" min="0" max="100"></progress>
-						<div class="prc"></div>
-					</div>
+				<input class="postUrl" name="postUrl" type="hidden" data-destination="{{ destination }}" value="{{ action }}">
+				<div class="file-wrapper is-visible">
+					<input class="file-upload" type="file" name="files">
+					<span class="button button-light large" href="#"><span class="button-icon-upload">Upload File</span></span>
+				</div>
+				<div class="upload-error is-hidden">
+				</div>
+				<div class="progress-bar is-hidden">
+					<progress class="uploading" value="0" min="0" max="100"></progress>
+					<div class="prc"></div>
 				</div>
 			</div>
 
@@ -68,11 +66,25 @@
 	</div>
 
 	<div class="result {{ if value }}is-visible{{ else }}is-hidden{{ endif }}">
-		<p><span class="filename-display"><a href="{{ value }}" rel="external">{{ basename_value }}</a></span></p><a class="btn btn-small btn-remove" href="#">Remove</a>
+		<span class="filename-display">
+			<span class="filename">{{ basename_value }}</span>
+			<a class="preview {{ if value }}is-visible{{ else }}is-hidden{{ endif }}" href="{{ url }}" rel="{{ if is_image == "true" }}inline{{ else }}external{{ endif }}">Preview</a>
+			<div class="inline-preview is-hidden">
+				<a class="modal-close" href="#">Close</a>
+				<div class="load"><img src=""><div class="ajax-spinner"></div></div>
+			</div>
+		</span>
+		<a class="btn btn-small btn-remove" href="#">Remove</a>
 		<input type="hidden" name="{{ name }}" id="{{ name }}" class="successful-upload" value="{{ value }}">
 		<input type="hidden" name="{{ name }}[url]" class="hidden-url" value="{{ url }}">
 		<input type="hidden" name="{{ name }}[filename]" class="hidden-filename" value="{{ filename }}">
 		<input type="hidden" name="{{ name }}[extension]" class="hidden-extension" value="{{ extension }}">
 		<input type="hidden" name="{{ name }}[size]" class="hidden-size" value="{{ size }}">
+		<input type="hidden" name="{{ name }}[size_bytes]" class="hidden-size-bytes" value="{{ size_bytes }}">
+		<input type="hidden" name="{{ name }}[size_kilobytes]" class="hidden-size-kilobytes" value="{{ size_kilobytes }}">
+		<input type="hidden" name="{{ name }}[size_megabytes]" class="hidden-size-megabytes" value="{{ size_megabytes }}">
+		<input type="hidden" name="{{ name }}[size_gigabytes]" class="hidden-size-gigabytes" value="{{ size_gigabytes }}">
+		<input type="hidden" name="{{ name }}[is_image]" class="hidden-is-image" value="{{ is_image }}">
+
 	</div>
 </div>

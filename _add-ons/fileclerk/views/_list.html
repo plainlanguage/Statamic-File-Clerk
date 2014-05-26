@@ -1,6 +1,6 @@
 {{ list }}
 	{{ if is_file }}
-	<tr class="file" data-file="{{ url }}" data-filename="{{ filename }}" data-extension="{{ extension }}" data-size="{{ size }}">
+	<tr class="file" data-file="{{ url }}" data-filename="{{ filename }}" data-extension="{{ extension }}" data-size="{{ size }}" data-size-bytes="{{ size_bytes }}" data-size-kilobytes="{{ size_kilobytes }}" data-size-megabytes="{{ size_megabytes }}" data-size-gigabytes="{{ size_gigabytes }}" data-is-image="{{ is_image }}">
 		<td class="is-file" scope="row">{{ filename }}</td>
 		<td>{{ size }}</td>
 		<td>{{ last_modified format="m/j/Y" }} <span class="time">{{ last_modified format="h:i A" }}</span></td>
