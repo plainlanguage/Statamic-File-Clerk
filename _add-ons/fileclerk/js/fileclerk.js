@@ -1,6 +1,27 @@
 // The jQuery
 $(function () {
 
+	//   $$$$$$\            $$\                                    $$$$$$\             $$\     $$\
+	//  $$  __$$\           \__|                                  $$  __$$\            $$ |    \__|
+	//  $$ /  \__| $$$$$$\  $$\ $$$$$$$\      $$\  $$$$$$$\       $$ /  $$ | $$$$$$\ $$$$$$\   $$\  $$$$$$\  $$$$$$$\   $$$$$$$\
+	//  \$$$$$$\  $$  __$$\ $$ |$$  __$$\     \__|$$  _____|      $$ |  $$ |$$  __$$\\_$$  _|  $$ |$$  __$$\ $$  __$$\ $$  _____|
+	//   \____$$\ $$ /  $$ |$$ |$$ |  $$ |    $$\ \$$$$$$\        $$ |  $$ |$$ /  $$ | $$ |    $$ |$$ /  $$ |$$ |  $$ |\$$$$$$\
+	//  $$\   $$ |$$ |  $$ |$$ |$$ |  $$ |    $$ | \____$$\       $$ |  $$ |$$ |  $$ | $$ |$$\ $$ |$$ |  $$ |$$ |  $$ | \____$$\
+	//  \$$$$$$  |$$$$$$$  |$$ |$$ |  $$ |$$\ $$ |$$$$$$$  |       $$$$$$  |$$$$$$$  | \$$$$  |$$ |\$$$$$$  |$$ |  $$ |$$$$$$$  |
+	//   \______/ $$  ____/ \__|\__|  \__|\__|$$ |\_______/        \______/ $$  ____/   \____/ \__| \______/ \__|  \__|\_______/
+	//            $$ |                  $$\   $$ |                          $$ |
+	//            $$ |                  \$$$$$$  |                          $$ |
+	//            \__|                   \______/                           \__|
+
+	var spinJsOpts = {
+		lines: 13,
+		length: 6,
+		width: 2,
+		radius: 6,
+		corners: 1,
+		hwaccel: true
+	}
+
 	//  $$\   $$\           $$\                           $$\
 	//  $$ |  $$ |          $$ |                          $$ |
 	//  $$ |  $$ | $$$$$$\  $$ | $$$$$$\   $$$$$$\   $$$$$$$ |
@@ -265,7 +286,7 @@ $(function () {
 								});
 							}
 							// Disallowed Filetype
-							else if ( data.code === 700 ) 
+							else if ( data.code === 700 )
 							{
 
 								console.log(data.message);
@@ -464,15 +485,7 @@ $(function () {
 				contentType: false, // Set content type to false as jQuery will tell the server it's a query string request
 				beforeSend: function(data) {
 					// Do stuff before sending. Loading Gif? (Chad, that's a soft `G`!) -- (Your mom is a soft 'G'. Love, Chad)
-					ajaxSpinner.spin({
-						lines: 10,
-						length: 6,
-						width: 2,
-						radius: 6,
-						corners: 0,
-						hwaccel: true,
-						top: '165px'
-					}); // Start spinner
+					ajaxSpinner.spin(spinJsOpts); // Start spinner
 					ajaxOverlay.toggleClass('is-hidden is-visible');
 				},
 				success: function(data, textStatus, jqXHR)
@@ -797,15 +810,7 @@ $(function () {
 				dataType: 'JSON', // JSON
 				beforeSend: function(data) {
 					// Do stuff before sending. Loading Gif? (Chad, that's a soft `G`!) -- (Your mom is a soft 'G'. Love, Chad)
-					ajaxSpinner.spin({
-						lines: 10,
-						length: 6,
-						width: 2,
-						radius: 6,
-						corners: 0,
-						hwaccel: true
-						//top: '165px'
-					}); // Start spinner
+					ajaxSpinner.spin(spinJsOpts); // Start spinner
 				},
 				success: function(data) {
 					loadAJAX.attr('src', data.url);
