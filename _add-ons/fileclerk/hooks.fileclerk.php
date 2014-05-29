@@ -33,7 +33,7 @@ class Hooks_fileclerk extends Hooks
 	private   $data;
 	private   $error;
 	protected $env;
-	private $overwrite;
+	private   $overwrite;
 
 	/**
 	 * Add CSS to Header
@@ -41,8 +41,7 @@ class Hooks_fileclerk extends Hooks
 	 */
 	public function control_panel__add_to_head()
 	{
-		if (URL::getCurrent(false) == '/publish')
-		{
+		if ( URL::getCurrent(false) == '/publish' ) {
 			return $this->css->link('fileclerk.min.css');
 		}
 	}
@@ -54,17 +53,13 @@ class Hooks_fileclerk extends Hooks
 	public function control_panel__add_to_foot()
 	{
 		// Get the necessary support .js
-		if (URL::getCurrent(false) == '/publish')
-		{
-			if( FILECLERK_ENV === 'dev' )
-			{
+		if ( URL::getCurrent(false) == '/publish' ) {
+			if ( FILECLERK_ENV === 'dev' ) {
 				$html = $this->js->link(array(
 					'plugins.combined.js',
 					'fileclerk.js',
 				));
-			}
-			else
-			{
+			} else {
 				$html = $this->js->link(array(
 					'build/fileclerk.plugins.min.js',
 					'build/fileclerk.min.js',
@@ -102,57 +97,37 @@ class Hooks_fileclerk extends Hooks
 
 			// Check that the file extension is allowed (Not case-sensitive).
 			// Need an array of content types to proceed.
-			if( is_array($this->config['content_types']) )
-			{
-				// Only return JSON if the file extension is not allowed for upload
-				if( ! in_array($this->data['extension'], $this->config['content_types']) )
-				{
-					// Get the html template
-					$file_not_allowed_template = File::get( __DIR__ . '/views/error-not-allowed.html');
-					$data = array('extension' => $this->data['extension']);
-					echo self::build_response_json(false, true, FILECLERK_DISALLOWED_FILETYPE, 'Filetype not allowed.', 'dialog', array('extension' => $extension), null, Parse::template($file_not_allowed_template, $data));
-					exit;
-				}
+			if( ! self::extension_is_allowed($this->data['extension']) ) {
+				// Get the html template
+				$file_not_allowed_template = File::get( __DIR__ . '/views/error-not-allowed.html');
+				$data = array('extension' => $this->data['extension']);
+				echo self::build_response_json(false, true, FILECLERK_DISALLOWED_FILETYPE, 'Filetype not allowed.', 'dialog', array('extension' => $this->data['extension']), null, Parse::template($file_not_allowed_template, $data));
+				exit;
 			}
 
-			// Add-on settings
-			// Do we need this?
-			//$bucket        = $this->config['bucket'];
-			//$directory     = $this->config['directory'];
+			// S3 key
 			$this->data['key']           = Url::tidy( '/' . $this->config['directory'] . '/' . $this->data['filename'] );
-			//$custom_domain = $this->config['custom_domain'];
-			//$set_acl       = $this->config['permissions'];
 
 			// Set the full S3 path to the bucket/key
 			$this->data['s3_path'] = Url::tidy( 's3://' . join('/', array($this->config['bucket'], $this->config['directory'])) );
 
 			// Check if the file already exists
-			if( self::file_exists( $this->data['s3_path'], $this->data['filename'] ) )
-			{
-				$overwrite = Request::get('overwrite');
+			if( self::file_exists( $this->data['s3_path'], $this->data['filename'] ) ) {
+				$this->overwrite      = Request::get('overwrite');
 				$file_exists_template = File::get( __DIR__ . '/views/file-exists.html');
 
-				if( is_null($overwrite) )
-				{
-					echo json_encode( array(
-						'error'		=> TRUE,
-						'type'		=> 'dialog',
-						'code'		=> FILECLERK_ERROR_FILE_EXISTS,
-						'message'	=> FILECLERK_ERROR_FILE_EXISTS_MSG,
-						'html'		=> Parse::template( $file_exists_template, array(
-							'filename' => $this->data['filename'],
-						)),
-					));
+				if( is_null($this->overwrite) ) {
+					$data = array('filename', $this->data['filename']);
+					$html = Parse::template( $file_exists_template, $data);
+
+					echo self::build_response_json(false, true, FILECLERK_ERROR_FILE_EXISTS, FILECLERK_ERROR_FILE_EXISTS_MSG, 'dialog', $data, null, $html);
 					exit;
-				}
-				elseif( $overwrite === 'false' || ! $overwrite || $overwrite === 0 )
-				{
+				} elseif( $this->overwrite === 'false' || ! $this->overwrite || $this->overwrite === 0 ) {
 					$this->data['filename'] = self::increment_filename_unix($this->data['filename']);
 				}
 			}
 
 			// Set the full path for the file.
-			//$fullPath = Url::tidy( self::get_url_prefix() . '/' . $this->data['filename'] );
 			$this->data['fullpath'] = Url::tidy( self::get_url_prefix() . '/' . $this->data['filename'] );
 
 			// Build up the upload object
@@ -168,8 +143,7 @@ class Hooks_fileclerk extends Hooks
 				->build();
 
 			// Do it.
-			try
-			{
+			try {
 				// Try the upload
 				$upload = $uploader->upload();
 
@@ -187,17 +161,14 @@ class Hooks_fileclerk extends Hooks
 				 * );
 				 */
 				
+				// Set these values from the S3 response
 				$this->data['url']    = $upload['Location'];
 				$this->data['key']    = $upload['Key'];
 				$this->data['bucket'] = $upload['Bucket'];
-			}
-			catch (InvalidArgumentException $e)
-			{
+			} catch ( InvalidArgumentException $e ) {
 				echo self::build_response_json(false, true, FILECLERK_S3_ERROR, $e->getMessage(), 'error', null, null, null);
 				exit;
-			}
-			catch (MultipartUploadException $e)
-			{
+			} catch ( MultipartUploadException $e ) {
 				$uploader->abort();
 				$this->error = true;
 				$error_message = $e->getMessage();
@@ -206,25 +177,18 @@ class Hooks_fileclerk extends Hooks
 					'error' => $e->getMessage(),
 				);
 
-				// Set the template here
-				// $template = File::get( __DIR__ . '/views/list.html');
-				// $html = Parse::template($template, $errors);
-
-				echo self::build_response_json(false, true, FILECLERK_S3_ERROR, $e->getMessage(), 'error', $errors, null, null);
+				echo self::build_response_json( false, true, FILECLERK_S3_ERROR, $e->getMessage(), 'error', $errors, null, null );
 				exit;
 
 			}
 		}
 
 		// Setup the return
-		if( $this->error )
-		{
+		if ( $this->error ) {
 			header('Content-Type: application/json');
 			echo self::build_response_json(false, true, FILECLERK_FILE_UPLOAD_FAILED, $error_message);
 			exit;
-		}
-		else
-		{
+		} else {
 			// Response
 			header('Content-Type: application/json');
 			echo self::build_response_json(true, false, FILECLERK_FILE_UPLOAD_SUCCESS, 'File ' . $this->data['filename'] . 'uploaded successfully!', null, $this->data, null, null);
@@ -262,37 +226,32 @@ class Hooks_fileclerk extends Hooks
 		$filename    = File::cleanFilename($filename);
 		$extension   = File::getExtension($filename);
 
+		// Merge configs
+		$this->config = self::merge_configs( $destination );
+
 		/**
 		 * @todo Need to update JS to accept this response for activating.
 		 */
 		// First check if extension is allowed
-		if ( ! self::extension_is_allowed($extension) )
-		{
+		if ( ! self::extension_is_allowed($extension) ) {
 			$data = array( 'extension' => $extension );
 			$file_not_allowed_template = File::get( __DIR__ . '/views/error-not-allowed.html');
 			echo self::build_response_json(false, true, FILECLERK_DISALLOWED_FILETYPE, 'Filetype not allowed.', 'dialog', array('extension' => $extension), null, Parse::template($file_not_allowed_template, $data));
 			exit;
 		}
 
-		// Merge configs
-		$this->config = self::merge_configs( $destination );
-
 		// Get the S3 path
 		$s3_path = self::build_s3_path();
 
 		// Check if file already exists
-		if( self::file_exists( $s3_path, $filename ) )
-		{
+		if( self::file_exists( $s3_path, $filename ) ) {
 			$overwrite            = Request::get('overwrite');
 			$file_exists_template = File::get( __DIR__ . '/views/file-exists.html');
 
-			if( is_null($overwrite) )
-			{
+			if ( is_null($overwrite) ) {
 				echo self::build_response_json(false, true, FILECLERK_ERROR_FILE_EXISTS, FILECLERK_ERROR_FILE_EXISTS_MSG, 'dialog', null, null, Parse::template($file_exists_template, array('filename' => $filename)));
 				exit;
-			}
-			elseif( $overwrite === 'false' || ! $overwrite || $overwrite === 0 )
-			{
+			} elseif ( $overwrite === 'false' || ! $overwrite || $overwrite === 0 ) {
 				$filename = self::increment_filename_unix($filename);
 			}
 		}
@@ -310,18 +269,19 @@ class Hooks_fileclerk extends Hooks
 	 */
 	public function fileclerk__ajaxupload() //This can be accessed as a URL via /TRIGGER/fileclerk/ajaxupload
 	{
-		if( Request::isAjax() ) // Make sure request is AJAX
-		{
+		// Make sure request is AJAX
+		if ( Request::isAjax() ) {
 			ob_start();
-				$object = new Hooks_fileclerk();
-				$object->upload_file();
-				Log::info('File uploaded.');
+				self::upload_file();
+
+				if ( $this->env === 'dev' ) {
+					Log::info('File successfully uploaded.');
+				}
+
 				header('Content-Type: application/json');
 				return true;
 			ob_flush();
-		}
-		else
-		{
+		} else {
 			echo FILECLERK_AJAX_WARNING;
 			exit;
 		}
@@ -333,16 +293,13 @@ class Hooks_fileclerk extends Hooks
 	 */
 	public function fileclerk__ajaxpreview()
 	{
-		if( Request::isAjax() ) // Make sure request is AJAX
-		{
+		// Make sure request is AJAX
+		if( Request::isAjax() ) {
 			ob_start();
-				$object = new Hooks_fileclerk();
-				$object->ajax_preview();
+				self::ajax_preview();
 				return true;
 			ob_flush();
-		}
-		else
-		{
+		} else {
 			echo FILECLERK_AJAX_WARNING;
 			exit;
 		}
@@ -357,9 +314,8 @@ class Hooks_fileclerk extends Hooks
 	 */
 	public function fileclerk__list()
 	{
-		// @todo Ensure AJAX requests only!
-		if( ! Request::isAjax() && FILECLERK_ENV != 'dev' )
-		{
+		// Force AJAX, except in dev
+		if ( ! Request::isAjax() && FILECLERK_ENV != 'dev' ) {
 			echo FILECLERK_AJAX_WARNING;
 			exit;
 		}
@@ -383,11 +339,9 @@ class Hooks_fileclerk extends Hooks
 		$s3_url    = Url::tidy( 's3://' . join('/', array($bucket, $directory, $uri)) );
 
 		// Let's make sure we  have a valid URL before movin' on
-		if( Url::isValid( $s3_url ) )
-		{
+		if ( Url::isValid( $s3_url ) ) {
 			// Just messing around native SDK methods get objects
-			if( FALSE )
-			{
+			if ( FALSE ) {
 				// Trying out listIterator
 				$iterator = $this->client->getIterator( 'ListObjects', array(
 					'Bucket' => $this->config['bucket'],
@@ -401,8 +355,7 @@ class Hooks_fileclerk extends Hooks
 				//dd($iterator);
 
 				echo '<pre>';
-				foreach( $iterator as $object )
-				{
+				foreach ( $iterator as $object ) {
 					//if( ! isset($object['Prefix']) ) continue; // Skip non-directories
 
 					echo var_dump($object) . '<br>';
@@ -413,10 +366,11 @@ class Hooks_fileclerk extends Hooks
 				exit;
 			}
 
+			// Finder instance
 			$finder = new Finder();
 
-			try
-			{
+			// Finder call
+			try {
 				$finder
 					->ignoreUnreadableDirs()
 					->ignoreDotFiles(true)
@@ -425,9 +379,7 @@ class Hooks_fileclerk extends Hooks
 				;
 
 				$results = iterator_to_array($finder);
-			}
-			catch( Exception $e )
-			{
+			} catch ( Exception $e ) {
 				$error = $e->getMessage();
 
 				header('Content-Type: application/json');
@@ -437,13 +389,13 @@ class Hooks_fileclerk extends Hooks
 
 			// Data array for building out view
 			$data = array(
-				'crumbs' => explode('/', $uri), // Array of the currently request URI.
+				'crumbs'      => explode('/', $uri), // Array of the currently request URI.
 				'destination' => $destination, // Array of the currently request URI.
-				'list'   => array(), // Files and dirs mixed
+				'list'        => array(), // Files and dirs mixed
 			);
 
 			// Prepare breadcrumbs
-			foreach ($data['crumbs'] as $key => $value) {
+			foreach ( $data['crumbs'] as $key => $value ) {
 				$path = explode('/', $uri, ($key + 1) - (count($data['crumbs'])));
 				$path = implode('/', $path);
 				//$path = Url::tidy( $path . '/?' . $querystring );
@@ -460,10 +412,8 @@ class Hooks_fileclerk extends Hooks
 			/**
 			 * Let's make sure we've got somethin' up in this mutha.
 			 */
-			if( $finder->count() > 0 )
-			{
-				foreach ($finder as $file)
-				{
+			if( $finder->count() > 0 ) {
+				foreach ($finder as $file) {
 					// Get the filename
 					$filename = $file->getFilename();
 
@@ -491,8 +441,7 @@ class Hooks_fileclerk extends Hooks
 					/**
 					 * Need to set the uri value
 					 */
-					if( $file->isFile() ) // Push to files array
-					{
+					if ( $file->isFile() ) {
 						// Check if file is an iamge
 						$file_data['is_image'] = self::is_image($file_data['extension']);
 
@@ -500,20 +449,14 @@ class Hooks_fileclerk extends Hooks
 						$file_data['size_kilobytes'] = $this->tasks->get_size_kilobytes($file_data['size_bytes']);
 						$file_data['size_megabytes'] = $this->tasks->get_size_megabytes($file_data['size_bytes']);
 						$file_data['size_gigabytes'] = $this->tasks->get_size_gigabytes($file_data['size_bytes']);
-					}
-					elseif( $file->isDir() ) // Push to directories array
-					{
-						if( is_null($uri) )
-						{
+					} elseif ( $file->isDir() ) {
+						if( is_null($uri) ) {
 							$file_data['uri'] = Url::tidy( '/' . join('/', array($file_data['filename'])) );
-						}
-						else
-						{
+						} else {
 							$file_data['uri'] = Url::tidy( '/' . join('/', array($uri,$file_data['filename'])) );
 						}
-					}
-					else // Keep on movin' on.
-					{
+					} else {
+						// Keep on movin' on.
 						continue;
 					}
 
@@ -524,9 +467,8 @@ class Hooks_fileclerk extends Hooks
 					$data['list'][$filename] = $file_data;
 					unset( $file_data );
 				}
-			}
-			else // Nothing returned from Finder
-			{
+			// Nothing returned from Finder
+			} else {
 				/**
 				 * Return an error of type dialog that should show a message to the user
 				 * that there are is nothing to see her. Doh!
@@ -567,8 +509,7 @@ class Hooks_fileclerk extends Hooks
 		// array_multisort( array_keys($data['list']), SORT_NATURAL | SORT_FLAG_CASE, $data['list'] );
 
 		// Now we need to tweak the array for parsing.
-		foreach( $data['list'] as $filename => $filedata )
-		{
+		foreach ( $data['list'] as $filename => $filedata ) {
 			$data['list'][] = $filedata;
 			unset($data['list'][$filename]);
 		}
@@ -603,12 +544,9 @@ class Hooks_fileclerk extends Hooks
 		));
 
 		// Register Stream Wrapper
-		try
-		{
+		try {
 			$this->client->registerStreamWrapper();
-		}
-		catch( Exception $e )
-		{
+		} catch ( Exception $e ) {
 			$errors = array(
 				'error' => $e->getMessage(),
 			);
@@ -650,8 +588,7 @@ class Hooks_fileclerk extends Hooks
 			'bucket'         => null,
 			'directory'      => null,
 			'permissions'    => 'public-read',
-			// @todo Should be removed. Possibly move to the main config as a default?
-			'content_types'  => array('jpg', 'jpeg', 'png', 'gif', 'pdf', 'doc'),
+			'content_types'  => false,
 		);
 
 		// Requried config values
@@ -676,8 +613,7 @@ class Hooks_fileclerk extends Hooks
 			// Set the full path for the destination file
 			$destination_file = FILECLERK_DESTINATION_PATH . ltrim($destination) . '.yaml';
 
-			if( File::exists($destination_file) )
-			{
+			if ( File::exists($destination_file) ) {
 				$destination_config = YAML::parseFile($destination_file);
 
 				foreach( $destination_config as $key => $value )
@@ -687,9 +623,7 @@ class Hooks_fileclerk extends Hooks
 						unset( $destination_config[$key]);
 					}
 				}
-			}
-			else
-			{
+			} else {
 				$this->log->error("Could not use destination `" . $destination . "`, YAML file does not exist.");
 			}
 		}
@@ -700,6 +634,24 @@ class Hooks_fileclerk extends Hooks
 		// merge config variables in order
 		$config = array_merge($config, $addon_config, $destination_config);
 
+		// Handle content types
+		// If it's a string, need to cast to an array
+		if ( is_string($config['content_types']) ) {
+			switch( $config['content_types'] )
+			{
+				// If empty string, set to false
+				case '':
+				case null:
+					$config['content_types'] = false;
+					break;
+				// If there is a value, push to an array
+				default:
+					$config['content_types'] = array($config['content_types']);
+					break;
+			}
+		}
+
+		// Check that required configs are set
 		foreach( $required_config as $key )
 		{
 			if( ! isset($config[$key]) || $config[$key] == '' )
@@ -708,6 +660,7 @@ class Hooks_fileclerk extends Hooks
 			}
 		}
 
+		// If errors, set in config for checking later
 		if( $errors )
 		{
 			$config['errors'] = $errors;
@@ -728,8 +681,7 @@ class Hooks_fileclerk extends Hooks
 	{
 		$finder = new Finder();
 
-		try
-		{
+		try {
 			$count = $finder
 						->files()
 						->in($path)
@@ -737,14 +689,10 @@ class Hooks_fileclerk extends Hooks
 						->depth('== 0')
 						->count()
 			;
-		}
-		catch ( InvalidArgumentException $e )
-		{
+		} catch ( InvalidArgumentException $e ) {
 			echo json_encode($e->getMessage());
 			exit;
-		}
-		catch ( Exception $e )
-		{
+		} catch ( Exception $e ) {
 			$errors = array(
 				'error' => $e->getMessage(),
 			);
@@ -767,10 +715,9 @@ class Hooks_fileclerk extends Hooks
 	 * @param (string) Filename.
 	 * @return (mixed)
 	 */
-	private function increment_filename_unix( $filename = null )
+	private function increment_filename_unix ( $filename = null )
 	{
-		if( is_null($filename) )
-		{
+		if ( is_null($filename) ) {
 			return false;
 		}
 
@@ -788,7 +735,7 @@ class Hooks_fileclerk extends Hooks
 	 * @param (string) $uri This is the URI passed in on AJAX calls.
 	 * @return (string)
 	 */
-	private function get_url_prefix( $uri = null )
+	private function get_url_prefix ( $uri = null )
 	{
 		/**
 		 * Get values from the config to build out the proper prefix.
@@ -797,12 +744,9 @@ class Hooks_fileclerk extends Hooks
 		$bucket        = array_get($this->config, 'bucket');
 		$directory     = array_get($this->config, 'directory');
 
-		if( $custom_domain != '' )
-		{
+		if( $custom_domain != '' ) {
 			return URL::tidy( 'http://'. $custom_domain .'/' . $uri . '/' . $directory . '/' );
-		}
-		else
-		{
+		} else {
 			return URL::tidy( 'http://'. $bucket . '.s3.amazonaws.com' . '/' . $uri . '/' . $directory );
 		}
 	}
@@ -814,7 +758,9 @@ class Hooks_fileclerk extends Hooks
 	 */
 	private function get_view( $viewname = null )
 	{
-		if( is_null($viewname) ) return false;
+		if ( is_null($viewname) ) {
+			return false;
+		}
 
 		$filepath = __DIR__ . '/views/' . $viewname . '.html';
 
@@ -866,7 +812,9 @@ class Hooks_fileclerk extends Hooks
 	 */
 	private function get_mime_type( $object_key = null )
 	{
-		if ( is_null($object_key) ) return false;
+		if ( is_null($object_key) ) {
+			return false;
+		}
 
 		// Need to make a head request to get the object metadata.
 		// Mime type not returned by Finder.
@@ -876,15 +824,12 @@ class Hooks_fileclerk extends Hooks
 		));
 
 		// Check for a valid response from the headObject request.
-		if( $body = $head->toArray() )
-		{
+		if( $body = $head->toArray() ) {
 			return $body['ContentType'];
 			// $file_data['mime_type'] = $body['ContentType'];
 			// $mime_type_parts        = explode('/', $body['ContentType']);
 			// $file_data['is_image']  = strtolower(reset($mime_type_parts)) === 'image' ? 'true' : 'false';
-		}
-		else
-		{
+		} else {
 			return null;
 			// $mime_type             = null;
 			// $file_data['is_image'] = false;
@@ -898,8 +843,7 @@ class Hooks_fileclerk extends Hooks
 	 */
 	private function is_image( $extension = null, $mime_type = null )
 	{
-		if ( ! is_null($extension) )
-		{
+		if ( ! is_null($extension) ) {
 			$image_extensions = array(
 				'jpg',
 				'jpeg',
@@ -909,9 +853,7 @@ class Hooks_fileclerk extends Hooks
 			);
 
 			return in_array(strtolower($extension), $image_extensions) ? 'true' : 'false';
-		}
-		else if ( ! is_null($mime_type) )
-		{
+		} else if ( ! is_null($mime_type) ) {
 			$mime_type_parts = explode('/', $body['ContentType']);
 			return ( strtolower(reset($mime_type_parts)) === 'image' ) ? 'true' : 'false';
 		}
@@ -921,6 +863,11 @@ class Hooks_fileclerk extends Hooks
 
 	private function extension_is_allowed( $extension = null )
 	{
+		// If content types is false, all file types allowed
+		if( $this->config['content_types'] === false ) {
+			return true;
+		}
+
 		return ( is_null($extension) || ! in_array($extension, $this->config['content_types']) ) ? false : true;
 	}
 
