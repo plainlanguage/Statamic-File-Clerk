@@ -2,11 +2,11 @@
 
 	<div class="add-file {{ if value }}is-hidden{{ else }}is-visible{{ endif }}">
 		<ul class="nav nav-tabs tabs">
-			<li class="active"><a href="#view-upload-{{ id }}" data-toggle="tab" title="Upload New">Upload New</a></li><li><a href="#view-remote-{{ id }}" data-toggle="tab" data-destination="{{ destination }}" title="Choose Existing" class="load_existing">Choose Existing</a></li>
+			<li class="active"><a href="#" data-tab="nav-upload" title="Upload New">Upload New</a></li><li><a href="#" data-tab="nav-choose" data-destination="{{ destination }}" title="Choose Existing" class="load_existing">Choose Existing</a></li>
 		</ul>
 		<div class="tab-content content">
 
-			<div class="tab-pane active view-upload fade in" id="view-upload-{{ id }}">
+			<div class="tab-pane active view-upload fade in" data-tab="view-upload">
 				<input class="postUrl" name="postUrl" type="hidden" data-destination="{{ destination }}" value="{{ action }}">
 				<div class="file-wrapper is-visible">
 					<input class="file-upload" type="file" name="files">
@@ -20,7 +20,7 @@
 				</div>
 			</div>
 
-			<div class="tab-pane view-remote fade" id="view-remote-{{ id }}">
+			<div class="tab-pane view-remote fade" data-tab="view-choose">
 				<ul class="breadcrumb">
 					<li class="root"><a href="#">fileclerk</a></li>
 				</ul>
