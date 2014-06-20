@@ -572,7 +572,7 @@ class Hooks_fileclerk extends Hooks
 	public function merge_configs( $destination = null, $respons_type = 'json' )
 	{
 		// Set environment
-		$this->env = $env = Environment::get( Config::getAll() );
+		$this->env = $env = FILECLERK_ENV;
 
 		// Error(s) holder
 		$errors = false;
