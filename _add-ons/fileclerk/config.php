@@ -9,7 +9,7 @@ define('FILECLERK_AUTHOR', 'Chad Clark, Brandon Haslip, Michael Reiner');
 define('FILECLERK_AUTHOR_URL', 'http://plainlanguage.co/');
 define('FILECLERK_CONFIG_PATH', BASE_PATH . '/_config/add-ons/fileclerk');
 define('FILECLERK_DESTINATION_PATH', FILECLERK_CONFIG_PATH . '/destinations/');
-define('FILECLERK_ENV', Environment::detect( Config::getAll() ));
+define('FILECLERK_ENV', Environment::get( Config::getAll() ));
 
 /**
  * Autoload
