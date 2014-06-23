@@ -10,6 +10,8 @@ define('FILECLERK_AUTHOR_URL', 'http://plainlanguage.co/');
 define('FILECLERK_CONFIG_PATH', BASE_PATH . '/_config/add-ons/fileclerk');
 define('FILECLERK_DESTINATION_PATH', FILECLERK_CONFIG_PATH . '/destinations/');
 
+// Set a constant for current environment
+// get is new 1.8, backward compatability
 if( method_exists('Environment', 'get') ) {
 	define('FILECLERK_ENV', Environment::get( Config::getAll() ));
 } else {

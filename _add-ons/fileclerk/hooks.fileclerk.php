@@ -28,6 +28,7 @@ use Symfony\Component\Finder\Finder;
 class Hooks_fileclerk extends Hooks
 {
 
+	private   $cache_control;
 	private   $client;
 	protected $config;
 	private   $data;
@@ -274,7 +275,7 @@ class Hooks_fileclerk extends Hooks
 			ob_start();
 				self::upload_file();
 
-				if ( $this->env === 'dev' ) {
+				if ( FILECLERK_ENV === 'dev' ) {
 					Log::info('File successfully uploaded.');
 				}
 
@@ -571,9 +572,6 @@ class Hooks_fileclerk extends Hooks
 	 */
 	public function merge_configs( $destination = null, $respons_type = 'json' )
 	{
-		// Set environment
-		$this->env = $env = FILECLERK_ENV;
-
 		// Error(s) holder
 		$errors = false;
 
@@ -589,12 +587,14 @@ class Hooks_fileclerk extends Hooks
 			'directory'      => null,
 			'permissions'    => 'public-read',
 			'content_types'  => false,
+			'cache_control'  => '3600',
 		);
 
 		// Requried config values
 		$required_config = array(
 			'aws_access_key',
 			'aws_secret_key',
+			'bucket',
 		);
 
 		// Destination config values that even if null should override master config.
@@ -602,6 +602,7 @@ class Hooks_fileclerk extends Hooks
 			'custom_domain',
 			'directory',
 			'content_types',
+			'cache_control',
 		);
 
 		// Destination config array
@@ -650,6 +651,9 @@ class Hooks_fileclerk extends Hooks
 					break;
 			}
 		}
+
+		// Set cache-control string
+		$config['cache_control'] = 'max-age=' . $config['cache_control'];
 
 		// Check that required configs are set
 		foreach( $required_config as $key )
