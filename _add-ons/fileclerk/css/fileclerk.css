@@ -586,6 +586,7 @@
   background-image: -webkit-linear-gradient( white, #f4f4f0);
   background-image: linear-gradient( white, #f4f4f0);
   border: 1px solid #d7d7ca;
+  border-radius: 0 0 4px 4px;
   padding: 0.5em;
   text-align: right;
 }
@@ -782,7 +783,7 @@
   line-height: 0;
 }
 .fileclerk .add-file .view-list thead {
-  background-color: #f8f8f6;
+  background-color: #f6f6f3;
 }
 .fileclerk .add-file .view-list th,
 .fileclerk .add-file .view-list td {
@@ -791,7 +792,7 @@
 }
 .fileclerk .add-file .view-list th {
   color: #a0a081;
-  font-size: 80%;
+  font-size: 85%;
   text-align: left;
   padding-top: 0.9375em;
   padding-right: 0.5em;
