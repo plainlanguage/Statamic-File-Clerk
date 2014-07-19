@@ -154,13 +154,13 @@ class Hooks_fileclerk extends Hooks
 				 *      ['Bucket'] => mreiner-test
 				 *      ['Key'] => 238355-f520.jpg
 				 *      ['ETag'] => "a81b65938b1ec1cef0a09a497e3850f8-1"
-				 *      ['Expiration'] => 
-				 *      ['ServerSideEncryption'] => 
-				 *      ['VersionId'] => 
+				 *      ['Expiration'] =>
+				 *      ['ServerSideEncryption'] =>
+				 *      ['VersionId'] =>
 				 *      ['RequestId'] => 29482D41515855AA
 				 * );
 				 */
-				
+
 				// Set these values from the S3 response
 				$this->data['url']    = $upload['Location'];
 				$this->data['key']    = $upload['Key'];
@@ -572,7 +572,7 @@ class Hooks_fileclerk extends Hooks
 	public function merge_configs( $destination = null, $respons_type = 'json' )
 	{
 		// Set environment
-		$this->env = $env = Environment::detect( Config::getAll() );
+		$this->env = $env = FILECLERK_ENV;
 
 		// Error(s) holder
 		$errors = false;

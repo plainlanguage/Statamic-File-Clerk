@@ -879,4 +879,82 @@ $(function () {
 
 	externalPreview.init();
 
+	//  $$$$$$$$\        $$\
+	//  \__$$  __|       $$ |
+	//     $$ | $$$$$$\  $$$$$$$\   $$$$$$$\
+	//     $$ | \____$$\ $$  __$$\ $$  _____|
+	//     $$ | $$$$$$$ |$$ |  $$ |\$$$$$$\
+	//     $$ |$$  __$$ |$$ |  $$ | \____$$\
+	//     $$ |\$$$$$$$ |$$$$$$$  |$$$$$$$  |
+	//     \__| \_______|\_______/ \_______/
+	//
+	//
+	//
+	// Rolling our own tabs because that's how we party.
+
+	var tabs = {
+
+		// Initialize
+		init: function() {
+
+			this.bindUIActions();
+		},
+
+		bindUIActions: function() {
+
+			// Show Upload Container
+			$('body').on('click', '.fileclerk .nav-tabs a[data-tab="nav-upload"]', this.showUploadContainer );
+
+			// Show Choose Container
+			$('body').on('click', '.fileclerk .nav-tabs a[data-tab="nav-choose"]', this.showChooseContainer );
+		},
+
+		// Show Upload Container
+		showUploadContainer: function( event ) {
+			var $this = $(this),
+				fileclerk = $this.closest('.fileclerk'),
+				tabNav = fileclerk.find('.nav-tabs li'),
+				activeNav = $this.parent('li'),
+				tabPane = fileclerk.find('.tab-pane'),
+				uploadContainer = fileclerk.find('.tab-pane.view-upload')
+			;
+
+			// Remove active class on all tab nav
+			tabNav.removeClass('active');
+			// Add active class to clicked nav
+			activeNav.addClass('active');
+			// Remove active class on all tab panes
+			tabPane.removeClass('active');
+			// Add active class to the upload pane
+			uploadContainer.addClass('active fade in');
+
+			event.preventDefault();
+			event.stopPropagation();
+		},
+
+		// Show Choose Container
+		showChooseContainer: function( event ) {
+			var $this = $(this),
+				fileclerk = $this.closest('.fileclerk'),
+				tabNav = fileclerk.find('.nav-tabs li'),
+				activeNav = $this.parent('li'),
+				tabPane = fileclerk.find('.tab-pane'),
+				chooseContainer = fileclerk.find('.tab-pane.view-remote')
+			;
+
+			// Remove active class on all tab nav
+			tabNav.removeClass('active');
+			// Add active class to clicked nav
+			activeNav.addClass('active');
+			// Remove active class on all tab panes
+			tabPane.removeClass('active');
+			// Add active class to the upload pane
+			chooseContainer.addClass('active fade in');
+
+			event.preventDefault();
+			event.stopPropagation();
+		}
+	}
+
+	tabs.init();
 });
