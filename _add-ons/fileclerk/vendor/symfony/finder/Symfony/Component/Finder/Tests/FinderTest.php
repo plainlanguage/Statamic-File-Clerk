@@ -16,7 +16,6 @@ use Symfony\Component\Finder\Adapter;
 
 class FinderTest extends Iterator\RealIteratorTestCase
 {
-
     public function testCreate()
     {
         $this->assertInstanceOf('Symfony\Component\Finder\Finder', Finder::create());
@@ -331,6 +330,17 @@ class FinderTest extends Iterator\RealIteratorTestCase
     {
         $finder = $this->buildFinder($adapter);
         $finder->in(__DIR__.'/Fixtures/A/a*');
+    }
+
+    /**
+     * @dataProvider getAdaptersTestData
+     */
+    public function testInWithGlobBrace($adapter)
+    {
+        $finder = $this->buildFinder($adapter);
+        $finder->in(array(__DIR__.'/Fixtures/{A,copy/A}/B/C'))->getIterator();
+
+        $this->assertIterator($this->toAbsoluteFixtures(array('A/B/C/abc.dat', 'copy/A/B/C/abc.dat.copy')), $finder);
     }
 
     /**
@@ -796,7 +806,7 @@ class FinderTest extends Iterator\RealIteratorTestCase
         );
     }
 
-   /**
+    /**
      * Searching in multiple locations with sub directories involves
      * AppendIterator which does an unnecessary rewind which leaves
      * FilterIterator with inner FilesystemIterator in an invalid state.
