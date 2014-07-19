@@ -770,9 +770,11 @@ $(function () {
 				{
 					var all_modals = $('.fileclerk .inline-preview');
 					var preview_button = $('.fileclerk .preview');
+					var ajaxOverlay = $('.fileclerk .view-remote .ajax-overlay');
 
 					all_modals.removeClass('is-visible').addClass('is-hidden');
 					preview_button.removeClass('active');
+					ajaxOverlay.removeClass('is-visible').addClass('is-hidden');
 				}
 			});
 
@@ -782,9 +784,11 @@ $(function () {
 				{
 					var all_modals = $('.fileclerk .inline-preview');
 					var preview_button = $('.fileclerk .preview');
+					var ajaxOverlay = $('.fileclerk .view-remote .ajax-overlay');
 
 					all_modals.removeClass('is-visible').addClass('is-hidden');
 					preview_button.removeClass('active');
+					ajaxOverlay.removeClass('is-visible').addClass('is-hidden');
 				}
 			});
 		},
@@ -862,7 +866,7 @@ $(function () {
 					dataType: 'JSON', // JSON
 					beforeSend: function(data) {
 						chooseExistingAjaxSpinner.spin(spinJsOpts); // Start spinner
-						//chooseExistingAjaxOverlay.toggleClass('is-hidden is-visible');
+						chooseExistingAjaxOverlay.toggleClass('is-hidden is-visible'); // Show overlay
 					},
 					success: function(data) {
 						chooseExistingLoadAJAX.attr('src', data.url);
@@ -880,11 +884,13 @@ $(function () {
 			var $this = $(this),
 				fileclerk = $this.closest('.fileclerk'),
 				modal = fileclerk.find('.inline-preview.is-visible'), // Find the modal that is visible
-				previewButton = fileclerk.find('.preview.active')
+				previewButton = fileclerk.find('.preview.active'),
+				ajaxOverlay = fileclerk.find('.view-remote .ajax-overlay')
 			;
 
 			modal.toggleClass('is-visible is-hidden'); // Hide Modal
 			previewButton.removeClass('active');
+			ajaxOverlay.toggleClass('is-visible is-hidden');
 
 			event.preventDefault();
 			event.stopPropagation();
