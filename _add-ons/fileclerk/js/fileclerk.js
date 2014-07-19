@@ -63,6 +63,9 @@ $(function () {
 			// Highlight Row
 			$('body').on( 'tap', '.view-list td', this.highlightRow );
 
+			// Prevent Highlight Row if preview link is clicked
+			$('body').on( 'tap', '.view-list td a', this.preventHighlightRow );
+
 			// Select file
 			$('body').on( 'click', '[data-action="select_file"]', this.selectFile );
 
@@ -548,6 +551,10 @@ $(function () {
 
 		},
 
+		preventHighlightRow: function(event) {
+			event.stopPropagation();
+		},
+
 		selectFile: function( event ) {
 
 			event.preventDefault();
@@ -556,7 +563,7 @@ $(function () {
 				fileclerk           = $this.closest('.fileclerk'),
 				viewremote          = $this.closest('.view-remote'),
 				fullPath            = viewremote.find('.view-list table tr.file.is-highlighted').data('file'),
-				filename            = viewremote.find('.view-list table tr.file.is-highlighted td.is-file').html(),
+				filename            = viewremote.find('.view-list table tr.file.is-highlighted td.is-file .filename').html(),
 				extension           = viewremote.find('.view-list table tr.file.is-highlighted').data('extension'),
 				isImage             = viewremote.find('.view-list table tr.file.is-highlighted').data('is-image'),
 				//mimeType            = viewremote.find('.view-list table tr.file.is-highlighted').data('mime-type'),
@@ -752,7 +759,7 @@ $(function () {
 		bindUIActions: function() {
 
 			// Show Modal
-			$('body').on( 'click', '.fileclerk .result a[rel="inline"]', this.showInlinePreview );
+			$('body').on( 'click', '.fileclerk a.preview[rel="inline"]', this.showInlinePreview );
 
 			// Hide Modal
 			$('body').on( 'click', '.fileclerk .inline-preview .modal-close', this.hideInlinePreview );
@@ -785,41 +792,83 @@ $(function () {
 		showInlinePreview: function(event) {
 
 			var $this = $(this),
-				fileclerk			= $this.closest('.fileclerk'),
-				externalUrl			= fileclerk.find('a.preview').attr('href'),
-				loadAJAX			= fileclerk.find('.inline-preview .load img'),
-				modal				= fileclerk.find('.inline-preview'),
-				all_modals			= $('.fileclerk .inline-preview'),
-				all_preview_buttons	= $('.fileclerk .result .preview'),
-				ajaxSpinner 		= fileclerk.find('.inline-preview .load .ajax-spinner'),
-				page				= $('html, body')
+				externalUrl               = $this.attr('href'),
+				all_modals                = $('.fileclerk .inline-preview'),
+				all_preview_buttons       = $('.fileclerk .result .preview'),
+				page                      = $('html, body'),
+				// Is Selected modal stuff
+				isSelectedFileClerk       = $this.closest('.fileclerk'),
+				isSelectedLoadAJAX        = isSelectedFileClerk.find('.inline-preview .load img'),
+				isSelectedModal           = isSelectedFileClerk.find('.inline-preview'),
+				isSelectedAjaxSpinner     = isSelectedFileClerk.find('.inline-preview .load .ajax-spinner'),
+				// Choose Existing modal stuff
+				chooseExistingFileClerk   = $this.closest('tr.file'),
+				chooseExistingLoadAJAX    = chooseExistingFileClerk.find('.inline-preview .load img'),
+				chooseExistingModal       = chooseExistingFileClerk.find('.inline-preview'),
+				chooseExistingAjaxSpinner = chooseExistingFileClerk.find('.inline-preview .load .ajax-spinner'),
+				chooseExistingContainer   = $this.closest('.fileclerk').find('table.tablesort')
 			;
 
 			all_modals.removeClass('is-visible').addClass('is-hidden'); // Hide all open modals if you open a new one
 			all_preview_buttons.removeClass('active');
-			modal.toggleClass('is-hidden is-visible'); // Show Modal
-			$this.addClass('active');
-			page.animate({
-				scrollTop: modal.offset().top - 20
-			}, 500);
 
-			// Get external image
-			$.ajax({
-				url: '/TRIGGER/fileclerk/ajaxpreview?url=' + externalUrl,
-				cache: false,
-				dataType: 'JSON', // JSON
-				beforeSend: function(data) {
-					// Do stuff before sending. Loading Gif? (Chad, that's a soft `G`!) -- (Your mom is a soft 'G'. Love, Chad)
-					ajaxSpinner.spin(spinJsOpts); // Start spinner
-				},
-				success: function(data) {
-					loadAJAX.attr('src', data.url);
-					console.log(data);
-					ajaxSpinner.spin(false); // Stop spinner
-				}
-			});
+			// -----------------------------------------------------------------------
+			// Is Selected
+			// Preview for a selected file
+			// -----------------------------------------------------------------------
 
-			console.log($this.attr('rel'))
+			if ($this.hasClass('preview--is-selected')) {
+
+				isSelectedModal.toggleClass('is-hidden is-visible'); // Show Modal
+				$this.addClass('active');
+				page.animate({
+					scrollTop: isSelectedModal.offset().top - 20
+				}, 500);
+
+				// Get external image
+				$.ajax({
+					url: '/TRIGGER/fileclerk/ajaxpreview?url=' + externalUrl,
+					cache: false,
+					dataType: 'JSON', // JSON
+					beforeSend: function(data) {
+						isSelectedAjaxSpinner.spin(spinJsOpts); // Start spinner
+					},
+					success: function(data) {
+						isSelectedLoadAJAX.attr('src', data.url);
+						console.log(data);
+						isSelectedAjaxSpinner.spin(false); // Stop spinner
+					}
+				});
+			}
+
+			// -----------------------------------------------------------------------
+			// Choose Existing
+			// Preview for the Choose Existing view
+			// -----------------------------------------------------------------------
+
+			if ($this.hasClass('preview--choose-existing')) {
+
+				chooseExistingModal.toggleClass('is-hidden is-visible'); // Show Modal
+				$this.addClass('active');
+				chooseExistingContainer.animate({
+					scrollTop: chooseExistingModal.offset().top - 20
+				}, 500);
+
+				// Get external image
+				$.ajax({
+					url: '/TRIGGER/fileclerk/ajaxpreview?url=' + externalUrl,
+					cache: false,
+					dataType: 'JSON', // JSON
+					beforeSend: function(data) {
+						chooseExistingAjaxSpinner.spin(spinJsOpts); // Start spinner
+					},
+					success: function(data) {
+						chooseExistingLoadAJAX.attr('src', data.url);
+						console.log(data);
+						chooseExistingAjaxSpinner.spin(false); // Stop spinner
+					}
+				});
+			}
 
 			event.preventDefault();
 			event.stopPropagation();
@@ -837,6 +886,10 @@ $(function () {
 
 			event.preventDefault();
 			event.stopPropagation();
+		},
+
+		showChooseExistingPreview : function(event) {
+
 		}
 	}
 

@@ -46,3 +46,14 @@ $bg-img-path: 		'../assets/build/img/';
 $large: new-breakpoint(min-width 960px); // Desktop-ish
 $medium: new-breakpoint(min-width 481px max-width 959px); // Tablet-ish
 $small: new-breakpoint(max-width 480px); // Mobileness-ish
+
+// ---------------------------------------------------------------------------------
+// Default Variables
+// ---------------------------------------------------------------------------------
+
+$border-default: 1px solid $color-tan-mid; // Default Border for elements
+$control-bar-element-size: 32; // Used for element sizes. Height for .directory-nav and .option-file-view a
+$control-bar-element-border-radius: em(5);
+
+$inline-preview-size: 300; // Inline Preview Size
+$inline-preview-pad: 15; // Inline Preview Padding
