@@ -108,7 +108,6 @@
 		height: 320px;
 		margin-bottom: -1px;
 		overflow-y: scroll;
-		position: relative;
 		text-align: left;
 		z-index: 1;
 		-webkit-overflow-scrolling: touch;
@@ -241,8 +240,19 @@
 			}
 		}
 
-		.preview {
-			position: relative;
+		// Inline Preview!
+		.preview-position {
+			display: inline-block;
+		}
+
+		.inline-preview {
+			@include position( absolute, em(75) 0 0 50% );
+			margin-left: em(-($inline-preview-size / 2));
+
+			@include media($small) {
+				@include position( absolute, em(-($inline-preview-size + 12)) 0 0 50% );
+				margin-left: em(-($inline-preview-size / 2));
+			}
 		}
 	}
 }

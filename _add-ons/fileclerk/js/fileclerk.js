@@ -769,7 +769,7 @@ $(function () {
 				if(event.keyCode === 27)
 				{
 					var all_modals = $('.fileclerk .inline-preview');
-					var preview_button = $('.fileclerk .result .preview');
+					var preview_button = $('.fileclerk .preview');
 
 					all_modals.removeClass('is-visible').addClass('is-hidden');
 					preview_button.removeClass('active');
@@ -781,7 +781,7 @@ $(function () {
 				if(!$(event.target).closest('.fileclerk .inline-preview').length)
 				{
 					var all_modals = $('.fileclerk .inline-preview');
-					var preview_button = $('.fileclerk .result .preview');
+					var preview_button = $('.fileclerk .preview');
 
 					all_modals.removeClass('is-visible').addClass('is-hidden');
 					preview_button.removeClass('active');
@@ -806,7 +806,8 @@ $(function () {
 				chooseExistingLoadAJAX    = chooseExistingFileClerk.find('.inline-preview .load img'),
 				chooseExistingModal       = chooseExistingFileClerk.find('.inline-preview'),
 				chooseExistingAjaxSpinner = chooseExistingFileClerk.find('.inline-preview .load .ajax-spinner'),
-				chooseExistingContainer   = $this.closest('.fileclerk').find('table.tablesort')
+				chooseExistingContainer   = $this.closest('.fileclerk').find('table.tablesort'),
+				chooseExistingAjaxOverlay = $this.closest('.fileclerk').find('.view-remote .ajax-overlay')
 			;
 
 			all_modals.removeClass('is-visible').addClass('is-hidden'); // Hide all open modals if you open a new one
@@ -861,6 +862,7 @@ $(function () {
 					dataType: 'JSON', // JSON
 					beforeSend: function(data) {
 						chooseExistingAjaxSpinner.spin(spinJsOpts); // Start spinner
+						//chooseExistingAjaxOverlay.toggleClass('is-hidden is-visible');
 					},
 					success: function(data) {
 						chooseExistingLoadAJAX.attr('src', data.url);
@@ -877,8 +879,8 @@ $(function () {
 		hideInlinePreview: function(event) {
 			var $this = $(this),
 				fileclerk = $this.closest('.fileclerk'),
-				modal = fileclerk.find('.inline-preview'),
-				previewButton = fileclerk.find('.preview')
+				modal = fileclerk.find('.inline-preview.is-visible'), // Find the modal that is visible
+				previewButton = fileclerk.find('.preview.active')
 			;
 
 			modal.toggleClass('is-visible is-hidden'); // Hide Modal
@@ -886,10 +888,6 @@ $(function () {
 
 			event.preventDefault();
 			event.stopPropagation();
-		},
-
-		showChooseExistingPreview : function(event) {
-
 		}
 	}
 
