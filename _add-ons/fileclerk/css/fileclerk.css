@@ -949,14 +949,6 @@
   left: 50%;
   margin-left: -9.375em;
 }
-@media screen and (max-width: 480px) {
-  .fileclerk .view-list .inline-preview {
-    position: absolute;
-    top: -19.5em;
-    left: 50%;
-    margin-left: -9.375em;
-  }
-}
 
 .fileclerk .preview {
   display: inline-block;
