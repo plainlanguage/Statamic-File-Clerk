@@ -722,6 +722,16 @@
   height: 100%;
   z-index: 2;
 }
+.fileclerk .view-remote .preview-position {
+  display: inline-block;
+}
+.fileclerk .view-remote .inline-preview {
+  position: absolute;
+  top: 4.6875em;
+  left: 50%;
+  margin-left: -9.375em;
+  z-index: 3;
+}
 .fileclerk .breadcrumb {
   *zoom: 1;
   background-color: white;
@@ -939,15 +949,6 @@
 }
 .fileclerk .view-list .error-no-results .btn {
   float: none;
-}
-.fileclerk .view-list .preview-position {
-  display: inline-block;
-}
-.fileclerk .view-list .inline-preview {
-  position: absolute;
-  top: 4.6875em;
-  left: 50%;
-  margin-left: -9.375em;
 }
 
 .fileclerk .preview {

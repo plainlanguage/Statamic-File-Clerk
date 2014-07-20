@@ -5,10 +5,6 @@
 			<div class="preview-position">
 				<span class="filename">{{ filename }}</span>
 				<a href="{{ url }}" class="preview preview--choose-existing" rel="{{ if is_image == "true" }}inline{{ else }}external{{ endif }}">Preview</a>
-				<div class="inline-preview is-hidden">
-					<a class="modal-close" href="#">Close</a>
-					<div class="load"><img src=""><div class="ajax-spinner"></div></div>
-				</div>
 			</div>
 		</td>
 		<td>{{ size }}</td>

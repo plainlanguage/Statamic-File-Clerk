@@ -24,6 +24,17 @@
 			height: 100%;
 			z-index: 2;
 		}
+
+		// Inline Preview!
+		.preview-position {
+			display: inline-block;
+		}
+
+		.inline-preview {
+			@include position( absolute, em(75) 0 0 50% );
+			margin-left: em(-($inline-preview-size / 2));
+			z-index: 3;
+		}
 	}
 
 	// Breadcrumb Nav
@@ -238,16 +249,6 @@
 			.btn {
 				float: none;
 			}
-		}
-
-		// Inline Preview!
-		.preview-position {
-			display: inline-block;
-		}
-
-		.inline-preview {
-			@include position( absolute, em(75) 0 0 50% );
-			margin-left: em(-($inline-preview-size / 2));
 		}
 	}
 }
