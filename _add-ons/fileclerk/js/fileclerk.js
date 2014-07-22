@@ -770,13 +770,16 @@ $(function () {
 				{
 					var all_modals = $('.fileclerk .inline-preview');
 					var preview_button = $('.fileclerk .preview');
-					var ajaxOverlay = $('.fileclerk .view-remote .ajax-overlay');
+					var ajaxOverlay = $('.fileclerk .view-remote .ajax-overlay.is-visible');
 					var modalImg = $('.fileclerk').find('.inline-preview.is-visible .load img'); // The preview modal image
 
 					all_modals.removeClass('is-visible').addClass('is-hidden');
 					preview_button.removeClass('active');
-					ajaxOverlay.removeClass('is-visible').addClass('is-hidden');
+					ajaxOverlay.toggleClass('is-visible is-hidden');
 					modalImg.attr('src', ''); // Empty image src
+
+					event.preventDefault();
+					event.stopPropagation();
 				}
 			});
 
@@ -786,13 +789,16 @@ $(function () {
 				{
 					var all_modals = $('.fileclerk .inline-preview');
 					var preview_button = $('.fileclerk .preview');
-					var ajaxOverlay = $('.fileclerk .view-remote .ajax-overlay');
+					var ajaxOverlay = $(event.target).closest('.fileclerk .view-remote .ajax-overlay.is-visible');
 					var modalImg = $('.fileclerk').find('.inline-preview.is-visible .load img'); // The preview modal image
 
 					all_modals.removeClass('is-visible').addClass('is-hidden');
 					preview_button.removeClass('active');
-					ajaxOverlay.removeClass('is-visible').addClass('is-hidden');
+					ajaxOverlay.toggleClass('is-visible is-hidden');
 					modalImg.attr('src', ''); // Empty image src
+
+					event.preventDefault();
+					event.stopPropagation();
 				}
 			});
 		},
