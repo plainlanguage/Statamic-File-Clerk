@@ -11,9 +11,9 @@ define('FILECLERK_CONFIG_PATH', BASE_PATH . '/_config/add-ons/fileclerk');
 define('FILECLERK_DESTINATION_PATH', FILECLERK_CONFIG_PATH . '/destinations/');
 
 if( method_exists('Environment', 'get') ) {
-	define('FILECLERK_ENV', Environment::get( Config::getAll() ));
+	define('FILECLERK_ENV', Environment::get());
 } else {
-	define('FILECLERK_ENV', Environment::detect( Config::getAll() ));
+	define('FILECLERK_ENV', (string) Environment::detect( Config::getAll() ));
 }
 
 

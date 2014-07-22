@@ -77,7 +77,10 @@ class Hooks_fileclerk extends Hooks
 	{
 		// Initialize variables
 		$this->error  = false;
-		$this->config = self::merge_configs(Request::get('destination'));
+		$this->config = $this->tasks->merge_configs(Request::get('destination'));
+
+		// S3 client
+		self::load_s3();
 
 		foreach ( $_FILES as $file )
 		{
@@ -105,9 +108,6 @@ class Hooks_fileclerk extends Hooks
 				exit;
 			}
 
-			// S3 key
-			$this->data['key']           = Url::tidy( '/' . $this->config['directory'] . '/' . $this->data['filename'] );
-
 			// Set the full S3 path to the bucket/key
 			$this->data['s3_path'] = Url::tidy( 's3://' . join('/', array($this->config['bucket'], $this->config['directory'])) );
 
@@ -126,6 +126,9 @@ class Hooks_fileclerk extends Hooks
 					$this->data['filename'] = self::increment_filename_unix($this->data['filename']);
 				}
 			}
+
+			// S3 key
+			$this->data['key']           = Url::tidy( '/' . $this->config['directory'] . '/' . $this->data['filename'] );
 
 			// Set the full path for the file.
 			$this->data['fullpath'] = Url::tidy( self::get_url_prefix() . '/' . $this->data['filename'] );
@@ -227,7 +230,10 @@ class Hooks_fileclerk extends Hooks
 		$extension   = File::getExtension($filename);
 
 		// Merge configs
-		$this->config = self::merge_configs( $destination );
+		$this->config = $this->tasks->merge_configs( $destination );
+
+		// S3 client
+		self::load_s3();
 
 		/**
 		 * @todo Need to update JS to accept this response for activating.
@@ -325,7 +331,10 @@ class Hooks_fileclerk extends Hooks
 		$destination = is_null($destination) ? 0 : $destination;
 
 		// Merge configs before we proceed
-		$this->config = self::merge_configs( $destination );
+		$this->config = $this->tasks->merge_configs( $destination );
+
+		// Setup client
+		self::load_s3();
 
 		// Set default error to false
 		$error = false;
@@ -563,114 +572,6 @@ class Hooks_fileclerk extends Hooks
 		}
 	}
 
-	/**
-	 * Merge all configs
-	 * @param string  $destination Paramter for destination YAML file to attempt to load.
-	 * @param string  $return_type Set the return type
-	 * @return array
-	 */
-	public function merge_configs( $destination = null, $respons_type = 'json' )
-	{
-		// Set environment
-		$this->env = $env = FILECLERK_ENV;
-
-		// Error(s) holder
-		$errors = false;
-
-		// Check for a destination config
-		$destination = is_null( $destination ) ? Request::get('destination') : $destination;
-
-		// A complete list of all possible config variables
-		$config = array(
-			'aws_access_key' => null,
-			'aws_secret_key' => null,
-			'custom_domain'  => null,
-			'bucket'         => null,
-			'directory'      => null,
-			'permissions'    => 'public-read',
-			'content_types'  => false,
-		);
-
-		// Requried config values
-		$required_config = array(
-			'aws_access_key',
-			'aws_secret_key',
-		);
-
-		// Destination config values that even if null should override master config.
-		$allow_override = array(
-			'custom_domain',
-			'directory',
-			'content_types',
-		);
-
-		// Destination config array
-		$destination_config = array();
-
-		// Check that the destination config file exists
-		if( ! is_null($destination) || $destination !== 0 || $destination )
-		{
-			// Set the full path for the destination file
-			$destination_file = FILECLERK_DESTINATION_PATH . ltrim($destination) . '.yaml';
-
-			if ( File::exists($destination_file) ) {
-				$destination_config = YAML::parseFile($destination_file);
-
-				foreach( $destination_config as $key => $value )
-				{
-					if( ! in_array($key, $allow_override) && (empty($value) || is_null($value)) )
-					{
-						unset( $destination_config[$key]);
-					}
-				}
-			} else {
-				$this->log->error("Could not use destination `" . $destination . "`, YAML file does not exist.");
-			}
-		}
-
-		// load global config
-		$addon_config = Helper::pick($this->getConfig(), array());
-
-		// merge config variables in order
-		$config = array_merge($config, $addon_config, $destination_config);
-
-		// Handle content types
-		// If it's a string, need to cast to an array
-		if ( is_string($config['content_types']) ) {
-			switch( $config['content_types'] )
-			{
-				// If empty string, set to false
-				case '':
-				case null:
-					$config['content_types'] = false;
-					break;
-				// If there is a value, push to an array
-				default:
-					$config['content_types'] = array($config['content_types']);
-					break;
-			}
-		}
-
-		// Check that required configs are set
-		foreach( $required_config as $key )
-		{
-			if( ! isset($config[$key]) || $config[$key] == '' )
-			{
-				$errors[] = array( 'error' => "<pre>{$key}</pre> is a required File Clerk config value." );
-			}
-		}
-
-		// If errors, set in config for checking later
-		if( $errors )
-		{
-			$config['errors'] = $errors;
-		}
-
-		// Create our S3 client
-		self::load_s3();
-
-		return $config;
-	}
 
 	/**
 	 * Check to see if file exits
@@ -878,7 +779,7 @@ class Hooks_fileclerk extends Hooks
 	public function fileclerk__config_dump()
 	{
 		$destination = Request::get('destination');
-		dd(self::merge_configs($destination));
+		dd($this->tasks->merge_configs($destination));
 	}
 
 	/**
@@ -888,7 +789,7 @@ class Hooks_fileclerk extends Hooks
 	private function init()
 	{
 		self::load_s3();
-		self::merge_configs( Request::get('destination') );
+		$this->tasks->merge_configs( Request::get('destination') );
 	}
 
 }

@@ -39,8 +39,8 @@
 //
 //
 
-@import "generic/_mixins";
-@import "generic/_animation";
+@import "generic/mixins";
+@import "generic/animation";
 
 //   $$$$$$\  $$\                                 $$\
 //  $$  __$$\ $$ |                                $$ |
@@ -54,9 +54,9 @@
 //                \$$$$$$  |
 //                 \______/
 
-@import "objects/_buttons";
-@import "objects/_progress";
-@import "objects/_tabs";
+@import "objects/buttons";
+@import "objects/progress";
+@import "objects/tabs";
 
 //  $$\                                                $$\
 //  $$ |                                               $$ |
@@ -70,4 +70,10 @@
 //                     \$$$$$$  |
 //                      \______/
 
-@import "layout/_upload-choose"; // Remote File View
+@import "layout/common"; // Common Styling
+@import "layout/view-add-file"; // The "Action view" (tabbed)
+@import "layout/view-result"; // The Result view (successfull upload view)
+@import "layout/view-upload"; // The Upload New view
+@import "layout/view-choose"; // The Choose Existing view
+@import "layout/view-inline-preview"; // Inline Previews
+@import "layout/view-errors"; // Error Messages
