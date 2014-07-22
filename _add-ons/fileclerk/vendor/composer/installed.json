@@ -1,63 +1,5 @@
 [
     {
-        "name": "symfony/event-dispatcher",
-        "version": "v2.4.5",
-        "version_normalized": "2.4.5.0",
-        "target-dir": "Symfony/Component/EventDispatcher",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/symfony/EventDispatcher.git",
-            "reference": "e539602e5455aa086c0e81e604745af7789e4d8a"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/e539602e5455aa086c0e81e604745af7789e4d8a",
-            "reference": "e539602e5455aa086c0e81e604745af7789e4d8a",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.3"
-        },
-        "require-dev": {
-            "symfony/dependency-injection": "~2.0"
-        },
-        "suggest": {
-            "symfony/dependency-injection": "",
-            "symfony/http-kernel": ""
-        },
-        "time": "2014-04-16 10:34:31",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "2.4-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "Symfony\\Component\\EventDispatcher\\": ""
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Fabien Potencier",
-                "email": "fabien@symfony.com",
-                "homepage": "http://fabien.potencier.org",
-                "role": "Lead Developer"
-            },
-            {
-                "name": "Symfony Community",
-                "homepage": "http://symfony.com/contributors"
-            }
-        ],
-        "description": "Symfony EventDispatcher Component",
-        "homepage": "http://symfony.com"
-    },
-    {
         "name": "guzzle/guzzle",
         "version": "v3.9.1",
         "version_normalized": "3.9.1.0",
@@ -152,18 +94,79 @@
         ]
     },
     {
-        "name": "aws/aws-sdk-php",
-        "version": "2.6.5",
-        "version_normalized": "2.6.5.0",
+        "name": "symfony/event-dispatcher",
+        "version": "v2.5.2",
+        "version_normalized": "2.5.2.0",
+        "target-dir": "Symfony/Component/EventDispatcher",
         "source": {
             "type": "git",
-            "url": "https://github.com/aws/aws-sdk-php.git",
-            "reference": "459e83a318911eb6685d0a6fd2dcd0495a660a51"
+            "url": "https://github.com/symfony/EventDispatcher.git",
+            "reference": "2215d2ef6fd7ab24d55576a3d924df575c741762"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/459e83a318911eb6685d0a6fd2dcd0495a660a51",
-            "reference": "459e83a318911eb6685d0a6fd2dcd0495a660a51",
+            "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/2215d2ef6fd7ab24d55576a3d924df575c741762",
+            "reference": "2215d2ef6fd7ab24d55576a3d924df575c741762",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.3"
+        },
+        "require-dev": {
+            "psr/log": "~1.0",
+            "symfony/config": "~2.0",
+            "symfony/dependency-injection": "~2.0",
+            "symfony/stopwatch": "~2.2"
+        },
+        "suggest": {
+            "symfony/dependency-injection": "",
+            "symfony/http-kernel": ""
+        },
+        "time": "2014-07-09 09:05:48",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.5-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Symfony\\Component\\EventDispatcher\\": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com",
+                "homepage": "http://fabien.potencier.org",
+                "role": "Lead Developer"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "http://symfony.com/contributors"
+            }
+        ],
+        "description": "Symfony EventDispatcher Component",
+        "homepage": "http://symfony.com"
+    },
+    {
+        "name": "aws/aws-sdk-php",
+        "version": "2.6.12",
+        "version_normalized": "2.6.12.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/aws/aws-sdk-php.git",
+            "reference": "88d075461e95111a5e42ead60c68e847c1856cc3"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/88d075461e95111a5e42ead60c68e847c1856cc3",
+            "reference": "88d075461e95111a5e42ead60c68e847c1856cc3",
             "shasum": ""
         },
         "require": {
@@ -174,7 +177,7 @@
             "doctrine/cache": "~1.0",
             "ext-openssl": "*",
             "monolog/monolog": "1.4.*",
-            "phpunit/phpunit": "3.7.*",
+            "phpunit/phpunit": "4.*",
             "symfony/class-loader": "2.*",
             "symfony/yaml": "2.*"
         },
@@ -185,7 +188,7 @@
             "monolog/monolog": "Adds support for logging HTTP requests and responses",
             "symfony/yaml": "Eases the ability to write manifests for creating jobs in AWS Import/Export"
         },
-        "time": "2014-05-22 23:03:48",
+        "time": "2014-07-16 21:01:13",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -223,28 +226,28 @@
     },
     {
         "name": "symfony/finder",
-        "version": "v2.4.5",
-        "version_normalized": "2.4.5.0",
+        "version": "v2.5.2",
+        "version_normalized": "2.5.2.0",
         "target-dir": "Symfony/Component/Finder",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/Finder.git",
-            "reference": "46295af1b1e24304b35d5f20f1bf1ec0c2c4934a"
+            "reference": "576d8f69feec477067e91b6bd0367c113e76a1a0"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/Finder/zipball/46295af1b1e24304b35d5f20f1bf1ec0c2c4934a",
-            "reference": "46295af1b1e24304b35d5f20f1bf1ec0c2c4934a",
+            "url": "https://api.github.com/repos/symfony/Finder/zipball/576d8f69feec477067e91b6bd0367c113e76a1a0",
+            "reference": "576d8f69feec477067e91b6bd0367c113e76a1a0",
             "shasum": ""
         },
         "require": {
             "php": ">=5.3.3"
         },
-        "time": "2014-05-22 13:46:01",
+        "time": "2014-07-15 14:15:12",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "2.4-dev"
+                "dev-master": "2.5-dev"
             }
         },
         "installation-source": "dist",

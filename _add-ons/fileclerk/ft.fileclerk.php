@@ -21,10 +21,14 @@ class Fieldtype_fileclerk extends Fieldtype {
 		// Get the field settings
 		self::$field_settings = $this->field_config;
 
+		// Get the field settings
 		$field_settings = Fieldtype_fileclerk::get_field_settings();
-		$field_config   = array_get($field_settings, 'field_config', $field_settings);
+
+		// Set the destination
 		$destination    = isset( $field_settings['destination'] ) ? $field_settings['destination'] : false;
-		//$field_config   = $this->hooks->merge_configs($destination, 'html');
+
+		// Get merged configs from tasks
+		$field_config   = $this->tasks->merge_configs($destination, 'html');
 
 		/**
 		 * If we have errors in the config, no (sur)render.

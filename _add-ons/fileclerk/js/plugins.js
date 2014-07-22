@@ -22,7 +22,6 @@
 }());
 
 // Place any jQuery/helper plugins in here.
-<!--(bake plugins/tab.js)-->
 <!--(bake plugins/transition.js)-->
 <!--(bake plugins/spin.js)-->
 <!--(bake plugins/jquery.spin.js)-->

@@ -16,6 +16,7 @@
 
 namespace Aws\S3\Integration;
 
+use Aws\S3\S3Client;
 use Aws\S3\Model\ClearBucket;
 use Guzzle\Http\EntityBody;
 
@@ -50,7 +51,7 @@ class S3_20060301_Test extends \Aws\Tests\IntegrationTestCase
 
         // Wait until the bucket does not exist before starting the test
         self::log('Waiting until the bucket does not exist and sleeping for a few seconds');
-        $client->waitUntilBucketNotExists(array('Bucket' => $bucket));
+        $client->waitUntil('BucketNotExists', array('Bucket' => $bucket));
         sleep(5);
         self::log('Beginning test');
     }
@@ -98,7 +99,7 @@ class S3_20060301_Test extends \Aws\Tests\IntegrationTestCase
         // Create a valid bucket and use a LocationConstraint
         $result = $client->createBucket(array(
             'Bucket'             => $bucket,
-            'LocationConstraint' => \Aws\Common\Enum\Region::US_WEST_2
+            'LocationConstraint' => 'us-west-2',
         ));
 
         // Get the Location header of the response
@@ -136,7 +137,7 @@ class S3_20060301_Test extends \Aws\Tests\IntegrationTestCase
      */
     public function testPutObject()
     {
-        $this->client->waitUntilBucketExists(array('Bucket' => $this->bucket));
+        $this->client->waitUntil('BucketExists', array('Bucket' => $this->bucket));
         $client = $this->client;
         $bucket = $this->bucket;
         // @begin
@@ -173,7 +174,7 @@ class S3_20060301_Test extends \Aws\Tests\IntegrationTestCase
      */
     public function testPutObjectFromFile()
     {
-        $this->client->waitUntilBucketExists(array('Bucket' => $this->bucket));
+        $this->client->waitUntil('BucketExists', array('Bucket' => $this->bucket));
         $client = $this->client;
         $bucket = $this->bucket;
         $pathToFile = __FILE__;
@@ -217,7 +218,7 @@ class S3_20060301_Test extends \Aws\Tests\IntegrationTestCase
      */
     public function testPutObjectFromStream()
     {
-        $this->client->waitUntilBucketExists(array('Bucket' => $this->bucket));
+        $this->client->waitUntil('BucketExists', array('Bucket' => $this->bucket));
         $client = $this->client;
         $bucket = $this->bucket;
         $pathToFile = __FILE__;
@@ -236,7 +237,7 @@ class S3_20060301_Test extends \Aws\Tests\IntegrationTestCase
         ));
 
         // @end
-        $client->waitUntilObjectExists(array(
+        $client->waitUntil('ObjectExists', array(
             'Bucket' => $this->bucket,
             'Key' => 'data_from_stream.txt'
         ));
@@ -259,7 +260,7 @@ class S3_20060301_Test extends \Aws\Tests\IntegrationTestCase
      */
     public function testPutObjectFromEntityBody()
     {
-        $this->client->waitUntilBucketExists(array('Bucket' => $this->bucket));
+        $this->client->waitUntil('BucketExists', array('Bucket' => $this->bucket));
         $client = $this->client;
         $bucket = $this->bucket;
         $pathToFile = __FILE__;
@@ -276,7 +277,7 @@ class S3_20060301_Test extends \Aws\Tests\IntegrationTestCase
         ));
 
         // @end
-        $client->waitUntilObjectExists(array(
+        $client->waitUntil('ObjectExists', array(
             'Bucket' => $this->bucket,
             'Key' => 'data_from_entity_body.txt'
         ));
@@ -299,7 +300,7 @@ class S3_20060301_Test extends \Aws\Tests\IntegrationTestCase
      */
     public function testListBuckets()
     {
-        $this->client->waitUntilBucketExists(array('Bucket' => $this->bucket));
+        $this->client->waitUntil('BucketExists', array('Bucket' => $this->bucket));
         $client = $this->client;
         // @begin
 
@@ -322,7 +323,7 @@ class S3_20060301_Test extends \Aws\Tests\IntegrationTestCase
      */
     public function testListBucketsWithGetPath()
     {
-        $this->client->waitUntilBucketExists(array('Bucket' => $this->bucket));
+        $this->client->waitUntil('BucketExists', array('Bucket' => $this->bucket));
         $client = $this->client;
         // @begin
 
@@ -342,7 +343,7 @@ class S3_20060301_Test extends \Aws\Tests\IntegrationTestCase
      */
     public function testListObjectsWithIterator()
     {
-        $this->client->waitUntilBucketExists(array('Bucket' => $this->bucket));
+        $this->client->waitUntil('BucketExists', array('Bucket' => $this->bucket));
         $client = $this->client;
         $bucket = $this->bucket;
         // @begin
@@ -371,7 +372,7 @@ class S3_20060301_Test extends \Aws\Tests\IntegrationTestCase
      */
     public function testGetObject()
     {
-        $this->client->waitUntilBucketExists(array('Bucket' => $this->bucket));
+        $this->client->waitUntil('BucketExists', array('Bucket' => $this->bucket));
         $client = $this->client;
         $bucket = $this->bucket;
         // @begin
@@ -402,7 +403,7 @@ class S3_20060301_Test extends \Aws\Tests\IntegrationTestCase
      */
     public function testGetObjectUsingEntityBody()
     {
-        $this->client->waitUntilBucketExists(array('Bucket' => $this->bucket));
+        $this->client->waitUntil('BucketExists', array('Bucket' => $this->bucket));
         $client = $this->client;
         $bucket = $this->bucket;
 
@@ -439,7 +440,7 @@ class S3_20060301_Test extends \Aws\Tests\IntegrationTestCase
      */
     public function testGetObjectWithSaveAs()
     {
-        $this->client->waitUntilBucketExists(array('Bucket' => $this->bucket));
+        $this->client->waitUntil('BucketExists', array('Bucket' => $this->bucket));
         $client = $this->client;
         $bucket = $this->bucket;
         // @begin
@@ -467,7 +468,7 @@ class S3_20060301_Test extends \Aws\Tests\IntegrationTestCase
      */
     public function testCreatePresignedUrlFromCommand()
     {
-        $this->client->waitUntilBucketExists(array('Bucket' => $this->bucket));
+        $this->client->waitUntil('BucketExists', array('Bucket' => $this->bucket));
         $client = $this->client;
         $bucket = $this->bucket;
         // @begin
@@ -499,7 +500,7 @@ class S3_20060301_Test extends \Aws\Tests\IntegrationTestCase
      */
     public function testCreatePresignedUrl()
     {
-        $this->client->waitUntilBucketExists(array('Bucket' => $this->bucket));
+        $this->client->waitUntil('BucketExists', array('Bucket' => $this->bucket));
         $client = $this->client;
         $bucket = $this->bucket;
         // @begin
@@ -529,7 +530,7 @@ class S3_20060301_Test extends \Aws\Tests\IntegrationTestCase
      */
     public function testGetObjectUrl()
     {
-        $this->client->waitUntilBucketExists(array('Bucket' => $this->bucket));
+        $this->client->waitUntil('BucketExists', array('Bucket' => $this->bucket));
         $client = $this->client;
         $bucket = $this->bucket;
         // @begin
@@ -571,7 +572,7 @@ class S3_20060301_Test extends \Aws\Tests\IntegrationTestCase
      */
     public function testGetObjectUrlWithSessionCredentials()
     {
-        $this->client->waitUntilBucketExists(array('Bucket' => $this->bucket));
+        $this->client->waitUntil('BucketExists', array('Bucket' => $this->bucket));
         $bucket = $this->bucket;
         /** @var $stsClient \Aws\Sts\StsClient */
         $stsClient = $this->getServiceBuilder()->get('sts');
@@ -600,7 +601,7 @@ class S3_20060301_Test extends \Aws\Tests\IntegrationTestCase
      */
     public function testCreatePresignedUrlWithAcl()
     {
-        $this->client->waitUntilBucketExists(array('Bucket' => $this->bucket));
+        $this->client->waitUntil('BucketExists', array('Bucket' => $this->bucket));
         $client = $this->client;
         $bucket = $this->bucket;
 
@@ -625,9 +626,25 @@ class S3_20060301_Test extends \Aws\Tests\IntegrationTestCase
     }
 
     /**
+     * @depends testGetObjectUrlWithSessionCredentials
+     */
+    public function testPutObjectSigV4()
+    {
+        $client = $this->getServiceBuilder()->get('s3', array(
+            'signature' => 'v4'
+        ));
+        $client->waitUntil('BucketExists', array('Bucket' => $this->bucket));
+        $client->putObject(array(
+            'Bucket' => $this->bucket,
+            'Key'    => 'foo:bar.txt',
+            'Body'   => 'Hello!'
+        ));
+    }
+
+    /**
      * Clear the contents and delete a bucket
      *
-     * @depends testGetObjectUrlWithSessionCredentials
+     * @depends testPutObjectSigV4
      * @example Aws\S3\S3Client::clearBucket
      * @example Aws\S3\S3Client::deleteBucket
      * @example Aws\S3\S3Client::waitUntilBucketNotExists
@@ -636,7 +653,7 @@ class S3_20060301_Test extends \Aws\Tests\IntegrationTestCase
     {
         $client = $this->client;
         $bucket = $this->bucket;
-        $client->waitUntilBucketExists(array('Bucket' => $bucket));
+        $client->waitUntil('BucketExists', array('Bucket' => $bucket));
         // @begin
 
         // Delete the objects in the bucket before attempting to delete
@@ -648,6 +665,6 @@ class S3_20060301_Test extends \Aws\Tests\IntegrationTestCase
         $client->deleteBucket(array('Bucket' => $bucket));
 
         // Wait until the bucket is not accessible
-        $client->waitUntilBucketNotExists(array('Bucket' => $bucket));
+        $client->waitUntil('BucketNotExists', array('Bucket' => $bucket));
     }
 }
