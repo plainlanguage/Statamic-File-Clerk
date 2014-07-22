@@ -771,12 +771,12 @@ $(function () {
 					var all_modals = $('.fileclerk .inline-preview');
 					var preview_button = $('.fileclerk .preview');
 					var ajaxOverlay = $('.fileclerk .view-remote .ajax-overlay.is-visible');
-					var modalImg = $('.fileclerk').find('.inline-preview.is-visible .load img'); // The preview modal image
+					var modalImg = $('.fileclerk').find('.inline-preview.is-visible .load'); // The preview modal image
 
 					all_modals.removeClass('is-visible').addClass('is-hidden');
 					preview_button.removeClass('active');
 					ajaxOverlay.toggleClass('is-visible is-hidden');
-					modalImg.attr('src', ''); // Empty image src
+					modalImg.html(''); // Empty image
 
 					event.preventDefault();
 					event.stopPropagation();
@@ -790,12 +790,12 @@ $(function () {
 					var all_modals = $('.fileclerk .inline-preview');
 					var preview_button = $('.fileclerk .preview');
 					var ajaxOverlay = $(event.target).closest('.fileclerk .view-remote .ajax-overlay.is-visible');
-					var modalImg = $('.fileclerk').find('.inline-preview.is-visible .load img'); // The preview modal image
+					var modalImg = $('.fileclerk').find('.inline-preview.is-visible .load'); // The preview modal image
 
 					all_modals.removeClass('is-visible').addClass('is-hidden');
 					preview_button.removeClass('active');
 					ajaxOverlay.toggleClass('is-visible is-hidden');
-					modalImg.attr('src', ''); // Empty image src
+					modalImg.html(''); // Empty image
 
 					event.preventDefault();
 					event.stopPropagation();
@@ -812,12 +812,12 @@ $(function () {
 				page                      = $('html, body'),
 				// Is Selected modal stuff
 				isSelectedFileClerk       = $this.closest('.fileclerk'),
-				isSelectedLoadAJAX        = isSelectedFileClerk.find('.inline-preview .load img'),
+				isSelectedLoadAJAX        = isSelectedFileClerk.find('.inline-preview .load'),
 				isSelectedModal           = isSelectedFileClerk.find('.result .inline-preview'),
 				isSelectedAjaxSpinner     = isSelectedFileClerk.find('.inline-preview .load .ajax-spinner'),
 				// Choose Existing modal stuff
 				chooseExistingFileClerk   = $this.closest('tr.file'),
-				chooseExistingLoadAJAX    = $('.fileclerk').find('.view-remote .inline-preview .load img'),
+				chooseExistingLoadAJAX    = $('.fileclerk').find('.view-remote .inline-preview .load'),
 				chooseExistingModal       = $('.fileclerk').find('.view-remote .inline-preview'),
 				chooseExistingAjaxSpinner = chooseExistingFileClerk.find('.inline-preview .load .ajax-spinner'),
 				chooseExistingContainer   = $this.closest('.fileclerk').find('table.tablesort'),
@@ -849,7 +849,7 @@ $(function () {
 						isSelectedAjaxSpinner.spin(spinJsOpts); // Start spinner
 					},
 					success: function(data) {
-						isSelectedLoadAJAX.attr('src', data.url);
+						isSelectedLoadAJAX.html('<img src="' + data.url + '">');
 						console.log(data);
 						isSelectedAjaxSpinner.spin(false); // Stop spinner
 					}
@@ -879,7 +879,7 @@ $(function () {
 						chooseExistingAjaxOverlay.toggleClass('is-hidden is-visible'); // Show overlay
 					},
 					success: function(data) {
-						chooseExistingLoadAJAX.attr('src', data.url);
+						chooseExistingLoadAJAX.html('<img src="' + data.url + '">');
 						console.log(data);
 						chooseExistingAjaxSpinner.spin(false); // Stop spinner
 					}
@@ -894,13 +894,13 @@ $(function () {
 			var $this = $(this),
 				fileclerk = $this.closest('.fileclerk'),
 				modal = fileclerk.find('.inline-preview.is-visible'), // Find the modal that is visible
-				modalImg = fileclerk.find('.inline-preview.is-visible .load img'), // The preview modal image
+				modalImg = fileclerk.find('.inline-preview.is-visible .load'), // The preview modal image
 				previewButton = fileclerk.find('.preview.active'),
 				ajaxOverlay = fileclerk.find('.view-remote .ajax-overlay')
 			;
 
 			modal.toggleClass('is-visible is-hidden'); // Hide Modal
-			modalImg.attr('src', ''); // Empty image src
+			modalImg.html(''); // Empty image src
 			previewButton.removeClass('active');
 			ajaxOverlay.toggleClass('is-visible is-hidden');
 
