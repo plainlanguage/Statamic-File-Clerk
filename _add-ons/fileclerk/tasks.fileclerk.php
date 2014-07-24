@@ -15,7 +15,7 @@
 
 // use Aws\S3\S3Client;
 // use Aws\S3\StreamWrapper;
-// use Aws\S3\Enum\CannedAcl;
+use Aws\S3\Enum\CannedAcl;
 // use Aws\Common\Enum\Size;
 // use Aws\Common\Exception\MultipartUploadException;
 // use Aws\S3\Model\MultipartUpload\UploadBuilder;
@@ -105,7 +105,7 @@ class Tasks_fileclerk extends Tasks
 			'custom_domain'  => null,
 			'bucket'         => null,
 			'directory'      => null,
-			'permissions'    => 'public-read',
+			'permissions'    => CannedAcl::PUBLIC_READ,
 			'content_types'  => false,
 		);
 
@@ -167,6 +167,26 @@ class Tasks_fileclerk extends Tasks
 					$config['content_types'] = array($config['content_types']);
 					break;
 			}
+		}
+
+		// Convert permissions to the corresponding Canned ACL constant.
+		switch ( strtolower(trim($config['permissions'])) )
+		{
+			case 'private':
+				$config['permissions'] = CannedAcl::PRIVATE_ACCESS;
+				break;
+			case 'public-read':
+				$config['permissions'] = CannedAcl::PUBLIC_READ;
+				break;
+			case 'public-read-write':
+				$config['permissions'] = CannedAcl::PUBLIC_READ_WRITE;
+				break;
+			case 'authenticated-read':
+				$config['permissions']= CannedAcl::AUTHENTICATED_READ;
+				break;
+			default:
+				$config['permissions'] = CannedAcl::PUBLIC_READ;
+				break;
 		}
 
 		// Check that required configs are set
