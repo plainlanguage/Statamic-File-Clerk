@@ -777,9 +777,6 @@ $(function () {
 					preview_button.removeClass('active');
 					ajaxOverlay.toggleClass('is-visible is-hidden');
 					modalImg.html(''); // Empty image
-
-					event.preventDefault();
-					event.stopPropagation();
 				}
 			});
 
@@ -796,9 +793,6 @@ $(function () {
 					preview_button.removeClass('active');
 					ajaxOverlay.toggleClass('is-visible is-hidden');
 					modalImg.html(''); // Empty image
-
-					event.preventDefault();
-					event.stopPropagation();
 				}
 			});
 		},
