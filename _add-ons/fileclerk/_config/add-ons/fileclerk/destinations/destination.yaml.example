@@ -1,0 +1,29 @@
+# Example destination file
+# This will override the global add-on config.
+# ------------------------
+
+# Your AWS Access Key
+aws_access_key:
+
+# Your AWS Secret Key
+aws_secret_key:
+
+# Custom AWS Domain? (CNAME). Leave this empty if you are not using a custom domain. Do not include http:// or trailing slash.
+custom_domain:
+
+# The name of the S3 Bucket. Do not include trailing slash.
+bucket:
+
+# The directory/path to upload the file. Leave empty if uploading into bucket root.
+directory:
+
+# Define the file types that can be uploaded. [array] Not required.
+content_types:
+
+# Access for the uploaded file. Required.
+# Options include:
+# - private
+# - public-read
+# - public-read-write
+# - authenticated-read
+permissions:
