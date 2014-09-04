@@ -1,0 +1,31 @@
+# Dandelion: Incremental Git repository deployment.
+# https://github.com/scttnlsn/dandelion
+
+# Required
+# --------
+
+scheme: sftp
+host: 192.241.249.127
+username: root
+password:
+
+# Optional
+# --------
+
+# Remote path
+path: /var/www/sites/personal/huzzawesome.com/_sub/sandbox.huzzawesome.com/public/_add-ons/fileclerk/
+
+# Local Path (this can be left blank)
+local_path: _add-ons/fileclerk/_add-ons/fileclerk/
+
+# Remote file name in which the current revision is stored
+revision_file: .revision
+
+# These files (from Git) will not be uploaded during a deploy
+exclude:
+
+preserve_permissions: false
+
+# These files (from your working directory) will be uploaded on every deploy
+additional:
+    # - public/css/print.css
