@@ -5,3 +5,4 @@ node_modules
 
 # Ignore compressed build files
 *.zip
+dandelion.yml
