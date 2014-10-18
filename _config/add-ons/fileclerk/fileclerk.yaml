@@ -11,6 +11,7 @@ custom_domain:
 bucket:
 
 # The folder/path to upload the file. Leave empty if uploading into bucket root.
+# For nested directories, separate with a /, path/to/directory
 directory:
 
 # Define the file types that can be uploaded. [array] Not required.

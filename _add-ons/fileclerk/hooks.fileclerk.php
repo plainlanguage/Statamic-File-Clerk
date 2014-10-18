@@ -78,7 +78,10 @@ class Hooks_fileclerk extends Hooks
 	{
 		// Initialize variables
 		$this->error  = false;
-		$this->config = self::merge_configs(Request::get('destination'));
+		$this->config = $this->tasks->merge_configs(Request::get('destination'));
+
+		// S3 client
+		self::load_s3();
 
 		foreach ( $_FILES as $file )
 		{
@@ -106,9 +109,6 @@ class Hooks_fileclerk extends Hooks
 				exit;
 			}
 
-			// S3 key
-			$this->data['key']           = Url::tidy( '/' . $this->config['directory'] . '/' . $this->data['filename'] );
-
 			// Set the full S3 path to the bucket/key
 			$this->data['s3_path'] = Url::tidy( 's3://' . join('/', array($this->config['bucket'], $this->config['directory'])) );
 
@@ -127,6 +127,9 @@ class Hooks_fileclerk extends Hooks
 					$this->data['filename'] = self::increment_filename_unix($this->data['filename']);
 				}
 			}
+
+			// S3 key
+			$this->data['key']           = Url::tidy( '/' . $this->config['directory'] . '/' . $this->data['filename'] );
 
 			// Set the full path for the file.
 			$this->data['fullpath'] = Url::tidy( self::get_url_prefix() . '/' . $this->data['filename'] );
@@ -228,7 +231,10 @@ class Hooks_fileclerk extends Hooks
 		$extension   = File::getExtension($filename);
 
 		// Merge configs
-		$this->config = self::merge_configs( $destination );
+		$this->config = $this->tasks->merge_configs( $destination );
+
+		// S3 client
+		self::load_s3();
 
 		/**
 		 * @todo Need to update JS to accept this response for activating.
@@ -326,7 +332,10 @@ class Hooks_fileclerk extends Hooks
 		$destination = is_null($destination) ? 0 : $destination;
 
 		// Merge configs before we proceed
-		$this->config = self::merge_configs( $destination );
+		$this->config = $this->tasks->merge_configs( $destination );
+
+		// Setup client
+		self::load_s3();
 
 		// Set default error to false
 		$error = false;
@@ -882,7 +891,7 @@ class Hooks_fileclerk extends Hooks
 	public function fileclerk__config_dump()
 	{
 		$destination = Request::get('destination');
-		dd(self::merge_configs($destination));
+		dd($this->tasks->merge_configs($destination));
 	}
 
 	/**
@@ -892,7 +901,7 @@ class Hooks_fileclerk extends Hooks
 	private function init()
 	{
 		self::load_s3();
-		self::merge_configs( Request::get('destination') );
+		$this->tasks->merge_configs( Request::get('destination') );
 	}
 
 }

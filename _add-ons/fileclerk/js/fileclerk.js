@@ -63,6 +63,9 @@ $(function () {
 			// Highlight Row
 			$('body').on( 'tap', '.view-list td', this.highlightRow );
 
+			// Prevent Highlight Row if preview link is clicked
+			$('body').on( 'tap', '.view-list td a', this.preventHighlightRow );
+
 			// Select file
 			$('body').on( 'click', '[data-action="select_file"]', this.selectFile );
 
@@ -548,6 +551,10 @@ $(function () {
 
 		},
 
+		preventHighlightRow: function(event) {
+			event.stopPropagation();
+		},
+
 		selectFile: function( event ) {
 
 			event.preventDefault();
@@ -556,7 +563,7 @@ $(function () {
 				fileclerk           = $this.closest('.fileclerk'),
 				viewremote          = $this.closest('.view-remote'),
 				fullPath            = viewremote.find('.view-list table tr.file.is-highlighted').data('file'),
-				filename            = viewremote.find('.view-list table tr.file.is-highlighted td.is-file').html(),
+				filename            = viewremote.find('.view-list table tr.file.is-highlighted td.is-file .filename').html(),
 				extension           = viewremote.find('.view-list table tr.file.is-highlighted').data('extension'),
 				isImage             = viewremote.find('.view-list table tr.file.is-highlighted').data('is-image'),
 				//mimeType            = viewremote.find('.view-list table tr.file.is-highlighted').data('mime-type'),
@@ -752,7 +759,7 @@ $(function () {
 		bindUIActions: function() {
 
 			// Show Modal
-			$('body').on( 'click', '.fileclerk .result a[rel="inline"]', this.showInlinePreview );
+			$('body').on( 'click', '.fileclerk a.preview[rel="inline"]', this.showInlinePreview );
 
 			// Hide Modal
 			$('body').on( 'click', '.fileclerk .inline-preview .modal-close', this.hideInlinePreview );
@@ -762,10 +769,14 @@ $(function () {
 				if(event.keyCode === 27)
 				{
 					var all_modals = $('.fileclerk .inline-preview');
-					var preview_button = $('.fileclerk .result .preview');
+					var preview_button = $('.fileclerk .preview');
+					var ajaxOverlay = $('.fileclerk .view-remote .ajax-overlay.is-visible');
+					var modalImg = $('.fileclerk').find('.inline-preview.is-visible .load'); // The preview modal image
 
 					all_modals.removeClass('is-visible').addClass('is-hidden');
 					preview_button.removeClass('active');
+					ajaxOverlay.toggleClass('is-visible is-hidden');
+					modalImg.html(''); // Empty image
 				}
 			});
 
@@ -774,10 +785,14 @@ $(function () {
 				if(!$(event.target).closest('.fileclerk .inline-preview').length)
 				{
 					var all_modals = $('.fileclerk .inline-preview');
-					var preview_button = $('.fileclerk .result .preview');
+					var preview_button = $('.fileclerk .preview');
+					var ajaxOverlay = $(event.target).closest('.fileclerk .view-remote .ajax-overlay.is-visible');
+					var modalImg = $('.fileclerk').find('.inline-preview.is-visible .load'); // The preview modal image
 
 					all_modals.removeClass('is-visible').addClass('is-hidden');
 					preview_button.removeClass('active');
+					ajaxOverlay.toggleClass('is-visible is-hidden');
+					modalImg.html(''); // Empty image
 				}
 			});
 		},
@@ -785,41 +800,85 @@ $(function () {
 		showInlinePreview: function(event) {
 
 			var $this = $(this),
-				fileclerk			= $this.closest('.fileclerk'),
-				externalUrl			= fileclerk.find('a.preview').attr('href'),
-				loadAJAX			= fileclerk.find('.inline-preview .load img'),
-				modal				= fileclerk.find('.inline-preview'),
-				all_modals			= $('.fileclerk .inline-preview'),
-				all_preview_buttons	= $('.fileclerk .result .preview'),
-				ajaxSpinner 		= fileclerk.find('.inline-preview .load .ajax-spinner'),
-				page				= $('html, body')
+				externalUrl               = $this.attr('href'),
+				all_modals                = $('.fileclerk .inline-preview'),
+				all_preview_buttons       = $('.fileclerk .result .preview'),
+				page                      = $('html, body'),
+				// Is Selected modal stuff
+				isSelectedFileClerk       = $this.closest('.fileclerk'),
+				isSelectedLoadAJAX        = isSelectedFileClerk.find('.inline-preview .load'),
+				isSelectedModal           = isSelectedFileClerk.find('.result .inline-preview'),
+				isSelectedAjaxSpinner     = isSelectedFileClerk.find('.inline-preview .load .ajax-spinner'),
+				// Choose Existing modal stuff
+				chooseExistingFileClerk   = $this.closest('tr.file'),
+				chooseExistingLoadAJAX    = $('.fileclerk').find('.view-remote .inline-preview .load'),
+				chooseExistingModal       = $('.fileclerk').find('.view-remote .inline-preview'),
+				chooseExistingAjaxSpinner = chooseExistingFileClerk.find('.inline-preview .load .ajax-spinner'),
+				chooseExistingContainer   = $this.closest('.fileclerk').find('table.tablesort'),
+				chooseExistingAjaxOverlay = $this.closest('.fileclerk').find('.view-remote .ajax-overlay')
 			;
 
 			all_modals.removeClass('is-visible').addClass('is-hidden'); // Hide all open modals if you open a new one
 			all_preview_buttons.removeClass('active');
-			modal.toggleClass('is-hidden is-visible'); // Show Modal
-			$this.addClass('active');
-			page.animate({
-				scrollTop: modal.offset().top - 20
-			}, 500);
 
-			// Get external image
-			$.ajax({
-				url: '/TRIGGER/fileclerk/ajaxpreview?url=' + externalUrl,
-				cache: false,
-				dataType: 'JSON', // JSON
-				beforeSend: function(data) {
-					// Do stuff before sending. Loading Gif? (Chad, that's a soft `G`!) -- (Your mom is a soft 'G'. Love, Chad)
-					ajaxSpinner.spin(spinJsOpts); // Start spinner
-				},
-				success: function(data) {
-					loadAJAX.attr('src', data.url);
-					console.log(data);
-					ajaxSpinner.spin(false); // Stop spinner
-				}
-			});
+			// -----------------------------------------------------------------------
+			// Is Selected
+			// Preview for a selected file
+			// -----------------------------------------------------------------------
 
-			console.log($this.attr('rel'))
+			if ($this.hasClass('preview--is-selected')) {
+
+				isSelectedModal.toggleClass('is-hidden is-visible'); // Show Modal
+				$this.addClass('active');
+				page.animate({
+					scrollTop: isSelectedModal.offset().top - 20
+				}, 500);
+
+				// Get external image
+				$.ajax({
+					url: '/TRIGGER/fileclerk/ajaxpreview?url=' + externalUrl,
+					cache: false,
+					dataType: 'JSON', // JSON
+					beforeSend: function(data) {
+						isSelectedAjaxSpinner.spin(spinJsOpts); // Start spinner
+					},
+					success: function(data) {
+						isSelectedLoadAJAX.html('<img src="' + data.url + '">');
+						console.log(data);
+						isSelectedAjaxSpinner.spin(false); // Stop spinner
+					}
+				});
+			}
+
+			// -----------------------------------------------------------------------
+			// Choose Existing
+			// Preview for the Choose Existing view
+			// -----------------------------------------------------------------------
+
+			if ($this.hasClass('preview--choose-existing')) {
+
+				chooseExistingModal.toggleClass('is-hidden is-visible'); // Show Modal
+				$this.addClass('active');
+				chooseExistingContainer.animate({
+					scrollTop: chooseExistingModal.offset().top - 20
+				}, 500);
+
+				// Get external image
+				$.ajax({
+					url: '/TRIGGER/fileclerk/ajaxpreview?url=' + externalUrl,
+					cache: false,
+					dataType: 'JSON', // JSON
+					beforeSend: function(data) {
+						chooseExistingAjaxSpinner.spin(spinJsOpts); // Start spinner
+						chooseExistingAjaxOverlay.toggleClass('is-hidden is-visible'); // Show overlay
+					},
+					success: function(data) {
+						chooseExistingLoadAJAX.html('<img src="' + data.url + '">');
+						console.log(data);
+						chooseExistingAjaxSpinner.spin(false); // Stop spinner
+					}
+				});
+			}
 
 			event.preventDefault();
 			event.stopPropagation();
@@ -828,12 +887,16 @@ $(function () {
 		hideInlinePreview: function(event) {
 			var $this = $(this),
 				fileclerk = $this.closest('.fileclerk'),
-				modal = fileclerk.find('.inline-preview'),
-				previewButton = fileclerk.find('.preview')
+				modal = fileclerk.find('.inline-preview.is-visible'), // Find the modal that is visible
+				modalImg = fileclerk.find('.inline-preview.is-visible .load'), // The preview modal image
+				previewButton = fileclerk.find('.preview.active'),
+				ajaxOverlay = fileclerk.find('.view-remote .ajax-overlay')
 			;
 
 			modal.toggleClass('is-visible is-hidden'); // Hide Modal
+			modalImg.html(''); // Empty image src
 			previewButton.removeClass('active');
+			ajaxOverlay.toggleClass('is-visible is-hidden');
 
 			event.preventDefault();
 			event.stopPropagation();
