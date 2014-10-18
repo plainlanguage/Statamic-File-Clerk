@@ -11,6 +11,8 @@ module.exports = {
 			{src: ['_add-ons/fileclerk/assets/build/img/**.*']}, // Optimized images
 			{src: ['_add-ons/fileclerk/css/fileclerk.min.css'], filter: 'isFile'}, // Minified CSS
 			{src: ['_add-ons/fileclerk/js/build/**.js'], filter: 'isFile'}, // Minified JS
+			{src: ['_add-ons/fileclerk/js/fileclerk.js'], filter: 'isFile'}, // Un-minified JS (for Dev env)
+			{src: ['_add-ons/fileclerk/js/plugins.combined.js'], filter: 'isFile'}, // Un-minified Plugins JS (for Dev env)
 			{src: ['_add-ons/fileclerk/views/**.html'], filter: 'isFile'}, // Fieldtype Views
 			{src: ['_add-ons/fileclerk/config.php'], filter: 'isFile'}, // Config File
 			{src: ['_add-ons/fileclerk/**.php'], filter: 'isFile'},

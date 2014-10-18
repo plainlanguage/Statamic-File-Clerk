@@ -64,11 +64,23 @@ class Fieldtype_fileclerk extends Fieldtype {
 			'url'            => null,
 		);
 
-		// If field data is an array, it means we have an existing file
-		if( is_array($this->field_data) && isset($this->field_data[0]) )
+		// If field data is an array, it means we have an existing file.
+		// @todo Or does it? 
+		if( is_array($this->field_data) )
 		{
-			$field_data = reset($this->field_data);
+			// Check if $this->field_data is a zero-index array
+			if(isset($this->field_data[0]))
+			{
+				// Reset the zero indexed array to normalize data for return.
+				$field_data = reset($this->field_data);
+			}
+			else
+			{
+				// Not a zero-indexed array, no normalization needed.
+				$field_data = $this->field_data;
+			}
 
+			// Set return data values from $this->field_data
 			$data['basename_value'] = $field_data['filename'];
 			$data['extension']      = $field_data['extension'];
 			$data['filename']       = $field_data['filename'];
@@ -93,6 +105,17 @@ class Fieldtype_fileclerk extends Fieldtype {
 
 		// Get the fieldtype view file
 		$ft_template = File::get( __DIR__ . '/views/ft.fileclerk.html');
+
+		/**
+		 * For developer debugging only
+		 * @return Dumps all $data values for each File Clerk field to screen.
+		 */
+		if( defined('FILECLERK_DEV_DEBUG') && FILECLERK_DEV_DEBUG === TRUE)
+		{
+			echo '<pre>';
+			var_dump($data); 
+			echo '</pre>';
+		}
 
 		// Parse the template with data
 		return Parse::template($ft_template, $data);
