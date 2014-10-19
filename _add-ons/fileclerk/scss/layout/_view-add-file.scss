@@ -1,0 +1,122 @@
+//   $$$$$$\        $$\       $$\       $$$$$$$$\ $$\ $$\
+//  $$  __$$\       $$ |      $$ |      $$  _____|\__|$$ |
+//  $$ /  $$ | $$$$$$$ | $$$$$$$ |      $$ |      $$\ $$ | $$$$$$\
+//  $$$$$$$$ |$$  __$$ |$$  __$$ |      $$$$$\    $$ |$$ |$$  __$$\
+//  $$  __$$ |$$ /  $$ |$$ /  $$ |      $$  __|   $$ |$$ |$$$$$$$$ |
+//  $$ |  $$ |$$ |  $$ |$$ |  $$ |      $$ |      $$ |$$ |$$   ____|
+//  $$ |  $$ |\$$$$$$$ |\$$$$$$$ |      $$ |      $$ |$$ |\$$$$$$$\
+//  \__|  \__| \_______| \_______|      \__|      \__|\__| \_______|
+//
+//
+//
+// The Action view
+//
+
+.fileclerk .add-file {
+	clear: both;
+	padding: em(15);
+
+	&.is-hidden {
+		max-height: 0;
+		padding: 0;
+	}
+
+	p {
+		float: none;
+	}
+
+	// Tab Navigation
+	.tabs {
+		list-style-type: none;
+		padding: 0;
+		margin: 0;
+		position: relative;
+		text-align: center;
+		z-index: 1;
+
+		@include media($small) {
+			//overflow: hidden;
+		}
+
+		li {
+			border-top: $border-default;
+			display: inline-block;
+
+			@include media($small) {
+				width: 50%;
+			}
+
+			&.active {
+
+				a {
+					border-bottom: 1px solid $color-white;
+				}
+
+				a,
+				a:hover {
+					background-color: $color-white;
+					color: $color-gray-dark;
+				}
+			}
+
+			&:first-child.active a {
+				margin-right: -1px;
+			}
+
+			&:last-child.active a {
+				margin-left: -1px;
+			}
+
+			a {
+				@include transition( all 0.2s ease-in );
+				background-color: lighten( $color-tan-mid, 8 );
+				border: {
+					right: $border-default;
+					bottom: $border-default;
+					left: $border-default;
+				}
+				color: darken( $color-tan-mid, 35 );
+				display: block;
+
+				@include media($large) {
+					padding: em(8) em(18);
+					width: em(160);
+				}
+
+				@include media($medium) {
+					padding: em(8) em(18);
+					width: em(160);
+				}
+
+				@include media($small) {
+					font-size: 90%;
+					padding: em(8) em(5);
+				}
+
+				&:hover {
+					background-color: $color-tan-mid;
+				}
+
+				&.disabled {
+					cursor: not-allowed;
+				}
+			}
+		}
+	}
+
+	// The Content Area
+	.content {
+		background-color: $color-white;
+		border: $border-default;
+		margin-top: -1px;
+		padding: em(15);
+		text-align: center;
+	}
+
+	// Errors
+	.upload-error {
+		background-color: lighten( $color-tan-light, 3 );
+		border: $border-default;
+		border-radius: 4px;
+	}
+}

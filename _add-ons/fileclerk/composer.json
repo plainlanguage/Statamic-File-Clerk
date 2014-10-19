@@ -1,0 +1,6 @@
+{
+	"require": {
+		"aws/aws-sdk-php": "2.6.*",
+		"symfony/finder": "2.5.*"
+	}
+}
