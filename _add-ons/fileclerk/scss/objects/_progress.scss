@@ -1,0 +1,62 @@
+.fileclerk {
+
+	.progress {
+		width: 100%;
+	}
+
+	.progress-bar {
+		padding: 0 15px 10px 15px;
+
+		&.is-hidden {
+			padding: 0;
+		}
+
+		progress {
+			@include appearance(none);
+			background: #EDEDE7;
+			border: none;
+			border-radius: 2px;
+			box-shadow: inset 0 1px 1px rgba( 0,0,0,0.2 );
+			color: $color-green; // Progress bar value for IE10+
+			height: 20px;
+			overflow: hidden;
+			width: 90%;
+			float: left;
+
+			&[value]::-webkit-progress-bar {
+				background-color: #EDEDE7;
+				border-radius: 2px;
+				box-shadow: inset 0 1px 1px rgba( 0,0,0,0.2 );
+				overflow: hidden;
+			}
+
+			&[value]::-webkit-progress-value {
+				background: $color-green;
+				box-shadow: inset 0 1px 1px rgba( 0,0,0,0.2 );
+			}
+
+			&[value]::-moz-progress-bar {
+				background: $color-green;
+				box-shadow: inset 0 1px 1px rgba( 0,0,0,0.2 );
+			}
+		}
+
+		.prc {
+			width: 10%;
+			color: #AAAAAA;
+			float: right;
+			font-size: 80%;
+			text-align: center;
+		}
+
+	}
+
+	@include keyframes( animate-stripes ) {
+		100% {
+			background-position: -100px 0px;
+		}
+		100% {
+			background-position: -100px 0px;
+		}
+	}
+}

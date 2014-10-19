@@ -24,3 +24,6 @@ content_types:
 # - public-read-write
 # - authenticated-read
 permissions:
+
+# Cache-control
+cache-control: 

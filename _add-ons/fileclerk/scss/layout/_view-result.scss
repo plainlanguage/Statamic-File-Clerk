@@ -1,0 +1,62 @@
+//  $$$$$$$\                                $$\   $$\
+//  $$  __$$\                               $$ |  $$ |
+//  $$ |  $$ | $$$$$$\   $$$$$$$\ $$\   $$\ $$ |$$$$$$\
+//  $$$$$$$  |$$  __$$\ $$  _____|$$ |  $$ |$$ |\_$$  _|
+//  $$  __$$< $$$$$$$$ |\$$$$$$\  $$ |  $$ |$$ |  $$ |
+//  $$ |  $$ |$$   ____| \____$$\ $$ |  $$ |$$ |  $$ |$$\
+//  $$ |  $$ |\$$$$$$$\ $$$$$$$  |\$$$$$$  |$$ |  \$$$$  |
+//  \__|  \__| \_______|\_______/  \______/ \__|   \____/
+//
+//
+//
+
+.fileclerk .result {
+
+	&.is-visible {
+		overflow: visible;
+	}
+
+	&.is-hidden {
+		overflow: hidden;
+	}
+
+	// Inline Preview!
+	.inline-preview {
+		@include position( absolute, em(-($inline-preview-size + 8)) em(-($inline-preview-size / 2) + 18) 0 0 );
+
+		@include media($small) {
+			@include position( absolute, em(-($inline-preview-size + 12)) 0 0 50% );
+			margin-left: em(-($inline-preview-size / 2));
+		}
+
+		&:after {
+			$triangle-size: 20;
+			@include position( absolute, 0 0 em(-($triangle-size+3)) em(($inline-preview-size / 2)-($triangle-size)) );
+			border: {
+				left: $triangle-size+px solid transparent;
+				right: $triangle-size+px solid transparent;
+				top: $triangle-size+px solid $color-white;
+			}
+			content: '';
+			display: block;
+			height: 0;
+			width: 0;
+			z-index: 4;
+		}
+
+		&:before {
+			$triangle-size: 20;
+			@include position( absolute, 0 0 em(-($triangle-size+4)) em(($inline-preview-size / 2)-($triangle-size)) );
+			border: {
+				left: $triangle-size+px solid transparent;
+				right: $triangle-size+px solid transparent;
+				top: $triangle-size+px solid $color-tan-mid;
+			}
+			content: '';
+			display: block;
+			height: 0;
+			width: 0;
+			z-index: 2;
+		}
+	}
+}

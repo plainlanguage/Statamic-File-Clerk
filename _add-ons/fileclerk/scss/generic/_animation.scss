@@ -1,0 +1,95 @@
+//   $$$$$$\            $$\                          $$\     $$\
+//  $$  __$$\           \__|                         $$ |    \__|
+//  $$ /  $$ |$$$$$$$\  $$\ $$$$$$\$$$$\   $$$$$$\ $$$$$$\   $$\  $$$$$$\  $$$$$$$\
+//  $$$$$$$$ |$$  __$$\ $$ |$$  _$$  _$$\  \____$$\\_$$  _|  $$ |$$  __$$\ $$  __$$\
+//  $$  __$$ |$$ |  $$ |$$ |$$ / $$ / $$ | $$$$$$$ | $$ |    $$ |$$ /  $$ |$$ |  $$ |
+//  $$ |  $$ |$$ |  $$ |$$ |$$ | $$ | $$ |$$  __$$ | $$ |$$\ $$ |$$ |  $$ |$$ |  $$ |
+//  $$ |  $$ |$$ |  $$ |$$ |$$ | $$ | $$ |\$$$$$$$ | \$$$$  |$$ |\$$$$$$  |$$ |  $$ |
+//  \__|  \__|\__|  \__|\__|\__| \__| \__| \_______|  \____/ \__| \______/ \__|  \__|
+//
+//
+//
+
+.fileclerk {
+
+	.animated {
+		@include animation-duration( 1s );
+		@include animation-fill-mode( both );
+		@include backface-visibility( hidden );
+	}
+
+	// Hi, I am hidden
+	.is-hidden {
+		@include transition( opacity 0.1s linear );
+		@include transform(translate3d(0,0,0));
+		@include backface-visibility(hidden);
+		@include perspective(1000);
+		height: 0;
+		visibility: hidden;
+		opacity: 0;
+		overflow: hidden;
+		margin: 0;
+		padding: 0;
+	}
+
+	// Hi, I am visible
+	.is-visible {
+		@include transition( opacity 0.2s linear );
+		@include transform(translate3d(0,0,0));
+		@include backface-visibility(hidden);
+		@include perspective(1000);
+		height: auto;
+		visibility: visible;
+		opacity: 1.0;
+		overflow: auto;
+	}
+
+	.fade {
+		opacity: 0;
+		@include transition(opacity .1s linear);
+		@include transform(translate3d(0,0,0));
+		@include backface-visibility(hidden);
+		@include perspective(1000);
+		&.in {
+			opacity: 1;
+		}
+	}
+}
+
+@include keyframes( fadeInOut ) {
+	0% {
+		opacity: 1.0;
+	}
+	50% {
+		opacity: 1.0;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+@include keyframes( bounceIn ) {
+	0% {
+		opacity: 0;
+		@include transform( translateY(-12px) );
+	}
+	60% {
+		opacity: 1;
+		@include transform( translateY(6px) );
+	}
+	80% {
+		@include transform( translateY(-3px) );
+	}
+	100% {
+		@include transform( translateY(0) );
+	}
+}
+
+@include keyframes( fadeIn ) {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}

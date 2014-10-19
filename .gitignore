@@ -2,6 +2,7 @@
 *.sublime-*
 
 node_modules
+.sass-cache
 
 # Ignore compressed build files
 *.zip
