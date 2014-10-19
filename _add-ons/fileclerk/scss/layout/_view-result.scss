@@ -20,6 +20,10 @@
 		overflow: hidden;
 	}
 
+	.btn-remove {
+		float: right;
+	}
+
 	// Inline Preview!
 	.inline-preview {
 		@include position( absolute, em(-($inline-preview-size + 8)) em(-($inline-preview-size / 2) + 18) 0 0 );

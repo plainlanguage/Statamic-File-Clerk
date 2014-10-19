@@ -464,6 +464,8 @@
 }
 
 .fileclerk {
+  background-color: #F4F4F0;
+  border: 1px solid #D7D7CA;
   min-height: 52px;
   z-index: 1;
 }
@@ -636,6 +638,9 @@
 }
 .fileclerk .result.is-hidden {
   overflow: hidden;
+}
+.fileclerk .result .btn-remove {
+  float: right;
 }
 .fileclerk .result .inline-preview {
   position: absolute;
