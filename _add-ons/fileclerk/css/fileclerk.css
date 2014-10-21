@@ -466,6 +466,7 @@
 .fileclerk {
   background-color: #F4F4F0;
   border: 1px solid #D7D7CA;
+  border-radius: 3px;
   min-height: 52px;
   z-index: 1;
 }
