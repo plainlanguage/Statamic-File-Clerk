@@ -1,9 +1,10 @@
 .DS_Store
 *.sublime-*
 
+# Node & Bower
+bower_components
 node_modules
 .sass-cache
 
 # Ignore compressed build files
-*.zip
-dandelion.yml
+dist

@@ -12,13 +12,14 @@ var gulp = require('gulp') // Gulp!
 	pngcrush 	= require('imagemin-pngcrush'); // PNG Crush
 	rename		= require('gulp-rename'), // Rename
 	sass		= require('gulp-ruby-sass'), // Sass (We have to use Ruby Sass until LibSass supports 3.3)
-	uglify		= require('gulp-uglify') // Uglify JS
+	uglify		= require('gulp-uglify'), // Uglify JS
+	zip			= require('gulp-zip') // Make .zip archives
 ;
 
 // Set the name of the add-on, used for name of .js, .css, etc.
 var addonName = 'fileclerk';
 var addons = '_add-ons/' + addonName + '/';
-var config = '_config/_add-ons/' + addonName + '/';
+var config = '_config/add-ons/' + addonName + '/';
 // Set asset path variables
 var paths = {
 	build: addons + 'assets/build/',
@@ -114,18 +115,24 @@ gulp.task('default', ['jshint', 'scripts', 'styles', 'imagemin', 'fileInclude', 
 // Build & Zip
 gulp.task('build', function() {
 	gulp.src([
-		'assets/build/img/**',
-		'css/' + addonName + '.css',
-		'js/build/**.js',
-		'/js/' + addonName + '.js',
-		'views/**.html',
-		'config.php',
-		'vendor/autoload.php',
-		'vendor/composer/**/*',
-		'vendor/guzzle/**/*',
-		'vendor/symfony/**/*',
-		'vendor/aws/aws-sdk-php/build/**/*',
-		'vendor/aws/aws-sdk-php/src/Aws/Common/**/*',
-		'vendor/aws/aws-sdk-php/src/Aws/S3/**/*'
-	])
+		addons + 'assets/build/img/**',
+		addons + 'css/' + addonName + '.css',
+		addons + 'js/build/**.js',
+		addons + 'js/' + addonName + '.js',
+		addons + 'views/**.html',
+		addons + 'config.php',
+		addons + 'vendor/autoload.php',
+		addons + 'vendor/composer/**/*',
+		addons + 'vendor/guzzle/**/*',
+		addons + 'vendor/symfony/**/*',
+		addons + 'vendor/aws/aws-sdk-php/build/**/*',
+		addons + 'vendor/aws/aws-sdk-php/src/Aws/Common/**/*',
+		addons + 'vendor/aws/aws-sdk-php/src/Aws/S3/**/*',
+		config + addonName + '.yaml',
+		config + 'destinations/**'
+	], {
+		base: '*'
+	})
+	.pipe(zip(addonName + '.zip'))
+	.pipe(gulp.dest('dist'))
 });
