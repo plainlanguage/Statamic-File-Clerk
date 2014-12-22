@@ -1,0 +1,13 @@
+{
+  "name": "stupidtable",
+  "homepage": "https://github.com/joequery/Stupid-Table-Plugin",
+  "_release": "3606471b42",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "3606471b424a858982415752c6f648badca40c76"
+  },
+  "_source": "git@github.com:joequery/Stupid-Table-Plugin.git",
+  "_target": "*",
+  "_originalSource": "git@github.com:joequery/Stupid-Table-Plugin.git"
+}

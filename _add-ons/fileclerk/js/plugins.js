@@ -22,9 +22,7 @@
 }());
 
 // Place any jQuery/helper plugins in here.
-<!--(bake plugins/transition.js)-->
-<!--(bake plugins/spin.js)-->
-<!--(bake plugins/jquery.spin.js)-->
-<!--(bake plugins/jquery.finger.js)-->
-<!--(bake plugins/stupidtable.js)-->
-<!--(bake plugins/jquery.toggleattr.js)-->
+//= include ../bower_components/spin.js/spin.js
+//= include ../bower_components/spin.js/jquery.spin.js
+//= include ../bower_components/jquery.finger/dist/jquery.finger.js
+//= include ../bower_components/stupidtable/stupidtable.js

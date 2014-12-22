@@ -43,7 +43,7 @@ class Hooks_fileclerk extends Hooks
 	public function control_panel__add_to_head()
 	{
 		if ( URL::getCurrent(false) == '/publish' ) {
-			return $this->css->link('fileclerk.min.css');
+			return $this->css->link('fileclerk.css');
 		}
 	}
 
@@ -55,18 +55,7 @@ class Hooks_fileclerk extends Hooks
 	{
 		// Get the necessary support .js
 		if ( URL::getCurrent(false) == '/publish' ) {
-			if ( FILECLERK_ENV === 'dev' ) {
-				$html = $this->js->link(array(
-					'plugins.combined.js',
-					'fileclerk.js',
-				));
-			} else {
-				$html = $this->js->link(array(
-					'build/fileclerk.plugins.min.js',
-					'build/fileclerk.min.js',
-				));
-			}
-			return $html;
+			return $this->js->link('build/fileclerk.js');
 		}
 	}
 

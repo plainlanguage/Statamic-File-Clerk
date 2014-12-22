@@ -1,0 +1,26 @@
+{
+  "name": "File Clerk",
+  "version": "1.0",
+  "authors": [
+    "Chad Clark <chad@chadjclark.com>",
+    "Brandon Haslip <bhaslip@gmail.com>",
+    "Michael Reiner <mreiner77@gmail.com>"
+  ],
+    "description": "File Clerkin'",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+      "**/.*",
+      "node_modules",
+      "bower_components",
+      "test",
+      "tests"
+  ],
+  "dependencies": {
+    "bourbon"          : "latest",
+    "neat"             : "latest",
+    "jquery.finger"    : "latest",
+    "spin.js"          : "latest",
+    "stupidtable"      : "git@github.com:joequery/Stupid-Table-Plugin.git"
+  }
+}
