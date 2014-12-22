@@ -22,7 +22,7 @@
 }());
 
 // Place any jQuery/helper plugins in here.
-//= include ../bower_components/spin.js/spin.js
-//= include ../bower_components/spin.js/jquery.spin.js
-//= include ../bower_components/jquery.finger/dist/jquery.finger.js
-//= include ../bower_components/stupidtable/stupidtable.js
+//= include ../../../bower_components/spin.js/spin.js
+//= include ../../../bower_components/spin.js/jquery.spin.js
+//= include ../../../bower_components/jquery.finger/dist/jquery.finger.js
+//= include ../../../bower_components/stupidtable/stupidtable.js

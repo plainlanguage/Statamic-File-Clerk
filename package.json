@@ -1,25 +1,22 @@
 {
-  "name": "grunt-boilerplate",
+  "name": "fileclerk",
   "version": "1.0.0",
+  "description": "Big Gulipin'",
+  "main": "gulpfile.js",
   "devDependencies": {
-    "grunt": "~0.4.2",
-    "grunt-bake": "*",
-    "grunt-concurrent": "*",
-    "grunt-contrib-cssmin": "*",
-    "grunt-contrib-concat": "*",
-    "grunt-contrib-connect": "*",
-    "grunt-contrib-imagemin": "0.4.1",
-    "grunt-contrib-jshint": "*",
-    "grunt-notify": "*",
-    "grunt-contrib-sass": "*",
-    "grunt-contrib-uglify": "*",
-    "grunt-contrib-watch": "*",
-    "grunt-newer": "*",
-    "grunt-svgmin": "*",
-    "load-grunt-config": "*",
-    "grunt-contrib-compress": "*"
-  },
-  "dependencies": {
-    "time-grunt": "*"
+	"gulp"             : "latest",
+	"gulp-changed"     : "latest",
+	"gulp-concat"      : "latest",
+	"gulp-debug"       : "latest",
+	"gulp-imagemin"    : "latest",
+	"gulp-include"     : "latest",
+	"gulp-jshint"      : "latest",
+	"gulp-livereload"  : "latest",
+	"gulp-newer"       : "latest",
+	"gulp-notify"      : "latest",
+	"gulp-rename"      : "latest",
+	"gulp-uglify"      : "latest",
+	"imagemin-pngcrush": "latest",
+	"gulp-ruby-sass"   : "git://github.com/sindresorhus/gulp-ruby-sass#rw/1.0"
   }
 }

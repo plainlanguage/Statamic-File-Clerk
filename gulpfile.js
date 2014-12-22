@@ -17,13 +17,15 @@ var gulp = require('gulp') // Gulp!
 
 // Set the name of the add-on, used for name of .js, .css, etc.
 var addonName = 'fileclerk';
+var addons = '_add-ons/' + addonName + '/';
+var config = '_config/_add-ons/' + addonName + '/';
 // Set asset path variables
 var paths = {
-	build: 'assets/build/',
-	js   : 'js/',
-	scss : 'scss/',
-	css  : 'css/',
-	img  : 'assets/img/',
+	build: addons + 'assets/build/',
+	js   : addons + 'js/',
+	scss : addons + 'scss/',
+	css  : addons + 'css/',
+	img  : addons + 'assets/img/',
 	bower: 'bower_components/'
 };
 
@@ -32,17 +34,6 @@ function handleError(err) {
 	console.log(err.toString());
 	this.emit('end');
 }
-
-// TODO
-var filesToMove = [
-
-];
-
-// TODO
-gulp.task('jscopy', function() {
-//	gulp.src(filesToMove)
-		//.pipe(gulp.dest(paths.build + 'js/vendor/'))
-});
 
 // JS Hint
 gulp.task('jshint', function() {
@@ -119,3 +110,22 @@ gulp.task('watch', function() {
 
 // Default Task
 gulp.task('default', ['jshint', 'scripts', 'styles', 'imagemin', 'fileInclude', 'watch']);
+
+// Build & Zip
+gulp.task('build', function() {
+	gulp.src([
+		'assets/build/img/**',
+		'css/' + addonName + '.css',
+		'js/build/**.js',
+		'/js/' + addonName + '.js',
+		'views/**.html',
+		'config.php',
+		'vendor/autoload.php',
+		'vendor/composer/**/*',
+		'vendor/guzzle/**/*',
+		'vendor/symfony/**/*',
+		'vendor/aws/aws-sdk-php/build/**/*',
+		'vendor/aws/aws-sdk-php/src/Aws/Common/**/*',
+		'vendor/aws/aws-sdk-php/src/Aws/S3/**/*'
+	])
+});
