@@ -55,7 +55,7 @@ class Hooks_fileclerk extends Hooks
 	{
 		// Get the necessary support .js
 		if ( URL::getCurrent(false) == '/publish' ) {
-			return $this->js->link('build/fileclerk.js');
+			return $this->js->link('build/fileclerk.min.js');
 		}
 	}
 
