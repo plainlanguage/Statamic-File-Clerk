@@ -178,12 +178,12 @@ class Hooks_fileclerk extends Hooks
 
 		// Setup the return
 		if ( $this->error ) {
-			header('Content-Type: application/json');
+			header('Content-Type', 'application/json');
 			echo self::build_response_json(false, true, FILECLERK_FILE_UPLOAD_FAILED, $error_message);
 			exit;
 		} else {
 			// Response
-			header('Content-Type: application/json');
+			header('Content-Type', 'application/json');
 			echo self::build_response_json(true, false, FILECLERK_FILE_UPLOAD_SUCCESS, 'File ' . $this->data['filename'] . 'uploaded successfully!', null, $this->data, null, null);
 			exit;
 		}
@@ -199,7 +199,7 @@ class Hooks_fileclerk extends Hooks
 			'code'	=> 200,
 			'url'	=> $externalUrl,
 		));
-		header('Content-Type: application/json');
+		header('Content-Type', 'application/json');
 		exit;
 	}
 
@@ -232,7 +232,7 @@ class Hooks_fileclerk extends Hooks
 		if ( ! self::extension_is_allowed($extension) ) {
 			$data = array( 'extension' => $extension );
 			$file_not_allowed_template = File::get( __DIR__ . '/views/error-not-allowed.html');
-			header('Content-Type: application/json');
+			header('Content-Type', 'application/json');
 			echo self::build_response_json(false, true, FILECLERK_DISALLOWED_FILETYPE, 'Filetype not allowed.', 'dialog', array('extension' => $extension), null, Parse::template($file_not_allowed_template, $data));
 			exit;
 		}
@@ -246,7 +246,7 @@ class Hooks_fileclerk extends Hooks
 			$file_exists_template = File::get( __DIR__ . '/views/file-exists.html');
 
 			if ( is_null($overwrite) ) {
-				header('Content-Type: application/json');
+				header('Content-Type', 'application/json');
 				echo self::build_response_json(false, true, FILECLERK_ERROR_FILE_EXISTS, FILECLERK_ERROR_FILE_EXISTS_MSG, 'dialog', null, null, Parse::template($file_exists_template, array('filename' => $filename)));
 				exit;
 			} elseif ( $overwrite === 'false' || ! $overwrite || $overwrite === 0 ) {
@@ -255,7 +255,7 @@ class Hooks_fileclerk extends Hooks
 		}
 		else
 		{
-			header('Content-Type: application/json');
+			header('Content-Type', 'application/json');
 			echo self::build_response_json(true, false, FILECLERK_FILE_DOES_NOT_EXIST, 'File is clean!', null, null, null, null);
 			exit;
 		}
@@ -277,7 +277,7 @@ class Hooks_fileclerk extends Hooks
 					Log::info('File successfully uploaded.');
 				}
 
-				header('Content-Type: application/json');
+				header('Content-Type', 'application/json');
 				return true;
 			ob_flush();
 		} else {
@@ -384,7 +384,7 @@ class Hooks_fileclerk extends Hooks
 			} catch ( Exception $e ) {
 				$error = $e->getMessage();
 
-				header('Content-Type: application/json');
+				header('Content-Type', 'application/json');
 				echo self::build_response_json(false, true, FILECLERK_S3_ERROR, $error, 'error', null, null, null);
 				exit;
 			}
@@ -525,7 +525,7 @@ class Hooks_fileclerk extends Hooks
 		$ft_template = File::get( __DIR__ . '/views/list.html');
 
 		// Return JASON
-		header('Content-Type: application/json');
+		header('Content-Type', 'application/json');
 		echo self::build_response_json(true, false, FILECLERK_LIST_SUCCESS, null, null, $data, $breadcrumb, Parse::template($ft_template, $parsed_data));
 		exit;
 	}
@@ -559,7 +559,7 @@ class Hooks_fileclerk extends Hooks
 			// Parse the template
 			$html = Parse::template($template, $errors);
 
-			header('Content-Type: application/json');
+			header('Content-Type', 'application/json');
 			echo self::build_response_json(false, true, FILECLERK_S3_ERROR, $e->getMessage(), 'error', $errors, null, $html);
 			exit;
 		}
@@ -707,7 +707,7 @@ class Hooks_fileclerk extends Hooks
 
 			$html = Parse::template($template, $errors);
 
-			header('Content-Type: application/json');
+			header('Content-Type', 'application/json');
 			echo self::build_response_json(false, true, FILECLERK_S3_ERROR, $e->getMessage(), 'error', $errors, null, null);
 			exit;
 		}

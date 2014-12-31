@@ -114,9 +114,6 @@ $(function () {
 				dataType: 'JSON',
 				processData: true,
 				contentType: false,
-				beforeSend: function(data) {
-
-				},
 				success: function( data, textStatus, jqXHR )
 				{
 					if( data.code === 700 )
@@ -203,10 +200,10 @@ $(function () {
 							// get the native XmlHttpRequest object
 							var xhr = $.ajaxSettings.xhr() ;
 							// set the onprogress event handler
-							xhr.upload.onprogress = function(evt){
-								var progress = parseInt(evt.loaded / evt.total * 100, 10);
-								console.log('Uploading: ', evt.loaded/evt.total*100 + '%')
-								progressBar.attr({value:evt.loaded,max:evt.total});
+							xhr.upload.onprogress = function(event){
+								var progress = parseInt(event.loaded / event.total * 100);
+								console.log('Uploading: ', event.loaded/event.total*100 + '%')
+								progressBar.attr({value:event.loaded,max:event.total});
 								progressPrc.html(progress + '%');
 							};
 							// set the onload event handler
