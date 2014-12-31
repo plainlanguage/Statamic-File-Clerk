@@ -232,6 +232,7 @@ class Hooks_fileclerk extends Hooks
 		if ( ! self::extension_is_allowed($extension) ) {
 			$data = array( 'extension' => $extension );
 			$file_not_allowed_template = File::get( __DIR__ . '/views/error-not-allowed.html');
+			header('Content-Type: application/json');
 			echo self::build_response_json(false, true, FILECLERK_DISALLOWED_FILETYPE, 'Filetype not allowed.', 'dialog', array('extension' => $extension), null, Parse::template($file_not_allowed_template, $data));
 			exit;
 		}
@@ -245,6 +246,7 @@ class Hooks_fileclerk extends Hooks
 			$file_exists_template = File::get( __DIR__ . '/views/file-exists.html');
 
 			if ( is_null($overwrite) ) {
+				header('Content-Type: application/json');
 				echo self::build_response_json(false, true, FILECLERK_ERROR_FILE_EXISTS, FILECLERK_ERROR_FILE_EXISTS_MSG, 'dialog', null, null, Parse::template($file_exists_template, array('filename' => $filename)));
 				exit;
 			} elseif ( $overwrite === 'false' || ! $overwrite || $overwrite === 0 ) {
@@ -253,6 +255,7 @@ class Hooks_fileclerk extends Hooks
 		}
 		else
 		{
+			header('Content-Type: application/json');
 			echo self::build_response_json(true, false, FILECLERK_FILE_DOES_NOT_EXIST, 'File is clean!', null, null, null, null);
 			exit;
 		}
