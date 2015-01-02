@@ -869,7 +869,7 @@ class Hooks_fileclerk extends Hooks
 	private function extension_is_allowed( $extension = null )
 	{
 		// If content types is false, all file types allowed
-		if( $this->config['content_types'] === false ) {
+		if( $this->config['content_types'] === false || is_null($this->config['content_types']) ) {
 			return true;
 		}
 
