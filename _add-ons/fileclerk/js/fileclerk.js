@@ -107,7 +107,7 @@ $(function () {
 		fileCheck: function( destination, filename ) {
 
 			$.ajax({
-				url: '/TRIGGER/fileclerk/filecheck',
+				url: _site_root + 'TRIGGER/fileclerk/filecheck',
 				type: 'GET',
 				data: {'destination': destination, 'filename': filename},
 				cache: false,
@@ -341,7 +341,7 @@ $(function () {
 
 				var doFileCheck = function() {
 					$.ajax({
-						url: '/TRIGGER/fileclerk/filecheck',
+						url: _site_root + 'TRIGGER/fileclerk/filecheck',
 						type: 'GET',
 						data: {'destination': destination, 'filename': filename},
 						cache: false,
@@ -482,7 +482,7 @@ $(function () {
 			event.preventDefault();
 
 			var $this = $(this),
-				listURL = '/TRIGGER/fileclerk/list' + ($(this).data('uri') ? '?uri=' + $(this).data('uri') : '') + ($(this).data('uri') ? '&' : '?') + ($(this).data('destination') ? 'destination=' + $(this).data('destination') : ''),
+				listURL = _site_root + 'TRIGGER/fileclerk/list' + ($(this).data('uri') ? '?uri=' + $(this).data('uri') : '') + ($(this).data('uri') ? '&' : '?') + ($(this).data('destination') ? 'destination=' + $(this).data('destination') : ''),
 				viewList = $this.closest('.add-file').find('.view-remote .view-list'),
 				viewListTable = viewList.find('table'),
 				viewListTableBody = viewList.find('tbody'),
@@ -850,7 +850,7 @@ $(function () {
 
 				// Get external image
 				$.ajax({
-					url: '/TRIGGER/fileclerk/ajaxpreview?url=' + externalUrl,
+					url: _site_root + 'TRIGGER/fileclerk/ajaxpreview?url=' + externalUrl,
 					cache: false,
 					dataType: 'JSON', // JSON
 					beforeSend: function(data) {
@@ -879,7 +879,7 @@ $(function () {
 
 				// Get external image
 				$.ajax({
-					url: '/TRIGGER/fileclerk/ajaxpreview?url=' + externalUrl,
+					url: _site_root + 'TRIGGER/fileclerk/ajaxpreview?url=' + externalUrl,
 					cache: false,
 					dataType: 'JSON', // JSON
 					beforeSend: function(data) {
