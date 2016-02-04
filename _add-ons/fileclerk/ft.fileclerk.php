@@ -54,6 +54,7 @@ class Fieldtype_fileclerk extends Fieldtype {
 			'is_image'       => null,
 			'mime_type'      => null,
 			'name'           => $this->fieldname,
+			'site_root'      => "'" . Config::getSiteRoot() . "'",
 			'size'           => null,
 			'size_bytes'     => null,
 			'size_kilobytes' => null,
